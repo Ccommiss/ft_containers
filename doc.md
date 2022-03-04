@@ -6,6 +6,8 @@
 - [# Ft_containers](#-ft_containers)
 	- [Prérequis](#prérequis)
 	- [Test](#test)
+	- [Iterator "superstructure"](#iterator-superstructure)
+		- [Why are tags useful?](#why-are-tags-useful)
 
 ##Partie obligatoire
 
@@ -74,7 +76,7 @@ https://medium.com/@vgasparyan1995/interpolation-search-a-generic-implementation
 
 | Classe  |  | Iterateurs | Description |
 |---|---|---|---|---|
-|Vector   | Tableau | Random access | ... |
+|Vector   | Tableau | Random access |  |
 |List|  Liste| Bidirectionnal |  Collection of nodes, with two pointers, previous and next |
 |Map| Key-value pair| Bidirectionnal| Structure as binary search tree|---|
 
@@ -88,9 +90,33 @@ http://cs.brown.edu/people/jwicks/libstdc++/html_user/stl__iterator_8h-source.ht
 
 _One important thing to be kept in mind is that random-access iterators are also valid bidirectional iterators, as shown in the iterator hierarchy above._
 [__<span style="color: purple;">Definitions__](https://www.math.hkbu.edu.hk/parallel/pgi/doc/pgC++_lib/stdlibug/var_0565.htm) : </span>
-- __Random Access Operator__ :
+
+
+- __Random Access Operator__ : _can access the container also non-sequentially (i.e. by jumping around)._
 Some algorithms require more functionality than the ability to access values in either a forward or backward direction. Random access iterators permit values to be accessed by subscript, subtracted one from another (to yield the number of elements between their respective values) or modified by arithmetic operations, all in a manner similar to conventional pointers.
 When using conventional pointers, arithmetic operations can be related to the underlying memory; that is, x+10 is the memory ten elements after the beginning of x. With iterators the logical meaning is preserved (x+10 is the tenth element after x), however the physical addresses being described may be different.
 
-- __Bidirectionnal__:
+- __Bidirectionnal__: _Can scan the container back and forth_
  A bidirectional iterator is similar to a forward iterator, except that bidirectional iterators support the decrement operator (operator --), permitting movement in either a forward or a backward direction through the elements of a container. For example, we can use bidirectional iterators in a function that reverses the values of a container, placing the results into a new container.
+
+
+
+### Iterator "superstructure"
+
+Super lien :
+https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
+
+
+C++ expects some properties from an iterator: (example : we have an Interger class, that will be our container, containing a private int array);
+
+- __iterator_category__ — one of the six iterator categories we have seen above. The full list is available here. 
+- __difference_type__ — a signed integer type that can be used to identify distance between iterator steps. Our iterator is basically a wrapper around a pointer and leverages pointer arithmetic, so the default std::ptrdiff_t is a good choice;
+- __value_type__ — the type the iterator iterates over. int in our case;
+- __pointer__ — defines a pointer to the type iterated over. int* in our case;
+- __reference__  — defines a reference to the type iterated over. int& in our case;
+
+
+
+#### Why are tags useful?
+
+Some of the tags above might seem useless at first. In fact, you will notice how they will never get mentioned during the definition of our iterator. Tags are used to select the most efficient algorithm if your container is passed to one of the Standard Library functions from the <algorithm> library. Wrong tags mean sub-optimal performance! The iterator category is also used to set algorithm requirements, for example: std::fill wants a Forward Iterator, while std::reverse wants a Bidirectional Iterator. Passing the wrong iterator will result in a compilation error.
