@@ -81,7 +81,7 @@ https://medium.com/@vgasparyan1995/interpolation-search-a-generic-implementation
 |Map| Key-value pair| Bidirectionnal| Structure as binary search tree|---|
 
 
-http://cs.brown.edu/people/jwicks/libstdc++/html_user/stl__iterator_8h-source.html 
+http://cs.brown.edu/people/jwicks/libstdc++/html_user/stl__iterator_8h-source.html
 
 - __Hierarchie des operateurs__
 \
@@ -109,7 +109,7 @@ https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
 
 C++ expects some properties from an iterator: (example : we have an Interger class, that will be our container, containing a private int array);
 
-- __iterator_category__ — one of the six iterator categories we have seen above. The full list is available here. 
+- __iterator_category__ — one of the six iterator categories we have seen above. The full list is available here.
 - __difference_type__ — a signed integer type that can be used to identify distance between iterator steps. Our iterator is basically a wrapper around a pointer and leverages pointer arithmetic, so the default std::ptrdiff_t is a good choice;
 - __value_type__ — the type the iterator iterates over. int in our case;
 - __pointer__ — defines a pointer to the type iterated over. int* in our case;
@@ -120,3 +120,8 @@ C++ expects some properties from an iterator: (example : we have an Interger cla
 #### Why are tags useful?
 
 Some of the tags above might seem useless at first. In fact, you will notice how they will never get mentioned during the definition of our iterator. Tags are used to select the most efficient algorithm if your container is passed to one of the Standard Library functions from the <algorithm> library. Wrong tags mean sub-optimal performance! The iterator category is also used to set algorithm requirements, for example: std::fill wants a Forward Iterator, while std::reverse wants a Bidirectional Iterator. Passing the wrong iterator will result in a compilation error.
+
+
+
+https://web.stanford.edu/class/cs107l/handouts/04-Custom-Iterators.pdf
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.38.6443&rep=rep1&type=pdf
