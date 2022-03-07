@@ -6,6 +6,14 @@
 		"string": "cpp",
 		"vector": "cpp",
 		"iterator": "cpp",
-		"string_view": "cpp"
+		"string_view": "cpp",
+		"unordered_map": "cpp",
+		"initializer_list": "cpp",
+		"memory_resource": "cpp",
+		"optional": "cpp",
+		"ranges": "cpp",
+		"type_traits": "cpp",
+		"utility": "cpp",
+		"sstream": "cpp"
 	}
 }
