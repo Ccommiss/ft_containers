@@ -19,7 +19,7 @@
 namespace ft {
 
 	template <typename T>
-	class reverse_iterator : public iterator<ft::iterator_traits::iterator_category, T>
+	class reverse_iterator : public iterator<ft::iterator_traits<T>::iterator_category, T>
 	{
 		protected:
 			T *_curr;
