@@ -37,12 +37,14 @@ namespace ft {
 
 		/*
 		**	CONTRUCTORS
+		**
+		**
 		*/
 
 		/*
 		**	default constructor
 		*/
-		explicit vector(const Alloc & = Alloc()) { *_curr = T() ;}
+		explicit vector(const Alloc & = Alloc()) { *_curr = T(); }
 
 		/*
 		**	Fill constructor constructor
@@ -50,8 +52,6 @@ namespace ft {
 		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0)
 		{
 			_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
-			std::cout << "allocated size = " << n << std::endl;
-			_size = n;
 			assign(n, value);
 		}
 
@@ -63,8 +63,8 @@ namespace ft {
 		{
 			std::cout << "Range constructor called" << std::endl;
 			_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
-			_size = last - first + 1;
-			std::cout << "allocated size = " << _size << std::endl;
+		//	_size = last - first + 1;
+		//	_capacity = _size;// a test 
 			assign(first, last);
 		}
 
@@ -94,7 +94,6 @@ namespace ft {
 		{
 			//erase(begin(), end());
 			insert(begin(), n, t);
-			_size = n - 1;
 		}
 
 		//erase : appelle destroy ;
@@ -105,7 +104,10 @@ namespace ft {
 		}
 
 
-		// iterators:
+		/*
+		**	ITERATORS
+		*/
+
 		iterator begin()
 		{
 			return iterator(_curr);
@@ -122,8 +124,11 @@ namespace ft {
 		//const_reverse_iterator rend() const;
 
 
-		// 23.2.4.2 capacity:
-		size_type size() const { return (_size + 1); }
+		/*
+		**	SIZE & CAPACITY
+		*/
+
+		size_type size() const { return (_size); }
 		size_type max_size() const;
 		void resize(size_type sz, T c = T())
 		{
@@ -134,11 +139,17 @@ namespace ft {
 			else
 				;
 		}
-		size_type capacity() const { return (_capacity)};
-		bool empty() const;
+		size_type capacity() const { return (_capacity); }
+		bool empty() const {
+			if (_size == 0) return true; return false;
+		}
 		void reserve(size_type n);
 
-		// element access:
+		/*
+		**
+		**	ELEMENT ACCESS
+		**
+		*/
 		reference operator[](size_type n);
 		const_reference operator[](size_type n) const;
 		const_reference at(size_type n) const;
@@ -168,16 +179,14 @@ namespace ft {
 		*/
 		iterator insert(iterator position, const T& x)
 		{
-			//std::cout << "inserting at position : " << *position << "the value : " << x << std::endl;
 			pointer 			_new_curr;
 
 			_new_curr = alloc_obj.allocate(_size + 1); //on rajout une size en plus
 			iterator it = iterator(_curr); // iterateur sur begin
 
-			for (size_type i = 0; i < _size; i++)
+			for (size_type i = 0; i < _size; i++) // on copie sauf si on arrive a l'iterateur
 			{
-				// on copie sauf si on arrive a l'iterateur
-				if (it != position) // test...
+				if (it != position)
 					_new_curr[i] = _curr[i];
 				else
 					_new_curr[i] = x;
@@ -210,8 +219,9 @@ namespace ft {
 				it++;
 				i++;
 			}
-			_curr = _new_curr; // deallocate avant !! 
-			_size += new_elems - 1;
+			_curr = _new_curr; // deallocate avant !!
+			_size += new_elems;
+			//_capacity += new_elems; revoir les calculs de cpacite 
 		}
 		//template <class InputIterator>
 		//void insert(iterator position, InputIterator first, InputIterator last);
