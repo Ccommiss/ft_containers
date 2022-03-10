@@ -19,21 +19,21 @@ namespace ft {
 		**	TYPEDEFS
 		*/
 
-		typedef T 														value_type; // alais 
-		typedef Alloc													allocator_type; //alias 
-		typedef typename allocator_type::reference						reference; // &T 
-		typedef typename allocator_type::const_reference 				const_referenc; // const &T 
-		typedef typename allocator_type::pointer 						pointer; // T* 
+		typedef T 														value_type; // alais
+		typedef Alloc													allocator_type; //alias
+		typedef typename allocator_type::reference						reference; // &T
+		typedef typename allocator_type::const_reference 				const_referenc; // const &T
+		typedef typename allocator_type::pointer 						pointer; // T*
 		typedef typename allocator_type::const_pointer 					const_pointer;
 		/* Les iterateurs */
 		typedef ft::random_access_iterator<value_type>					iterator;
 		typedef ft::random_access_iterator<const value_type>			const_iterator;
-		// 		typedef ft::random_access_iterator<value_type> reverse_iterator; 
+		// 		typedef ft::random_access_iterator<value_type> reverse_iterator;
 		//		typedef ft::random_access_iterator<const value_type> const_reverse_iterator;
 
 		/* Diff type & size_type */
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type 	difference_type;
-		typedef typename allocator_type::size_type 						size_type; // std::allocator, vaut size_t 
+		typedef typename allocator_type::size_type 						size_type; // std::allocator, vaut size_t
 
 		/*
 		**	CONTRUCTORS
@@ -43,24 +43,27 @@ namespace ft {
 		{
 			*_curr = T();
 		}
-		//fill constructor 
-		template < >
-		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc())
+		//fill constructor
+		//template < >
+		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0)
 		{
-			// _ M_create_storage, l 300, renvoie sur M allocate  
+			// _ M_create_storage, l 300, renvoie sur M allocate
 			std::cout << "Fill constructor called" << std::endl;
 			allocator_type		alloc_obj;
 			_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
 			std::cout << "allocated" << std::endl;
 			_size = n;
 			std::cout << "VALUE : " << value << std::endl;
-			//assign(n, value);
+			assign(n, value);
 		}
 
-		template <class InputIterator> // range 
-		vector(InputIterator first, InputIterator last, const Alloc & = Alloc())
+	//Answer : https://stackoverflow.com/questions/17842478/select-class-constructor-using-enable-if
+	//range
+		template <class InputIterator >
+		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0)
 		{
 			std::cout << "Range constructor called" << std::endl;
+			//std::cout << "ICI = " << ft::is_integral<InputIterator>::value << std::endl;
 			(void)first;
 			(void)last;
 			//assign(first, last);
@@ -92,7 +95,7 @@ namespace ft {
 		}
 
 		//erase : appelle destroy ;
-		// insert 
+		// insert
 		allocator_type get_allocator() const
 		{
 
@@ -125,8 +128,8 @@ namespace ft {
 		void reserve(size_type n);
 
 	private:
-		pointer _curr; // pointeur sur le tableau, premiere addresse 
-		size_t  _size; // la taille n allouee 
+		pointer _curr; // pointeur sur le tableau, premiere addresse
+		size_t  _size; // la taille n allouee
 	};
 }
 

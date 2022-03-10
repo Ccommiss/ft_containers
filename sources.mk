@@ -3,7 +3,7 @@
 ## . ##
 
 SOURCES		+=            		\
-		tests.cpp            	\
 		debug_tools.cpp      	\
+		tests.cpp            	\
 
 
