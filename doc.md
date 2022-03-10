@@ -151,3 +151,15 @@ https://eli.thegreenplace.net/2014/sfinae-and-enable_if/ parfaite explication ma
 
 $~~~~~~~~~~~~~$ :warning: &nbsp; Attention, en cpp98, on ne peut pas mettre ca dans le template. Genre ca ```typename = typename std::enable_if<!std::is_integral<InputIterator>::value> ``` qui est ecrit [par ici](https://stackoverflow.com/questions/14035520/choose-which-constructor-in-c)
 -> On le resout comme ca  https://stackoverflow.com/questions/17842478/select-class-constructor-using-enable-if
+
+
+
+__________
+
+[From SO](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
+__Size__ is not allowed to differ between multiple compilers. The size of a vector is the number of elements that it contains, which is directly controlled by how many elements you put into the vector.
+
+__Capacity__ is the amount of total space that the vector has. Under the hood, a vector just uses an array. The capacity of the vector is the size of that array. This is always equal to or larger than the size. The difference between them is the number of elements that you can add to the vector before the array under the hood needs to be reallocated.
+
+Donc : dans le constructeur par defaut, ou birn reserve, resize... la capacite, cad l taille allouee, ne sera pas la meme que la size, aka le nb d'elemts.
+Bien faire attention ! 

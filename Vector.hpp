@@ -22,7 +22,7 @@ namespace ft {
 		typedef T 														value_type; // alais
 		typedef Alloc													allocator_type; //alias
 		typedef typename allocator_type::reference						reference; // &T
-		typedef typename allocator_type::const_reference 				const_referenc; // const &T
+		typedef typename allocator_type::const_reference 				const_reference; // const &T
 		typedef typename allocator_type::pointer 						pointer; // T*
 		typedef typename allocator_type::const_pointer 					const_pointer;
 		/* Les iterateurs */
@@ -38,35 +38,34 @@ namespace ft {
 		/*
 		**	CONTRUCTORS
 		*/
-		//empty
-		explicit vector(const Alloc & = Alloc())
-		{
-			*_curr = T();
-		}
-		//fill constructor
-		//template < >
+
+		/*
+		**	default constructor
+		*/
+		explicit vector(const Alloc & = Alloc()) { *_curr = T() ;}
+
+		/*
+		**	Fill constructor constructor
+		*/
 		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0)
 		{
-			// _ M_create_storage, l 300, renvoie sur M allocate
-			std::cout << "Fill constructor called" << std::endl;
-			allocator_type		alloc_obj;
 			_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
-			std::cout << "allocated" << std::endl;
+			std::cout << "allocated size = " << n << std::endl;
 			_size = n;
-			std::cout << "VALUE : " << value << std::endl;
 			assign(n, value);
 		}
 
-	//Answer : https://stackoverflow.com/questions/17842478/select-class-constructor-using-enable-if
-	//range
+		/*
+		**	Fill constructor constructor
+		*/
 		template <class InputIterator >
-		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0)
+		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			std::cout << "Range constructor called" << std::endl;
-			//std::cout << "ICI = " << ft::is_integral<InputIterator>::value << std::endl;
-			(void)first;
-			(void)last;
-			//assign(first, last);
+			_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
+			_size = last - first + 1;
+			std::cout << "allocated size = " << _size << std::endl;
+			assign(first, last);
 		}
 
 		vector(const vector<T, Alloc>& x);
@@ -79,19 +78,23 @@ namespace ft {
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last)
 		{
-			erase(begin(), end());
-			insert(begin(), first, last);
+			//erase(begin(), end());
+			///insert(begin(), first, last); 
+			(void)last;
+			for (unsigned long i = 0; i < _size; i++)
+			{
+				_curr[i] = *first;
+				std::cout << "[RANGE ASSIGN] value at case " << i << " = " << _curr[i] << std::endl;
+				*first++;
+			}
 		}
 
+		//Assign called for fill constructor 
 		void assign(size_type n, const T& t)
 		{
 			//erase(begin(), end());
-			//insert(begin(), n, t);
-			for (unsigned long i = 0; i < n; i++)
-			{
-				_curr[i] = t;
-				std::cout << _curr[i] << std::endl;
-			}
+			insert(begin(), n, t);
+			_size = n - 1;
 		}
 
 		//erase : appelle destroy ;
@@ -110,7 +113,7 @@ namespace ft {
 		const_iterator begin() const;
 		iterator end()
 		{
-			return iterator(_curr + (_size - 1));
+			return iterator(_curr + (_size + 1));
 		};
 		const_iterator end() const;
 		//reverse_iterator rbegin();
@@ -120,16 +123,113 @@ namespace ft {
 
 
 		// 23.2.4.2 capacity:
-		size_type size() const;
+		size_type size() const { return (_size + 1); }
 		size_type max_size() const;
-		void resize(size_type sz, T c = T());
-		size_type capacity() const;
+		void resize(size_type sz, T c = T())
+		{
+			if (sz > size())
+				insert(end(), sz - size(), c);
+			else if (sz < size())
+				erase(begin() + sz, end());
+			else
+				;
+		}
+		size_type capacity() const { return (_capacity)};
 		bool empty() const;
 		void reserve(size_type n);
 
-	private:
-		pointer _curr; // pointeur sur le tableau, premiere addresse
-		size_t  _size; // la taille n allouee
+		// element access:
+		reference operator[](size_type n);
+		const_reference operator[](size_type n) const;
+		const_reference at(size_type n) const;
+		reference at(size_type n);
+		reference front();
+		const_reference front() const;
+		reference back();
+		const_reference back() const;
+
+		/*
+		** 23.2.4.3 MODIFIERS:
+		*/
+
+		void push_back(const T& x)
+		{
+			_curr.insert(_curr.end(), x);
+		}
+		void pop_back();
+
+		/*
+		**	INSERT :
+		**	Causes reallocation if the new size is greater than the old capacity.
+		**	If no reallocation happens, all
+		**	the iterators and references before the insertion point remain valid.
+		**	If an exception is thrown other than
+		**	by the copy constructor or assignment operator of T there are no effects.
+		*/
+		iterator insert(iterator position, const T& x)
+		{
+			//std::cout << "inserting at position : " << *position << "the value : " << x << std::endl;
+			pointer 			_new_curr;
+
+			_new_curr = alloc_obj.allocate(_size + 1); //on rajout une size en plus
+			iterator it = iterator(_curr); // iterateur sur begin
+
+			for (size_type i = 0; i < _size; i++)
+			{
+				// on copie sauf si on arrive a l'iterateur
+				if (it != position) // test...
+					_new_curr[i] = _curr[i];
+				else
+					_new_curr[i] = x;
+				it++;
+			}
+			_curr = _new_curr; // deallocate avant !! 
+			return (it); // pas le bon retourn !! chercher !!! 
+		}
+
+		void insert(iterator position, size_type n, const T& x)
+		{
+			pointer 			_new_curr;
+			size_type 			new_elems = n;
+			size_type 			i = 0;
+
+			_new_curr = alloc_obj.allocate(_size + n); //on rajout n size en plus car n x t vont etre add 
+			iterator it = iterator(_curr);
+			for (size_type j = 0; j < _size + new_elems; j++)
+			{
+				// on copie sauf si on arrive a l'iterateur
+				if (it != position) // test...
+					_new_curr[j] = _curr[i];
+				else
+				{
+					i -= 1;
+					for (;n > 0; n--)
+						_new_curr[j++] = x;
+					j -= 1;
+				}
+				it++;
+				i++;
+			}
+			_curr = _new_curr; // deallocate avant !! 
+			_size += new_elems - 1;
+		}
+		//template <class InputIterator>
+		//void insert(iterator position, InputIterator first, InputIterator last);
+
+		/*
+		**	ERASE :
+		**  Invalidates all the iterators and references after the point of the erase.
+		*/
+		iterator erase(iterator position);
+		iterator erase(iterator first, iterator last);
+		void swap(vector<T, Alloc>&);
+		void clear();
+
+		private:
+		pointer 		_curr; // pointeur sur le tableau, premiere addresse
+		size_t  		_size; // le nb d'elemts contenus
+		size_t			_capacity; // la taille allouee 
+		allocator_type	alloc_obj; // pour utiliser le meme objet a chaque fois sans le refaire 
 	};
 }
 

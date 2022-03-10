@@ -42,7 +42,7 @@ namespace ft
 		// /* ARITHMETIQUES */
 		/* a + b */ difference_type operator+(const random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
 		/* a + n */ random_access_iterator operator+(const difference_type step) const { print("RAI operator a + n"); return (this->_curr + step); }
-		/* TEST*/	random_access_iterator operator+(difference_type step) { print("RAI operator a + n" ); return random_access_iterator(_curr + step);} // + step); }
+		/* TEST*/	random_access_iterator operator+(difference_type step) { print("RAI operator a + n"); return random_access_iterator(_curr + step); } // + step); }
 
 		/* a - b */ difference_type operator-(const random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
 		/* a - n */ random_access_iterator operator-(const difference_type step) const { return random_access_iterator(_curr - step); }
@@ -52,9 +52,9 @@ namespace ft
 
 		// /*POIINTER OP*/
 		// random_access_iterator& operator--() { --_curr; return *this; }
-		// random_access_iterator& operator++() { ++_curr; return *this; }
+		/* a++ */ random_access_iterator& operator++() { print("RAI operator a++ "); ++_curr; return *this; }
 		// random_access_iterator operator--(int) { random_access_iterator tmp(*this); --(*this); return tmp; }
-		// random_access_iterator operator++(int) { random_access_iterator tmp(*this); ++(*this); return tmp; }
+		/* ++a*/ random_access_iterator operator++(int) { print("RAI operator ++a "); random_access_iterator tmp(*this); ++(*this); return tmp; }
 
 		// /* COMPARISONS */
 		// bool operator<(const random_access_iterator& rhs) { return this->_curr < rhs._curr; }
@@ -62,7 +62,7 @@ namespace ft
 		// bool operator>(const random_access_iterator& rhs) { return this->_curr > rhs._curr; }
 		// bool operator>=(const random_access_iterator& rhs) { return this->_curr >= rhs._curr; }
 		// bool operator==(const random_access_iterator& rhs) const { return _curr == rhs._curr; }
-		// bool operator!=(const random_access_iterator& rhs) const { return _curr != rhs._curr; }
+		bool operator!=(const random_access_iterator& rhs) const { return _curr != rhs._curr; }
 
 	};
 	/* n + a */

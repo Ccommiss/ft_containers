@@ -4,5 +4,6 @@
 
 void	print(std::string func)
 {
-	std::cout << "----> Func : " << func << std::endl;
+	(void)func;
+	//std::cout << "----> Func : " << func << std::endl;
 }
