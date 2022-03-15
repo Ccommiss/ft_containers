@@ -69,9 +69,21 @@ namespace ft {
 		vector(const vector<T, Alloc>& x);
 		~vector() {
 			std::cout << "Adieu" << std::endl;
+			alloc_obj.deallocate(_curr, _capacity);
 		};
 
-		vector<T, Alloc>& operator=(const vector<T, Alloc>& x);
+		vector<T, Alloc>& operator=(const vector<T, Alloc>& x) // TEST POUR LE RESERVE 
+		{
+			iterator it;
+			size_type i = 0;
+			std::cout << "copying" << std::endl;
+			for (it = x.begin(); it != x.end(); it++)
+			{
+				_curr[i] = x[i];
+				i++; 
+			}
+			return *this;
+		}
 
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last)
@@ -119,7 +131,7 @@ namespace ft {
 		*/
 
 		size_type size() const { return (_size); }
-		size_type max_size() const;
+		size_type max_size() const { return (alloc_obj.max_size()); };
 		void resize(size_type sz, T c = T())
 		{
 			if (sz > size())
@@ -131,13 +143,66 @@ namespace ft {
 		}
 		size_type capacity() const { return (_capacity); }
 		bool empty() const { if (_size == 0) return true; return false; }
-		void reserve(size_type n);
+
+
+
+      /**
+       *  @brief  Attempt to preallocate enough memory for specified number of
+       *          elements.
+       *  @param  __n  Number of elements required.
+       *  @throw  std::length_error  If @a n exceeds @c max_size().
+       *
+       *  This function attempts to reserve enough memory for the
+       *  %vector to hold the specified number of elements.  If the
+       *  number requested is more than max_size(), length_error is
+       *  thrown.
+       *
+       *  The advantage of this function is that if optimal code is a
+       *  necessity and the user can determine the number of elements
+       *  that will be required, the user can reserve the memory in
+       *  %advance, and thus prevent a possible reallocation of memory
+       *  and copying of %vector data.
+       */
+	  	pointer operator=(pointer& x) // TEST 2 POUR LE RESERVE MAIS KO MAIS PQ ? 
+		{
+			iterator it;
+			size_type i = 0;
+			std::cout << "copying" << std::endl;
+			for (it = x.begin(); it != x.end(); it++)
+			{
+				_curr[i] = x[i];
+				i++; 
+			}
+			return *this;
+		}
+
+		void reserve(size_type n)
+		{
+			iterator it; 
+			size_t i = 0;
+			if (n > max_size())
+				throw (std::out_of_range("Reserve error : cannot allocate more than max_size"));
+			if (n > _capacity)
+			{
+				pointer tmp = alloc_obj.allocate(n); // on alloue
+				//tmp = _curr;// on copie PQ CA APPELLE PAS  
+				for (it = begin(); it != end(); it++) // on fait une copie mais c degueu
+				{
+					tmp[i] = _curr[i];
+					i++; 
+				}
+				alloc_obj.deallocate(_curr, _capacity);
+				_curr = tmp;
+				_capacity = n;
+			}
+		}
 
 		/*
 		**
 		**	ELEMENT ACCESS
 		**
 		*/
+
 		reference operator[](size_type n);
 		const_reference operator[](size_type n) const;
 		const_reference at(size_type n) const;
@@ -168,6 +233,7 @@ namespace ft {
 		**	If an exception is thrown other than
 		**	by the copy constructor or assignment operator of T there are no effects.
 		*/
+
 		iterator insert(iterator position, const T& x)
 		{
 			pointer _new_curr 	= alloc_obj.allocate(_size + 1); //on rajout une size en plus;
@@ -183,6 +249,7 @@ namespace ft {
 					_new_curr[i] = x;
 				it++;
 			}
+			alloc_obj.deallocate(_curr, _capacity);
 			_curr = _new_curr; // deallocate avant !!
 			_size += 1;
 			_capacity += 1; //revoir les calculs de cpacite 
@@ -212,6 +279,7 @@ namespace ft {
 				it++;
 				i++;
 			}
+			alloc_obj.deallocate(_curr, _capacity);
 			_curr = _new_curr; // deallocate avant !!
 			_size += new_elems;
 			_capacity += new_elems; //revoir les calculs de cpacite 
@@ -242,6 +310,7 @@ namespace ft {
 				it++;
 				i++;
 			}
+			alloc_obj.deallocate(_curr, _capacity);
 			_size += diff;
 			_capacity += diff;
 			_curr = _new_curr;
@@ -306,6 +375,14 @@ namespace ft {
 		void swap(vector<T, Alloc>&);
 		void clear();
 
+
+		class sz_max : public std::exception
+		{
+			virtual const char *what() const throw()
+			{
+				std::cout << "Cannot allocate mor than max size" << std::endl;
+			}
+		};
 		private:
 		pointer 		_curr; // pointeur sur le tableau, premiere addresse
 		size_t  		_size; // le nb d'elemts contenus

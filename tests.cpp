@@ -79,7 +79,7 @@ void 	test_erase()
 	my_vec.erase(my_vec.begin() + 1, my_vec.end() - 3);
 	display(my_vec, vec1);
 
-	
+
 	my_vec.push_back(1024);
 	vec1.push_back(1024);
 	display(my_vec, vec1);
@@ -89,6 +89,7 @@ void 	test_erase()
 	my_vec.pop_back();
 	vec1.pop_back();
 	display(my_vec, vec1);
+	vec1.reserve(74832);
 
 
 
@@ -109,12 +110,30 @@ void 	test_construct()
 int main()
 {
 
-	test_insert();
-	test_erase();
-	//ft::vector<int> 		my_vec(1, 8);
+	//test_insert();
+	//test_erase();
+	ft::vector<int> 		my_vec(3, 8);
+	//my_vec.reserve(46);
+
+
+	std::cout << my_vec.capacity() << std::endl;
+
+	ft::vector<int>::iterator it1;
+	for (it1 = my_vec.begin(); it1 != my_vec.end(); it1++)
+		std::cout << "MINE it = " << *it1 << std::endl;
 	//std::vecto
 	//ft::vector<int> 		my_vec2(9, 7);
 	//std::vector<int>		r_vec(9, 7);
+
+	// try {
+
+	// 	my_vec.reserve( my_vec.max_size() + 1);
+	// }
+	// catch (std::exception& e)
+	// {
+	// 	std::cout << e.what() << std::endl;
+	// }
+
 
 	{
 	
