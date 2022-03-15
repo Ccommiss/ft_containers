@@ -155,7 +155,10 @@ namespace ft {
 		{
 			insert(end(), x);
 		}
-		void pop_back();
+		void pop_back()
+		{
+			erase(end() - 1);
+		}
 
 		/*
 		**	INSERT :
@@ -167,11 +170,10 @@ namespace ft {
 		*/
 		iterator insert(iterator position, const T& x)
 		{
-			pointer 			_new_curr;
-			size_t j = 0;
-
-			_new_curr = alloc_obj.allocate(_size + 1); //on rajout une size en plus
-			iterator it = iterator(_curr); // iterateur sur begin
+			pointer _new_curr 	= alloc_obj.allocate(_size + 1); //on rajout une size en plus;
+			// FAIRE UNE FONCT CAR CA SE TROUVE C ASSEZ GRAND
+			size_t j 			= 0;
+			iterator it 		= iterator(_curr); // iterateur sur begin
 
 			for (size_type i = 0; i < _size + 1; i++) // on copie sauf si on arrive a l'iterateur
 			{
@@ -184,7 +186,6 @@ namespace ft {
 			_curr = _new_curr; // deallocate avant !!
 			_size += 1;
 			_capacity += 1; //revoir les calculs de cpacite 
-
 			return (it); // pas le bon retourn !! chercher !!! 
 		}
 
@@ -193,7 +194,7 @@ namespace ft {
 			pointer 			_new_curr;
 			size_type 			new_elems = n;
 			size_type 			i = 0;
-			std::cout << "INSERT pos, n, T " << std::endl;
+
 			_new_curr = alloc_obj.allocate(_size + n); //on rajout n size en plus car n x t vont etre add 
 			iterator it = iterator(_curr);
 			for (size_type j = 0; j < _size + new_elems; j++)
@@ -220,14 +221,15 @@ namespace ft {
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			std::cout << "insert template II" << std::endl;
-			iterator it = iterator(_curr);
-			size_t i = 0;
-			size_t diff = last - first;
-			iterator start = iterator(first); //on copie 
-			pointer _new_curr = alloc_obj.allocate(_size + diff);
+			iterator it 		= iterator(_curr);
+			iterator start 		= iterator(first); //on copie 
+			size_t i 			= 0;
+			size_t diff 		= ft::distance(first, last);
+			pointer _new_curr 	= alloc_obj.allocate(_size + diff);
+
+
 			for (size_type j = 0; j < _size + diff; j++) // last - first = diff type qui sera la taille;
 			{
-				// on copie sauf si on arrive a l'iterateur
 				if (it != position) // test...
 					_new_curr[j] = _curr[i];
 				else
@@ -273,27 +275,27 @@ namespace ft {
 		{
 			pointer _new_curr 	= alloc_obj.allocate(_size - (last - first)); // on enleve un obj 
 			iterator it 		= iterator(_curr);
-			size_t diff 		= last - first;
+			size_t diff 		= ft::distance(first, last);
 
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
 			size_t j = 0;
-			for (size_type i = 0; i <= _size ; i++)
+			for (size_type i = 0; i <= _size ;)
 			{
 				if (it != first)
 				{
 					_new_curr[j++] = _curr[i];
-					std::cout << "ICI" << i << std::endl;
+					std::cout << "ON COPIE " << i << std::endl;
 					it++;
 					i++;
 				}
 				else // on est tombe sur le premier
 				{
+					std::cout << "ON SKIP " << i << std::endl;
 					while (it != last)
 					{
 						it++;
 						i++; // on skip 
 					}
-					i -= 1; // on revient un pas en arriere ca ron est alle trop loin
 				}
 			}
 			_curr = _new_curr;

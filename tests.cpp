@@ -75,10 +75,23 @@ void 	test_erase()
 
 	cout << "\n\n** TESTS erase(iterator first, iterator last)** " << endl;
 
-	vec1.erase(vec1.begin(), vec1.end() - 1);
-	my_vec.erase(my_vec.begin(), my_vec.end() - 1);
-
+	vec1.erase(vec1.begin() + 1, vec1.end() - 3);
+	my_vec.erase(my_vec.begin() + 1, my_vec.end() - 3);
 	display(my_vec, vec1);
+
+	
+	my_vec.push_back(1024);
+	vec1.push_back(1024);
+	display(my_vec, vec1);
+
+	cout << "\n\n** TESTS POP BACK USING ERASE ** " << endl;
+
+	my_vec.pop_back();
+	vec1.pop_back();
+	display(my_vec, vec1);
+
+
+
 
 
 
