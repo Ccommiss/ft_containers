@@ -12,7 +12,7 @@ namespace ft {
 	template < class T, class Alloc = std::allocator<T> >
 	class vector {
 
-		public:
+	public:
 
 
 		/*
@@ -49,7 +49,7 @@ namespace ft {
 		/*
 		**	Fill constructor constructor
 		*/
-		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0) 
+		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
 		{
 			_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
 			assign(n, value);
@@ -59,7 +59,7 @@ namespace ft {
 		**	Fill constructor constructor
 		*/
 		template <class InputIterator >
-		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0) : _size(0), _capacity(0) 
+		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0) : _size(0), _capacity(0)
 		{
 			std::cout << "Range constructor called" << std::endl;
 			_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
@@ -80,7 +80,7 @@ namespace ft {
 			for (it = x.begin(); it != x.end(); it++)
 			{
 				_curr[i] = x[i];
-				i++; 
+				i++;
 			}
 			return *this;
 		}
@@ -88,7 +88,7 @@ namespace ft {
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last)
 		{
-			insert(begin(), first, last); 
+			insert(begin(), first, last);
 		}
 
 		//Assign called for fill constructor 
@@ -146,52 +146,46 @@ namespace ft {
 
 
 
-      /**
-       *  @brief  Attempt to preallocate enough memory for specified number of
-       *          elements.
-       *  @param  __n  Number of elements required.
-       *  @throw  std::length_error  If @a n exceeds @c max_size().
-       *
-       *  This function attempts to reserve enough memory for the
-       *  %vector to hold the specified number of elements.  If the
-       *  number requested is more than max_size(), length_error is
-       *  thrown.
-       *
-       *  The advantage of this function is that if optimal code is a
-       *  necessity and the user can determine the number of elements
-       *  that will be required, the user can reserve the memory in
-       *  %advance, and thus prevent a possible reallocation of memory
-       *  and copying of %vector data.
-       */
-	  	pointer operator=(pointer& x) // TEST 2 POUR LE RESERVE MAIS KO MAIS PQ ? 
+		/**
+		 *  @brief  Attempt to preallocate enough memory for specified number of
+		 *          elements.
+		 *  @param  __n  Number of elements required.
+		 *  @throw  std::length_error  If @a n exceeds @c max_size().
+		 *
+		 *  This function attempts to reserve enough memory for the
+		 *  %vector to hold the specified number of elements.  If the
+		 *  number requested is more than max_size(), length_error is
+		 *  thrown.
+		 *
+		 *  The advantage of this function is that if optimal code is a
+		 *  necessity and the user can determine the number of elements
+		 *  that will be required, the user can reserve the memory in
+		 *  %advance, and thus prevent a possible reallocation of memory
+		 *  and copying of %vector data.
+		 */
+		void 	memcpy(pointer& tmp)
 		{
 			iterator it;
-			size_type i = 0;
-			std::cout << "copying" << std::endl;
-			for (it = x.begin(); it != x.end(); it++)
+			size_t i = 0;
+			for (it = begin(); it != end(); it++) // on fait une copie mais c degueu
 			{
-				_curr[i] = x[i];
-				i++; 
+				tmp[i] = _curr[i];
+				i++;
 			}
-			return *this;
 		}
 
 		void reserve(size_type n)
 		{
-			iterator it; 
-			size_t i = 0;
+			iterator it;
+
+			//size_t i = 0;
 			if (n > max_size())
 				throw (std::out_of_range("Reserve error : cannot allocate more than max_size"));
 			if (n > _capacity)
 			{
 				pointer tmp = alloc_obj.allocate(n); // on alloue
-				//tmp = _curr;// on copie PQ CA APPELLE PAS  
-				for (it = begin(); it != end(); it++) // on fait une copie mais c degueu
-				{
-					tmp[i] = _curr[i];
-					i++; 
-				}
-				alloc_obj.deallocate(_curr, _capacity);
+				memcpy(tmp); //va copier l'instance cournte dans tmp 
+				alloc_obj.deallocate(_curr, _capacity); // on peut desallouer l'instance courante
 				_curr = tmp;
 				_capacity = n;
 			}
@@ -236,10 +230,10 @@ namespace ft {
 
 		iterator insert(iterator position, const T& x)
 		{
-			pointer _new_curr 	= alloc_obj.allocate(_size + 1); //on rajout une size en plus;
+			pointer _new_curr = alloc_obj.allocate(_size + 1); //on rajout une size en plus;
 			// FAIRE UNE FONCT CAR CA SE TROUVE C ASSEZ GRAND
-			size_t j 			= 0;
-			iterator it 		= iterator(_curr); // iterateur sur begin
+			size_t j = 0;
+			iterator it = iterator(_curr); // iterateur sur begin
 
 			for (size_type i = 0; i < _size + 1; i++) // on copie sauf si on arrive a l'iterateur
 			{
@@ -289,11 +283,11 @@ namespace ft {
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			std::cout << "insert template II" << std::endl;
-			iterator it 		= iterator(_curr);
-			iterator start 		= iterator(first); //on copie 
-			size_t i 			= 0;
-			size_t diff 		= ft::distance(first, last);
-			pointer _new_curr 	= alloc_obj.allocate(_size + diff);
+			iterator it = iterator(_curr);
+			iterator start = iterator(first); //on copie 
+			size_t i = 0;
+			size_t diff = ft::distance(first, last);
+			pointer _new_curr = alloc_obj.allocate(_size + diff);
 
 
 			for (size_type j = 0; j < _size + diff; j++) // last - first = diff type qui sera la taille;
@@ -322,12 +316,12 @@ namespace ft {
 		*/
 		iterator erase(iterator position)
 		{
-			pointer _new_curr 	= alloc_obj.allocate(_size - 1); // on enleve un obj 
-			iterator it 		= iterator(_curr);
+			pointer _new_curr = alloc_obj.allocate(_size - 1); // on enleve un obj 
+			iterator it = iterator(_curr);
 
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
 			size_t i = 0;
-			for (size_type j = 0; j < _size - 1 ;)
+			for (size_type j = 0; j < _size - 1;)
 			{
 				if (it != position)
 					_new_curr[j++] = _curr[i];
@@ -342,13 +336,13 @@ namespace ft {
 
 		iterator erase(iterator first, iterator last)
 		{
-			pointer _new_curr 	= alloc_obj.allocate(_size - (last - first)); // on enleve un obj 
-			iterator it 		= iterator(_curr);
-			size_t diff 		= ft::distance(first, last);
+			pointer _new_curr = alloc_obj.allocate(_size - (last - first)); // on enleve un obj 
+			iterator it = iterator(_curr);
+			size_t diff = ft::distance(first, last);
 
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
 			size_t j = 0;
-			for (size_type i = 0; i <= _size ;)
+			for (size_type i = 0; i <= _size;)
 			{
 				if (it != first)
 				{
@@ -378,17 +372,18 @@ namespace ft {
 
 		class sz_max : public std::exception
 		{
-			virtual const char *what() const throw()
+			virtual const char* what() const throw()
 			{
 				std::cout << "Cannot allocate mor than max size" << std::endl;
 			}
 		};
-		private:
+	private:
 		pointer 		_curr; // pointeur sur le tableau, premiere addresse
 		size_t  		_size; // le nb d'elemts contenus
 		size_t			_capacity; // la taille allouee 
 		allocator_type	alloc_obj; // pour utiliser le meme objet a chaque fois sans le refaire 
 	};
 }
+
 
 # endif
