@@ -60,6 +60,12 @@ void	test_insert()
 	my_vec.insert(my_vec.begin(), my_tem.begin(), my_tem.end());
 	vec1.insert(vec1.begin(), temoinv.begin(), temoinv.end());
 	display(my_vec, vec1);
+
+	cout << "\n** TEST4 : insert avec wnd puis begin** " << endl;
+	vec1.insert(vec1.begin(), temoinv.rend(), temoinv.rbegin());
+	example(vec1);
+
+
 }
 
 void 	test_erase()

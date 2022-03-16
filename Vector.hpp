@@ -347,13 +347,11 @@ namespace ft {
 				if (it != first)
 				{
 					_new_curr[j++] = _curr[i];
-					std::cout << "ON COPIE " << i << std::endl;
 					it++;
 					i++;
 				}
 				else // on est tombe sur le premier
 				{
-					std::cout << "ON SKIP " << i << std::endl;
 					while (it != last)
 					{
 						it++;
