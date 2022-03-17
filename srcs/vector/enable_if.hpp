@@ -24,6 +24,9 @@ namespace ft {
 	template<> struct is_integral<bool>: public is_integral<bool, true> {};
 	template<> struct is_integral<int>: public is_integral<int, true> {};
 
+	//template<> struct is_integral< std::string >: public is_integral< std::string, false > {};
+
+
 
 	template <bool, typename T = void>
 		struct enable_if {};

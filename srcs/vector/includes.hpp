@@ -5,8 +5,6 @@
 #include <cstddef>
 #include <iostream>
 
-
-
 /* FOREGROUND */
 #define BBOLD "\x1B[1m"
 #define RST  "\x1B[0m"

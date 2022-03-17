@@ -1,9 +1,9 @@
 ## SOURCES.MK ##
 
-## . ##
+## SRCS ##
 
-SOURCES		+=            		\
-		debug_tools.cpp      	\
-		tests.cpp            	\
+SOURCES		+=                 		\
+		srcs/debug_tools.cpp      	\
+		srcs/tests.cpp            	\
 
 

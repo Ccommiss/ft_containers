@@ -57,11 +57,11 @@ namespace ft
 		/* ++a*/ random_access_iterator operator++(int) { print("RAI operator ++a "); random_access_iterator tmp(*this); ++(*this); return tmp; }
 
 		// /* COMPARISONS */
-		// bool operator<(const random_access_iterator& rhs) { return this->_curr < rhs._curr; }
-		// bool operator<=(const random_access_iterator& rhs) { return this->_curr <= rhs._curr; }
-		// bool operator>(const random_access_iterator& rhs) { return this->_curr > rhs._curr; }
-		// bool operator>=(const random_access_iterator& rhs) { return this->_curr >= rhs._curr; }
-		// bool operator==(const random_access_iterator& rhs) const { return _curr == rhs._curr; }
+		bool operator<(const random_access_iterator& rhs) { return this->_curr < rhs._curr; }
+		bool operator<=(const random_access_iterator& rhs) { return this->_curr <= rhs._curr; }
+		bool operator>(const random_access_iterator& rhs) { return this->_curr > rhs._curr; }
+		bool operator>=(const random_access_iterator& rhs) { return this->_curr >= rhs._curr; }
+		bool operator==(const random_access_iterator& rhs) const { return _curr == rhs._curr; }
 		bool operator!=(const random_access_iterator& rhs) const { return _curr != rhs._curr; }
 
 	};

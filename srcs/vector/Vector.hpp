@@ -44,19 +44,19 @@ namespace ft {
 		/*
 		**	default constructor
 		*/
-		explicit vector(const Alloc & = Alloc()) : _size(0), _capacity(0) { *_curr = T(); }
+		explicit vector(const Alloc & = Alloc()) : _size(0), _capacity(0) {}; //*_curr = T(); }
 
 		/*
-		**	Fill constructor constructor
+		**	Fill constructor 
 		*/
-		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc(), typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
+		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc()) //, typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
 		{
 			_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
 			assign(n, value);
 		}
 
 		/*
-		**	Fill constructor constructor
+		**	Range constructor
 		*/
 		template <class InputIterator >
 		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0) : _size(0), _capacity(0)
@@ -94,12 +94,11 @@ namespace ft {
 		//Assign called for fill constructor 
 		void assign(size_type n, const T& t)
 		{
-			//erase(begin(), end());
+			erase(begin(), end());
 			insert(begin(), n, t);
 		}
 
 		//erase : appelle destroy ;
-		// insert
 		allocator_type get_allocator() const
 		{
 
@@ -298,7 +297,10 @@ namespace ft {
 				{
 					i -= 1;
 					for (size_t n = diff; n > 0; n--)
-						_new_curr[j++] = *(start++);
+					{
+						alloc_obj.construct(_new_curr + j, *start++);
+						j++;					
+					} 
 					j -= 1;
 				}
 				it++;
@@ -324,10 +326,14 @@ namespace ft {
 			for (size_type j = 0; j < _size - 1;)
 			{
 				if (it != position)
-					_new_curr[j++] = _curr[i];
+				{
+					alloc_obj.construct(_new_curr + j, _curr[i]);
+					j++;					
+				}
 				it++;
 				i++;
 			}
+			alloc_obj.deallocate(_curr, _capacity);
 			_curr = _new_curr;
 			_size -= 1;
 			return (it); // retrouver le bon retour !!
@@ -359,6 +365,7 @@ namespace ft {
 					}
 				}
 			}
+			alloc_obj.deallocate(_curr, _capacity);
 			_curr = _new_curr;
 			_size -= diff;
 			return (it);

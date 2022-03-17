@@ -13,17 +13,19 @@ void example(std::vector<int>& r_vec)
 	std::cout << std::endl;
 
 }
-void display(ft::vector<int>& my_vec, std::vector<int>& r_vec)
+
+template <typename T>
+void display(ft::vector<T>& my_vec, std::vector<T>& r_vec)
 {
 	std::cout << BOLD("-> output : ") << std::endl;
 	std::cout << FG1("Mine :") << std::endl;
-	ft::vector<int>::iterator it1;
+	typename ft::vector<T>::iterator it1;
 	for (it1 = my_vec.begin(); it1 != my_vec.end(); it1++)
 		std::cout << *it1 << " ";
 	std::cout << std::endl;
 
 	std::cout << FG2("Real :") << std::endl;
-	std::vector<int>::iterator it;
+	typename std::vector<T>::iterator it;
 	for (it = r_vec.begin(); it != r_vec.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl;
@@ -131,8 +133,8 @@ void test_reserve()
 	for (it1 = my_vec.begin(); it1 != my_vec.end(); it1++)
 		std::cout << "MINE it = " << *it1 << std::endl;
 
-	try {
-
+	try
+	{
 		my_vec.reserve(my_vec.max_size() + 1);
 	}
 	catch (std::exception& e)
@@ -143,14 +145,13 @@ void test_reserve()
 }
 
 
-
 void		test_resize()
 {
 	cout << HEADER("\n***TESTS RESIZE****") << endl;
 
 	cout << "Base" << endl;
-	ft::vector<int> myvec(4,5);
-	std::vector<int> realvec(4,5);
+	ft::vector<int> myvec(4, 5);
+	std::vector<int> realvec(4, 5);
 	display(myvec, realvec);
 
 	cout << "Resize bigger" << endl;
@@ -166,14 +167,43 @@ void		test_resize()
 }
 
 
+void 	test_strings()
+{
+	cout << HEADER("\n***TESTS VECTOR OF STRINGS****") << endl;
+
+	cout << "Inserting through input iterator : " << endl;
+	std::vector<std::string> myvector;
+	std::string myarray[] = { "Hi","hello","wassup" };
+	myvector.insert(myvector.begin(), myarray, myarray + 3);
+
+	ft::vector<std::string> lol;
+	std::string myarray2[] = { "Hi","hello","wassup" };
+	lol.insert(lol.begin(), myarray2, myarray2 + 3);
+
+	display < std::string > (lol, myvector);
+
+	cout << "Erase several time : " << endl;
+	myvector.erase(myvector.begin());
+	lol.erase(lol.begin());
+	display < std::string > (lol, myvector);
+
+	myvector.erase(myvector.begin(), myvector.end());
+	lol.erase(lol.begin(), lol.end());
+	display < std::string > (lol, myvector);
+	
+
+
+}
+
 
 int main()
 {
 
-	test_insert();
-	test_erase();
-	test_reserve();
-	test_resize();
+	//test_insert();
+	//test_erase();
+	//test_reserve();
+	//test_resize();
+	test_strings();
 
 
 

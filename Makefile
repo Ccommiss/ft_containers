@@ -19,8 +19,8 @@ BUILD				:= release
 include sources.mk
 
 #The Directories, Source, Includes, Objects, Binary and Resources
-SRCDIR				:= .
-INCDIR				:= .
+SRCDIR				:= srcs
+INCDIR				:= srcs/vector
 BUILDDIR			:= obj
 TARGETDIR			:= .
 SRCEXT				:= cpp
