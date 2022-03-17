@@ -51,14 +51,16 @@ namespace ft {
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type 	difference_type;
 		typedef typename allocator_type::size_type 						size_type; // std::allocator, vaut size_t
 
-		/*
-		**	CONTRUCTORS
+
+		/* ****************************************************
+		**	COPLIAN STUFF
 		**
 		**
-		*/
+		**
+		**/
 
 		/*
-		**	default constructor
+		**	Default constructor
 		*/
 		explicit vector(const Alloc & = Alloc()) : _size(0), _capacity(0) {}; //*_curr = T(); }
 
@@ -88,7 +90,7 @@ namespace ft {
 		{
 			debug("[Range constructor]");
 			findtype(typeid(this->_curr).name());
-				_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
+			_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
 			assign(first, last);
 		}
 
@@ -99,11 +101,19 @@ namespace ft {
 		}
 		vector(const vector<T, Alloc>& x);
 
+		/*
+		**	Destructor
+		*/
 
 		~vector() {
 			debug("[~Destructor]");
-			alloc_obj.deallocate(_curr, _capacity);
+			if (_capacity > 0)
+				alloc_obj.deallocate(_curr, _capacity);
 		};
+
+		/*
+		**	Operator = overload
+		*/
 
 		vector<T, Alloc>& operator=(const vector<T, Alloc>& x) // TEST POUR LE RESERVE 
 		{
@@ -117,29 +127,38 @@ namespace ft {
 			return *this;
 		}
 
-	
-
-	
-
 		allocator_type get_allocator() const
 		{
 
 		}
 
 
-		/*
+		/* ****************************************************
 		**	ITERATORS
-		*/
+		**
+		**
+		**
+		**/
 
+		/*
+		**	Begin
+		**	@brief returns pointer on first elem
+		*/
 		iterator begin()
 		{
 			return iterator(_curr);
 		};
 		const_iterator begin() const;
+
+		/*
+		**	Begin
+		**	@brief returns pointer on last elem
+		*/
 		iterator end()
 		{
 			return iterator(_curr + _size);
 		};
+
 		const_iterator end() const;
 		//reverse_iterator rbegin();
 		//const_reverse_iterator rbegin() const;
@@ -147,9 +166,13 @@ namespace ft {
 		//const_reverse_iterator rend() const;
 
 
-		/*
-		**	SIZE & CAPACITY
-		*/
+
+		/* ****************************************************
+		**	SIZE AND CAPACITY
+		**
+		**
+		**
+		**/
 
 		size_type size() const { return (_size); }
 		size_type max_size() const { return (alloc_obj.max_size()); };
@@ -211,25 +234,56 @@ namespace ft {
 				_capacity = n;
 			}
 		}
-
-		/*
-		**
+		/* ****************************************************
 		**	ELEMENT ACCESS
 		**
-		*/
+		**
+		**
+		**/
 
-		reference operator[](size_type n);
-		const_reference operator[](size_type n) const;
-		const_reference at(size_type n) const;
-		reference at(size_type n);
-		reference front();
-		const_reference front() const;
-		reference back();
-		const_reference back() const;
 
 		/*
-		** 23.2.4.3 MODIFIERS:
+		** 	@brief access 
+		**	@throw nothingIf the container size is greater than n, the function never throws exceptions (no-throw guarantee).
+		**	Otherwise, the behavior is undefined.
 		*/
+		reference operator[](size_type n)
+		{
+			return (_curr[n]);
+		}
+		const_reference operator[](size_type n) const;
+
+		/*
+		**	at()
+		** 	@throw out_of_range if n >= a.size()
+		*/
+		const_reference at(size_type n) const;
+		reference at(size_type n)
+		{
+			if (n <= _size)
+				return (_curr[n]);
+			else 
+				throw std::out_of_range ("out of range exception because n > size");
+		}
+		reference front()
+		{
+			return (_curr[0]);
+		}
+		const_reference front() const;
+		reference back()
+		{
+			return (_curr[_size - 1]);
+		}
+		const_reference back() const;
+
+		/* ****************************************************
+		**	MODIFIERS
+		**	- push_back
+		**	- pop_back
+		**	- insert
+		**	- erase
+		**
+		**/
 
 		void push_back(const T& x)
 		{
@@ -303,7 +357,7 @@ namespace ft {
 		template <class InputIterator>
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
-			std::cout << "insert template II" << std::endl;
+			debug("insert template II");
 			iterator it = iterator(_curr);
 			iterator start = iterator(first); //on copie 
 			size_t i = 0;
@@ -337,7 +391,7 @@ namespace ft {
 
 		/*
 		**	ERASE :
-		**  Invalidates all the iterators and references after the point of the erase.
+		**  @brief Invalidates all the iterators and references after the point of the erase.
 		*/
 		iterator erase(iterator position)
 		{
@@ -406,6 +460,13 @@ namespace ft {
 				std::cout << "Cannot allocate mor than max size" << std::endl;
 			}
 		};
+
+
+		/* ****************************************************
+		**	PRIVATE ELEMS
+		**
+		**
+		**/
 		private:
 		pointer 		_curr; // pointeur sur le tableau, premiere addresse
 		size_t  		_size; // le nb d'elemts contenus

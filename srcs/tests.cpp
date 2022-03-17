@@ -205,16 +205,83 @@ void 	test_strings()
 }
 
 
+void test_access()
+{
+	cout << HEADER("\n***TESTS ACCESS ***") << endl;
+	std::vector<std::string> myvector;
+	std::string myarray[] = { "I am 1","I am 2","I am 3" };
+	myvector.insert(myvector.begin(), myarray, myarray + 3);
+
+	ft::vector<std::string> lol;
+	std::string myarray2[] = { "I am 1","I am 2","I am 3" };
+	lol.insert(lol.begin(), myarray2, myarray2 + 3);
+
+	test("** Test 1 : subscript [] accessing an existing elem ( n <= size ) **");
+	std::cout << myvector[2] << std::endl;
+	std::cout << lol[2] << std::endl;
+
+	test("** Test 2 : subscript [] accessing an inexistant elem (n > size) **");
+	std::cout << myvector[77] << std::endl;
+	std::cout << lol[77] << std::endl;
+
+	test("** Test 3 : at(n) accessing an existant elem (n <= size) **");
+	std::cout << myvector.at(2) << std::endl;
+	std::cout << lol.at(2) << std::endl;
+
+	test("** Test 3 : at(n) accessing an inexistant elem (n > size) --> thrown exception **");
+	std::cout << FG2("Real :") << std::endl;
+	try
+	{
+		std::cout << myvector.at(77) << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		cout << e.what() << endl;
+	}
+	std::cout << FG1("Mine :") << std::endl;
+	try
+	{
+		std::cout << lol.at(77) << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		cout << e.what() << endl;
+	}
+
+}
+
+void		test_front_back()
+{
+	int myarray[] = { 45, 895, 452, 7895, 45487, 78};
+
+	cout << HEADER("**TESTS FRONT / BACK") << endl;
+	std::vector<int> r_vec;
+	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+
+	ft::vector<int> my_vec;
+	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+
+	display(my_vec, r_vec);
+
+	test("testing front and back");
+	cout << FG1("Mine") << endl;
+	cout << my_vec.front() << " " << my_vec.back() << endl;
+
+	cout << FG2("Real") << endl;
+	cout << r_vec.front() << " " << r_vec.back() << endl;
+
+}
+
 int main()
 {
 
-	test_insert();
-	test_erase();
-	test_reserve();
-	test_resize();
-	test_strings();
-
-	ft::vector< std::vector<int> > test;
+	//test_insert();
+	//test_erase();
+	//test_reserve();
+	//test_resize();
+	//test_strings();
+	//test_access();
+	test_front_back();
 
 
 
