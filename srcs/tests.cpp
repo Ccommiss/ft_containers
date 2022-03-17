@@ -272,6 +272,28 @@ void		test_front_back()
 
 }
 
+
+void		tests_reverse()
+{
+
+	int myarray[] = { 45, 895, 452, 7895, 45487, 78};
+
+	cout << HEADER("**TESTS REVERSE *** ") << endl;
+	std::vector<int> r_vec;
+	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+
+	ft::vector<int> my_vec;
+	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+
+	display(my_vec, r_vec);
+
+	cout << FG1("Mine") << endl;
+	cout << *(my_vec.rbegin()) << " " << *(my_vec.rend()) << endl;
+
+	cout << FG2("Real") << endl;
+	cout << *(r_vec.rbegin()) << " " << *(r_vec.rend()) << endl;
+
+}
 int main()
 {
 
@@ -281,7 +303,8 @@ int main()
 	//test_resize();
 	//test_strings();
 	//test_access();
-	test_front_back();
+	//test_front_back();
+	tests_reverse();
 
 
 

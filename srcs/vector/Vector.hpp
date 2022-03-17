@@ -44,12 +44,12 @@ namespace ft {
 		/* Les iterateurs */
 		typedef ft::random_access_iterator<value_type>					iterator;
 		typedef ft::random_access_iterator<const value_type>			const_iterator;
-		// 		typedef ft::random_access_iterator<value_type> reverse_iterator;
-		//		typedef ft::random_access_iterator<const value_type> const_reverse_iterator;
+		typedef ft::reverse_random_access_iterator<value_type> 			reverse_iterator;
+		typedef ft::reverse_random_access_iterator<const value_type>	const_reverse_iterator;
 
 		/* Diff type & size_type */
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type 	difference_type;
-		typedef typename allocator_type::size_type 						size_type; // std::allocator, vaut size_t
+		typedef typename allocator_type::size_type 											size_type; // std::allocator, vaut size_t
 
 
 		/* ****************************************************
@@ -160,9 +160,17 @@ namespace ft {
 		};
 
 		const_iterator end() const;
-		//reverse_iterator rbegin();
+		reverse_iterator rbegin()
+		{
+			debug("RBEGIN CALLED") ;
+			return reverse_iterator(_curr + _size - 1);
+		}
 		//const_reverse_iterator rbegin() const;
-		//reverse_iterator rend();
+		reverse_iterator rend()
+		{
+			debug("REND CALLED") ;
+			return reverse_iterator(_curr - 1); // ca devrait etre + 1 pour aller plus a la fin ?? mais utilise pas mon implemde reverse ????? 
+		}
 		//const_reverse_iterator rend() const;
 
 

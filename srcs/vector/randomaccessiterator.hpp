@@ -25,8 +25,8 @@ namespace ft
 
 		public:
 
-		random_access_iterator() : _curr(0) {};
-		random_access_iterator(T* rhs) : _curr(rhs) {};
+		random_access_iterator() : _curr(0) { debug("Bonjour RAI normal") ; };
+		random_access_iterator(T* rhs) : _curr(rhs) {   };
 		//random_access_iterator(const random_access_iterator& rhs) : _curr(rhs._curr) {};
 
 		T* base() const
@@ -40,8 +40,8 @@ namespace ft
 		// reference operator[](difference_type off) const { return _curr[off]; }
 		// /* ARITHMETIQUES */
 		/* a + b */ difference_type operator+(const random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
-		/* a + n */ random_access_iterator operator+(const difference_type step) const { return (this->_curr + step); }
-		/* TEST*/	random_access_iterator operator+(difference_type step) { return random_access_iterator(_curr + step); } // + step); }
+		/* a + n */ random_access_iterator operator+(const difference_type step) const { debug("OP + RAI normal"); return (this->_curr + step); }
+		/* TEST*/	random_access_iterator operator+(difference_type step) { debug("OP + RAI normal"); return random_access_iterator( _curr + step); } // + step); }
 
 		/* a - b */ difference_type operator-(const random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
 		/* a - n */ random_access_iterator operator-(const difference_type step) const { return random_access_iterator(_curr - step); }
