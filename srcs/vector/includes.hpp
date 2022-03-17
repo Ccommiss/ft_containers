@@ -33,8 +33,16 @@
 #define FG2(x)		"\033[4;32;40m" x RST
 #define HEADER(x)	"\033[1;107;35m" x RST
 
+#define debug(x)	std::cout << x << std::endl;
+
+#define color(x)	"\033[1;96m" x RST
+
+#define test(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
+
+//cout << HEADER("\n**** TESTS INSERT ****") << endl;
 
 void	print(std::string func);
+# include <vector> 
 #	include <memory>
 #   include "enable_if.hpp"
 #	include "iterator.hpp"
@@ -42,6 +50,7 @@ void	print(std::string func);
 # 	include	"randomaccessiterator.hpp"
 //#	include "reverse_iterators.hpp"
 #	include "Vector.hpp"
+
 
 
 # endif

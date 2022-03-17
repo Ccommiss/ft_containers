@@ -1,9 +1,8 @@
 
+#include "includes.hpp"
 
 #ifndef RANDOM_ACCESS_ITERATORS_HPP
 # define RANDOM_ACCESS_ITERATORS_HPP
-#include "includes.hpp"
-
 
 // https://code.woboq.org/gcc/libstdc++-v3/include/bits/stl_iterator.h.html#__gnu_cxx::__normal_iterator 
 
@@ -36,25 +35,25 @@ namespace ft
 		}
 
 		// // Pointer like operators
-		reference		operator*() { print("RAI operator *"); return *_curr; }
+		reference		operator*() { return *_curr; }
 		// const T* operator->() const throw() { return _curr; }
 		// reference operator[](difference_type off) const { return _curr[off]; }
 		// /* ARITHMETIQUES */
 		/* a + b */ difference_type operator+(const random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
-		/* a + n */ random_access_iterator operator+(const difference_type step) const { print("RAI operator a + n"); return (this->_curr + step); }
-		/* TEST*/	random_access_iterator operator+(difference_type step) { print("RAI operator a + n"); return random_access_iterator(_curr + step); } // + step); }
+		/* a + n */ random_access_iterator operator+(const difference_type step) const { return (this->_curr + step); }
+		/* TEST*/	random_access_iterator operator+(difference_type step) { return random_access_iterator(_curr + step); } // + step); }
 
 		/* a - b */ difference_type operator-(const random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
 		/* a - n */ random_access_iterator operator-(const difference_type step) const { return random_access_iterator(_curr - step); }
-		/* a += n */ random_access_iterator& operator+=(const difference_type step) { print("RAI operator a += n"); this->_curr += step; return *this; }
+		/* a += n */ random_access_iterator& operator+=(const difference_type step) { this->_curr += step; return *this; }
 		// /* a -= n */ random_access_iterator& operator-=(const difference_type step) { this->_curr -= step; return *this; }
 		// /* b = a */ random_access_iterator& operator=(const random_access_iterator& rhs) { this->_curr = rhs._curr; return *this; }
 
 		// /*POIINTER OP*/
 		// random_access_iterator& operator--() { --_curr; return *this; }
-		/* a++ */ random_access_iterator& operator++() { print("RAI operator a++ "); ++_curr; return *this; }
+		/* a++ */ random_access_iterator& operator++() { ++_curr; return *this; }
 		// random_access_iterator operator--(int) { random_access_iterator tmp(*this); --(*this); return tmp; }
-		/* ++a*/ random_access_iterator operator++(int) { print("RAI operator ++a "); random_access_iterator tmp(*this); ++(*this); return tmp; }
+		/* ++a*/ random_access_iterator operator++(int) { random_access_iterator tmp(*this); ++(*this); return tmp; }
 
 		// /* COMPARISONS */
 		bool operator<(const random_access_iterator& rhs) { return this->_curr < rhs._curr; }

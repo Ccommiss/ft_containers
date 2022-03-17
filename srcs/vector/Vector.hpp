@@ -1,18 +1,34 @@
-
+#include "includes.hpp"
 
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
-#include "includes.hpp"
 
 
+#include <typeinfo> // ASUPPRIEMR  
+
+//#include <boost>
 //template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+
+
+void 		findtype(std::string info)
+{
+	std::cout << "Current type is : ";
+	if (info == typeid(int*).name()) { debug("pointer on int"); }
+	else if (info == typeid(int).name()) { debug("int"); }
+	else if (info == typeid(std::string*).name()) { debug("pointer on string"); }
+	else if (info == typeid(unsigned int*).name()) { debug("pointer on unsigned int"); }
+	else if (info == typeid(std::vector<int> *).name()) { debug("pointer on vector<int>"); }
+	else if (info == typeid(std::vector<std::string> *).name()) { debug("pointer on vector<std::string>"); }
+	else { debug(info) };
+}
+
 
 namespace ft {
 
 	template < class T, class Alloc = std::allocator<T> >
 	class vector {
 
-	public:
+		public:
 
 
 		/*
@@ -47,13 +63,22 @@ namespace ft {
 		explicit vector(const Alloc & = Alloc()) : _size(0), _capacity(0) {}; //*_curr = T(); }
 
 		/*
-		**	Fill constructor 
+		**	Fill constructor
 		*/
-		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc()) //, typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
+		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc()) : _size(0), _capacity(0) //, typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
 		{
+			debug("[Fill constructor]");
+			findtype(typeid(this->_curr).name());
 			_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
 			assign(n, value);
 		}
+
+		void assign(size_type n, const T& t)
+		{
+			erase(begin(), end());
+			insert(begin(), n, t);
+		}
+
 
 		/*
 		**	Range constructor
@@ -61,14 +86,22 @@ namespace ft {
 		template <class InputIterator >
 		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0) : _size(0), _capacity(0)
 		{
-			std::cout << "Range constructor called" << std::endl;
-			_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
+			debug("[Range constructor]");
+			findtype(typeid(this->_curr).name());
+				_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
 			assign(first, last);
 		}
 
+		template <class InputIterator>
+		void assign(InputIterator first, InputIterator last)
+		{
+			insert(begin(), first, last);
+		}
 		vector(const vector<T, Alloc>& x);
+
+
 		~vector() {
-			std::cout << "Adieu" << std::endl;
+			debug("[~Destructor]");
 			alloc_obj.deallocate(_curr, _capacity);
 		};
 
@@ -76,7 +109,6 @@ namespace ft {
 		{
 			iterator it;
 			size_type i = 0;
-			std::cout << "copying" << std::endl;
 			for (it = x.begin(); it != x.end(); it++)
 			{
 				_curr[i] = x[i];
@@ -85,20 +117,10 @@ namespace ft {
 			return *this;
 		}
 
-		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last)
-		{
-			insert(begin(), first, last);
-		}
+	
 
-		//Assign called for fill constructor 
-		void assign(size_type n, const T& t)
-		{
-			erase(begin(), end());
-			insert(begin(), n, t);
-		}
+	
 
-		//erase : appelle destroy ;
 		allocator_type get_allocator() const
 		{
 
@@ -299,14 +321,15 @@ namespace ft {
 					for (size_t n = diff; n > 0; n--)
 					{
 						alloc_obj.construct(_new_curr + j, *start++);
-						j++;					
-					} 
+						j++;
+					}
 					j -= 1;
 				}
 				it++;
 				i++;
 			}
-			alloc_obj.deallocate(_curr, _capacity);
+			if (_capacity != 0) // evite de desallouer au
+				alloc_obj.deallocate(_curr, _capacity);
 			_size += diff;
 			_capacity += diff;
 			_curr = _new_curr;
@@ -321,6 +344,7 @@ namespace ft {
 			pointer _new_curr = alloc_obj.allocate(_size - 1); // on enleve un obj 
 			iterator it = iterator(_curr);
 
+
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
 			size_t i = 0;
 			for (size_type j = 0; j < _size - 1;)
@@ -328,7 +352,7 @@ namespace ft {
 				if (it != position)
 				{
 					alloc_obj.construct(_new_curr + j, _curr[i]);
-					j++;					
+					j++;
 				}
 				it++;
 				i++;
@@ -342,13 +366,13 @@ namespace ft {
 
 		iterator erase(iterator first, iterator last)
 		{
-			pointer _new_curr = alloc_obj.allocate(_size - (last - first)); // on enleve un obj 
-			iterator it = iterator(_curr);
 			size_t diff = ft::distance(first, last);
+			pointer _new_curr = alloc_obj.allocate(_size - diff); // on enleve un range 
+			iterator it = iterator(_curr);
 
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
 			size_t j = 0;
-			for (size_type i = 0; i <= _size;)
+			for (size_type i = 0; i < _size;)
 			{
 				if (it != first)
 				{
@@ -382,7 +406,7 @@ namespace ft {
 				std::cout << "Cannot allocate mor than max size" << std::endl;
 			}
 		};
-	private:
+		private:
 		pointer 		_curr; // pointeur sur le tableau, premiere addresse
 		size_t  		_size; // le nb d'elemts contenus
 		size_t			_capacity; // la taille allouee 

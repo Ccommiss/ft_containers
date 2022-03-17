@@ -2,8 +2,7 @@
 
 ## SRCS ##
 
-SOURCES		+=                 		\
-		srcs/debug_tools.cpp      	\
-		srcs/tests.cpp            	\
+SOURCES		+=           		\
+		srcs/tests.cpp      	\
 
 
