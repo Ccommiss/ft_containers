@@ -162,13 +162,11 @@ namespace ft {
 		const_iterator end() const;
 		reverse_iterator rbegin()
 		{
-			debug("RBEGIN CALLED") ;
 			return reverse_iterator(_curr + _size - 1);
 		}
 		//const_reverse_iterator rbegin() const;
 		reverse_iterator rend()
 		{
-			debug("REND CALLED") ;
 			return reverse_iterator(_curr - 1); // ca devrait etre + 1 pour aller plus a la fin ?? mais utilise pas mon implemde reverse ????? 
 		}
 		//const_reverse_iterator rend() const;

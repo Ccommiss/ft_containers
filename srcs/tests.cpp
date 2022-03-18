@@ -228,13 +228,13 @@ void test_access()
 	std::cout << myvector.at(2) << std::endl;
 	std::cout << lol.at(2) << std::endl;
 
-	test("** Test 3 : at(n) accessing an inexistant elem (n > size) --> thrown exception **");
+	test("** Test 4 : at(n) accessing an inexistant elem (n > size) --> thrown exception **");
 	std::cout << FG2("Real :") << std::endl;
 	try
 	{
 		std::cout << myvector.at(77) << std::endl;
 	}
-	catch (std::exception &e)
+	catch (std::exception& e)
 	{
 		cout << e.what() << endl;
 	}
@@ -243,7 +243,7 @@ void test_access()
 	{
 		std::cout << lol.at(77) << std::endl;
 	}
-	catch (std::exception &e)
+	catch (std::exception& e)
 	{
 		cout << e.what() << endl;
 	}
@@ -252,14 +252,14 @@ void test_access()
 
 void		test_front_back()
 {
-	int myarray[] = { 45, 895, 452, 7895, 45487, 78};
+	int myarray[] = { 45, 895, 452, 7895, 45487, 78 };
 
 	cout << HEADER("**TESTS FRONT / BACK") << endl;
 	std::vector<int> r_vec;
-	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
 
 	ft::vector<int> my_vec;
-	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
 
 	display(my_vec, r_vec);
 
@@ -276,14 +276,16 @@ void		test_front_back()
 void		tests_reverse()
 {
 
-	int myarray[] = { 45, 895, 452, 7895, 45487, 78};
+	int myarray[] = { 45, 895, 452, 7895, 45487, 78 };
 
 	cout << HEADER("**TESTS REVERSE *** ") << endl;
+
+	test("*-* Test 1 : rbegin() et rend() *-*");
 	std::vector<int> r_vec;
-	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
 
 	ft::vector<int> my_vec;
-	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray)/sizeof(myarray[0]));
+	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
 
 	display(my_vec, r_vec);
 
@@ -293,7 +295,61 @@ void		tests_reverse()
 	cout << FG2("Real") << endl;
 	cout << *(r_vec.rbegin()) << " " << *(r_vec.rend()) << endl;
 
+	test("** Test 2 : operators a++ **");
+	std::vector<int>::reverse_iterator		it = r_vec.rbegin();
+	ft::vector<int>::reverse_iterator		my_it = my_vec.rbegin();
+
+	cout << FG2("Real with a++") << endl;
+	while (it != r_vec.rend())
+		cout << *(it++) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with a++") << endl;
+	while (my_it != my_vec.rend())
+		cout << *(my_it++) << " ";
+	cout << endl;
+
+	test("** Test 3 : operators ++a **");
+
+	it = r_vec.rbegin();
+	my_it = my_vec.rbegin();
+	cout << FG2("Real with ++a") << endl;
+	while (it != r_vec.rend())
+		cout << *(++it) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with ++a") << endl;
+	while (my_it != my_vec.rend())
+		cout << *(++my_it) << " ";
+	cout << endl;
+
+	test("** Test 4 : operators a-- **");
+	it = r_vec.rend();
+	my_it = my_vec.rend();
+
+	cout << FG2("Real with a--") << endl;
+	while (it != r_vec.rbegin())
+		cout << *(it--) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with a--") << endl;
+	while (my_it != my_vec.rbegin())
+		cout << *(my_it--) << " ";
+	cout << endl;
+
+	test("** Test 5 : operators --a **");
+	cout << FG2("Real with --a") << endl;
+	while (it != r_vec.rbegin())
+		cout << *(--it) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with --a") << endl;
+	while (my_it != my_vec.rbegin())
+		cout << *(--my_it) << " ";
+	cout << endl;
+
 }
+
 int main()
 {
 
