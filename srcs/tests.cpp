@@ -273,14 +273,13 @@ void		test_front_back()
 }
 
 
-void		tests_reverse()
+
+void		tests_simple_it()
 {
+	cout << HEADER("**TESTS SIMPLE IT *** ") << endl;
 
-	int myarray[] = { 45, 895, 452, 7895, 45487, 78 };
+	int myarray[] = { 10, 20, 30, 40, 50, 60 };
 
-	cout << HEADER("**TESTS REVERSE *** ") << endl;
-
-	test("*-* Test 1 : rbegin() et rend() *-*");
 	std::vector<int> r_vec;
 	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
 
@@ -289,22 +288,121 @@ void		tests_reverse()
 
 	display(my_vec, r_vec);
 
+	test("*-* Test 1 : begin() et end() *-*");
 	cout << FG1("Mine") << endl;
-	cout << *(my_vec.rbegin()) << " " << *(my_vec.rend()) << endl;
+	cout << *(my_vec.begin())  << " " << *(my_vec.end() - 1) << endl;
 
 	cout << FG2("Real") << endl;
-	cout << *(r_vec.rbegin()) << " " << *(r_vec.rend()) << endl;
+	cout << *(r_vec.begin()) << " " << *(r_vec.end() - 1) << endl;
+
+	test("** Test 2 : operators a++ **");
+	std::vector<int>::iterator		it = r_vec.begin();
+	ft::vector<int>::iterator		my_it = my_vec.begin();
+
+	cout << "Start point : mine = " << *my_it << " vs real = " << *it << endl;
+
+	cout << FG2("Real with a++") << endl;
+	while (it != r_vec.end())
+		cout << *(it++) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with a++") << endl;
+	while (my_it != my_vec.end())
+		cout << *(my_it++) << " ";
+	cout << endl;
+
+	test("** Test 3 : operators ++a **");
+
+	it = r_vec.begin();
+	my_it = my_vec.begin();
+
+	cout << "Start point : mine = " << *my_it << " vs real = " << *it << endl;
+
+	cout << FG2("Real with ++a") << endl;
+	while (it < r_vec.end() - 1)
+		cout << *(++it) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with ++a") << endl;
+	while (my_it < my_vec.end() - 1)
+		cout << *(++my_it) << " ";
+	cout << endl;
+
+	test("** Test 4 : operators a-- **");
+	it = r_vec.end() - 1;
+	my_it = my_vec.end() - 1;
+
+	cout << FG2("Real with a--") << endl;
+	while (it != r_vec.begin())
+		cout << *(it--) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with a--") << endl;
+	while (my_it != my_vec.begin())
+		cout << *(my_it--) << " ";
+	cout << endl;
+
+	test("** Test 5 : operators --a **");
+	it = r_vec.end() - 1;
+	my_it = my_vec.end() - 1;
+
+	cout << FG2("Real with --a") << endl;
+	while (it > r_vec.begin())
+		cout << *(--it) << " ";
+	cout << endl;
+
+	cout << FG1("Mine with --a") << endl;
+	while (my_it > my_vec.begin())
+		cout << *(--my_it) << " ";
+	cout << endl;
+
+	test("**Comparisons**")
+	it = r_vec.end();
+	my_it = my_vec.end();
+	std::cout << ft::distance(my_it, my_vec.begin()) << std::endl;
+	std::cout << std::distance(it, r_vec.begin()) << std::endl;
+
+}
+
+void		tests_reverse()
+{
+
+	int myarray[] = { 45, 895, 452, 7895, 45487, 78 };
+
+	cout << HEADER("**TESTS REVERSE *** ") << endl;
+
+	
+	std::vector<int> r_vec;
+	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
+
+	ft::vector<int> my_vec;
+	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
+
+	display(my_vec, r_vec);
+
+	// NOTE : REND A AFFICHER = BUFFER OVERFLOW ! VOIR SCHEMA 
+
+	test("*-* Test 1 : rbegin() et rend() *-*");
+	cout << FG1("Mine") << endl;
+	cout << *(my_vec.rbegin()) << " " << *(my_vec.rend().base()) << endl;
+
+	cout << FG2("Real") << endl;
+	cout << *(r_vec.rbegin()) << " " << *(r_vec.rend().base()) << endl;
 
 	test("** Test 2 : operators a++ **");
 	std::vector<int>::reverse_iterator		it = r_vec.rbegin();
 	ft::vector<int>::reverse_iterator		my_it = my_vec.rbegin();
 
+	cout << "Start point : mine = " << *my_it << " vs real = " << *it << endl;
+
 	cout << FG2("Real with a++") << endl;
+	debug("it + 1 = " << *(it+1));
 	while (it != r_vec.rend())
 		cout << *(it++) << " ";
 	cout << endl;
 
 	cout << FG1("Mine with a++") << endl;
+	debug("my_it + 1 = " << *(my_it+1));
 	while (my_it != my_vec.rend())
 		cout << *(my_it++) << " ";
 	cout << endl;
@@ -313,41 +411,91 @@ void		tests_reverse()
 
 	it = r_vec.rbegin();
 	my_it = my_vec.rbegin();
+
+	cout << "Start point : mine = " << *my_it << " vs real = " << *it << endl;
+
 	cout << FG2("Real with ++a") << endl;
-	while (it != r_vec.rend())
+	while (it < r_vec.rend() - 1)
 		cout << *(++it) << " ";
 	cout << endl;
 
 	cout << FG1("Mine with ++a") << endl;
-	while (my_it != my_vec.rend())
+	while (my_it < my_vec.rend() - 1)
 		cout << *(++my_it) << " ";
 	cout << endl;
 
 	test("** Test 4 : operators a-- **");
-	it = r_vec.rend();
-	my_it = my_vec.rend();
+	it = r_vec.rend() - 1;
+	my_it = my_vec.rend() - 1;
 
 	cout << FG2("Real with a--") << endl;
+	debug("it - 1 = " << *(it - 1));
+	debug ("r_vec rbegin() + 2 " << *(r_vec.rbegin() + 2));
 	while (it != r_vec.rbegin())
 		cout << *(it--) << " ";
 	cout << endl;
 
 	cout << FG1("Mine with a--") << endl;
+	debug("my_it - 1 = " << *(my_it - 1));
+	debug ("my_vec rbegin() + 2 " << *(my_vec.rbegin() + 2));
 	while (my_it != my_vec.rbegin())
 		cout << *(my_it--) << " ";
 	cout << endl;
 
 	test("** Test 5 : operators --a **");
+	it = r_vec.rend() - 1;
+	my_it = my_vec.rend() - 1;
+
+	cout << "Start point : mine = " << *my_it << " vs real = " << *it << endl;
+	cout << "Last point : mine = " << *my_vec.rbegin() << " vs real = " << *r_vec.rbegin() << endl;
+	
+	cout << "Comparisons :" << endl;
+	if (it > r_vec.rbegin() == my_it > my_vec.rbegin()) 
+		cout << "c bon";
+	else // rend est plus haut que rbegin  
+	{
+		cout << std::__addressof(*it) << " " << std::__addressof(*r_vec.rbegin()) << endl; 
+		cout << std::__addressof(*my_it) << " " << std::__addressof(*my_vec.rbegin()) << endl; 
+
+		cout << std::distance(r_vec.rbegin(), it) << endl; // 5
+		cout << ft::distance(my_vec.rbegin(), my_it) << endl; // PQ CA MARCHE AVEC LES NORMAUX ???
+		cout << (it > r_vec.rbegin()) << endl; // equivaut a 1
+		cout << (my_it > my_vec.rbegin()) << endl; // equivaut a 0 car rend < rbegin 
+	}
+
 	cout << FG2("Real with --a") << endl;
-	while (it != r_vec.rbegin())
+	while (it > r_vec.rbegin())
 		cout << *(--it) << " ";
 	cout << endl;
 
 	cout << FG1("Mine with --a") << endl;
-	while (my_it != my_vec.rbegin())
+	//while (my_it > my_vec.rbegin()) // PROBLEME ; my_it !
+	for (int i = 0; i < 5 ; i++)
 		cout << *(--my_it) << " ";
 	cout << endl;
 
+
+	// test("** Test 6 : operators a + n **");
+	// it = r_vec.rbegin();
+	// my_it = my_vec.rbegin();
+	// cout << FG2("Real") << endl;
+	// cout << *(it + 3) << " ";
+	// cout << endl;
+
+	// cout << FG1("Mine") << endl;
+	// cout << *(my_it + 3) << " ";
+	// cout << endl;
+
+	// test("** Test 7 : operators a - 1 en partant de rbegin **");
+	// it = r_vec.rbegin();
+	// my_it = my_vec.rbegin();
+	// cout << FG2("Real") << endl;
+	// cout << *(it - 1) << " ";
+	// cout << endl;
+
+	// cout << FG1("Mine") << endl;
+	// cout << *(my_it - 1) << " ";
+	// cout << endl;
 }
 
 int main()
@@ -360,6 +508,7 @@ int main()
 	//test_strings();
 	//test_access();
 	//test_front_back();
+	tests_simple_it();
 	tests_reverse();
 
 

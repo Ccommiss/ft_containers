@@ -50,10 +50,10 @@ namespace ft
 		// /* b = a */ random_access_iterator& operator=(const random_access_iterator& rhs) { this->_curr = rhs._curr; return *this; }
 
 		// /*POIINTER OP*/
-		// random_access_iterator& operator--() { --_curr; return *this; }
-		/* a++ */ random_access_iterator& operator++() { ++_curr; return *this; }
-		// random_access_iterator operator--(int) { random_access_iterator tmp(*this); --(*this); return tmp; }
-		/* ++a*/ random_access_iterator operator++(int) { random_access_iterator tmp(*this); ++(*this); return tmp; }
+		 random_access_iterator& operator--() { --_curr; return *this; }
+		/* ++a */ random_access_iterator& operator++() { ++_curr; return *this; }
+		 random_access_iterator operator--(int) { random_access_iterator tmp(*this); --(*this); return tmp; }
+		/* a++ */ random_access_iterator operator++(int) { random_access_iterator tmp(*this); ++(*this); return tmp; }
 
 		// /* COMPARISONS */
 		bool operator<(const random_access_iterator& rhs) { return this->_curr < rhs._curr; }

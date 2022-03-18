@@ -3,12 +3,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-
 #include <typeinfo> // ASUPPRIEMR  
-
-//#include <boost>
-//template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-
 
 void 		findtype(std::string info)
 {
@@ -162,12 +157,12 @@ namespace ft {
 		const_iterator end() const;
 		reverse_iterator rbegin()
 		{
-			return reverse_iterator(_curr + _size - 1);
+			return reverse_iterator(_curr + _size);
 		}
 		//const_reverse_iterator rbegin() const;
 		reverse_iterator rend()
 		{
-			return reverse_iterator(_curr - 1); // ca devrait etre + 1 pour aller plus a la fin ?? mais utilise pas mon implemde reverse ????? 
+			return reverse_iterator(_curr); // ca devrait etre + 1 pour aller plus a la fin ?? mais utilise pas mon implemde reverse ????? 
 		}
 		//const_reverse_iterator rend() const;
 
