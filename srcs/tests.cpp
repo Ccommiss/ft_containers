@@ -371,7 +371,7 @@ void		tests_reverse()
 
 	cout << HEADER("**TESTS REVERSE *** ") << endl;
 
-	
+
 	std::vector<int> r_vec;
 	r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
 
@@ -380,7 +380,7 @@ void		tests_reverse()
 
 	display(my_vec, r_vec);
 
-	// NOTE : REND A AFFICHER = BUFFER OVERFLOW ! VOIR SCHEMA 
+	// NOTE : REND A AFFICHER = BUFFER OVERFLOW ! VOIR SCHEMA
 
 	test("*-* Test 1 : rbegin() et rend() *-*");
 	cout << FG1("Mine") << endl;
@@ -448,20 +448,16 @@ void		tests_reverse()
 
 	cout << "Start point : mine = " << *my_it << " vs real = " << *it << endl;
 	cout << "Last point : mine = " << *my_vec.rbegin() << " vs real = " << *r_vec.rbegin() << endl;
-	
-	cout << "Comparisons :" << endl;
-	if (it > r_vec.rbegin() == my_it > my_vec.rbegin()) 
-		cout << "c bon";
-	else // rend est plus haut que rbegin  
-	{
-		cout << std::__addressof(*it) << " " << std::__addressof(*r_vec.rbegin()) << endl; 
-		cout << std::__addressof(*my_it) << " " << std::__addressof(*my_vec.rbegin()) << endl; 
 
-		cout << std::distance(r_vec.rbegin(), it) << endl; // 5
-		cout << ft::distance(my_vec.rbegin(), my_it) << endl; // PQ CA MARCHE AVEC LES NORMAUX ???
+	cout << "Comparisons :" << endl;
+		cout << std::addressof(*it) << " " << std::addressof(*r_vec.rbegin()) << endl;
+		cout << std::addressof(*my_it) << " " << std::addressof(*my_vec.rbegin()) << endl;
+
+		cout << std::distance(r_vec.rbegin(), r_vec.rend()) << endl; // 5 TOUJOURS UN PB ICI
+		cout << ft::distance(my_vec.rbegin(), my_vec.rend()) << endl; // PQ CA MARCHE AVEC LES NORMAUX ???
 		cout << (it > r_vec.rbegin()) << endl; // equivaut a 1
-		cout << (my_it > my_vec.rbegin()) << endl; // equivaut a 0 car rend < rbegin 
-	}
+		cout << (my_it > my_vec.rbegin()) << endl; // equivaut a 0 car rend < rbegin
+
 
 	cout << FG2("Real with --a") << endl;
 	while (it > r_vec.rbegin())
@@ -469,33 +465,32 @@ void		tests_reverse()
 	cout << endl;
 
 	cout << FG1("Mine with --a") << endl;
-	//while (my_it > my_vec.rbegin()) // PROBLEME ; my_it !
-	for (int i = 0; i < 5 ; i++)
+	while (my_it > my_vec.rbegin()) // PROBLEME ; my_it !
 		cout << *(--my_it) << " ";
 	cout << endl;
 
 
-	// test("** Test 6 : operators a + n **");
-	// it = r_vec.rbegin();
-	// my_it = my_vec.rbegin();
-	// cout << FG2("Real") << endl;
-	// cout << *(it + 3) << " ";
-	// cout << endl;
+	test("** Test 6 : operators a + n **");
+	it = r_vec.rbegin();
+	my_it = my_vec.rbegin();
+	cout << FG2("Real") << endl;
+	cout << *(it + 3) << " ";
+	cout << endl;
 
-	// cout << FG1("Mine") << endl;
-	// cout << *(my_it + 3) << " ";
-	// cout << endl;
+	cout << FG1("Mine") << endl;
+	cout << *(my_it + 3) << " ";
+	cout << endl;
 
-	// test("** Test 7 : operators a - 1 en partant de rbegin **");
-	// it = r_vec.rbegin();
-	// my_it = my_vec.rbegin();
-	// cout << FG2("Real") << endl;
-	// cout << *(it - 1) << " ";
-	// cout << endl;
+	test("** Test 7 : operators a - 1 en partant de rbegin + 1 **"); // va SF si on part de rbegin
+	it = r_vec.rbegin() + 1;
+	my_it = my_vec.rbegin() + 1;
+	cout << FG2("Real") << endl;
+	cout << *(it - 1) << " ";
+	cout << endl;
 
-	// cout << FG1("Mine") << endl;
-	// cout << *(my_it - 1) << " ";
-	// cout << endl;
+	cout << FG1("Mine") << endl;
+	cout << *(my_it - 1) << " ";
+	cout << endl;
 }
 
 int main()

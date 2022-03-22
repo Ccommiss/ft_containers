@@ -42,13 +42,14 @@
 //cout << HEADER("\n**** TESTS INSERT ****") << endl;
 
 void	print(std::string func);
-#	include <vector> 
+#	include <vector>
 #	include <memory>
 #   include "enable_if.hpp"
 #	include "iterator.hpp"
-# 	include "iterator_traits.hpp"
-# 	include	"randomaccessiterator.hpp"
 #	include "reverse_iterators.hpp"
+# 	include	"randomaccessiterator.hpp"
+# 	include "iterator_traits.hpp"
+
 #	include "Vector.hpp"
 
 

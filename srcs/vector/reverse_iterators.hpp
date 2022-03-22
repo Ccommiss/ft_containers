@@ -68,18 +68,30 @@ namespace ft
 		/* a -= n */ reverse_random_access_iterator& operator-=(const difference_type step) { this->_curr += step; return *this; }
 		/* b = a */ reverse_random_access_iterator& operator=(const reverse_random_access_iterator& rhs) { this->_curr = rhs._curr; return *this; }
 
-		// /*POINTER OP*/  
+		// /*POINTER OP*/
 		reverse_random_access_iterator& operator--() {  ++_curr; return *this; }
 		/* ++a */ reverse_random_access_iterator& operator++() { --_curr; return *this; }
 		reverse_random_access_iterator operator--(int) { reverse_random_access_iterator tmp(*this); ++_curr; return tmp; }
 		/* a++ */ reverse_random_access_iterator operator++(int) { reverse_random_access_iterator tmp(*this); --_curr; return tmp; }
 
 
+
+//    inline _GLIBCXX17_CONSTEXPR bool
+ //   operator>(const reverse_iterator<_Iterator>& __this,
+//	      const reverse_iterator<_Iterator>& __y)
+//    { return __y < __this; }
+
+
+  /// Based on operator<
+//  template<typename _Tp, typename _Alloc>
+ //   inline bool
+ //   operator>(const vector<_Tp, _Alloc>& __this, const vector<_Tp, _Alloc>& __y)
+  //  { return __y < __this; }
 		/* COMPARISONS */
-		bool operator<(const reverse_random_access_iterator& rhs) { return this->_curr < rhs._curr; }
-		bool operator<=(const reverse_random_access_iterator& rhs) { return this->_curr <= rhs._curr; }
-		bool operator>(const reverse_random_access_iterator& rhs) { return this->_curr > rhs._curr; }
-		bool operator>=(const reverse_random_access_iterator& rhs) { return this->_curr >= rhs._curr; }
+		bool operator<(const reverse_random_access_iterator& rhs) { return this->_curr > rhs._curr; }
+		bool operator<=(const reverse_random_access_iterator& rhs) { return this->_curr >= rhs._curr; }
+		bool operator>(const reverse_random_access_iterator& rhs) { return rhs._curr > this->_curr; }
+		bool operator>=(const reverse_random_access_iterator& rhs) { return this->_curr <= rhs._curr; }
 		bool operator==(const reverse_random_access_iterator& rhs) const { return _curr == rhs._curr; }
 		bool operator!=(const reverse_random_access_iterator& rhs) const { return _curr != rhs._curr; }
 
@@ -95,4 +107,4 @@ namespace ft
 
 
 
-#endif 
+#endif

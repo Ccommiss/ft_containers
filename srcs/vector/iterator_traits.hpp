@@ -3,11 +3,11 @@
 
 
 
-// RESSOURCE : https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits 
-// T = le type d'iterateur 
+// RESSOURCE : https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
+// T = le type d'iterateur
 
 
-// Genereic 
+// Genereic
 namespace ft {
   template <class T>
   struct iterator_traits {
@@ -19,20 +19,20 @@ namespace ft {
   };
 
 
-  // Pointer specialisqtion 
+  // Pointer specialisqtion
   template <class T>
   struct iterator_traits<T*> {
     typedef T                          value_type; // int  ? char ? etc
     typedef ptrdiff_t                  difference_type;
-    typedef ft::random_access_iterator_tag iterator_category; // bidirectionnal ? random ? 
+    typedef ft::random_access_iterator_tag iterator_category; // bidirectionnal ? random ?
     typedef T* pointer;
     typedef T& reference;
   };
 
-  //Thus, for any type "pointer to" "T", it is defined that it has the random access iterator category. 
-  // A corresponding partial specialization exists for constant pointers (const T*). 
+  //Thus, for any type "pointer to" "T", it is defined that it has the random access iterator category.
+  // A corresponding partial specialization exists for constant pointers (const T*).
 
-// const pointer specialisation 
+// const pointer specialisation
   template <class T>
   struct iterator_traits<const T*> {
     typedef T                               value_type;
@@ -45,12 +45,32 @@ namespace ft {
 
 
 
+
+	// SI C DES RANDSOM ACCESS IT ON PEUT FAIRE CA
   template< class InputIt >
   typename ft::iterator_traits<InputIt>::difference_type distance(InputIt first, InputIt last)
   {
+	typename ft::iterator_traits<InputIt>::difference_type  n = 0;
+	while (first != last) // pb ici c'est pas l'overload qui s'applique pour le ++ ???? PK
+	{
+	  	first++;
+	  	n++;
+	}
     debug("ICI" << last - first);
-    return (last - first);
+	return n;
+   // return (last - first);
   }
+
+   template < class  T>
+  typename ft::iterator_traits<>::difference_type distance(ft::random_access_iterator<> first, ft::random_access_iterator<> last)
+  {
+	debug ("lol");
+  	return (last - first);
+//	debug("N IS "<< n)
+  //  return n;
+  }
+
+
 
 }
 #endif
