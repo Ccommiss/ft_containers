@@ -23,7 +23,7 @@ namespace ft {
 	template < class T, class Alloc = std::allocator<T> >
 	class vector {
 
-		public:
+	public:
 
 
 		/*
@@ -94,13 +94,21 @@ namespace ft {
 		{
 			insert(begin(), first, last);
 		}
-		vector(const vector<T, Alloc>& x);
 
-		/*
-		**	Destructor
-		*/
+		//copy 
+		vector(const vector<T, Alloc>& x) 
+		{
+			_capacity = x.capacity();
+			_size = x.size();
+			_curr = alloc_obj.allocate(_capacity);
+			this->insert(this->begin(), x.begin(), x.end());
+		}
 
-		~vector() {
+			/*
+			**	Destructor
+			*/
+
+			~vector() {
 			debug("[~Destructor]");
 			if (_capacity > 0)
 				alloc_obj.deallocate(_curr, _capacity);
@@ -137,7 +145,7 @@ namespace ft {
 
 		/*
 		**	Begin
-		**	@brief returns pointer on first elem
+		**	@brief returns iterator on first elem
 		*/
 		iterator begin()
 		{
@@ -146,8 +154,8 @@ namespace ft {
 		const_iterator begin() const;
 
 		/*
-		**	Begin
-		**	@brief returns pointer on last elem
+		**	End
+		**	@brief returns iterator on last elem
 		*/
 		iterator end()
 		{
@@ -190,7 +198,6 @@ namespace ft {
 		bool empty() const { if (_size == 0) return true; return false; }
 
 
-
 		/**
 		 *  @brief  Attempt to preallocate enough memory for specified number of
 		 *          elements.
@@ -208,6 +215,24 @@ namespace ft {
 		 *  %advance, and thus prevent a possible reallocation of memory
 		 *  and copying of %vector data.
 		 */
+
+
+		 /*
+		 ** memcpy
+		 **	@param &tmp the pointer we want to fill with _curr values
+		 **	@return none
+		 */
+		void 	memcpy(pointer& tmp) const
+		{
+			iterator it;
+			size_t i = 0;
+			for (it = begin(); it != end(); it++) // on fait une copie mais c degueu
+			{
+				tmp[i] = _curr[i];
+				i++;
+			}
+		}
+
 		void 	memcpy(pointer& tmp)
 		{
 			iterator it;
@@ -223,7 +248,6 @@ namespace ft {
 		{
 			iterator it;
 
-			//size_t i = 0;
 			if (n > max_size())
 				throw (std::out_of_range("Reserve error : cannot allocate more than max_size"));
 			if (n > _capacity)
@@ -244,8 +268,9 @@ namespace ft {
 
 
 		/*
-		** 	@brief access 
-		**	@throw nothingIf the container size is greater than n, the function never throws exceptions (no-throw guarantee).
+		** 	@brief access
+		**	@param n the index we want to access
+		**	@throw nothing if the container size is greater than n, the function never throws exceptions (no-throw guarantee).
 		**	Otherwise, the behavior is undefined.
 		*/
 		reference operator[](size_type n)
@@ -263,8 +288,8 @@ namespace ft {
 		{
 			if (n <= _size)
 				return (_curr[n]);
-			else 
-				throw std::out_of_range ("out of range exception because n > size");
+			else
+				throw std::out_of_range("out of range exception because n > size");
 		}
 		reference front()
 		{
@@ -304,10 +329,26 @@ namespace ft {
 		**	by the copy constructor or assignment operator of T there are no effects.
 		*/
 
+		int	compute_capacity(int n)
+		{
+			if (_capacity < _size + n)
+			{
+				debug(_capacity)
+
+					if (n == 1)
+						_capacity = _capacity * 2; // trop bizarre 
+					else
+						_capacity = _size + n;
+				return (_capacity);
+			}
+			else
+				return _size;
+		}
+
 		iterator insert(iterator position, const T& x)
 		{
-			pointer _new_curr = alloc_obj.allocate(_size + 1); //on rajout une size en plus;
-			// FAIRE UNE FONCT CAR CA SE TROUVE C ASSEZ GRAND
+			int new_size = compute_capacity(1);
+			pointer _new_curr = alloc_obj.allocate(new_size); //on rajout une size en plus;
 			size_t j = 0;
 			iterator it = iterator(_curr); // iterateur sur begin
 
@@ -320,9 +361,8 @@ namespace ft {
 				it++;
 			}
 			alloc_obj.deallocate(_curr, _capacity);
-			_curr = _new_curr; // deallocate avant !!
+			_curr = _new_curr;
 			_size += 1;
-			_capacity += 1; //revoir les calculs de cpacite 
 			return (it); // pas le bon retourn !! chercher !!! 
 		}
 
@@ -332,7 +372,8 @@ namespace ft {
 			size_type 			new_elems = n;
 			size_type 			i = 0;
 
-			_new_curr = alloc_obj.allocate(_size + n); //on rajout n size en plus car n x t vont etre add 
+			int new_size = compute_capacity(n);
+			_new_curr = alloc_obj.allocate(new_size); //on rajout n size en plus car n x t vont etre add 
 			iterator it = iterator(_curr);
 			for (size_type j = 0; j < _size + new_elems; j++)
 			{
@@ -352,7 +393,6 @@ namespace ft {
 			alloc_obj.deallocate(_curr, _capacity);
 			_curr = _new_curr; // deallocate avant !!
 			_size += new_elems;
-			_capacity += new_elems; //revoir les calculs de cpacite 
 		}
 
 		template <class InputIterator>
@@ -363,7 +403,9 @@ namespace ft {
 			iterator start = iterator(first); //on copie 
 			size_t i = 0;
 			size_t diff = ft::distance(first, last);
-			pointer _new_curr = alloc_obj.allocate(_size + diff);
+
+			int new_size = compute_capacity(diff);
+			pointer _new_curr = alloc_obj.allocate(new_size);
 
 
 			for (size_type j = 0; j < _size + diff; j++) // last - first = diff type qui sera la taille;
@@ -386,7 +428,6 @@ namespace ft {
 			if (_capacity != 0) // evite de desallouer au
 				alloc_obj.deallocate(_curr, _capacity);
 			_size += diff;
-			_capacity += diff;
 			_curr = _new_curr;
 		}
 
@@ -396,10 +437,8 @@ namespace ft {
 		*/
 		iterator erase(iterator position)
 		{
-			pointer _new_curr = alloc_obj.allocate(_size - 1); // on enleve un obj 
+			pointer _new_curr = alloc_obj.allocate(_capacity); // on enleve un obj 
 			iterator it = iterator(_curr);
-
-
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
 			size_t i = 0;
 			for (size_type j = 0; j < _size - 1;)
@@ -422,7 +461,7 @@ namespace ft {
 		iterator erase(iterator first, iterator last)
 		{
 			size_t diff = ft::distance(first, last);
-			pointer _new_curr = alloc_obj.allocate(_size - diff); // on enleve un range 
+			pointer _new_curr = alloc_obj.allocate(_capacity); // on enleve un range 
 			iterator it = iterator(_curr);
 
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
@@ -450,7 +489,12 @@ namespace ft {
 			return (it);
 		}
 
-		void swap(vector<T, Alloc>&);
+		// void swap(ft::vector<T, Alloc>& other) // copier this dans  le deuxiemn 
+		// {
+		// 	ft::vector<T> tmp(*this); // tmp va copier this, this = other, et other = tmp
+		// 	(void)
+		// 	//tmp.memcpy(other); // other va contenir tmp 
+		// }
 		void clear();
 
 
@@ -468,7 +512,7 @@ namespace ft {
 		**
 		**
 		**/
-		private:
+	private:
 		pointer 		_curr; // pointeur sur le tableau, premiere addresse
 		size_t  		_size; // le nb d'elemts contenus
 		size_t			_capacity; // la taille allouee 

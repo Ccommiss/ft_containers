@@ -27,7 +27,7 @@ namespace ft
 
 		random_access_iterator() : _curr(0) { };
 		random_access_iterator(T* rhs) : _curr(rhs) {   };
-		//random_access_iterator(const random_access_iterator& rhs) : _curr(rhs._curr) {};
+		random_access_iterator(const random_access_iterator& rhs) : _curr(rhs._curr) {};
 
 		T* base() const
 		{

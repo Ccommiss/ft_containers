@@ -29,7 +29,9 @@ void display(ft::vector<T>& my_vec, std::vector<T>& r_vec)
 	for (it = r_vec.begin(); it != r_vec.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl;
-	cout << DIM("Real size : ") << r_vec.size() << DIM(" VS my size : ") << my_vec.size() << endl << endl;
+	cout << DIM("Real size : ") << r_vec.size() << DIM(" VS my size : ") << my_vec.size() << endl;
+	cout << DIM("Real capacity : ") << r_vec.capacity() << DIM(" VS my capacity : ") << my_vec.capacity() << endl << endl;
+
 }
 
 void	test_insert()
@@ -114,12 +116,6 @@ void 	test_erase()
 	vec1.pop_back();
 	display(my_vec, vec1);
 	vec1.reserve(74832);
-
-
-
-
-
-
 }
 
 
@@ -133,15 +129,48 @@ void 	test_construct()
 void test_reserve()
 {
 	cout << HEADER("\n***TESTS RESERVE****") << endl;
-	ft::vector<int> 		my_vec(3, 8);
-	my_vec.reserve(46);
-	std::cout << my_vec.capacity() << std::endl;
+	{
+		ft::vector<int> 		my_vec(3, 8);
+		std::vector<int> 		r_vec(3, 8);
+		display(my_vec, r_vec);
+		my_vec.reserve(46);
+		r_vec.reserve(46);
+		display(my_vec, r_vec);
+		my_vec.push_back(78);
+		r_vec.push_back(78);
+		display(my_vec, r_vec);
+		my_vec.push_back(78);
+		r_vec.push_back(78);
+		my_vec.push_back(78);
+		r_vec.push_back(78);
+		display(my_vec, r_vec);
+		my_vec.pop_back();
+		r_vec.pop_back();
+		my_vec.pop_back();
+		r_vec.pop_back();
+		display(my_vec, r_vec);
+	}
+	{
+		ft::vector<int> 		my_vec(10, 404);
+		std::vector<int> 		r_vec(10, 404);
+		display(my_vec, r_vec);
 
-	ft::vector<int>::iterator it1;
-	for (it1 = my_vec.begin(); it1 != my_vec.end(); it1++)
-		std::cout << "MINE it = " << *it1 << std::endl;
+		my_vec.push_back(20);
+		r_vec.push_back(20);
+		display(my_vec, r_vec);
+		my_vec.push_back(20);
+		r_vec.push_back(20);
+		display(my_vec, r_vec);
+		my_vec.insert(my_vec.end(), 12, 707);
+		r_vec.insert(r_vec.end(), 12, 707);
+		display(my_vec, r_vec);
+	}
+
+
 
 	test("**TEST MAX SIZE EXCEPTION**");
+	ft::vector<int> 		my_vec(10, 404);
+	std::vector<int> 		r_vec(10, 404);
 	try
 	{
 		my_vec.reserve(my_vec.max_size() + 1);
@@ -290,7 +319,7 @@ void		tests_simple_it()
 
 	test("*-* Test 1 : begin() et end() *-*");
 	cout << FG1("Mine") << endl;
-	cout << *(my_vec.begin())  << " " << *(my_vec.end() - 1) << endl;
+	cout << *(my_vec.begin()) << " " << *(my_vec.end() - 1) << endl;
 
 	cout << FG2("Real") << endl;
 	cout << *(r_vec.begin()) << " " << *(r_vec.end() - 1) << endl;
@@ -357,7 +386,7 @@ void		tests_simple_it()
 	cout << endl;
 
 	test("**Comparisons**")
-	it = r_vec.end();
+		it = r_vec.end();
 	my_it = my_vec.end();
 	std::cout << ft::distance(my_it, my_vec.begin()) << std::endl;
 	std::cout << std::distance(it, r_vec.begin()) << std::endl;
@@ -396,13 +425,13 @@ void		tests_reverse()
 	cout << "Start point : mine = " << *my_it << " vs real = " << *it << endl;
 
 	cout << FG2("Real with a++") << endl;
-	debug("it + 1 = " << *(it+1));
+	debug("it + 1 = " << *(it + 1));
 	while (it != r_vec.rend())
 		cout << *(it++) << " ";
 	cout << endl;
 
 	cout << FG1("Mine with a++") << endl;
-	debug("my_it + 1 = " << *(my_it+1));
+	debug("my_it + 1 = " << *(my_it + 1));
 	while (my_it != my_vec.rend())
 		cout << *(my_it++) << " ";
 	cout << endl;
@@ -430,14 +459,14 @@ void		tests_reverse()
 
 	cout << FG2("Real with a--") << endl;
 	debug("it - 1 = " << *(it - 1));
-	debug ("r_vec rbegin() + 2 " << *(r_vec.rbegin() + 2));
+	debug("r_vec rbegin() + 2 " << *(r_vec.rbegin() + 2));
 	while (it != r_vec.rbegin())
 		cout << *(it--) << " ";
 	cout << endl;
 
 	cout << FG1("Mine with a--") << endl;
 	debug("my_it - 1 = " << *(my_it - 1));
-	debug ("my_vec rbegin() + 2 " << *(my_vec.rbegin() + 2));
+	debug("my_vec rbegin() + 2 " << *(my_vec.rbegin() + 2));
 	while (my_it != my_vec.rbegin())
 		cout << *(my_it--) << " ";
 	cout << endl;
@@ -450,13 +479,13 @@ void		tests_reverse()
 	cout << "Last point : mine = " << *my_vec.rbegin() << " vs real = " << *r_vec.rbegin() << endl;
 
 	cout << "Comparisons :" << endl;
-		cout << std::__addressof(*it) << " " << std::__addressof(*r_vec.rbegin()) << endl;
-		cout << std::__addressof(*my_it) << " " << std::__addressof(*my_vec.rbegin()) << endl;
+	cout << std::__addressof(*it) << " " << std::__addressof(*r_vec.rbegin()) << endl;
+	cout << std::__addressof(*my_it) << " " << std::__addressof(*my_vec.rbegin()) << endl;
 
-		cout << std::distance(r_vec.rbegin(), r_vec.rend()) << endl; // 5 TOUJOURS UN PB ICI
-		cout << ft::distance(my_vec.rbegin(), my_vec.rend()) << endl; // PQ CA MARCHE AVEC LES NORMAUX ???
-		cout << (it > r_vec.rbegin()) << endl; // equivaut a 1
-		cout << (my_it > my_vec.rbegin()) << endl; // equivaut a 0 car rend < rbegin
+	cout << std::distance(r_vec.rbegin(), r_vec.rend()) << endl; // 5 TOUJOURS UN PB ICI
+	cout << ft::distance(my_vec.rbegin(), my_vec.rend()) << endl; // PQ CA MARCHE AVEC LES NORMAUX ???
+	cout << (it > r_vec.rbegin()) << endl; // equivaut a 1
+	cout << (my_it > my_vec.rbegin()) << endl; // equivaut a 0 car rend < rbegin
 
 
 	cout << FG2("Real with --a") << endl;
@@ -493,18 +522,62 @@ void		tests_reverse()
 	cout << endl;
 }
 
+
+void		tests_swap()
+{
+	//int myarray[] = { 45, 895, 452, 7895, 45487, 78 };
+	//int mynegarray[] = { -1, -2, -5, -78, -75, -59 };
+
+	
+	//cout << HEADER("*** TESTS SWAP *** ") << endl;
+
+
+	// std::vector<int> r_vec;
+	// std::vector<int> r_vec_neg;
+	// r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
+	// r_vec_neg.insert(r_vec.begin(), mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
+	// r_vec_neg.swap(r_vec);
+
+	// ft::vector<int> my_vec;
+	// ft::vector<int> my_vec_neg;
+	// my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
+	// my_vec_neg.insert(my_vec.begin(), mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
+	// my_vec_neg.swap(my_vec);
+
+	// test("NEG ARE NOW POS...")
+	// display(my_vec_neg, r_vec_neg);
+
+	// test("AND VICE VERSA")
+	// display(my_vec, r_vec);
+
+
+
+}
+
+
+
+
+void basic_construct()
+{
+	ft::vector<int> lol(85, 89);
+	ft::vector<int> lol2(lol);
+	
+
+}
 int main()
 {
 
+	basic_construct();
 	// test_insert();
 	// test_erase();
-	test_reserve();
-	test_resize();
+	//test_reserve();
+	//test_resize();
 	// test_strings();
 	// test_access();
 	// test_front_back();
 	// tests_simple_it();
 	// tests_reverse();
+	//tests_swap();
 
 
 
