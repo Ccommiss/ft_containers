@@ -163,3 +163,7 @@ __Capacity__ is the amount of total space that the vector has. Under the hood, a
 
 Donc : dans le constructeur par defaut, ou birn reserve, resize... la capacite, cad l taille allouee, ne sera pas la meme que la size, aka le nb d'elemts.
 Bien faire attention ! 
+
+
+
+Iterator traits : https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits

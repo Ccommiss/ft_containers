@@ -450,8 +450,8 @@ void		tests_reverse()
 	cout << "Last point : mine = " << *my_vec.rbegin() << " vs real = " << *r_vec.rbegin() << endl;
 
 	cout << "Comparisons :" << endl;
-		cout << std::addressof(*it) << " " << std::addressof(*r_vec.rbegin()) << endl;
-		cout << std::addressof(*my_it) << " " << std::addressof(*my_vec.rbegin()) << endl;
+		cout << std::__addressof(*it) << " " << std::__addressof(*r_vec.rbegin()) << endl;
+		cout << std::__addressof(*my_it) << " " << std::__addressof(*my_vec.rbegin()) << endl;
 
 		cout << std::distance(r_vec.rbegin(), r_vec.rend()) << endl; // 5 TOUJOURS UN PB ICI
 		cout << ft::distance(my_vec.rbegin(), my_vec.rend()) << endl; // PQ CA MARCHE AVEC LES NORMAUX ???
@@ -496,15 +496,15 @@ void		tests_reverse()
 int main()
 {
 
-	//test_insert();
-	//test_erase();
-	//test_reserve();
-	//test_resize();
-	//test_strings();
-	//test_access();
-	//test_front_back();
-	tests_simple_it();
-	tests_reverse();
+	// test_insert();
+	// test_erase();
+	test_reserve();
+	test_resize();
+	// test_strings();
+	// test_access();
+	// test_front_back();
+	// tests_simple_it();
+	// tests_reverse();
 
 
 

@@ -36,7 +36,7 @@ namespace ft
 
 	public:
 
-		reverse_random_access_iterator() : _curr(0) {debug ("hey reverse");};
+		reverse_random_access_iterator() : _curr(0) { debug("hey reverse"); };
 		reverse_random_access_iterator(T* rhs) : _curr(rhs) {};
 		//random_access_iterator(const random_access_iterator& rhs) : _curr(rhs._curr) {};
 
@@ -47,7 +47,9 @@ namespace ft
 			return _curr;
 		}
 
-		// // Pointer like operators
+		/*
+		**	Pointer like operators
+		*/
 		reference		operator*()
 		{
 			pointer __tmp = _curr;
@@ -57,37 +59,39 @@ namespace ft
 		// reference operator[](difference_type off) const { return _curr[off]; }
 		// /* ARITHMETIQUES */
 		/* a + b */ difference_type operator+(const reverse_random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
-		/* a + n */ reverse_random_access_iterator operator+(const difference_type step) const {  return reverse_random_access_iterator(_curr - step); }
+		/* a + n */ reverse_random_access_iterator operator+(const difference_type step) const { return reverse_random_access_iterator(_curr - step); }
 		/* TEST */	reverse_random_access_iterator operator+(difference_type step) { return reverse_random_access_iterator(_curr - step); } // + step); }
 
-		/* a - b */ difference_type operator-(const reverse_random_access_iterator& rhs) const { debug("youhou"); return (this->_curr - rhs.base()); }
-		/* a - n */ reverse_random_access_iterator operator-(const difference_type step) const { debug("plop"); return reverse_random_access_iterator(_curr + step); }
-		/* TEST */ reverse_random_access_iterator operator-( difference_type step)  { debug("ploup");return reverse_random_access_iterator(_curr + step); }
+		/* a - b */ difference_type operator-(const reverse_random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
+		/* a - n */ reverse_random_access_iterator operator-(const difference_type step) const { return reverse_random_access_iterator(_curr + step); }
+		/* TEST */ reverse_random_access_iterator operator-(difference_type step) { return reverse_random_access_iterator(_curr + step); }
 
 		/* a += n */ reverse_random_access_iterator& operator+=(const difference_type step) { this->_curr -= step; return *this; }
 		/* a -= n */ reverse_random_access_iterator& operator-=(const difference_type step) { this->_curr += step; return *this; }
 		/* b = a */ reverse_random_access_iterator& operator=(const reverse_random_access_iterator& rhs) { this->_curr = rhs._curr; return *this; }
 
-		// /*POINTER OP*/
-		reverse_random_access_iterator& operator--() {  ++_curr; return *this; }
+		/*
+		**	Pointer like operators
+		*/
+		reverse_random_access_iterator& operator--() { ++_curr; return *this; }
 		/* ++a */ reverse_random_access_iterator& operator++() { --_curr; return *this; }
 		reverse_random_access_iterator operator--(int) { reverse_random_access_iterator tmp(*this); ++_curr; return tmp; }
 		/* a++ */ reverse_random_access_iterator operator++(int) { reverse_random_access_iterator tmp(*this); --_curr; return tmp; }
 
 
 
-//    inline _GLIBCXX17_CONSTEXPR bool
- //   operator>(const reverse_iterator<_Iterator>& __this,
-//	      const reverse_iterator<_Iterator>& __y)
-//    { return __y < __this; }
+		//    inline _GLIBCXX17_CONSTEXPR bool
+		 //   operator>(const reverse_iterator<_Iterator>& __this,
+		//	      const reverse_iterator<_Iterator>& __y)
+		//    { return __y < __this; }
 
 
-  /// Based on operator<
-//  template<typename _Tp, typename _Alloc>
- //   inline bool
- //   operator>(const vector<_Tp, _Alloc>& __this, const vector<_Tp, _Alloc>& __y)
-  //  { return __y < __this; }
-		/* COMPARISONS */
+		  /// Based on operator<
+		//  template<typename _Tp, typename _Alloc>
+		 //   inline bool
+		 //   operator>(const vector<_Tp, _Alloc>& __this, const vector<_Tp, _Alloc>& __y)
+		  //  { return __y < __this; }
+				/* COMPARISONS */
 		bool operator<(const reverse_random_access_iterator& rhs) { return this->_curr > rhs._curr; }
 		bool operator<=(const reverse_random_access_iterator& rhs) { return this->_curr >= rhs._curr; }
 		bool operator>(const reverse_random_access_iterator& rhs) { return rhs._curr > this->_curr; }

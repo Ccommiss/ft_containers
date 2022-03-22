@@ -12,20 +12,20 @@ namespace ft
 	class random_access_iterator : public ft::iterator<ft::random_access_iterator_tag, T>
 	{
 		// Ici on herite de la cat generique iterator, avec le tag random access
-		public:
+	public:
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type 			difference_type;
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type	     		value_type;
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::reference 		 		reference;
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category 		iterator_category;
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::pointer 					pointer;
 
-		private:
+	private:
 
 		pointer _curr; // correspond a  T* 
 
-		public:
+	public:
 
-		random_access_iterator() : _curr(0) { debug("Bonjour RAI normal") ; };
+		random_access_iterator() : _curr(0) { };
 		random_access_iterator(T* rhs) : _curr(rhs) {   };
 		//random_access_iterator(const random_access_iterator& rhs) : _curr(rhs._curr) {};
 
@@ -34,14 +34,16 @@ namespace ft
 			return _curr;
 		}
 
-		// // Pointer like operators
+		/*
+		** 		Pointer like operators
+		*/
 		reference		operator*() { return *_curr; }
 		// const T* operator->() const throw() { return _curr; }
 		// reference operator[](difference_type off) const { return _curr[off]; }
 		// /* ARITHMETIQUES */
 		/* a + b */ difference_type operator+(const random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
-		/* a + n */ random_access_iterator operator+(const difference_type step) const { debug("OP + RAI normal"); return (this->_curr + step); }
-		/* TEST*/	random_access_iterator operator+(difference_type step) { debug("OP + RAI normal"); return random_access_iterator( _curr + step); } // + step); }
+		/* a + n */ random_access_iterator operator+(const difference_type step) const { return (this->_curr + step); }
+		/* TEST*/	random_access_iterator operator+(difference_type step) { return random_access_iterator(_curr + step); } // + step); }
 
 		/* a - b */ difference_type operator-(const random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
 		/* a - n */ random_access_iterator operator-(const difference_type step) const { return random_access_iterator(_curr - step); }
@@ -49,10 +51,10 @@ namespace ft
 		// /* a -= n */ random_access_iterator& operator-=(const difference_type step) { this->_curr -= step; return *this; }
 		// /* b = a */ random_access_iterator& operator=(const random_access_iterator& rhs) { this->_curr = rhs._curr; return *this; }
 
-		// /*POIINTER OP*/
-		 random_access_iterator& operator--() { --_curr; return *this; }
+		// /*POINTER OP*/
+		random_access_iterator& operator--() { --_curr; return *this; }
 		/* ++a */ random_access_iterator& operator++() { ++_curr; return *this; }
-		 random_access_iterator operator--(int) { random_access_iterator tmp(*this); --(*this); return tmp; }
+		random_access_iterator operator--(int) { random_access_iterator tmp(*this); --(*this); return tmp; }
 		/* a++ */ random_access_iterator operator++(int) { random_access_iterator tmp(*this); ++(*this); return tmp; }
 
 		// /* COMPARISONS */

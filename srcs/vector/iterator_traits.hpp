@@ -1,14 +1,18 @@
 # ifndef ITERATORS_TRAITS_HPP
 # define ITERATORS_TRAITS_HPP
 
+/*
+**     ft_containers : iterator_traits
+**     @file iterator_traits.p
+**     @author ccommiss
+*/
 
-
-// RESSOURCE : https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
-// T = le type d'iterateur
-
-
-// Genereic
 namespace ft {
+
+  /*
+  ** Generic
+  ** @tparam T the type of iterator
+  */
   template <class T>
   struct iterator_traits {
     typedef typename T::value_type            value_type;
@@ -19,7 +23,12 @@ namespace ft {
   };
 
 
-  // Pointer specialisqtion
+  /*
+  **  Pointer specialisation
+  **  @tparam T the type of iterator
+  **  @brief  Thus, for any type "pointer to" "T", it is defined that it has the random access iterator category.
+  **  A corresponding partial specialization exists for constant pointers (const T*).
+  */
   template <class T>
   struct iterator_traits<T*> {
     typedef T                          value_type; // int  ? char ? etc
@@ -29,10 +38,9 @@ namespace ft {
     typedef T& reference;
   };
 
-  //Thus, for any type "pointer to" "T", it is defined that it has the random access iterator category.
-  // A corresponding partial specialization exists for constant pointers (const T*).
-
-// const pointer specialisation
+  /*
+  ** Const pointer specialisation
+  */
   template <class T>
   struct iterator_traits<const T*> {
     typedef T                               value_type;
@@ -43,34 +51,36 @@ namespace ft {
   };
 
 
-
-
-
-	// SI C DES RANDSOM ACCESS IT ON PEUT FAIRE CA
+  /*
+  **    Distance
+  **    @brief computes distance between two iterators
+  **    @tparam InputIt type of iterator - not Random Access Iterator
+  **    @param two iterators
+  **    @return classical random access it : last -first
+  **      || if non-RA it : first increments until reaching last
+  */
   template< class InputIt >
   typename ft::iterator_traits<InputIt>::difference_type distance(InputIt first, InputIt last)
   {
-	typename ft::iterator_traits<InputIt>::difference_type  n = 0;
-	while (first != last) // pb ici c'est pas l'overload qui s'applique pour le ++ ???? PK
-	{
-	  	first++;
-	  	n++;
-	}
-    debug("ICI" << last - first);
-	return n;
-   // return (last - first);
+    typename ft::iterator_traits<InputIt>::difference_type  n = 0;
+    while (first != last) // pb ici c'est pas l'overload qui s'applique pour le ++ ???? PK
+    {
+      first++;
+      n++;
+    }
+    return (n);
   }
 
-   template < class  T>
-  typename ft::iterator_traits<>::difference_type distance(ft::random_access_iterator<> first, ft::random_access_iterator<> last)
+  /*
+  **  Distance - specialized 
+  **  @tparam T type of random access iteratr (string, int...)
+  **  @tparam total specialization 
+  */
+  template<typename T >
+  typename ft::iterator_traits< ft::random_access_iterator <T> >::difference_type distance(ft::random_access_iterator <T> first, ft::random_access_iterator <T> last)
   {
-	debug ("lol");
-  	return (last - first);
-//	debug("N IS "<< n)
-  //  return n;
+    return last - first;
   }
-
-
 
 }
 #endif
