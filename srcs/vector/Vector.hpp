@@ -409,7 +409,7 @@ namespace ft {
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			iterator it = iterator(_curr);
-			InputIterator start = InputIterator(first); // VA PAS MARCHER CAR PARFOIS CONST} 
+			InputIterator start = InputIterator(first);
 			size_t i = 0;
 			size_t diff = ft::distance(first, last);
 			int old_capacity = _capacity; // capacite au debut 
@@ -445,26 +445,17 @@ namespace ft {
 		*/
 		iterator erase(iterator position)
 		{
-			pointer _new_curr = alloc_obj.allocate(_capacity); // on enleve un obj 
-			iterator it = iterator(_curr);
-			// On copie tant que < a la size actuelle car on aura un elem en moins 
-			size_t i = 0;
-			for (size_type j = 0; j < _size - 1;)
+			int i		= ft::distance(begin(), position);
+			iterator it = position + 1;
+			while (it != end())
 			{
-				if (it != position)
-				{
-					alloc_obj.construct(_new_curr + j, _curr[i]);
-					j++;
-				}
+				alloc_obj.destroy(_curr + i);
+				alloc_obj.construct(_curr + i, *it);
 				it++;
 				i++;
 			}
-			if (_capacity != 0)
-				alloc_obj.deallocate(_curr, _capacity);
-			_curr = _new_curr;
 			_size -= 1;
-			// remettre a jour la capacite !!!! 
-			return (it); // retrouver le bon retour !!
+			return (position); 
 		}
 
 
@@ -501,10 +492,20 @@ namespace ft {
 			return (it);
 		}
 
+		void	dealloc()
+		{
+			if (_capacity > 0)
+				alloc_obj.deallocate(_curr, _capacity);
+			_capacity = 0;
+			_size = 0;
+		}
+
 		void swap(ft::vector<T, Alloc>& other) // copier this dans  le deuxiemn 
 		{
 			ft::vector<T> tmp(*this);
+			this->dealloc();
 			this->assign(other.begin(), other.end());
+			other.dealloc();
 			other.assign(tmp.begin(), tmp.end());
 		}
 		void clear();

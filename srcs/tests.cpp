@@ -102,9 +102,11 @@ void 	test_erase()
 
 	test("** TESTS erase(iterator first, iterator last)**");
 
-	vec1.erase(vec1.begin() + 1, vec1.end() - 3);
-	my_vec.erase(my_vec.begin() + 1, my_vec.end() - 3);
+	std::vector<int>::iterator r_test1 = vec1.erase(vec1.begin() + 1, vec1.end() - 3);
+	ft::vector<int>::iterator my_test1 = my_vec.erase(my_vec.begin() + 1, my_vec.end() - 3);
 	display(my_vec, vec1);
+	cout << FG2("Real") << *(r_test1) << endl;
+	cout << FG1("Mine") << *(my_test1) << endl;
 
 
 	my_vec.push_back(1024);
@@ -116,7 +118,17 @@ void 	test_erase()
 	my_vec.pop_back();
 	vec1.pop_back();
 	display(my_vec, vec1);
-	vec1.reserve(74832);
+
+	test("** TESTS RET OF IT** ");
+	display(my_vec, vec1);
+	cout << __addressof(*(vec1.begin() + 3)) << endl;
+	std::vector<int>::iterator r_test = vec1.erase(vec1.begin() + 2);
+	ft::vector<int>::iterator my_test = my_vec.erase(my_vec.begin() + 2);
+	display(my_vec, vec1);
+
+	cout << FG2("Real") << *(r_test) << endl;
+	cout << FG1("Mine") << *(my_test) << endl;
+
 }
 
 
@@ -563,7 +575,7 @@ void		tests_swap()
 		std::vector<int> r_vec;
 		std::vector<int> r_vec_neg;
 		r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
-		r_vec_neg.insert(r_vec_neg.begin(),  mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
+		r_vec_neg.insert(r_vec_neg.begin(), mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
 		r_vec_neg.swap(r_vec);
 
 		ft::vector<int> my_vec;
@@ -586,6 +598,14 @@ void		tests_swap()
 
 void basic_construct()
 {
+
+	cout << HEADER("*** TESTS COPY CONSTRUCT *** ") << endl;
+	ft::vector<int> test;
+	ft::vector<int> tmp(45, 4);
+
+	test.insert(test.begin(), tmp.begin(), tmp.end());
+
+
 	cout << HEADER("*** TESTS COPY CONSTRUCT *** ") << endl;
 	ft::vector<int> lol(15, 3);
 	ft::vector<int> lol2(lol);
@@ -602,24 +622,25 @@ int main()
 {
 
 	void (*functptr[])() = {
-			basic_construct,
-			test_insert,
-			test_erase,
-			test_reserve,
-			test_resize,
-			test_strings,
-			test_access,
-			test_front_back,
-			tests_simple_it,
-			tests_reverse,
-			tests_swap
+		//basic_construct,
+		//test_insert,
+		test_erase,
+		//test_reserve,
+		// test_resize,
+		// test_strings,
+		// test_access,
+		// test_front_back,
+		// tests_simple_it,
+		// tests_reverse,
+		// tests_swap
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
 	{
-		getwchar();
 		(*functptr[i])();    /*  Call first function  */
 		test("--- end of tests ---")
+			getwchar();
+
 	}
 
 	// basic_construct();
