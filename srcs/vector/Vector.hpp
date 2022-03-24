@@ -7,14 +7,15 @@
 
 void 		findtype(std::string info)
 {
-	std::cout << "Current type is : ";
-	if (info == typeid(int*).name()) { debug("pointer on int"); }
-	else if (info == typeid(int).name()) { debug("int"); }
-	else if (info == typeid(std::string*).name()) { debug("pointer on string"); }
-	else if (info == typeid(unsigned int*).name()) { debug("pointer on unsigned int"); }
-	else if (info == typeid(std::vector<int> *).name()) { debug("pointer on vector<int>"); }
-	else if (info == typeid(std::vector<std::string> *).name()) { debug("pointer on vector<std::string>"); }
-	else { debug(info) };
+	(void)info;
+	// std::cout << "Current type is : ";
+	// if (info == typeid(int*).name()) { debug("pointer on int"); }
+	// else if (info == typeid(int).name()) { debug("int"); }
+	// else if (info == typeid(std::string*).name()) { debug("pointer on string"); }
+	// else if (info == typeid(unsigned int*).name()) { debug("pointer on unsigned int"); }
+	// else if (info == typeid(std::vector<int> *).name()) { debug("pointer on vector<int>"); }
+	// else if (info == typeid(std::vector<std::string> *).name()) { debug("pointer on vector<std::string>"); }
+	// else { debug(info) };
 }
 
 
@@ -23,7 +24,7 @@ namespace ft {
 	template < class T, class Alloc = std::allocator<T> >
 	class vector {
 
-	public:
+		public:
 
 
 		/*
@@ -95,20 +96,28 @@ namespace ft {
 			insert(begin(), first, last);
 		}
 
-		//copy 
-		vector(const vector<T, Alloc>& x) 
+		/*
+		** 		Copy constructors
+		*/
+		vector(const vector<T, Alloc>& x)
 		{
-			_capacity = x.capacity();
-			_size = x.size();
-			_curr = alloc_obj.allocate(_capacity);
-			this->insert(this->begin(), x.begin(), x.end());
+			_size = 0;
+			_capacity = 0;
+			assign(x.begin(), x.end());
 		}
 
-			/*
-			**	Destructor
-			*/
+		vector(vector<T, Alloc>& x) // normalement doit pas exister, mais pb de castsdans insert 
+		{
+			_size = 0;
+			_capacity = 0;
+			assign(x.begin(), x.end());
+		}
 
-			~vector() {
+		/*
+		**	Destructor
+		*/
+
+		~vector() {
 			debug("[~Destructor]");
 			if (_capacity > 0)
 				alloc_obj.deallocate(_curr, _capacity);
@@ -150,8 +159,11 @@ namespace ft {
 		iterator begin()
 		{
 			return iterator(_curr);
-		};
-		const_iterator begin() const;
+		}
+		const_iterator begin() const
+		{
+			return const_iterator(_curr);
+		}
 
 		/*
 		**	End
@@ -160,9 +172,16 @@ namespace ft {
 		iterator end()
 		{
 			return iterator(_curr + _size);
-		};
+		}
+		const_iterator end() const
+		{
+			return const_iterator(_curr + _size);
+		}
 
-		const_iterator end() const;
+		/*
+		**	rbegin
+		**	@brief
+		*/
 		reverse_iterator rbegin()
 		{
 			return reverse_iterator(_curr + _size);
@@ -333,16 +352,14 @@ namespace ft {
 		{
 			if (_capacity < _size + n)
 			{
-				debug(_capacity)
-
-					if (n == 1)
-						_capacity = _capacity * 2; // trop bizarre 
-					else
-						_capacity = _size + n;
+				if (n == 1)
+					_capacity = _capacity * 2; // trop bizarre 
+				else
+					_capacity = _size + n;
 				return (_capacity);
 			}
 			else
-				return _size;
+				return _capacity; // test 
 		}
 
 		iterator insert(iterator position, const T& x)
@@ -374,10 +391,12 @@ namespace ft {
 
 			int new_size = compute_capacity(n);
 			_new_curr = alloc_obj.allocate(new_size); //on rajout n size en plus car n x t vont etre add 
+			debug("new size is " << new_size)
 			iterator it = iterator(_curr);
 			for (size_type j = 0; j < _size + new_elems; j++)
 			{
 				// on copie sauf si on arrive a l'iterateur
+				debug("j is " << j)
 				if (it != position) // test...
 					_new_curr[j] = _curr[i];
 				else
@@ -398,15 +417,13 @@ namespace ft {
 		template <class InputIterator>
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
-			debug("insert template II");
 			iterator it = iterator(_curr);
-			iterator start = iterator(first); //on copie 
+			iterator start = iterator(first); // VA PAS MARCHER CAR PARFOIS CONST} 
 			size_t i = 0;
 			size_t diff = ft::distance(first, last);
-
+			int old_capacity = _capacity; // capacite au debut 
 			int new_size = compute_capacity(diff);
 			pointer _new_curr = alloc_obj.allocate(new_size);
-
 
 			for (size_type j = 0; j < _size + diff; j++) // last - first = diff type qui sera la taille;
 			{
@@ -425,7 +442,7 @@ namespace ft {
 				it++;
 				i++;
 			}
-			if (_capacity != 0) // evite de desallouer au
+			if (old_capacity != 0) // A REMETTRE PARTOUT
 				alloc_obj.deallocate(_curr, _capacity);
 			_size += diff;
 			_curr = _new_curr;
@@ -489,12 +506,12 @@ namespace ft {
 			return (it);
 		}
 
-		// void swap(ft::vector<T, Alloc>& other) // copier this dans  le deuxiemn 
-		// {
-		// 	ft::vector<T> tmp(*this); // tmp va copier this, this = other, et other = tmp
-		// 	(void)
-		// 	//tmp.memcpy(other); // other va contenir tmp 
-		// }
+		void swap(ft::vector<T, Alloc>& other) // copier this dans  le deuxiemn 
+		{
+			ft::vector<T> tmp(*this); // tmp va copier this, this = other, et other = tmp
+			other.memcpy(_curr); // this va contenir other
+			tmp.memcpy(other._curr);
+		}
 		void clear();
 
 
@@ -512,7 +529,7 @@ namespace ft {
 		**
 		**
 		**/
-	private:
+		private:
 		pointer 		_curr; // pointeur sur le tableau, premiere addresse
 		size_t  		_size; // le nb d'elemts contenus
 		size_t			_capacity; // la taille allouee 
