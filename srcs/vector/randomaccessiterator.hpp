@@ -27,10 +27,7 @@ namespace ft
 
 		random_access_iterator() : _curr(0) { };
 		random_access_iterator(T* rhs) : _curr(rhs) { };
-		random_access_iterator(const T* rhs) : _curr(rhs) {  };
 		random_access_iterator(const random_access_iterator& rhs) : _curr(rhs._curr) { };
-		random_access_iterator(random_access_iterator& rhs) : _curr(rhs._curr) {};
-
 
 
 		T* base() const
@@ -55,6 +52,7 @@ namespace ft
 		/* a -= n */ random_access_iterator& operator-=(const difference_type step) { this->_curr -= step; return *this; }
 		/* b = a */ random_access_iterator& operator=(const random_access_iterator& rhs) { this->_curr = rhs._curr; return *this; }
 
+
 		// /*POINTER OP*/
 		random_access_iterator& operator--() { --_curr; return *this; }
 		/* ++a */ random_access_iterator& operator++() { ++_curr; return *this; }
@@ -68,6 +66,11 @@ namespace ft
 		bool operator>=(const random_access_iterator& rhs) { return this->_curr >= rhs._curr; }
 		bool operator==(const random_access_iterator& rhs) const { return _curr == rhs._curr; }
 		bool operator!=(const random_access_iterator& rhs) const { return _curr != rhs._curr; }
+
+		operator random_access_iterator<const T> () const 
+		{
+			return (random_access_iterator<const T>(_curr)); // cast en const 
+		}
 
 	};
 	/* n + a */

@@ -31,7 +31,8 @@ void display(ft::vector<T>& my_vec, std::vector<T>& r_vec)
 	std::cout << std::endl;
 	cout << DIM("Real size : ") << r_vec.size() << DIM(" VS my size : ") << my_vec.size() << endl;
 	cout << DIM("Real capacity : ") << r_vec.capacity() << DIM(" VS my capacity : ") << my_vec.capacity() << endl << endl;
-
+	if (r_vec.size() != my_vec.size() || r_vec.capacity() != my_vec.capacity())
+		getwchar();
 }
 
 void	test_insert()
@@ -525,32 +526,58 @@ void		tests_reverse()
 
 void		tests_swap()
 {
-	int myarray[] = { 45, 895, 452, 7895, 45487, 78 };
-	int mynegarray[] = { -1, -2, -5, -78, -75, -59 };
+	{
+
+		int myarray[] = { 45, 895, 452, 7895, 45487, 78 };
+		int mynegarray[] = { -1, -2, -5, -78, -75, -59 };
 
 
-	cout << HEADER("*** TESTS SWAP *** ") << endl;
+		cout << HEADER("*** TESTS SWAP *** ") << endl;
 
+		test("-- Basic test, same initial size --")
 
-	std::vector<int> r_vec;
-	std::vector<int> r_vec_neg;
-	r_vec.insert(r_vec.begin(), myarray, myarray + 6);
-	r_vec_neg.insert(r_vec_neg.begin(), mynegarray, mynegarray + 6);
-	r_vec_neg.swap(r_vec);
+			std::vector<int> r_vec;
+		std::vector<int> r_vec_neg;
+		r_vec.insert(r_vec.begin(), myarray, myarray + 6);
+		r_vec_neg.insert(r_vec_neg.begin(), mynegarray, mynegarray + 6);
+		r_vec_neg.swap(r_vec);
 
-	ft::vector<int> my_vec;
-	ft::vector<int> my_vec_neg;
-	my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
-	my_vec_neg.insert(my_vec_neg.begin(), mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
-	my_vec_neg.swap(my_vec);
+		ft::vector<int> my_vec;
+		ft::vector<int> my_vec_neg;
+		my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
+		my_vec_neg.insert(my_vec_neg.begin(), mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
+		my_vec_neg.swap(my_vec);
 
-	test("NEG ARE NOW POS...")
-	display(my_vec_neg, r_vec_neg);
+		test("NEG ARE NOW POS...")
+			display(my_vec_neg, r_vec_neg);
 
-	test("AND VICE VERSA")
-	display(my_vec, r_vec);
+		test("AND VICE VERSA")
+			display(my_vec, r_vec);
+	}
 
+	{
+		test("-- Basic test, not the same initial size --");
 
+		int myarray[] = { 45, 895, 452, 7895, 45487, 78, 789, 456, 8541 }; // 9
+		int mynegarray[] = { -1, -2, -5, -78, -75, -59 }; // 6
+		std::vector<int> r_vec;
+		std::vector<int> r_vec_neg;
+		r_vec.insert(r_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
+		r_vec_neg.insert(r_vec_neg.begin(),  mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
+		r_vec_neg.swap(r_vec);
+
+		ft::vector<int> my_vec;
+		ft::vector<int> my_vec_neg;
+		my_vec.insert(my_vec.begin(), myarray, myarray + sizeof(myarray) / sizeof(myarray[0]));
+		my_vec_neg.insert(my_vec_neg.begin(), mynegarray, mynegarray + sizeof(mynegarray) / sizeof(mynegarray[0]));
+		my_vec_neg.swap(my_vec);
+
+		test("NEG ARE NOW POS...")
+			display(my_vec_neg, r_vec_neg);
+
+		test("AND VICE VERSA")
+			display(my_vec, r_vec);
+	}
 
 }
 
@@ -574,7 +601,7 @@ void basic_construct()
 int main()
 {
 
-	void (*functptr[])() = { 
+	void (*functptr[])() = {
 			basic_construct,
 			test_insert,
 			test_erase,
@@ -592,7 +619,7 @@ int main()
 	{
 		getwchar();
 		(*functptr[i])();    /*  Call first function  */
-		test("--- end of tests ---") 
+		test("--- end of tests ---")
 	}
 
 	// basic_construct();
@@ -607,43 +634,4 @@ int main()
 	// tests_reverse();
 	// tests_swap();
 
-
-
-	{
-
-		//for (it1 = my_vec.begin(); it1 != my_vec.end(); it1++)
-		// 	std::cout << "MINE it = " << *it1 << std::endl;
-	}
-	//my_vec.insert (my_vec.begin() + 2, 4, 5);
-	//my_vec2.insert  (my_vec.begin() + 2, 30, 5);
-
-
-	//std::cout << my_vec.capacity() << " VS " << r_vec.capacity() << std::endl;
-	//std::cout << my_vec.size() << " VS " << r_vec.size() << std::endl;
-
-
-	//my_vec.insert(my_vec.begin() + 2, 4, 5);
-
-	// ft::vector<int>::iterator it1;
-	// for (it1 = my_vec.begin(); it1 != my_vec.end(); it1++)
-	//  	std::cout << "MINE it = " << *it1 << std::endl;
-	//std::cout << my_vec.size() << std::endl;
-
-
-	// std::cout << "My vec begin is " << *(my_vec.begin()) << ' ';
-	// std::cout << "My vec end is " << *(my_vec.end()) << ' ';
-	// std::cout << "DIFFERENCE IS " << my_vec.end() - my_vec.begin() << std::endl;
-	// std::cout << "CURR " << *(my_vec.begin()) << "+ STEP 3 = " << *(my_vec.begin() + 3) << std::endl;
-
-	// std::cout << "RANGE SHOULD BE CALLED" << std::endl;
-	// ft::vector<int> my_vec2(my_vec.begin(), my_vec.end());
-
-	// std::vector<int>		r_vec(9, 7);
-	// r_vec.insert(r_vec.begin() + 2, 4, 5);
-
-	// std::cout << r_vec.size() << std::endl;
-
-
-	//for (int i: r_vec)
-   // std::cout << "Begin is " << *(r_vec.begin()) << ' ';
 }

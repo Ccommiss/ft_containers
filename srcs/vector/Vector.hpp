@@ -7,15 +7,14 @@
 
 void 		findtype(std::string info)
 {
-	(void)info;
-	// std::cout << "Current type is : ";
-	// if (info == typeid(int*).name()) { debug("pointer on int"); }
-	// else if (info == typeid(int).name()) { debug("int"); }
-	// else if (info == typeid(std::string*).name()) { debug("pointer on string"); }
-	// else if (info == typeid(unsigned int*).name()) { debug("pointer on unsigned int"); }
-	// else if (info == typeid(std::vector<int> *).name()) { debug("pointer on vector<int>"); }
-	// else if (info == typeid(std::vector<std::string> *).name()) { debug("pointer on vector<std::string>"); }
-	// else { debug(info) };
+	std::cout << "Current type is : ";
+	if (info == typeid(int*).name()) { debug("pointer on int"); }
+	else if (info == typeid(int).name()) { debug("int"); }
+	else if (info == typeid(std::string*).name()) { debug("pointer on string"); }
+	else if (info == typeid(unsigned int*).name()) { debug("pointer on unsigned int"); }
+	else if (info == typeid(std::vector<int> *).name()) { debug("pointer on vector<int>"); }
+	else if (info == typeid(std::vector<std::string> *).name()) { debug("pointer on vector<std::string>"); }
+	else { debug(info) };
 }
 
 
@@ -93,24 +92,17 @@ namespace ft {
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last)
 		{
+
+			erase(begin(), end());
 			insert(begin(), first, last);
 		}
 
 		/*
 		** 		Copy constructors
 		*/
-		vector(const vector<T, Alloc>& x)
+		vector(const vector<T, Alloc>& x) : _size(0), _capacity(0)
 		{
-			_size = 0;
-			_capacity = 0;
-			assign(x.begin(), x.end());
-		}
-
-		vector(vector<T, Alloc>& x) // normalement doit pas exister, mais pb de castsdans insert 
-		{
-			_size = 0;
-			_capacity = 0;
-			assign(x.begin(), x.end());
+			*this = x;
 		}
 
 		/*
@@ -129,14 +121,12 @@ namespace ft {
 
 		vector<T, Alloc>& operator=(const vector<T, Alloc>& x) // TEST POUR LE RESERVE 
 		{
-			iterator it;
-			size_type i = 0;
-			for (it = x.begin(); it != x.end(); it++)
-			{
-				_curr[i] = x[i];
-				i++;
-			}
-			return *this;
+			//if (*this != x) // a recoder car pas de comparaisons entre const et non const
+			//{
+
+				this->assign(x.begin(), x.end());
+			//}
+			return (*this);
 		}
 
 		allocator_type get_allocator() const
@@ -350,16 +340,18 @@ namespace ft {
 
 		int	compute_capacity(int n)
 		{
-			if (_capacity < _size + n)
+			int i = 2;
+			while (_capacity < _size + n)
 			{
-				if (n == 1)
-					_capacity = _capacity * 2; // trop bizarre 
-				else
-					_capacity = _size + n;
-				return (_capacity);
+				if (_capacity >= 1)
+					_capacity = _size * i; 
+				else if (_capacity == 0 || _size == 0)
+				{
+					_capacity += _size + n;
+				}
+				i++;
 			}
-			else
-				return _capacity; // test 
+			return _capacity; // test 
 		}
 
 		iterator insert(iterator position, const T& x)
@@ -390,22 +382,21 @@ namespace ft {
 			size_type 			i = 0;
 
 			int new_size = compute_capacity(n);
+			debug ("NEW SIZE RESIZE = " << new_size)
 			_new_curr = alloc_obj.allocate(new_size); //on rajout n size en plus car n x t vont etre add 
-			debug("new size is " << new_size)
-			iterator it = iterator(_curr);
+				iterator it = iterator(_curr);
 			for (size_type j = 0; j < _size + new_elems; j++)
 			{
 				// on copie sauf si on arrive a l'iterateur
-				debug("j is " << j)
-				if (it != position) // test...
-					_new_curr[j] = _curr[i];
-				else
-				{
-					i -= 1;
-					for (;n > 0; n--)
-						_new_curr[j++] = x;
-					j -= 1;
-				}
+					if (it != position) // test...
+						_new_curr[j] = _curr[i];
+					else
+					{
+						i -= 1;
+						for (;n > 0; n--)
+							_new_curr[j++] = x;
+						j -= 1;
+					}
 				it++;
 				i++;
 			}
@@ -418,7 +409,7 @@ namespace ft {
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			iterator it = iterator(_curr);
-			iterator start = iterator(first); // VA PAS MARCHER CAR PARFOIS CONST} 
+			InputIterator start = InputIterator(first); // VA PAS MARCHER CAR PARFOIS CONST} 
 			size_t i = 0;
 			size_t diff = ft::distance(first, last);
 			int old_capacity = _capacity; // capacite au debut 
@@ -468,19 +459,22 @@ namespace ft {
 				it++;
 				i++;
 			}
-			alloc_obj.deallocate(_curr, _capacity);
+			if (_capacity != 0)
+				alloc_obj.deallocate(_curr, _capacity);
 			_curr = _new_curr;
 			_size -= 1;
+			// remettre a jour la capacite !!!! 
 			return (it); // retrouver le bon retour !!
 		}
 
 
 		iterator erase(iterator first, iterator last)
 		{
+			if (_capacity == 0) // rien a effacer
+				return (iterator(_curr));
 			size_t diff = ft::distance(first, last);
 			pointer _new_curr = alloc_obj.allocate(_capacity); // on enleve un range 
 			iterator it = iterator(_curr);
-
 			// On copie tant que < a la size actuelle car on aura un elem en moins 
 			size_t j = 0;
 			for (size_type i = 0; i < _size;)
@@ -500,7 +494,8 @@ namespace ft {
 					}
 				}
 			}
-			alloc_obj.deallocate(_curr, _capacity);
+			if (_capacity != 0)
+				alloc_obj.deallocate(_curr, _capacity);
 			_curr = _new_curr;
 			_size -= diff;
 			return (it);
@@ -508,9 +503,9 @@ namespace ft {
 
 		void swap(ft::vector<T, Alloc>& other) // copier this dans  le deuxiemn 
 		{
-			ft::vector<T> tmp(*this); // tmp va copier this, this = other, et other = tmp
-			other.memcpy(_curr); // this va contenir other
-			tmp.memcpy(other._curr);
+			ft::vector<T> tmp(*this);
+			this->assign(other.begin(), other.end());
+			other.assign(tmp.begin(), tmp.end());
 		}
 		void clear();
 
