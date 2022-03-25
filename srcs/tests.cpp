@@ -62,9 +62,14 @@ void	test_insert()
 	display(my_vec, vec1);
 
 	test("** TEST1 : insert(iterator position, const T& x) ** ");
-	my_vec.insert(my_vec.begin() + 1, 30);
-	vec1.insert(vec1.begin() + 1, 30);
+	ft::vector<int>::iterator mit = my_vec.insert(my_vec.begin() + 1, 30);
+	std::vector<int>::iterator rit = vec1.insert(vec1.begin() + 1, 30);
 	display(my_vec, vec1);
+
+	cout << DIM("** Tests de retour ** ") << endl;
+	cout << *mit << endl;
+	cout << *rit << endl;
+
 
 	test("** TEST2 : insert(iterator position, size_type n, const T& x)  ** ");
 	my_vec.insert(my_vec.begin() + 5, 2, 404);

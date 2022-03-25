@@ -342,7 +342,6 @@ namespace ft {
 
 		int	compute_capacity(unsigned long n)
 		{
-			debug("requested = " << n << "VS " << _size + n)
 				if (_capacity < _size + n)
 				{
 					debug("DOUBLE SZE = " << _size * 2)
@@ -353,63 +352,35 @@ namespace ft {
 								_capacity = _size * 2;
 						}
 				}
-			debug("CAPACITY " << _capacity)
 				return _capacity;
 		}
 
 		iterator insert(iterator position, const T& x)
 		{
-			int new_size = compute_capacity(1);
-			pointer _new_curr = alloc_obj.allocate(new_size); //on rajout une size en plus;
-			size_t j = 0;
-			iterator it = iterator(_curr); // iterateur sur begin
-			iterator ret;
-
-			for (size_type i = 0; i < _size + 1; i++) // on copie sauf si on arrive a l'iterateur
-			{
-				if (it != position)
-					_new_curr[i] = _curr[j++];
-				else
-				{
-					_new_curr[i] = x;
-					ret = iterator(_new_curr + i);
-				}
-				it++;
-			}
-			alloc_obj.deallocate(_curr, _capacity);
-			_curr = _new_curr;
+			unsigned long start = ft::distance(begin(), position);
+			int i = size();
+			reserve(_size + 1);
+			while (--i >= (int)start) // on decale le cas echeant 
+				alloc_obj.construct(_curr + i + 1, *(_curr + i));
+			alloc_obj.destroy(_curr + start);
+			alloc_obj.construct(_curr + start, x);
 			_size += 1;
-			return (ret); // pas le bon retourn !! chercher !!! 
+			return (iterator(_curr + start)); // pas le bon retourn !! chercher !!! 
 		}
 
 		void insert(iterator position, size_type n, const T& x)
 		{
-			pointer 			_new_curr;
-			size_type 			new_elems = n;
-			size_type 			i = 0;
-
-			int new_size = compute_capacity(n);
-			//debug ("NEW SIZE RESIZE = " << new_size)
-			_new_curr = alloc_obj.allocate(new_size); //on rajout n size en plus car n x t vont etre add 
-			iterator it = iterator(_curr);
-			for (size_type j = 0; j < _size + new_elems; j++)
+			unsigned long start = ft::distance(begin(), position);
+			int i = size();
+			reserve(_size + n);
+			while (--i >= (int)start)
+				alloc_obj.construct(_curr + i + n, *(_curr + i));
+			for (unsigned long j = 0; j < n; j++, start++) // on a diff elems a copier
 			{
-				// on copie sauf si on arrive a l'iterateur
-				if (it != position) // test...
-					_new_curr[j] = _curr[i];
-				else
-				{
-					i -= 1;
-					for (;n > 0; n--)
-						_new_curr[j++] = x;
-					j -= 1;
-				}
-				it++;
-				i++;
+				alloc_obj.destroy(_curr + start);
+				alloc_obj.construct(_curr + start, x);
 			}
-			alloc_obj.deallocate(_curr, _capacity);
-			_curr = _new_curr; // deallocate avant !!
-			_size += new_elems;
+			_size += n;
 		}
 
 		template <class InputIterator>
@@ -417,27 +388,14 @@ namespace ft {
 		{
 			unsigned long diff = ft::distance(first, last);
 			unsigned long start = ft::distance(begin(), position);
-			unsigned long i = size() - 1;
-			unsigned long j = 0;
-
+			int i = size();
 			reserve(diff + _size);
-			
-			while (i >= 0) // on decale avant 
+			while (--i >= 0) // pq 0 et pas start et ca marche ??????????? 
+				alloc_obj.construct(_curr + i + diff, *(_curr + i));
+			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
-				if (_size > 0) // on decale que si on a deja des trucs 
-					alloc_obj.construct(_curr + i + diff, *(_curr + i));
-				if (i == 0)
-					break;
-				i--;
-			}
-			debug("")
-				i = start;
-			while (j < diff) // on a diff elems a copier
-			{
-				alloc_obj.destroy(_curr + i);
-				alloc_obj.construct(_curr + i, *(first + j));
-				i++;
-				j++;
+				alloc_obj.destroy(_curr + start);
+				alloc_obj.construct(_curr + start, *(first + j));
 			}
 			_size += diff;
 		}
