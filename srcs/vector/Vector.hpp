@@ -3,6 +3,8 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
+#include <algorithm>
+
 #include <typeinfo> // ASUPPRIEMR  
 
 void 		findtype(std::string info)
@@ -58,7 +60,7 @@ namespace ft {
 		/*
 		**	Default constructor
 		*/
-		explicit vector(const Alloc & = Alloc()) : _curr(0), _size(0), _capacity(0)  {} 
+		explicit vector(const Alloc & = Alloc()) : _curr(0), _size(0), _capacity(0) {}
 
 		/*
 		**	Fill constructor
@@ -93,7 +95,6 @@ namespace ft {
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last)
 		{
-
 			erase(begin(), end());
 			insert(begin(), first, last);
 		}
@@ -111,7 +112,6 @@ namespace ft {
 		*/
 
 		~vector() {
-			debug("[~Destructor]");
 			if (_capacity > 0)
 				alloc_obj.deallocate(_curr, _capacity);
 		};
@@ -125,7 +125,7 @@ namespace ft {
 			//if (*this != x) // a recoder car pas de comparaisons entre const et non const
 			//{
 
-				this->assign(x.begin(), x.end());
+			this->assign(x.begin(), x.end());
 			//}
 			return (*this);
 		}
@@ -236,10 +236,9 @@ namespace ft {
 		{
 			iterator it;
 			size_t i = 0;
-			for (it = begin(); it != end(); it++) // on fait une copie mais c degueu
+			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
 			{
 				tmp[i] = _curr[i];
-				i++;
 			}
 		}
 
@@ -262,11 +261,12 @@ namespace ft {
 				throw (std::out_of_range("Reserve error : cannot allocate more than max_size"));
 			if (n > _capacity)
 			{
-				pointer tmp = alloc_obj.allocate(n); // on alloue
-				memcpy(tmp); //va copier l'instance cournte dans tmp 
-				alloc_obj.deallocate(_curr, _capacity); // on peut desallouer l'instance courante
+				pointer tmp = alloc_obj.allocate(compute_capacity(n)); // on alloue
+				memcpy(tmp); //va copier l'instance cournte dans tmp
+				if (_capacity > 0)
+					alloc_obj.deallocate(_curr, _capacity); // on peut desallouer l'instance courante
 				_curr = tmp;
-				_capacity = n;
+
 			}
 		}
 		/* ****************************************************
@@ -342,14 +342,19 @@ namespace ft {
 
 		int	compute_capacity(unsigned long n)
 		{
-			if (_capacity < _size + n)
-			{
-				if (n > _size * 2)
-					_capacity = _size + n;
-				else 
-					_capacity = _size * 2;
-			}
-			return _capacity; 
+			debug("requested = " << n << "VS " << _size + n)
+				if (_capacity < _size + n)
+				{
+					debug("DOUBLE SZE = " << _size * 2)
+						if (n > _size * 2)
+							_capacity = _size + n;
+						else {
+							debug("YOUHOU")
+								_capacity = _size * 2;
+						}
+				}
+			debug("CAPACITY " << _capacity)
+				return _capacity;
 		}
 
 		iterator insert(iterator position, const T& x)
@@ -358,7 +363,7 @@ namespace ft {
 			pointer _new_curr = alloc_obj.allocate(new_size); //on rajout une size en plus;
 			size_t j = 0;
 			iterator it = iterator(_curr); // iterateur sur begin
-			iterator ret; 
+			iterator ret;
 
 			for (size_type i = 0; i < _size + 1; i++) // on copie sauf si on arrive a l'iterateur
 			{
@@ -386,19 +391,19 @@ namespace ft {
 			int new_size = compute_capacity(n);
 			//debug ("NEW SIZE RESIZE = " << new_size)
 			_new_curr = alloc_obj.allocate(new_size); //on rajout n size en plus car n x t vont etre add 
-				iterator it = iterator(_curr);
+			iterator it = iterator(_curr);
 			for (size_type j = 0; j < _size + new_elems; j++)
 			{
 				// on copie sauf si on arrive a l'iterateur
-					if (it != position) // test...
-						_new_curr[j] = _curr[i];
-					else
-					{
-						i -= 1;
-						for (;n > 0; n--)
-							_new_curr[j++] = x;
-						j -= 1;
-					}
+				if (it != position) // test...
+					_new_curr[j] = _curr[i];
+				else
+				{
+					i -= 1;
+					for (;n > 0; n--)
+						_new_curr[j++] = x;
+					j -= 1;
+				}
 				it++;
 				i++;
 			}
@@ -410,37 +415,36 @@ namespace ft {
 		template <class InputIterator>
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
-			iterator it = iterator(_curr);
-			InputIterator start = InputIterator(first);
-			size_t i = 0;
-			size_t diff = ft::distance(first, last);
-			int old_capacity = _capacity; // capacite au debut 
-			int new_size = compute_capacity(diff);
-			pointer _new_curr = alloc_obj.allocate(new_size);
+			unsigned long diff = ft::distance(first, last);
+			//iterator pos = iterator(position); // c perdu apres 
+			unsigned long start = ft::distance(begin(), position);
+			unsigned long i = ft::distance(begin(), position);
+			//unsigned long to_move = ft::distance(position, end());
 
-			iterator ret;
-
-			for (size_type j = 0; j < _size + diff; j++) // last - first = diff type qui sera la taille;
+			unsigned long j = 0;
+			reserve(diff + _size);
+			debug(_capacity);
+			debug(diff + _size << "with diff = " << diff)
+				debug(*begin());
+			while (i < _size) // on decale avant 
 			{
-				if (it != position) // test...
-					_new_curr[j] = _curr[i];
-				else
-				{
-					i -= 1;
-					for (size_t n = diff; n > 0; n--)
-					{	
-						alloc_obj.construct(_new_curr + j, *start++);
-						j++;
-					}
-					j -= 1;
-				}
-				it++;
+				std::cout << (*(_curr + i)) << " ";
+
+				//if (_size > 0) // on decale que si on a deja des trucs 
+				//	alloc_obj.construct(_curr + i + diff, *(_curr + i));
+				//debug (*(_curr + i + diff))
 				i++;
 			}
-			if (old_capacity != 0) // A REMETTRE PARTOUT
-				alloc_obj.deallocate(_curr, _capacity);
+			debug("")
+			i = start;
+			while (j < diff) // on a diff elems a copier
+			{
+				alloc_obj.destroy(_curr + i);
+				alloc_obj.construct(_curr + i, *(first + j));
+				i++;
+				j++;
+			}
 			_size += diff;
-			_curr = _new_curr;
 		}
 
 		/*
@@ -450,7 +454,7 @@ namespace ft {
 		*/
 		iterator erase(iterator position)
 		{
-			int i		= ft::distance(begin(), position);
+			int i = ft::distance(begin(), position);
 			iterator it = position + 1;
 			while (it != end())
 			{
@@ -460,13 +464,13 @@ namespace ft {
 				i++;
 			}
 			_size -= 1;
-			return (position); 
+			return (position);
 		}
 
 		iterator erase(iterator first, iterator last)
 		{
-			int i		= ft::distance(begin(), first);
-			int step 	= ft::distance(first, last) - 1;
+			int i = ft::distance(begin(), first);
+			int step = ft::distance(first, last) - 1;
 			if (step <= 0)
 				return (first);
 			iterator it = first + 1;
@@ -490,14 +494,21 @@ namespace ft {
 			_size = 0;
 		}
 
-		void swap(ft::vector<T, Alloc>& other) // copier this dans  le deuxiemn 
+
+		/*
+		**	@brief ben ca swap
+		**	@param other another container of vector type
+		** 	@iterator_validity iterators, pointers and references referring to elements
+		**	in both containers remain valid, and are now referring to the same elements
+		**	they referred to before the call, but in the other container,
+		**	where they now iterate.
+		**	Note that the end iterators do not refer to elements and may be invalidated.
+		*/
+		void swap(vector& other) // copier this dans  le deuxiemn 
 		{
-			ft::vector<T> tmp(*this);
-			
-			this->dealloc();
-			this->assign(other.begin(), other.end());
-			other.dealloc();
-			other.assign(tmp.begin(), tmp.end());
+			std::swap(_curr, other._curr);
+			std::swap(_size, other._size);
+			std::swap(_capacity, other._capacity);
 		}
 		void clear();
 
@@ -522,6 +533,12 @@ namespace ft {
 		size_t			_capacity; // la taille allouee 
 		allocator_type	alloc_obj; // pour utiliser le meme objet a chaque fois sans le refaire 
 	};
+
+	template <class T, class Alloc>
+	void swap(vector<T, Alloc>& x, vector<T, Alloc>& y)
+	{
+		x.swap(y);
+	}
 }
 
 

@@ -72,7 +72,7 @@ void	test_insert()
 	display(my_vec, vec1);
 
 	test("** TEST3 : insert(iterator position, InputIterator first, InputIterator last) ** ");
-
+	
 	my_vec.insert(my_vec.begin(), my_tem.begin(), my_tem.end());
 	vec1.insert(vec1.begin(), temoinv.begin(), temoinv.end());
 	display(my_vec, vec1);
@@ -707,7 +707,7 @@ void	mazoise_swap()
 	ft::vector<int> foo(3, 100);   // three ints with a value of 100
 	ft::vector<int> bar(5, 200);   // five ints with a value of 200
 
-	foo.swap(bar);
+	bar.swap(foo);
 
 	cout << "foo contains:";
 	for (unsigned i = 0; i < foo.size(); i++)
@@ -718,6 +718,8 @@ void	mazoise_swap()
 	for (unsigned i = 0; i < bar.size(); i++)
 		cout << ' ' << bar[i];
 	cout << '\n';
+
+	// OK ICI 
 
 	{
 		ft::vector<int> foo, bar;
@@ -732,9 +734,13 @@ void	mazoise_swap()
 
 		ft::vector<int>::const_iterator tmp = foo.begin(); //tmp iterates through foo
 		ft::vector<int>::const_iterator tmp2 = bar.begin(); //tmp2 iterates through bar
-
-		swap(bar, foo); //tmp iterates through bar
+		debug ("*** SWAP 2 ***")
+		ft::swap(bar, foo); //tmp iterates through bar
 						//tmp2 iterates through foo
+
+		debug ("*** SWAP 2 DONE ***")
+		debug (*tmp);
+		debug ("*** OK TMP ***")
 
 
 		ft::vector<int>	other;
@@ -750,15 +756,17 @@ void	mazoise_swap()
 
 		cout << "foo contains:\n";
 		for (ft::vector<int>::iterator it = foo.begin(); it != foo.end(); ++it)
-			cout << *it << '\n';
+			cout << *it << ' ';
+		cout << endl;
 
 		cout << "bar contains:\n";
 		for (ft::vector<int>::iterator it = bar.begin(); it != bar.end(); ++it)
-			cout << *it << '\n';
+			cout << *it << ' ';
+		cout << endl;
 
-		while (tmp != bar.end())
+		while (tmp != bar.end()) // tmp = foo begin 
 		{
-			cout << *tmp << '\n';
+			cout << *tmp << '\n'; // la ca chie 
 			tmp++;
 		}
 		tmp--;
@@ -777,14 +785,14 @@ void	mazoise_swap()
 		print(bar);
 		while (tmp != bar.begin())
 		{
-			cout << *tmp << '\n';
+			cout << *tmp << ' ';
 			tmp--;
 		}
 		cout << *tmp << '\n';
 
 		while (tmp2 != other.begin())
 		{
-			cout << *tmp2 << '\n';
+			cout << *tmp2 << ' ';
 			tmp2--;
 		}
 		cout << *tmp2 << '\n';
@@ -833,7 +841,7 @@ int main()
 
 	void (*functptr[])() = {
 		//basic_construct,
-		//test_insert,
+		test_insert,
 		//test_erase,
 		//test_reserve,
 		//test_resize,
@@ -842,8 +850,8 @@ int main()
 		// test_front_back,
 		// tests_simple_it,
 		// tests_reverse,
-		// tests_swap
-		mazoise_swap
+		//tests_swap,
+		//mazoise_swap
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
