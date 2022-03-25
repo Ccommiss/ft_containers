@@ -416,27 +416,22 @@ namespace ft {
 		void	insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			unsigned long diff = ft::distance(first, last);
-			//iterator pos = iterator(position); // c perdu apres 
 			unsigned long start = ft::distance(begin(), position);
-			unsigned long i = ft::distance(begin(), position);
-			//unsigned long to_move = ft::distance(position, end());
-
+			unsigned long i = size() - 1;
 			unsigned long j = 0;
-			reserve(diff + _size);
-			debug(_capacity);
-			debug(diff + _size << "with diff = " << diff)
-				debug(*begin());
-			while (i < _size) // on decale avant 
-			{
-				std::cout << (*(_curr + i)) << " ";
 
-				//if (_size > 0) // on decale que si on a deja des trucs 
-				//	alloc_obj.construct(_curr + i + diff, *(_curr + i));
-				//debug (*(_curr + i + diff))
-				i++;
+			reserve(diff + _size);
+			
+			while (i >= 0) // on decale avant 
+			{
+				if (_size > 0) // on decale que si on a deja des trucs 
+					alloc_obj.construct(_curr + i + diff, *(_curr + i));
+				if (i == 0)
+					break;
+				i--;
 			}
 			debug("")
-			i = start;
+				i = start;
 			while (j < diff) // on a diff elems a copier
 			{
 				alloc_obj.destroy(_curr + i);

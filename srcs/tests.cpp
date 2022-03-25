@@ -72,7 +72,7 @@ void	test_insert()
 	display(my_vec, vec1);
 
 	test("** TEST3 : insert(iterator position, InputIterator first, InputIterator last) ** ");
-	
+
 	my_vec.insert(my_vec.begin(), my_tem.begin(), my_tem.end());
 	vec1.insert(vec1.begin(), temoinv.begin(), temoinv.end());
 	display(my_vec, vec1);
@@ -89,9 +89,10 @@ void	test_insert()
 		std::cout << e.what() << std::endl;
 	}
 
-	test("** TEST5 : MAZOISE**");
+
 
 	{
+		test("** TEST5 : POSITION, VALUE **");
 		ft::vector<int> myvector(3, 100);
 		ft::vector<int>::iterator it;
 
@@ -116,13 +117,19 @@ void	test_insert()
 		it_r = myvector_r.begin();
 
 		//****** 
+		test("** TEST6 : begin() + 2, anothervector.begin(), anothervector.end() ***" );
+
 		ft::vector<int> anothervector(2, 400);
 		myvector.insert(it + 2, anothervector.begin(), anothervector.end());
 
 		std::vector<int> anothervector_r(2, 400);
 		myvector_r.insert(it_r + 2, anothervector_r.begin(), anothervector_r.end());
 
+		display(myvector, myvector_r);
+
 		//***** 
+		test("** TEST7 : begin(), array array + 3 ***" );
+
 		int myarray[] = { 501,502,503 };
 		myvector.insert(myvector.begin(), myarray, myarray + 3);
 		myvector_r.insert(myvector_r.begin(), myarray, myarray + 3);
