@@ -14,6 +14,17 @@ void example(std::vector<int>& r_vec)
 
 }
 
+void print(ft::vector<int>& r_vec)
+{
+	std::cout << BOLD("-> Mine only : ") << std::endl;
+	std::cout << FG1("Mine :") << std::endl;
+	ft::vector<int>::iterator it;
+	for (it = r_vec.begin(); it != r_vec.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+
+}
+
 template <typename T>
 void display(ft::vector<T>& my_vec, std::vector<T>& r_vec)
 {
@@ -78,6 +89,50 @@ void	test_insert()
 		std::cout << e.what() << std::endl;
 	}
 
+	test("** TEST5 : MAZOISE**");
+
+	{
+		ft::vector<int> myvector(3, 100);
+		ft::vector<int>::iterator it;
+
+		std::vector<int> myvector_r(3, 100);
+		std::vector<int>::iterator it_r;
+
+		it = myvector.begin();
+		it = myvector.insert(it, 200);
+
+		it_r = myvector_r.begin();
+		it_r = myvector_r.insert(it_r, 200);
+
+		display(myvector, myvector_r); // ok
+
+		myvector.insert(it, 2, 300);
+		myvector_r.insert(it_r, 2, 300);
+
+		display(myvector, myvector_r);
+
+
+		it = myvector.begin();
+		it_r = myvector_r.begin();
+
+		//****** 
+		ft::vector<int> anothervector(2, 400);
+		myvector.insert(it + 2, anothervector.begin(), anothervector.end());
+
+		std::vector<int> anothervector_r(2, 400);
+		myvector_r.insert(it_r + 2, anothervector_r.begin(), anothervector_r.end());
+
+		//***** 
+		int myarray[] = { 501,502,503 };
+		myvector.insert(myvector.begin(), myarray, myarray + 3);
+		myvector_r.insert(myvector_r.begin(), myarray, myarray + 3);
+
+
+		display(myvector, myvector_r);
+
+
+	}
+
 
 }
 
@@ -128,6 +183,33 @@ void 	test_erase()
 
 	cout << FG2("Real") << *(r_test) << endl;
 	cout << FG1("Mine") << *(my_test) << endl;
+
+	test("** TESTS RET OF IT** ");
+
+	ft::vector<int> mine;
+	std::vector<int> real;
+
+
+	// set some values (from 1 to 10)
+	for (int i = 1; i <= 10; i++) mine.push_back(i);
+	for (int i = 1; i <= 10; i++) real.push_back(i);
+	display(mine, real);
+
+
+	// erase the 6th element
+	mine.erase(mine.begin() + 5);
+	real.erase(real.begin() + 5);
+	display(mine, real);
+
+
+
+	// erase the first 3 elements:
+	mine.erase(mine.begin(), mine.begin() + 3);
+	real.erase(real.begin(), real.begin() + 3);
+
+
+	display(mine, real);
+
 
 }
 
@@ -618,21 +700,150 @@ void basic_construct()
 
 
 }
+
+
+void	mazoise_swap()
+{
+	ft::vector<int> foo(3, 100);   // three ints with a value of 100
+	ft::vector<int> bar(5, 200);   // five ints with a value of 200
+
+	foo.swap(bar);
+
+	cout << "foo contains:";
+	for (unsigned i = 0; i < foo.size(); i++)
+		cout << ' ' << foo[i];
+	cout << '\n';
+
+	cout << "bar contains:";
+	for (unsigned i = 0; i < bar.size(); i++)
+		cout << ' ' << bar[i];
+	cout << '\n';
+
+	{
+		ft::vector<int> foo, bar;
+
+		foo.push_back(100);
+		foo.push_back(200);
+
+		bar.push_back(11);
+		bar.push_back(22);
+		bar.push_back(33);
+
+
+		ft::vector<int>::const_iterator tmp = foo.begin(); //tmp iterates through foo
+		ft::vector<int>::const_iterator tmp2 = bar.begin(); //tmp2 iterates through bar
+
+		swap(bar, foo); //tmp iterates through bar
+						//tmp2 iterates through foo
+
+
+		ft::vector<int>	other;
+
+		other.push_back(73);
+		other.push_back(173);
+		other.push_back(763);
+		other.push_back(73854);
+		other.push_back(74683);
+		other.push_back(753);
+
+		ft::vector<int>::const_iterator tmp3 = other.begin(); // tmp3 iterates through other
+
+		cout << "foo contains:\n";
+		for (ft::vector<int>::iterator it = foo.begin(); it != foo.end(); ++it)
+			cout << *it << '\n';
+
+		cout << "bar contains:\n";
+		for (ft::vector<int>::iterator it = bar.begin(); it != bar.end(); ++it)
+			cout << *it << '\n';
+
+		while (tmp != bar.end())
+		{
+			cout << *tmp << '\n';
+			tmp++;
+		}
+		tmp--;
+
+		while (tmp2 != foo.end())
+		{
+			cout << *tmp2 << '\n';
+			tmp2++;
+		}
+		tmp2--;
+
+		swap(other, foo); //tmp2 iterates through other
+						//tmp3 iterates throught foo
+		print(other);
+		print(foo);
+		print(bar);
+		while (tmp != bar.begin())
+		{
+			cout << *tmp << '\n';
+			tmp--;
+		}
+		cout << *tmp << '\n';
+
+		while (tmp2 != other.begin())
+		{
+			cout << *tmp2 << '\n';
+			tmp2--;
+		}
+		cout << *tmp2 << '\n';
+
+		while (tmp3 != foo.end())
+		{
+			cout << *tmp3 << '\n';
+			tmp3++;
+		}
+		tmp3--;
+
+		swap(bar, foo);
+		swap(foo, bar);
+		swap(bar, foo); //tmp3 iterates through bar
+					//tmp iterates through foo
+
+		print(other);
+		print(foo);
+		print(bar);
+
+		while (tmp != foo.end())
+		{
+			cout << *tmp << '\n';
+			tmp++;
+		}
+
+		while (tmp2 != other.end())
+		{
+			cout << *tmp2 << '\n';
+			tmp2++;
+		}
+
+		while (tmp3 != bar.begin())
+		{
+			cout << *tmp3 << '\n';
+			tmp3--;
+		}
+		cout << *tmp3 << '\n';
+	}
+
+	//return 0;
+}
+
 int main()
 {
 
 	void (*functptr[])() = {
 		//basic_construct,
 		//test_insert,
-		test_erase,
+		//test_erase,
 		//test_reserve,
-		// test_resize,
-		// test_strings,
+		//test_resize,
+		//test_strings,
 		// test_access,
 		// test_front_back,
 		// tests_simple_it,
 		// tests_reverse,
 		// tests_swap
+		mazoise_swap
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
@@ -642,17 +853,4 @@ int main()
 			getwchar();
 
 	}
-
-	// basic_construct();
-	// test_insert();
-	// test_erase();
-	// test_reserve();
-	// test_resize();
-	// test_strings();
-	// test_access();
-	// test_front_back();
-	// tests_simple_it();
-	// tests_reverse();
-	// tests_swap();
-
 }
