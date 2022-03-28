@@ -12,6 +12,8 @@
 		- [Implementing RAI (random access iterators)](#implementing-rai-random-access-iterators)
 	- [Vectors](#vectors)
 			- [Constructors : default, fill or range ?](#constructors--default-fill-or-range-)
+			- [What is SFINAE ?](#what-is-sfinae-)
+			- [Lexicographical compare](#lexicographical-compare)
 
 ## Partie obligatoire
 
@@ -167,3 +169,14 @@ Bien faire attention !
 
 
 Iterator traits : https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
+
+
+#### What is SFINAE ? 
+Substitution failure is not an ERROR
+
+
+
+
+#### Lexicographical compare
+
+https://riptutorial.com/cplusplus/example/3820/lexicographical-comparison

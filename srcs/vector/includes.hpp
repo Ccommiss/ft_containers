@@ -33,8 +33,8 @@
 #define FG2(x)		"\033[4;32;40m" x RST
 #define HEADER(x)	"\033[1;107;35m" x RST
 
-#define debug(x)	std::cout << x << std::endl;
-//#define debug(x)	
+//#define debug(x)	std::cout << x << std::endl;
+#define debug(x)	
 
 #define color(x)	"\033[1;96m" x RST
 
@@ -50,6 +50,7 @@
 #	include "reverse_iterators.hpp"
 # 	include	"randomaccessiterator.hpp"
 # 	include "iterator_traits.hpp"
+#	include "relationnal_operators_tools.hpp"
 
 #	include "Vector.hpp"
 

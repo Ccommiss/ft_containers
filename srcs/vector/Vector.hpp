@@ -30,7 +30,7 @@ namespace ft
 	**	@tparam Alloc An allocator that is used to acquire/release memory
 	**			and to construct/destroy the elements in that memory.
 	*/
-	template <class T, class Alloc = std::allocator<T>>
+	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
 
@@ -79,8 +79,9 @@ namespace ft
 		{
 			debug("[Fill constructor]");
 			findtype(typeid(this->_curr).name());
-			_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
-			assign(n, value);
+			//_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
+			_curr = 0; // comme un "new", on a malloc ;
+			assign(n, value); 
 		}
 
 		/*
@@ -91,7 +92,9 @@ namespace ft
 		{
 			debug("[Range constructor]");
 			findtype(typeid(this->_curr).name());
-			_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
+			//_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
+			//_curr = alloc_obj.allocate(0);
+			_curr = 0;
 			assign(first, last);
 		}
 
@@ -108,8 +111,10 @@ namespace ft
 		*/
 		~vector()
 		{
-			if (_capacity > 0)
-				alloc_obj.deallocate(_curr, _capacity);
+			//std::cout << "HEHO" << std::endl;
+			//if (_capacity > 0)
+			clear();
+			alloc_obj.deallocate(_curr, _capacity);
 		};
 
 		/*
@@ -119,7 +124,6 @@ namespace ft
 		{
 			// if (*this != x) // a recoder car pas de comparaisons entre const et non const
 			//{
-
 			this->assign(x.begin(), x.end());
 			//}
 			return (*this);
@@ -319,14 +323,15 @@ namespace ft
 		{
 			iterator it;
 
+			int old_capacity = _capacity;
 			if (n > max_size())
-				throw(std::out_of_range("Reserve error : cannot allocate more than max_size"));
+				throw(std::out_of_range("vector::reserve"));
 			if (n > _capacity)
 			{
 				pointer tmp = alloc_obj.allocate(compute_capacity(n)); // on alloue
 				memcpy(tmp);										   // va copier l'instance cournte dans tmp
-				if (_capacity > 0)
-					alloc_obj.deallocate(_curr, _capacity); // on peut desallouer l'instance courante
+				if (old_capacity > 0)
+					alloc_obj.deallocate(_curr, old_capacity); // on peut desallouer l'instance courante
 				_curr = tmp;
 			}
 		}
@@ -501,6 +506,7 @@ namespace ft
 		*/
 		iterator insert(iterator position, const T &x)
 		{
+			
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
 			reserve(_size + 1);
@@ -522,6 +528,7 @@ namespace ft
 		*/
 		void insert(iterator position, size_type n, const T &x)
 		{
+			
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
 			reserve(_size + n);
@@ -550,6 +557,7 @@ namespace ft
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
 			reserve(diff + _size);
+
 			while (--i >= 0) // pq 0 et pas start et ca marche ???????????
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
@@ -602,7 +610,7 @@ namespace ft
 			while (it != end())
 			{
 				alloc_obj.destroy(_curr + i);
-				if (last != end())
+				if (last != end() && i + step < (int)_size)
 					alloc_obj.construct(_curr + i, *(it + step));
 				it++;
 				i++;
@@ -676,47 +684,82 @@ namespace ft
 	** ****************************************************
 	**
 	** 	├── 🔄 Swap
-	** 	├── Relational Operators
+	** 	├── Relational Operators - using equal, lexicographical
 	** 	  ├── ==
 	** 	  ├── !=
 	** 	  ├── <, <=
 	** 	  └── >, >=
+	**
+	** operation	equivalent operation
+	**	a!=b	|	!(a==b)
+	**	a>b		|	b<a
+	**	a<=b	|	!(b<a)
+	**	a>=b	|	!(a<b)
 	**/
 	template <class T, class Alloc>
 	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
 	{
 		x.swap(y);
 	}
+
+
+
+/*
+** a == b 
+*/
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		return (lhs == rhs);
+		
+		return (ft::equal(lhs.begin(), rhs.begin(), lhs.end()));
 	}
+
+/*
+** 	a != b  
+*/
 	template <class T, class Alloc>
 	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		return (lhs != rhs);
+		return !(lhs == rhs);
 	}
+
+
+/*
+**	 a < b
+*/
+	template <class T, class Alloc>
+	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+/*
+**  a <= b ===> !(b < a)
+*/
+	template <class T, class Alloc>
+	bool operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	{
+		return (!(rhs < lhs));
+	}
+
+/*
+**  a > b ===> b < a
+*/
 	template <class T, class Alloc>
 	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		return (lhs > rhs);
+		return (rhs < lhs);
 	}
+
+/*
+**  a>=b	|	!(a<b)
+*/
 	template <class T, class Alloc>
 	bool operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return (!(lhs < rhs));
 	}
-	template <class T, class Alloc>
-	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
-	{
-		return (lhs < rhs));
-	}
-	template <class T, class Alloc>
-	bool operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
-	{
-		return (!(lhs > rhs));
-	}
+
 
 }
 
