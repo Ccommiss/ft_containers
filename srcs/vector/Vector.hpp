@@ -80,7 +80,7 @@ namespace ft
 			debug("[Fill constructor]");
 			findtype(typeid(this->_curr).name());
 			_curr = 0;
-			assign(n, value); 
+			assign(n, value);
 		}
 
 		/*
@@ -98,7 +98,7 @@ namespace ft
 		/*
 		** 		Copy constructors
 		*/
-		vector(const vector<T, Alloc> &x) : _size(0), _capacity(0)
+		vector(const vector<T, Alloc> &x) : _size(0), _capacity(0), _curr(0)
 		{
 			*this = x;
 		}
@@ -108,7 +108,6 @@ namespace ft
 		*/
 		~vector()
 		{
-			//std::cout << "HEHO" << std::endl;
 			//if (_capacity > 0)
 			clear();
 			alloc_obj.deallocate(_curr, _capacity);
@@ -256,7 +255,7 @@ namespace ft
 			else if (sz < size())
 				erase(begin() + sz, end());
 			else
-				;
+				return ;
 		}
 
 		/*
@@ -296,10 +295,9 @@ namespace ft
 		{
 			iterator it;
 			size_t i = 0;
-			for (it = begin(); it != end(); it++) // on fait une copie mais c degueu
+			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
 			{
 				tmp[i] = _curr[i];
-				i++;
 			}
 		}
 
@@ -326,8 +324,10 @@ namespace ft
 			if (n > _capacity)
 			{
 				pointer tmp = alloc_obj.allocate(compute_capacity(n));
-				if (_size > 0) // on ne copie que si elems !!!  A VERIFIER 
-					memcpy(tmp);										   // va copier l'instance cournte dans tmp
+				if (_size > 0) // on ne copie que si elems !!!  A VERIFIER
+					memcpy(tmp);  // va copier l'instance cournte dans tmp
+				else
+					tmp[0] = T();// on initialise qd meme
 				if (old_capacity > 0)
 					alloc_obj.deallocate(_curr, old_capacity);
 				_curr = tmp;
@@ -552,16 +552,16 @@ namespace ft
 			unsigned long diff = ft::distance(first, last);
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
-			reserve(diff + _size);
+			reserve(diff + _size + 30);
 
 			while (--i >= 0) // pq 0 et pas start et ca marche ???????????
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
 
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
-											std::cout << "ICI " << *(first +j) << std::endl;
-
+				//std::cout << j << "ICI " << *(first +j) << std::endl;
 				alloc_obj.destroy(_curr + start);
+				//if (start < capacity)
 				alloc_obj.construct(_curr + start, *(first + j)); // INVALID READ ICI
 			}
 			_size += diff;
@@ -578,7 +578,7 @@ namespace ft
 		iterator erase(iterator position)
 		{
 			if (_size <= 0)
-				return (position); // ?? on verra 
+				return (position); // ?? on verra
 			int i = ft::distance(begin(), position);
 			iterator it = position + 1;
 			while (it != end())
@@ -604,7 +604,7 @@ namespace ft
 		iterator erase(iterator first, iterator last)
 		{
 			if (_size <= 0)
-				return (first); // PROTECTION OK 
+				return (first); // PROTECTION OK
 			int i = ft::distance(begin(), first);
 			int step = ft::distance(first, last) - 1;
 			if (step <= 0)
@@ -667,6 +667,7 @@ namespace ft
 			virtual const char *what() const throw()
 			{
 				std::cout << "Cannot allocate mor than max size" << std::endl;
+				return "cakc";
 			}
 		};
 
@@ -708,17 +709,17 @@ namespace ft
 
 
 /*
-** a == b 
+** a == b
 */
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		
+
 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 /*
-** 	a != b  
+** 	a != b
 */
 	template <class T, class Alloc>
 	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)

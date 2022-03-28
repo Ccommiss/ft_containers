@@ -89,7 +89,7 @@ void 	test_ints()
 
 	size_t	mike_resize = 9;
 	bob_resize = 0;
-	
+
 	BOB.resize(bob_resize);
 	cout << "BOB is empty now ? " << BOB.empty() << '\n';
 	MIKE.resize(mike_resize, 3);
@@ -349,7 +349,7 @@ void 	test_ints()
 
 
 
-	
+
 	*/
 	cout << "Size of JOHN " << JOHN.size() << std::endl;
 	if (JOHN.capacity() >= JOHN.size())
@@ -397,7 +397,7 @@ void 	test_ints()
 	for (size_t i = 0; i < MIKE.size(); i++)
 		cout << MIKE[i] << ' ';
 	cout << std::endl;
-	
+
 	//RELATIONAL OPERATORS
 	cout << "\nRELATIONAL OPERATORS\n";
 	ft::vector<int> MIKE_2(MIKE);
@@ -488,7 +488,7 @@ void	test_insert()
 		it = myvector.begin();
 		it_r = myvector_r.begin();
 
-		//****** 
+		//******
 		test("** TEST6 : begin() + 2, anothervector.begin(), anothervector.end() ***" );
 
 		ft::vector<int> anothervector(2, 400);
@@ -499,7 +499,7 @@ void	test_insert()
 
 		display(myvector, myvector_r);
 
-		//***** 
+		//*****
 		test("** TEST7 : begin(), array array + 3 ***" );
 
 		int myarray[] = { 501,502,503 };
@@ -1098,7 +1098,7 @@ void	mazoise_swap()
 		cout << ' ' << bar[i];
 	cout << '\n';
 
-	// OK ICI 
+	// OK ICI
 
 	{
 		ft::vector<int> foo, bar;
@@ -1143,9 +1143,9 @@ void	mazoise_swap()
 			cout << *it << ' ';
 		cout << endl;
 
-		while (tmp != bar.end()) // tmp = foo begin 
+		while (tmp != bar.end()) // tmp = foo begin
 		{
-			cout << *tmp << '\n'; // la ca chie 
+			cout << *tmp << '\n'; // la ca chie
 			tmp++;
 		}
 		tmp--;
@@ -1228,6 +1228,10 @@ void	test_relationnal()
 
 void mazoise_other()
 {
+			cout << HEADER("MINE") << endl;
+
+
+	{
         cout << "INITIALIZATION" << ENDL;
         cout << "operations..." << ENDL;
         ft::vector<int> fill(10, 42);
@@ -1317,6 +1321,100 @@ void mazoise_other()
         }
         cout << "print..." << ENDL;
         print(fill);
+
+		cout << HEADER("END OF MINE") << endl;
+}
+	{
+        cout << "INITIALIZATION" << ENDL;
+        cout << "operations..." << ENDL;
+        std::vector<int> fill(10, 42);
+        std::vector<int> tmp;
+        std::vector<int>::iterator it1;
+        std::vector<int>::iterator it2;
+        cout << "print..." << ENDL;
+        example(fill);
+
+        cout << "ERASE" << ENDL;
+        cout << "operations..." << ENDL;
+        it1 = fill.begin();
+        it1 += 5;
+        it2 = fill.end();
+        it2 -=2;
+
+        fill.erase(it1, it2);
+        cout << "print..." << ENDL;
+        example(fill);
+
+        cout << "POP_BACK/PUSH_BACK" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.pop_back();
+        fill.push_back(13);
+        fill.push_back(69);
+        cout << "print..." << ENDL;
+        example(fill);
+
+        cout << "OPERATOR[]" << ENDL;
+        cout << "operations..." << ENDL;
+        fill[3] = -13;
+        fill[5] = 123456789;
+        cout << "print..." << ENDL;
+        example(fill);
+
+        cout << "SWAP" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.swap(tmp);
+        fill.swap(tmp);
+        cout << "print..." << ENDL;
+        example(fill);
+
+        cout << "FRONT/BACK/AT" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.front() = -42;
+        fill.back() /= -2;
+        fill.at(1) = 0;
+        cout << "print..." << ENDL;
+        example(fill);
+
+        cout << "INSERT" << ENDL;
+        cout << "operations..." << ENDL;
+        it1 = fill.begin();
+        it1 += 2;
+
+        fill.insert(it1, 3, 987654321);
+        cout << "print..." << ENDL;
+        example(fill);
+
+
+        cout << "RESIZE" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.resize(20);
+        fill.resize(13);
+        cout << "print..." << ENDL;
+        example(fill);
+
+        try
+        {
+                cout << "AT(error)" << ENDL;
+                cout << "operations..." << ENDL;
+                fill.at(-1) = -1;
+        }
+        catch (std::out_of_range& oor)
+        {
+                (void)oor;
+                cout << "OOR error caught\n";
+        }
+        try
+        {
+                fill.at(15) = -1;
+        }
+        catch (std::out_of_range& oor)
+        {
+                (void)oor;
+                cout << "OOR error caught\n";
+        }
+        cout << "print..." << ENDL;
+        example(fill);
+}
 
 }
 
