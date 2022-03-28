@@ -1215,11 +1215,116 @@ void	mazoise_swap()
 	//return 0;
 }
 
+
+void	test_relationnal()
+{
+	test("TEST 1 : relationnal operators ")
+	ft::vector<int> test1(47, 42);
+	ft::vector<int> test2(47, 42);
+	cout << std::boolalpha << "bonjour" << (test1 == test2) << endl;
+
+}
+
+
+void mazoise_other()
+{
+        cout << "INITIALIZATION" << ENDL;
+        cout << "operations..." << ENDL;
+        ft::vector<int> fill(10, 42);
+        ft::vector<int> tmp;
+        ft::vector<int>::iterator it1;
+        ft::vector<int>::iterator it2;
+        cout << "print..." << ENDL;
+        print(fill);
+
+        cout << "ERASE" << ENDL;
+        cout << "operations..." << ENDL;
+        it1 = fill.begin();
+        it1 += 5;
+        it2 = fill.end();
+        it2 -=2;
+
+        fill.erase(it1, it2);
+        cout << "print..." << ENDL;
+        print(fill);
+
+        cout << "POP_BACK/PUSH_BACK" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.pop_back();
+        fill.push_back(13);
+        fill.push_back(69);
+        cout << "print..." << ENDL;
+        print(fill);
+
+        cout << "OPERATOR[]" << ENDL;
+        cout << "operations..." << ENDL;
+        fill[3] = -13;
+        fill[5] = 123456789;
+        cout << "print..." << ENDL;
+        print(fill);
+
+        cout << "SWAP" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.swap(tmp);
+        fill.swap(tmp);
+        cout << "print..." << ENDL;
+        print(fill);
+
+        cout << "FRONT/BACK/AT" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.front() = -42;
+        fill.back() /= -2;
+        fill.at(1) = 0;
+        cout << "print..." << ENDL;
+        print(fill);
+
+        cout << "INSERT" << ENDL;
+        cout << "operations..." << ENDL;
+        it1 = fill.begin();
+        it1 += 2;
+
+        fill.insert(it1, 3, 987654321);
+        cout << "print..." << ENDL;
+        print(fill);
+
+
+        cout << "RESIZE" << ENDL;
+        cout << "operations..." << ENDL;
+        fill.resize(20);
+        fill.resize(13);
+        cout << "print..." << ENDL;
+        print(fill);
+
+        try
+        {
+                cout << "AT(error)" << ENDL;
+                cout << "operations..." << ENDL;
+                fill.at(-1) = -1;
+        }
+        catch (std::out_of_range& oor)
+        {
+                (void)oor;
+                cout << "OOR error caught\n";
+        }
+        try
+        {
+                fill.at(15) = -1;
+        }
+        catch (std::out_of_range& oor)
+        {
+                (void)oor;
+                cout << "OOR error caught\n";
+        }
+        cout << "print..." << ENDL;
+        print(fill);
+
+}
+
 int main()
 {
 
 	void (*functptr[])() = {
-		basic_construct,
+		//basic_construct,
 		//test_insert,
 		//test_erase,
 		//test_reserve,
@@ -1231,7 +1336,9 @@ int main()
 		// tests_reverse,
 		//tests_swap,
 		//mazoise_swap
-	//	test_ints
+		//test_ints,
+		//test_relationnal,
+		mazoise_other
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)

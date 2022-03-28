@@ -37,6 +37,7 @@
 #define debug(x)	
 
 #define color(x)	"\033[1;96m" x RST
+#define ENDL			endl;
 
 #define test(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
 

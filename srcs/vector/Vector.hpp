@@ -79,8 +79,7 @@ namespace ft
 		{
 			debug("[Fill constructor]");
 			findtype(typeid(this->_curr).name());
-			//_curr = alloc_obj.allocate(n); // comme un "new", on a malloc ;
-			_curr = 0; // comme un "new", on a malloc ;
+			_curr = 0;
 			assign(n, value); 
 		}
 
@@ -92,8 +91,6 @@ namespace ft
 		{
 			debug("[Range constructor]");
 			findtype(typeid(this->_curr).name());
-			//_curr = alloc_obj.allocate(last - first + 1); // on malloc de la difference d'addresses entre la fin et le debut
-			//_curr = alloc_obj.allocate(0);
 			_curr = 0;
 			assign(first, last);
 		}
@@ -328,10 +325,11 @@ namespace ft
 				throw(std::out_of_range("vector::reserve"));
 			if (n > _capacity)
 			{
-				pointer tmp = alloc_obj.allocate(compute_capacity(n)); // on alloue
-				memcpy(tmp);										   // va copier l'instance cournte dans tmp
+				pointer tmp = alloc_obj.allocate(compute_capacity(n));
+				if (_size > 0) // on ne copie que si elems !!!  A VERIFIER 
+					memcpy(tmp);										   // va copier l'instance cournte dans tmp
 				if (old_capacity > 0)
-					alloc_obj.deallocate(_curr, old_capacity); // on peut desallouer l'instance courante
+					alloc_obj.deallocate(_curr, old_capacity);
 				_curr = tmp;
 			}
 		}
@@ -385,7 +383,7 @@ namespace ft
 		**	@return a reference to the first element in the vector container.
 		*/
 		reference front() { return (_curr[0]); }
-		const_reference front() const;
+		const_reference front() const { return (_curr[0]); }
 
 		/*
 		**	back
@@ -506,7 +504,6 @@ namespace ft
 		*/
 		iterator insert(iterator position, const T &x)
 		{
-			
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
 			reserve(_size + 1);
@@ -528,7 +525,6 @@ namespace ft
 		*/
 		void insert(iterator position, size_type n, const T &x)
 		{
-			
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
 			reserve(_size + n);
@@ -560,10 +556,13 @@ namespace ft
 
 			while (--i >= 0) // pq 0 et pas start et ca marche ???????????
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
+
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
+											std::cout << "ICI " << *(first +j) << std::endl;
+
 				alloc_obj.destroy(_curr + start);
-				alloc_obj.construct(_curr + start, *(first + j));
+				alloc_obj.construct(_curr + start, *(first + j)); // INVALID READ ICI
 			}
 			_size += diff;
 		}
@@ -578,6 +577,8 @@ namespace ft
 		*/
 		iterator erase(iterator position)
 		{
+			if (_size <= 0)
+				return (position); // ?? on verra 
 			int i = ft::distance(begin(), position);
 			iterator it = position + 1;
 			while (it != end())
@@ -602,6 +603,8 @@ namespace ft
 		*/
 		iterator erase(iterator first, iterator last)
 		{
+			if (_size <= 0)
+				return (first); // PROTECTION OK 
 			int i = ft::distance(begin(), first);
 			int step = ft::distance(first, last) - 1;
 			if (step <= 0)
@@ -610,7 +613,7 @@ namespace ft
 			while (it != end())
 			{
 				alloc_obj.destroy(_curr + i);
-				if (last != end() && i + step < (int)_size)
+				if (last != end() && i + step < (int)_size - 1)
 					alloc_obj.construct(_curr + i, *(it + step));
 				it++;
 				i++;
@@ -711,7 +714,7 @@ namespace ft
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		
-		return (ft::equal(lhs.begin(), rhs.begin(), lhs.end()));
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 /*
