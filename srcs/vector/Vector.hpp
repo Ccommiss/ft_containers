@@ -97,8 +97,8 @@ namespace ft
 		~vector()
 		{
 			clear();
-			if (_capacity > 0)
-				alloc_obj.deallocate(_curr, _capacity);
+			//if (_capacity > 0)
+			alloc_obj.deallocate(_curr, _capacity);
 		};
 
 		/*
@@ -273,8 +273,6 @@ namespace ft
 		*/
 		void memcpy(pointer &tmp) const
 		{
-			debug ("MEMCPY")
-
 			iterator it;
 			size_t i = 0;
 			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
@@ -285,7 +283,6 @@ namespace ft
 		}
 		void memcpy(pointer &tmp)
 		{
-			debug ("MEMCPY")
 			iterator it;
 			size_t i = 0;
 			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
@@ -524,7 +521,6 @@ namespace ft
 		{
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
-			debug (size() + n);
 			reserve(_size + n);
 			while (i && --i >= (int)start)
 			{
@@ -588,6 +584,7 @@ namespace ft
 				it++;
 				i++;
 			}
+			alloc_obj.destroy(_curr + i); // RESOUD UN LEAK MAIS ME PARAIT DANGEREUX ??
 			_size -= 1;
 			return (position);
 		}
@@ -618,6 +615,8 @@ namespace ft
 				it++;
 				i++;
 			}
+			alloc_obj.destroy(_curr + i); // RESOUD UN LEAK MAIS ME PARAIT DANGEREUX ??
+
 			_size -= step + 1;
 			return (first); // ??
 		}

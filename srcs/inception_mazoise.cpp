@@ -423,7 +423,15 @@ void mazoise_inception()
 
 	//RELATIONAL OPERATORS
 	std::cout << "\nRELATIONAL OPERATORS\n";
-	vector<vector<int> > MIKE_2(MIKE);
+	vector<vector<int> > MIKE_2(MIKE); 
+	for (size_t i = 0; i < BOB.size(); i++)
+	{
+		for (size_t j = 0; j < BOB[i].size(); j++)
+			std::cout << BOB[i][j] << ' ';
+		std::cout << std::endl;
+	}
+
+
 	std::cout << "MIKE and BOB are equal ? " << (MIKE == BOB) << '\n';
 	std::cout << "MIKE and MIKE_2 are equal ? " << (MIKE == MIKE_2) << '\n';
 
