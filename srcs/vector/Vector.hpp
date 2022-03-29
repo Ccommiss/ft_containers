@@ -7,21 +7,11 @@
 
 #include <typeinfo> // ASUPPRIEMR
 
-void findtype(std::string info)
-{
-	(void)info;
-	// std::cout << "Current type is : ";
-	// if (info == typeid(int*).name()) { debug("pointer on int"); }
-	// else if (info == typeid(int).name()) { debug("int"); }
-	// else if (info == typeid(std::string*).name()) { debug("pointer on string"); }
-	// else if (info == typeid(unsigned int*).name()) { debug("pointer on unsigned int"); }
-	// else if (info == typeid(std::vector<int> *).name()) { debug("pointer on vector<int>"); }
-	// else if (info == typeid(std::vector<std::string> *).name()) { debug("pointer on vector<std::string>"); }
-	// else { debug(info) };
-}
+
 
 namespace ft
 {
+
 
 	/*
 	**	vector
@@ -78,7 +68,6 @@ namespace ft
 		explicit vector(size_type n, const T &value = T(), const Alloc & = Alloc()) : _size(0), _capacity(0) //, typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
 		{
 			debug("[Fill constructor]");
-			findtype(typeid(this->_curr).name());
 			_curr = 0;
 			assign(n, value);
 		}
@@ -90,7 +79,6 @@ namespace ft
 		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0) : _size(0), _capacity(0)
 		{
 			debug("[Range constructor]");
-			findtype(typeid(this->_curr).name());
 			_curr = 0;
 			assign(first, last);
 		}
@@ -98,7 +86,7 @@ namespace ft
 		/*
 		** 		Copy constructors
 		*/
-		vector(const vector<T, Alloc> &x) : _size(0), _capacity(0), _curr(0)
+		vector(const vector<T, Alloc> &x) :  _curr(0), _size(0), _capacity(0)
 		{
 			*this = x;
 		}
@@ -118,10 +106,14 @@ namespace ft
 		*/
 		vector<T, Alloc> &operator=(const vector<T, Alloc> &x) // TEST POUR LE RESERVE
 		{
-			// if (*this != x) // a recoder car pas de comparaisons entre const et non const
-			//{
-			this->assign(x.begin(), x.end());
-			//}
+			clear();
+			_capacity = 0;
+			_size = 0;
+			std::cout << "here CAPACITY " << _capacity << "X _size " << x.size() <<  std::endl;
+			if (*this != x) // a recoder car pas de comparaisons entre const et non const
+			{
+				this->assign(x.begin(), x.end());
+			}
 			return (*this);
 		}
 
@@ -319,8 +311,9 @@ namespace ft
 			iterator it;
 
 			int old_capacity = _capacity;
-			if (n > max_size())
-				throw(std::out_of_range("vector::reserve"));
+			std::cout << n << std::endl;
+			//if (n > max_size())
+			//	throw(std::out_of_range("vector::reserve"));
 			if (n > _capacity)
 			{
 				pointer tmp = alloc_obj.allocate(compute_capacity(n));
@@ -559,10 +552,9 @@ namespace ft
 
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
-				//std::cout << j << "ICI " << *(first +j) << std::endl;
 				alloc_obj.destroy(_curr + start);
 				//if (start < capacity)
-				alloc_obj.construct(_curr + start, *(first + j)); // INVALID READ ICI
+				alloc_obj.construct(_curr + start, *(first + j));
 			}
 			_size += diff;
 		}

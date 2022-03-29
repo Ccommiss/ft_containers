@@ -20,7 +20,10 @@
 # define NAMESPACE std
 #endif
 
+
 using namespace NAMESPACE;
+
+void mazoise_inception();
 
 int main()
 {
@@ -64,7 +67,7 @@ int main()
 
 	size_t	mike_resize = 9;
 	bob_resize = 0;
-	
+
 	BOB.resize(bob_resize);
 	cout << "BOB is empty now ? " << BOB.empty() << '\n';
 	MIKE.resize(mike_resize, 3);
@@ -319,7 +322,7 @@ int main()
 
 
 
-	
+
 	*/
 	cout << "Size of JOHN " << JOHN.size() << std::endl;
 	if (JOHN.capacity() >= JOHN.size())
@@ -367,7 +370,7 @@ int main()
 	for (size_t i = 0; i < MIKE.size(); i++)
 		cout << MIKE[i] << ' ';
 	cout << std::endl;
-	
+
 	//RELATIONAL OPERATORS
 	cout << "\nRELATIONAL OPERATORS\n";
 	vector<int> MIKE_2(MIKE);

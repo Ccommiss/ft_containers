@@ -1,7 +1,11 @@
 # include "includes.hpp"
 #include <vector>
 
+
+
 using namespace std;
+
+
 
 void example(std::vector<int>& r_vec)
 {
@@ -1436,7 +1440,8 @@ int main()
 		//mazoise_swap
 		//test_ints,
 		//test_relationnal,
-		mazoise_other
+		//mazoise_other
+		mazoise_inception
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
