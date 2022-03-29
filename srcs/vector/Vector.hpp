@@ -316,9 +316,7 @@ namespace ft
 			{
 				pointer tmp = alloc_obj.allocate(compute_capacity(n));
 				if (_size > 0) // on ne copie que si elems !!!  A VERIFIER
-				{
 					memcpy(tmp);  // va copier l'instance cournte dans tmp
-				}
 				//else
 				//	alloc_obj.construct(tmp, T()); // appremment pas utile ??? plus d'err valgrind ???
 				if (old_capacity > 0)
@@ -351,7 +349,10 @@ namespace ft
 		{
 			return (_curr[n]);
 		}
-		const_reference operator[](size_type n) const;
+		const_reference operator[](size_type n) const
+		{
+			return (_curr[n]);
+		}
 
 		/*
 		**	at()
@@ -361,7 +362,13 @@ namespace ft
 		**	@return a reference to the element at position n in the vector.
 		** 	@throw out_of_range if n >= a.size()
 		*/
-		const_reference at(size_type n) const;
+		const_reference at(size_type n) const
+		{
+			if (n <= _size)
+				return (_curr[n]);
+			else
+				throw std::out_of_range("out of range exception because n > size");
+		}
 		reference at(size_type n)
 		{
 			if (n <= _size)
@@ -386,7 +393,7 @@ namespace ft
 		**	@return a reference to the last element in the vector container.
 		*/
 		reference back() { return (_curr[_size - 1]); }
-		const_reference back() const;
+		const_reference back() const { return (_curr[_size - 1]); }
 
 		/* ****************************************************
 		**	💄 MODIFIERS
@@ -520,10 +527,12 @@ namespace ft
 		*/
 		void insert(iterator position, size_type n, const T &x)
 		{
+			if (n <= 0)
+				return ;
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
 			reserve(_size + n);
-			while (i && --i >= (int)start)
+			while (i && --i >= (int)start) // peut etre petit pb de calcul 
 			{
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
