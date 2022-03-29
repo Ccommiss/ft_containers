@@ -319,11 +319,12 @@ namespace ft
 				{
 					memcpy(tmp);  // va copier l'instance cournte dans tmp
 				}
-				else
-					alloc_obj.construct(tmp, T());// on initialise qd meme
+				//else
+				//	alloc_obj.construct(tmp, T()); // appremment pas utile ??? plus d'err valgrind ???
 				if (old_capacity > 0)
 					alloc_obj.deallocate(_curr, old_capacity);
 				_curr = tmp;
+
 			}
 		}
 
