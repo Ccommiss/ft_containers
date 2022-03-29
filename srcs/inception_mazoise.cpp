@@ -3,20 +3,45 @@
 
 using namespace ft;
 
+void print2(ft::vector<int>& r_vec)
+{
+	std::cout << BOLD("-> Mine only : ") << std::endl;
+	std::cout << FG1("Mine :") << std::endl;
+	ft::vector<int>::iterator it;
+	for (it = r_vec.begin(); it != r_vec.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+
+}
+
 void mazoise_inception()
 {
 	vector<int>			test1(3, 3);
 
 	std::cout << "self assignation test1\n";
 	vector<vector<int> >	self_assign;
-	std::cout << "lol" << std::endl;
+	std::cout << "CHEK SIZE " << self_assign.size() << std::endl; 
+	std::cout << "lol ASSIGN &SELF ASSIGN *PTR" << std::endl;
 	vector<vector<int> >	*ptr = &self_assign;
+	std::cout << "CHEK SIZE ptr " << ptr->size() << std::endl; 
+
 	std::cout << "lol dewf" << std::endl;
-	vector<vector<int> >	*ptr2 = &self_assign;
+	vector< vector<int> >	*ptr2 = &self_assign;
+	std::cout << "CHEK SIZE ptr2 " << ptr2->size() << std::endl; 
+
 
 	std::cout << "lol fwefwfe" << std::endl;
 
-	self_assign.assign(4, test1);
+
+	self_assign.assign(4, test1); // ptr va contenir 4 aussi, et ptr2 aussi
+	//vector< vector<int> >::iterator it = ptr->begin();
+
+	std::cout << "CHEK SIZE SELF ASS" << self_assign.size() << std::endl; 
+	std::cout << "CHEK SIZE " << ptr->size() << std::endl; 
+	std::cout << "CHEK SIZE " << ptr2->size() << std::endl; 
+	
+
+
 	*ptr = *ptr2;
 
 	std::cout << "ICI lolwefwefewef fwefwfe" << std::endl;
@@ -30,13 +55,17 @@ void mazoise_inception()
 	vector<vector<int> > JOHN;
 	vector<vector<int> > BOB(5, test1);
 	std::cout << "BOB(5, test1(test1, 5)) : \n";
+	print2(test1); // il est ok
+	std::cout << BOB.size() << std::endl;
 	for (size_t i = 0; i < BOB.size(); i++)
 	{
+		debug("SIZE DE BOB I " << BOB[i].size())
 		for (size_t j = 0; j < BOB[i].size(); j++)
 			std::cout << BOB[i][j] << ' ';
 		std::cout << '\n';
 	}
-	vector<vector<int> > MIKE(BOB);
+	exit (0);
+	vector< vector<int> > MIKE(BOB);
 
 	// CTORs
 	std::cout << "\nCTORS\n";
@@ -116,7 +145,9 @@ void mazoise_inception()
 		std::cout << "Capacity of BOB is sufficient\n";
 	else
 		std::cerr << "THERE IS A PROBLEM ON LINE 125\n";
+
 	std::cout << "Size of MIKE " << MIKE.size() << std::endl;
+	std::cout << "Capacity of MIKE " << MIKE.capacity() << std::endl;
 	if (MIKE.capacity() >= mike_reserve)
 		std::cout << "Capacity of MIKE is sufficient\n";
 	else

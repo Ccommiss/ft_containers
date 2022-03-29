@@ -96,9 +96,9 @@ namespace ft
 		*/
 		~vector()
 		{
-			//if (_capacity > 0)
 			clear();
-			alloc_obj.deallocate(_curr, _capacity);
+			if (_capacity > 0)
+				alloc_obj.deallocate(_curr, _capacity);
 		};
 
 		/*
@@ -106,12 +106,10 @@ namespace ft
 		*/
 		vector<T, Alloc> &operator=(const vector<T, Alloc> &x) // TEST POUR LE RESERVE
 		{
-			clear();
-			_capacity = 0;
-			_size = 0;
-			std::cout << "here CAPACITY " << _capacity << "X _size " << x.size() <<  std::endl;
-			if (*this != x) // a recoder car pas de comparaisons entre const et non const
+			std::cout << " lol " <<  std::endl;
+			if (*this != x)
 			{
+				clear();
 				this->assign(x.begin(), x.end());
 			}
 			return (*this);
@@ -276,20 +274,25 @@ namespace ft
 		*/
 		void memcpy(pointer &tmp) const
 		{
+						debug ("MEMCPY")
+
 			iterator it;
 			size_t i = 0;
 			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
 			{
-				tmp[i] = _curr[i];
+				alloc_obj.construct(tmp, _curr[i]);
+				//tmp[i] = _curr[i];
 			}
 		}
 		void memcpy(pointer &tmp)
 		{
+			debug ("MEMCPY")
 			iterator it;
 			size_t i = 0;
 			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
 			{
-				tmp[i] = _curr[i];
+				alloc_obj.construct(tmp, _curr[i]);
+				//tmp[i] = _curr[i];
 			}
 		}
 
@@ -311,16 +314,15 @@ namespace ft
 			iterator it;
 
 			int old_capacity = _capacity;
-			std::cout << n << std::endl;
-			//if (n > max_size())
-			//	throw(std::out_of_range("vector::reserve"));
+			if (n > max_size())
+				throw(std::out_of_range("vector::reserve"));
 			if (n > _capacity)
 			{
 				pointer tmp = alloc_obj.allocate(compute_capacity(n));
 				if (_size > 0) // on ne copie que si elems !!!  A VERIFIER
 					memcpy(tmp);  // va copier l'instance cournte dans tmp
 				else
-					tmp[0] = T();// on initialise qd meme
+					alloc_obj.construct(tmp, T());// on initialise qd meme
 				if (old_capacity > 0)
 					alloc_obj.deallocate(_curr, old_capacity);
 				_curr = tmp;
@@ -363,6 +365,7 @@ namespace ft
 		const_reference at(size_type n) const;
 		reference at(size_type n)
 		{
+			std::cout << "N IS " << _size << std::endl;
 			if (n <= _size)
 				return (_curr[n]);
 			else
@@ -518,14 +521,22 @@ namespace ft
 		*/
 		void insert(iterator position, size_type n, const T &x)
 		{
+
 			unsigned long start = ft::distance(begin(), position);
+			int old_capacity = _capacity;
 			int i = size();
 			reserve(_size + n);
 			while (--i >= (int)start)
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
+			
+			ft::vector<int> vec; 
+			if (typeid(vec) == typeid(x))
+				std::cout << "ICI " << *(x.begin()) << std::endl;
 			for (unsigned long j = 0; j < n; j++, start++) // on a diff elems a copier
 			{
-				alloc_obj.destroy(_curr + start);
+				if (old_capacity > 0)
+					alloc_obj.destroy(_curr + start);
+				debug ("on construit la");
 				alloc_obj.construct(_curr + start, x);
 			}
 			_size += n;
@@ -706,7 +717,6 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-
 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
