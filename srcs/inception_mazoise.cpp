@@ -42,7 +42,7 @@ void mazoise_inception()
 	
 
 
-	*ptr = *ptr2;
+	//*ptr = *ptr2;
 
 	std::cout << "ICI lolwefwefewef fwefwfe" << std::endl;
 
@@ -53,6 +53,8 @@ void mazoise_inception()
 
 
 	vector<vector<int> > JOHN;
+	//vector<vector<int> > BOB(5, ft::vector<int>(78, 13));
+
 	vector<vector<int> > BOB(5, test1);
 	std::cout << "BOB(5, test1(test1, 5)) : \n";
 	print2(test1); // il est ok
@@ -64,7 +66,6 @@ void mazoise_inception()
 			std::cout << BOB[i][j] << ' ';
 		std::cout << '\n';
 	}
-	exit (0);
 	vector< vector<int> > MIKE(BOB);
 
 	// CTORs

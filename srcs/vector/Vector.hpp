@@ -86,7 +86,7 @@ namespace ft
 		/*
 		** 		Copy constructors
 		*/
-		vector(const vector<T, Alloc> &x) :  _curr(0), _size(0), _capacity(0)
+		vector(const vector<T, Alloc> &x) : _curr(0), _size(0), _capacity(0)
 		{
 			*this = x;
 		}
@@ -106,8 +106,7 @@ namespace ft
 		*/
 		vector<T, Alloc> &operator=(const vector<T, Alloc> &x) // TEST POUR LE RESERVE
 		{
-			std::cout << " lol " <<  std::endl;
-			if (*this != x)
+			if (*this != x || _size != x.size())
 			{
 				clear();
 				this->assign(x.begin(), x.end());
@@ -526,12 +525,10 @@ namespace ft
 			int old_capacity = _capacity;
 			int i = size();
 			reserve(_size + n);
-			while (--i >= (int)start)
+			while (i && --i >= (int)start)
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
-			
-			ft::vector<int> vec; 
-			if (typeid(vec) == typeid(x))
-				std::cout << "ICI " << *(x.begin()) << std::endl;
+	
+			debug(i);
 			for (unsigned long j = 0; j < n; j++, start++) // on a diff elems a copier
 			{
 				if (old_capacity > 0)
