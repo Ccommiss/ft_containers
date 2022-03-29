@@ -1426,21 +1426,21 @@ int main()
 {
 
 	void (*functptr[])() = {
-		//basic_construct,
-		//test_insert,
-		//test_erase,
-		//test_reserve,
-		//test_resize,
-		//test_strings,
-		// test_access,
-		// test_front_back,
-		// tests_simple_it,
-		// tests_reverse,
-		//tests_swap,
-		//mazoise_swap
-		//test_ints,
-		//test_relationnal,
-		//mazoise_other
+		basic_construct,
+		test_insert,
+		test_erase,
+		test_reserve,
+		test_resize,
+		test_strings,
+		test_access,
+		test_front_back,
+		tests_simple_it,
+		tests_reverse,
+		tests_swap,
+		mazoise_swap,
+		test_ints,
+		test_relationnal,
+		mazoise_other,
 		mazoise_inception
 	};
 

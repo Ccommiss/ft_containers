@@ -67,6 +67,14 @@ void mazoise_inception()
 		std::cout << '\n';
 	}
 	vector< vector<int> > MIKE(BOB);
+	debug ("VERIF MIKE") // il est ok 
+		for (size_t i = 0; i < MIKE.size(); i++)
+	{
+		for (size_t j = 0; j < MIKE[i].size(); j++)
+			std::cout << MIKE[i][j] << ' ';
+		std::cout << '\n';
+	}
+
 
 	// CTORs
 	std::cout << "\nCTORS\n";
@@ -77,10 +85,19 @@ void mazoise_inception()
 	std::cout << "Size of BOB " << BOB.size() << std::endl;
 	std::cout << "Size of MIKE " << MIKE.size() << std::endl;
 
+		debug ("VERIF MIKE 2") 
+		for (size_t i = 0; i < MIKE.size(); i++)
+	{
+		for (size_t j = 0; j < MIKE[i].size(); j++)
+			std::cout << MIKE[i][j] << ' ';
+		std::cout << '\n';
+	}
+
 	// RESIZE
 	size_t	bob_resize = 2;
 	std::cout << "\nRESIZE\n";
-	BOB.resize(bob_resize);
+	std::cout << "BOB SIZE BEFOR " << BOB.size() << std::endl;
+	BOB.resize(bob_resize); // BOB RESIZE DE 5 A 2 
 	std::cout << "Size of JOHN " << JOHN.size() << std::endl;
 	if (JOHN.capacity() >= JOHN.size())
 		std::cout << "Capacity of JOHN is sufficient\n";
@@ -100,9 +117,12 @@ void mazoise_inception()
 	size_t	mike_resize = 9;
 	bob_resize = 0;
 
-	BOB.resize(bob_resize);
+	BOB.resize(bob_resize); // mais la resize a 0 ? 
 	std::cout << "BOB is empty now ? " << BOB.empty() << '\n';
-	MIKE.resize(mike_resize, test1);
+	
+	MIKE.resize(mike_resize, test1); 
+
+
 	std::cout << "Size of JOHN " << JOHN.size() << std::endl;
 	if (JOHN.capacity() >= JOHN.size())
 		std::cout << "Capacity of JOHN is sufficient\n";
@@ -197,17 +217,20 @@ void mazoise_inception()
 	//PUSH/POP_BACK
 	std::cout << "\nPUSH/POP_BACK\n";
 	test1.assign(2, 42);
+	//___ 
+
 	BOB.push_back(test1);
 	std::cout << "last elem of BOB : " << BOB.back().back() << '\n';
 	BOB.pop_back();
 	std::cout << "last elem of BOB : " << BOB.back().back() << '\n';
 
-	//INSERT
+	//INSERT /
 	std::cout << "\nINSERT\n";
 	vector<vector<int> >	insert_in_me;
 	for (int i = 0; i < 15; i++)
 	{
 		vector<int>	j(2, i);
+		debug("vector created");
 		insert_in_me.push_back(j);
 	}
 	for (size_t i = 0; i < insert_in_me.size(); i++)
@@ -257,14 +280,22 @@ void mazoise_inception()
 	{
 		vector<int>	j(2, i * 3);
 		insert_bis.push_back(j);
+		debug ("inserted value = " << i * 3)
+		for (size_t k = 0; k < insert_bis.size(); k++)
+			std::cout <<  insert_bis.at(k).back() << " :)";
+		std::cout << std::endl;
 	}
+
 	for (size_t i = 0; i < insert_bis.size(); i++)
 		std::cout << insert_bis[i].back() << ' ';
 	std::cout << '\n';
 
 	insert_bis.insert(insert_bis.begin() + 5, insert_in_me.begin(), insert_in_me.end());
+	
+	debug ("INSERT SIZE = " << insert_bis.size() << "AND CAP" << insert_bis.capacity() << "AFTER ADDING " << insert_in_me.size())
+	debug (insert_bis[0].front());
 	for (size_t i = 0; i < insert_bis.size(); i++)
-		std::cout << insert_bis[i].back() << ' ';
+		std::cout << insert_bis[i].back() << '\n';
 	std::cout << '\n';
 
 

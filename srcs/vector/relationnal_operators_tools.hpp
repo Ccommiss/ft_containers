@@ -45,7 +45,6 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 		++first1;
 		++first2;
 	}
-	std::cout << "ILS SONT PAREILS" << std::endl;
 	return true;
 }
 

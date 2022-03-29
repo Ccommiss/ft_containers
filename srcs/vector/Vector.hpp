@@ -273,14 +273,14 @@ namespace ft
 		*/
 		void memcpy(pointer &tmp) const
 		{
-						debug ("MEMCPY")
+			debug ("MEMCPY")
 
 			iterator it;
 			size_t i = 0;
 			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
 			{
-				alloc_obj.construct(tmp, _curr[i]);
-				//tmp[i] = _curr[i];
+				alloc_obj.construct(&tmp[i], _curr[i]);
+				alloc_obj.destroy(&_curr[i]);
 			}
 		}
 		void memcpy(pointer &tmp)
@@ -290,8 +290,8 @@ namespace ft
 			size_t i = 0;
 			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
 			{
-				alloc_obj.construct(tmp, _curr[i]);
-				//tmp[i] = _curr[i];
+				alloc_obj.construct(&tmp[i], _curr[i]);
+				alloc_obj.destroy(&_curr[i]);
 			}
 		}
 
@@ -319,7 +319,9 @@ namespace ft
 			{
 				pointer tmp = alloc_obj.allocate(compute_capacity(n));
 				if (_size > 0) // on ne copie que si elems !!!  A VERIFIER
+				{
 					memcpy(tmp);  // va copier l'instance cournte dans tmp
+				}
 				else
 					alloc_obj.construct(tmp, T());// on initialise qd meme
 				if (old_capacity > 0)
@@ -364,7 +366,6 @@ namespace ft
 		const_reference at(size_type n) const;
 		reference at(size_type n)
 		{
-			std::cout << "N IS " << _size << std::endl;
 			if (n <= _size)
 				return (_curr[n]);
 			else
@@ -504,7 +505,8 @@ namespace ft
 			reserve(_size + 1);
 			while (--i >= (int)start) // on decale le cas echeant
 				alloc_obj.construct(_curr + i + 1, *(_curr + i));
-			alloc_obj.destroy(_curr + start);
+			if (start != size()) // 
+				alloc_obj.destroy(_curr + start);
 			alloc_obj.construct(_curr + start, x);
 			_size += 1;
 			return (iterator(_curr + start));
@@ -520,20 +522,17 @@ namespace ft
 		*/
 		void insert(iterator position, size_type n, const T &x)
 		{
-
 			unsigned long start = ft::distance(begin(), position);
-			int old_capacity = _capacity;
 			int i = size();
+			debug (size() + n);
 			reserve(_size + n);
 			while (i && --i >= (int)start)
+			{
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
-	
-			debug(i);
+				alloc_obj.destroy(_curr + i);
+			}
 			for (unsigned long j = 0; j < n; j++, start++) // on a diff elems a copier
 			{
-				if (old_capacity > 0)
-					alloc_obj.destroy(_curr + start);
-				debug ("on construit la");
 				alloc_obj.construct(_curr + start, x);
 			}
 			_size += n;
@@ -553,15 +552,16 @@ namespace ft
 			unsigned long diff = ft::distance(first, last);
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
-			reserve(diff + _size + 30);
+			reserve(diff + _size);
 
-			while (--i >= 0) // pq 0 et pas start et ca marche ???????????
+			while (--i >= (int)start) // pq 0 et pas start et ca marche ???????????
+			{
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
+				alloc_obj.destroy(_curr + i);
+			} 
 
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
-				alloc_obj.destroy(_curr + start);
-				//if (start < capacity)
 				alloc_obj.construct(_curr + start, *(first + j));
 			}
 			_size += diff;
@@ -714,6 +714,8 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
+		if (lhs.size() != rhs.size())
+			return false;
 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
