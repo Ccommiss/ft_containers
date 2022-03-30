@@ -36,10 +36,10 @@ namespace ft
 		typedef typename allocator_type::pointer pointer;				  // T*
 		typedef typename allocator_type::const_pointer const_pointer;
 		/* Les iterateurs */
-		typedef ft::random_access_iterator<value_type> iterator;
-		typedef ft::random_access_iterator<const value_type> const_iterator;
-		typedef ft::reverse_random_access_iterator<value_type> reverse_iterator;
-		typedef ft::reverse_random_access_iterator<const value_type> const_reverse_iterator;
+		typedef ft::random_access_iterator<value_type>					iterator;
+		typedef ft::random_access_iterator<const value_type>			const_iterator;
+		typedef ft::reverse_random_access_iterator<iterator>			reverse_iterator;
+		typedef ft::reverse_random_access_iterator<const_iterator>	const_reverse_iterator;
 
 		/* Diff type & size_type */
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type difference_type;

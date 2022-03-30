@@ -25,21 +25,22 @@ namespace ft
 	struct iterator_traits;
 
 	template <typename T>
-	class reverse_random_access_iterator : public ft::iterator<typename iterator_traits< T>::iterator_category,
+	class reverse_random_access_iterator : public ft::iterator
+					<typename iterator_traits<T>::iterator_category,
                       typename iterator_traits< T>::value_type,
                       typename iterator_traits< T>::difference_type,
                       typename iterator_traits< T>::pointer,
                       typename iterator_traits< T>::reference>
 	{
 		public:
-		typedef ft::iterator_traits<T>                __traits_type;
-		typedef T                                   		iterator_type;
+		typedef ft::iterator_traits<T>                			__traits_type;
+		typedef T                                   			iterator_type;
 		typedef typename __traits_type::difference_type        	difference_type;
 		typedef typename __traits_type::pointer                	pointer;
 		typedef typename __traits_type::reference               reference;
 
 		private:
-		pointer _curr;
+		iterator_type _curr;
 
 		public:
 
@@ -52,7 +53,7 @@ namespace ft
 		/*
 		**	 constructor
 		*/
-		reverse_random_access_iterator(T* rhs) : _curr(rhs) {};
+		reverse_random_access_iterator(iterator_type rhs) : _curr(rhs) {};
 
 		/*
 		**	Copy constructor
@@ -67,7 +68,7 @@ namespace ft
 		template<typename _Iter>
 		reverse_random_access_iterator(const reverse_random_access_iterator<_Iter>& __x) : _curr(__x.base()) { }
 
-		pointer base() const
+		iterator_type base() const
 		{
 			return _curr;
 		}
@@ -77,24 +78,29 @@ namespace ft
 		*/
 		reference		operator*()
 		{
-			pointer __tmp = _curr;
+			iterator_type __tmp = _curr;
 			return *--__tmp;
 		}
-		const pointer operator->() const throw() { return _curr; }
-		reference operator[](difference_type off) const { return _curr[off]; }
+		const pointer operator->() const { return &(operator*()); }
+		reference operator[](difference_type off) const { return *(*this + off); }
 
 		// /* ARITHMETIQUES */
-		/* a + b */ difference_type operator+(const reverse_random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
+		/* a + b */ difference_type operator+(const reverse_random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
 		/* a + n */ reverse_random_access_iterator operator+(const difference_type step) const { return reverse_random_access_iterator(_curr - step); }
 		/* TEST */	reverse_random_access_iterator operator+(difference_type step) { return reverse_random_access_iterator(_curr - step); } // + step); }
 
-		/* a - b */ difference_type operator-(const reverse_random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
+		/* a - b */ difference_type operator-(const reverse_random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
 		/* a - n */ reverse_random_access_iterator operator-(const difference_type step) const { return reverse_random_access_iterator(_curr + step); }
 		/* TEST */ reverse_random_access_iterator operator-(difference_type step) { return reverse_random_access_iterator(_curr + step); }
 
 		/* a += n */ reverse_random_access_iterator& operator+=(const difference_type step) { this->_curr -= step; return *this; }
 		/* a -= n */ reverse_random_access_iterator& operator-=(const difference_type step) { this->_curr += step; return *this; }
-		/* b = a */ reverse_random_access_iterator& operator=(const reverse_random_access_iterator& rhs) { this->_curr = rhs._curr; return *this; }
+		/* b = a */ 
+		reverse_random_access_iterator& operator=(const reverse_random_access_iterator& rhs) 
+		{ 
+			this->_curr = rhs._curr; 
+			return *this; 
+		}
 
 		/*
 		**	Pointer like operators
@@ -160,7 +166,7 @@ namespace ft
 	}
 	// a + n  
 	template<typename _Iterator>
-	typename reverse_random_access_iterator<_Iterator>::difference_type
+	reverse_random_access_iterator<_Iterator>
 		operator+(typename reverse_random_access_iterator<_Iterator>::difference_type __n,
 			const reverse_random_access_iterator<_Iterator>& __x)
 	{
