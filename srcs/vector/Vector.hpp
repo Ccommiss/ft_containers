@@ -311,10 +311,10 @@ namespace ft
 
 			int old_capacity = _capacity;
 			if (n > max_size())
-				throw(std::out_of_range("vector::reserve"));
+				throw(std::length_error("vector::reserve")); // FAIRE RESIZE AUSSI
 			if (n > _capacity)
 			{
-				pointer tmp = alloc_obj.allocate(compute_capacity(n));
+				pointer tmp = alloc_obj.allocate(n);
 				if (_size > 0) // on ne copie que si elems !!!  A VERIFIER
 					memcpy(tmp);  // va copier l'instance cournte dans tmp
 				//else
@@ -322,6 +322,7 @@ namespace ft
 				if (old_capacity > 0)
 					alloc_obj.deallocate(_curr, old_capacity);
 				_curr = tmp;
+				_capacity = n;
 
 			}
 		}
@@ -465,14 +466,20 @@ namespace ft
 			erase(end() - 1);
 		}
 
-		// custom
-		int compute_capacity(unsigned long n)
+		///Si la capacite est ok c bon 
+		int compute_capacity(size_type n) // n = le nb d'elem en plus a inserer
 		{
-			if (n > _size * 2)
-				_capacity = _size + n;
+			int new_capacity = 0;
+			if (_capacity >= _size + n)
+			{
+				return (_capacity);
+			}
+			else if (n + _size >= _size * 2)
+				new_capacity = _size + n;
 			else
-				_capacity = _size * 2;
-			return _capacity;
+				new_capacity = _size * 2;
+		//	std::cout << _capacity << " AND NEW CAPACITY " << new_capacity << std::endl;
+			return new_capacity;
 		}
 
 		/*
@@ -504,7 +511,7 @@ namespace ft
 		{
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
-			reserve(_size + 1);
+			reserve(compute_capacity(1));
 			while (--i >= (int)start) // on decale le cas echeant
 			{	
 				alloc_obj.construct(_curr + i + 1, *(_curr + i));
@@ -529,14 +536,19 @@ namespace ft
 				return ;
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
-			reserve(_size + n);
+			reserve(compute_capacity(n)); // on dirait pb ici..... 
+			//reserve(_size + n);
+			//std::cout << " N IS "  << n << "CAP IS " << _capacity << std::endl;
+			//std::cout << "SIZE + N = " << _size + n << " VS COMPUTE " << compute_capacity(n) << std::endl;
 			while (i && --i >= (int)start) // peut etre petit pb de calcul 
 			{
+				//std::cout << "I" << i << std::endl;
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
 			}
 			for (unsigned long j = 0; j < n; j++, start++) // on a diff elems a copier
 			{
+				//	std::cout << "J" << j << std::endl;
 				alloc_obj.construct(_curr + start, x);
 			}
 			_size += n;
@@ -556,7 +568,7 @@ namespace ft
 			unsigned long diff = ft::distance(first, last);
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
-			reserve(diff + _size);
+			reserve(compute_capacity(diff));
 
 			while (--i >= (int)start) 
 			{
