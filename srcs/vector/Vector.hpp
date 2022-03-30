@@ -509,9 +509,10 @@ namespace ft
 			int i = size();
 			reserve(_size + 1);
 			while (--i >= (int)start) // on decale le cas echeant
+			{	
 				alloc_obj.construct(_curr + i + 1, *(_curr + i));
-			if (start != size()) // 
-				alloc_obj.destroy(_curr + start);
+				alloc_obj.destroy(_curr + i);
+			}	
 			alloc_obj.construct(_curr + start, x);
 			_size += 1;
 			return (iterator(_curr + start));
@@ -642,7 +643,7 @@ namespace ft
 		/*
 		** 	Swap
 		**
-		**	@briefExchanges the contents of the container with those of other. Does not
+		**	@brief Exchanges the contents of the container with those of other. Does not
 		**	invoke any move, copy, or swap operations on individual elements.
 		**	@param other another container of vector type to exchange the contents with
 		** 	@iterator_validity iterators, pointers and references referring to elements
