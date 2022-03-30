@@ -76,7 +76,7 @@ namespace ft
 		/*
 		**	Pointer like operators
 		*/
-		reference		operator*()
+		reference		operator*() const
 		{
 			iterator_type __tmp = _curr;
 			return *--__tmp;

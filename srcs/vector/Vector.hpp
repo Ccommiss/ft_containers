@@ -569,7 +569,10 @@ namespace ft
 
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
-				alloc_obj.construct(_curr + start, *(first + j));
+				//alloc_obj.construct(_curr + start, *(first + j)); // TEST PIOUR BIDIRECTIONNAL MARC LI SI INPUT != des RAI 
+				alloc_obj.construct(_curr + start, *(first));
+				first++;
+
 			}
 			_size += diff;
 		}

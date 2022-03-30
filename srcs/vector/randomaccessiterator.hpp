@@ -43,8 +43,8 @@ namespace ft
 		/*
 		** 		Pointer like operators
 		*/
-		reference		operator*() { return *_curr; }
-		const T* operator->() const throw() { return _curr; }
+		reference		operator*() const { return *_curr; }
+		pointer operator->() const { return &(operator*()); }
 		reference operator[](difference_type off) const { return _curr[off]; }
 		// /* ARITHMETIQUES */
 		/* a + b */ difference_type operator+(const random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
