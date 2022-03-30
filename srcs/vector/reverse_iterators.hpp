@@ -1,9 +1,9 @@
-
-
 # ifndef reverse_random_access_iteratorS_HPP
 # define reverse_random_access_iteratorS_HPP
 
 #include "includes.hpp"
+
+
 
 /*	 +---+---+---+---+---+---+---+
 **	 |   | 1 | 2 | 3 | 4 | 5 |   |
@@ -18,17 +18,25 @@
 */
 
 
+
 namespace ft
 {
+	template <class U>
+	struct iterator_traits;
+
 	template <typename T>
-	class reverse_random_access_iterator : public ft::iterator<ft::random_access_iterator_tag, T>
+	class reverse_random_access_iterator : public ft::iterator<typename iterator_traits< T>::iterator_category,
+                      typename iterator_traits< T>::value_type,
+                      typename iterator_traits< T>::difference_type,
+                      typename iterator_traits< T>::pointer,
+                      typename iterator_traits< T>::reference>
 	{
 		public:
-		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type 			difference_type;
-		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type	 			value_type;
-		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::reference 		 		reference;
-		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category 		iterator_category;
-		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::pointer 					pointer;
+		typedef ft::iterator_traits<T>                __traits_type;
+		typedef T                                   		iterator_type;
+		typedef typename __traits_type::difference_type        	difference_type;
+		typedef typename __traits_type::pointer                	pointer;
+		typedef typename __traits_type::reference               reference;
 
 		private:
 		pointer _curr;
@@ -36,19 +44,19 @@ namespace ft
 		public:
 
 
-/*
-**	Default constructor 
-*/
+		/*
+		**	Default constructor
+		*/
 		reverse_random_access_iterator() : _curr(0) {};
 
-/*
-**	 constructor 
-*/
+		/*
+		**	 constructor
+		*/
 		reverse_random_access_iterator(T* rhs) : _curr(rhs) {};
 
-/*
-**	Copy constructor 
-*/
+		/*
+		**	Copy constructor
+		*/
 		reverse_random_access_iterator(const reverse_random_access_iterator& rhs) : _curr(rhs._curr) {};
 
 		/*

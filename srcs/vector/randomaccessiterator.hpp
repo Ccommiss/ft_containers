@@ -6,6 +6,11 @@
 
 // https://code.woboq.org/gcc/libstdc++-v3/include/bits/stl_iterator.h.html#__gnu_cxx::random_access_iterator 
 
+
+template <class T>
+struct iterator_traits;
+
+
 namespace ft
 {
 	template <typename T>
