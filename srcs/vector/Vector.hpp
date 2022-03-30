@@ -468,13 +468,10 @@ namespace ft
 		// custom
 		int compute_capacity(unsigned long n)
 		{
-			if (_capacity < _size + n)
-			{
-				if (n > _size * 2)
-					_capacity = _size + n;
-				else
-					_capacity = _size * 2;
-			}
+			if (n > _size * 2)
+				_capacity = _size + n;
+			else
+				_capacity = _size * 2;
 			return _capacity;
 		}
 
