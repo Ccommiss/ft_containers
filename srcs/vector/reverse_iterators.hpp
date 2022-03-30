@@ -85,11 +85,11 @@ namespace ft
 		reference operator[](difference_type off) const { return *(*this + off); }
 
 		// /* ARITHMETIQUES */
-		/* a + b */ difference_type operator+(const reverse_random_access_iterator& rhs) const { return (this->_curr - rhs.base()); }
+		/* a + b */ difference_type operator+(const reverse_random_access_iterator& rhs) const { return (_curr - rhs.base()); }
 		/* a + n */ reverse_random_access_iterator operator+(const difference_type step) const { return reverse_random_access_iterator(_curr - step); }
 		/* TEST */	reverse_random_access_iterator operator+(difference_type step) { return reverse_random_access_iterator(_curr - step); } // + step); }
 
-		/* a - b */ difference_type operator-(const reverse_random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
+		///* a - b */ difference_type operator-(const reverse_random_access_iterator& rhs) const { return (_curr + rhs.base()); }
 		/* a - n */ reverse_random_access_iterator operator-(const difference_type step) const { return reverse_random_access_iterator(_curr + step); }
 		/* TEST */ reverse_random_access_iterator operator-(difference_type step) { return reverse_random_access_iterator(_curr + step); }
 
@@ -164,6 +164,8 @@ namespace ft
 	{
 		return !(__x < __y);
 	}
+
+
 	// a + n  
 	template<typename _Iterator>
 	reverse_random_access_iterator<_Iterator>
@@ -173,13 +175,20 @@ namespace ft
 		return reverse_random_access_iterator<_Iterator>(__x.base() - __n);
 	}
 
-	template<typename _IteratorL, typename _IteratorR>
-	typename reverse_random_access_iterator<_IteratorL>::difference_type
-		operator-(const reverse_random_access_iterator<_IteratorL>& __x,
-			const reverse_random_access_iterator<_IteratorR>& __y)
-	{
-		return __y.base() - __x.base();
-	}
+
+template <class L_Iterator, class R_Iterator>
+  typename reverse_random_access_iterator<L_Iterator>::difference_type operator- (
+     const reverse_random_access_iterator<L_Iterator>& lhs,
+     const reverse_random_access_iterator<R_Iterator>& rhs)
+     { return (rhs.base() - lhs.base());        }
+
+
+	// template<typename _IteratorL, typename _IteratorR>
+	// typename reverse_random_access_iterator<_IteratorL>
+	// 	&operator-(const _IteratorL& __x, const _IteratorR& __y)
+	// {
+	// 	return __y.base() - __x.base();
+	// }
 
 }
 

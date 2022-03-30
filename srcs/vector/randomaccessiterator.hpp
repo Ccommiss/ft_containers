@@ -47,7 +47,8 @@ namespace ft
 		pointer operator->() const { return &(operator*()); }
 		reference operator[](difference_type off) const { return _curr[off]; }
 		// /* ARITHMETIQUES */
-		/* a + b */ difference_type operator+(const random_access_iterator& rhs) const { return (this->_curr + rhs.base()); }
+		/* a + b */ difference_type operator+(const random_access_iterator& rhs) const { return (_curr + rhs.base()); }
+
 		///* a + n */ random_access_iterator operator+(const difference_type step) const { return (this->_curr + step); }
 		/* TEST*/	random_access_iterator operator+(difference_type step) { return random_access_iterator(_curr + step); } // + step); }
 

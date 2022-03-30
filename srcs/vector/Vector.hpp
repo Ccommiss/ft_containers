@@ -561,12 +561,11 @@ namespace ft
 			int i = size();
 			reserve(diff + _size);
 
-			while (--i >= (int)start) // pq 0 et pas start et ca marche ???????????
+			while (--i >= (int)start) 
 			{
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
 			} 
-
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
 				//alloc_obj.construct(_curr + start, *(first + j)); // TEST PIOUR BIDIRECTIONNAL MARC LI SI INPUT != des RAI 
