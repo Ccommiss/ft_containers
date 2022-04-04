@@ -478,7 +478,6 @@ namespace ft
 				new_capacity = _size + n;
 			else
 				new_capacity = _size * 2;
-		//	std::cout << _capacity << " AND NEW CAPACITY " << new_capacity << std::endl;
 			return new_capacity;
 		}
 
@@ -550,6 +549,7 @@ namespace ft
 			{
 				//	std::cout << "J" << j << std::endl;
 				alloc_obj.construct(_curr + start, x);
+			
 			}
 			_size += n;
 		}

@@ -18,7 +18,6 @@
 */
 
 
-
 namespace ft
 {
 	template <class U>
@@ -97,7 +96,7 @@ namespace ft
 		/* a -= n */ reverse_random_access_iterator& operator-=(const difference_type step) { this->_curr += step; return *this; }
 		/* b = a */ 
 		reverse_random_access_iterator& operator=(const reverse_random_access_iterator& rhs) 
-		{ 
+		{
 			this->_curr = rhs._curr; 
 			return *this; 
 		}
@@ -106,10 +105,9 @@ namespace ft
 		**	Pointer like operators
 		*/
 		reverse_random_access_iterator& operator--() { ++_curr; return *this; }
-		/* ++a */ reverse_random_access_iterator& operator++() { --_curr; return *this; }
+		reverse_random_access_iterator& operator++() { --_curr; return *this; }
 		reverse_random_access_iterator operator--(int) { reverse_random_access_iterator tmp(*this); ++_curr; return tmp; }
-		/* a++ */ reverse_random_access_iterator operator++(int) { reverse_random_access_iterator tmp(*this); --_curr; return tmp; }
-
+		reverse_random_access_iterator operator++(int) { reverse_random_access_iterator tmp(*this); --_curr; return tmp; }
 
 		/* COMPARISONS */
 		bool operator<(const reverse_random_access_iterator& rhs) const { return this->_curr > rhs._curr; }

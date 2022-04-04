@@ -37,14 +37,13 @@
 #define debug(x)
 
 #define color(x)	"\033[1;96m" x RST
-//#define ENDL			endl;
+#define ENDL			endl;
 
-//#define test(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
-
-//cout << HEADER("\n**** TESTS INSERT ****") << endl;
+#define test(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
 
 
 void mazoise_inception();
+void map_basics();
 
 //void	print(std::string func);
 #	include <vector>
@@ -55,6 +54,8 @@ void mazoise_inception();
 # 	include	"randomaccessiterator.hpp"
 # 	include "iterator_traits.hpp"
 #	include "relationnal_operators_tools.hpp"
+# include "ft_pair.hpp"
+#	include "Map.hpp"
 
 #	include "Vector.hpp"
 

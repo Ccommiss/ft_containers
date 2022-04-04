@@ -22,6 +22,8 @@
 - [Map](#map)
 		- [Definition](#definition)
 	- [Tree](#tree)
+		- [From Binary Search Tree (BST)](#from-binary-search-tree-bst)
+		- [To Self-Balancing Search Trees](#to-self-balancing-search-trees)
 
 
 ## Sujet
@@ -257,8 +259,26 @@ __________
 
 ### Tree
 
+#### From Binary Search Tree (BST)
+
+![Tux, the Linux mascot](/doc_src/180px-Binary_search_tree.svg.png)
+
+- Main principle : **the key in each node is greater than any key stored in the left sub-tree, and less than or equal to any key stored in the right sub-tree** (Wikipedia)
+-  the BST property is as follow: For every vertex X, all vertices on the left subtree of X are strictly smaller than X and all vertices on the right subtree of X are strictly greater than X. (https://visualgo.net/en/bst?slide=4-2)
+- Conseuqences 
+  - Each node has only up to two children
 
 
+Abstract Data Type (ADT).
+
+#### To Self-Balancing Search Trees
+
+From Wikipedia definition, 
+
+>Self-balancing binary search trees modify the basic insertion and deletion operations of binary search trees, often using additional information on each node, in order to maintain logarithmic depth. These include two early structures of this type, AVL trees, which maintain an invariant that subtree heights differ by at most one, and red–black trees, which instead color nodes red or black and maintain an invariant on the number of colored nodes on each root-to-leaf path.
+
+
+- Vertex has at least 4 attributes: parent, left, right, key/value/data
 
 
 

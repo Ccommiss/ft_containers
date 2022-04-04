@@ -79,13 +79,6 @@ namespace ft
 		}
 
 	};
-	/* n + a */
-	//template <typename T>
-	//random_access_iterator<T>   operator+(typename ft::random_access_iterator<T>::difference_type n, random_access_iterator<T> a) { return (a + n); }
-
-	/*a - b*/
-	// template <typename T>
-	// typename ft::random_access_iterator<T>::difference_type operator-(const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs) { return lhs.base() - rhs.base(); }
 
 	template<typename _IteratorL, typename _IteratorR>
 	inline bool operator==(const random_access_iterator<_IteratorL >& __lhs,

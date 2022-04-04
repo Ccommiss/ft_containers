@@ -24,18 +24,18 @@ namespace ft
 		/*
 		** 1) Default constructor. Value-initializes both elements of the pair, first and second.
 		*/
-		pair() : first(0), second(0);
+		pair() : first(0), second(0) {}
 
 		/*
 		** 2) Initializes first with x and second with y.
 		*/
-		pair(const T1 &x, const T2 &y) : first(x), second(y);
+		pair(const T1 &x, const T2 &y) : first(x), second(y) {}
 
 		/*
 		** 4) Initializes first with p.first and second with p.second.
 		*/
 		template <class U1, class U2>
-		pair(const pair<U1, U2> &p) : first(p.first), second(p.second);
+		pair(const pair<U1, U2> &p) : first(p.first), second(p.second) {}
 
 		/*
 		** 1) Copy assignment operator. Replaces the contents with a copy of the contents of other.
@@ -75,8 +75,9 @@ namespace ft
 	template <class T1, class T2>
 	bool operator<(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 	{
-		ft::lexicographical_compare
-		return (ft:lelhs < rhs);
+		return (lhs.first < rhs.first);
 	}
 
 }
+
+#endif

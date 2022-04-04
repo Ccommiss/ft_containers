@@ -1451,9 +1451,11 @@ int main()
 		// test_ints,
 		// test_relationnal,
 		// mazoise_other,
-		mazoise_inception
+	//	mazoise_inception
 		//leaks_test
+		map_basics
 	};
+
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
 	{
