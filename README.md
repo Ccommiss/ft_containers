@@ -350,6 +350,11 @@ RB trees implementation
   -  When inserted, start as a RED.
   -  **The path from one node to end of path should have the same amount of black node.**
 
+
+**Consequences** : 
+The longest path from the root to a leaf (not counting the root) is at most twice as long as the shortest path from the root to a leaf. 
+[Source](https://www.happycoders.eu/algorithms/red-black-tree-java/ )
+
 The 4 cases of rotation are the same as AVL (see above).
 
 
