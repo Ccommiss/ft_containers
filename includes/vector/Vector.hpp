@@ -5,10 +5,6 @@
 
 #include <algorithm>
 
-#include <typeinfo> // ASUPPRIEMR
-
-
-
 namespace ft
 {
 
@@ -466,7 +462,7 @@ namespace ft
 			erase(end() - 1);
 		}
 
-		///Si la capacite est ok c bon 
+		///Si la capacite est ok c bon
 		int compute_capacity(size_type n) // n = le nb d'elem en plus a inserer
 		{
 			int new_capacity = 0;
@@ -512,10 +508,10 @@ namespace ft
 			int i = size();
 			reserve(compute_capacity(1));
 			while (--i >= (int)start) // on decale le cas echeant
-			{	
+			{
 				alloc_obj.construct(_curr + i + 1, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
-			}	
+			}
 			alloc_obj.construct(_curr + start, x);
 			_size += 1;
 			return (iterator(_curr + start));
@@ -535,11 +531,11 @@ namespace ft
 				return ;
 			unsigned long start = ft::distance(begin(), position);
 			int i = size();
-			reserve(compute_capacity(n)); // on dirait pb ici..... 
+			reserve(compute_capacity(n)); // on dirait pb ici.....
 			//reserve(_size + n);
 			//std::cout << " N IS "  << n << "CAP IS " << _capacity << std::endl;
 			//std::cout << "SIZE + N = " << _size + n << " VS COMPUTE " << compute_capacity(n) << std::endl;
-			while (i && --i >= (int)start) // peut etre petit pb de calcul 
+			while (i && --i >= (int)start) // peut etre petit pb de calcul
 			{
 				//std::cout << "I" << i << std::endl;
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
@@ -549,7 +545,7 @@ namespace ft
 			{
 				//	std::cout << "J" << j << std::endl;
 				alloc_obj.construct(_curr + start, x);
-			
+
 			}
 			_size += n;
 		}
@@ -570,14 +566,14 @@ namespace ft
 			int i = size();
 			reserve(compute_capacity(diff));
 
-			while (--i >= (int)start) 
+			while (--i >= (int)start)
 			{
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
-			} 
+			}
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
-				//alloc_obj.construct(_curr + start, *(first + j)); // TEST PIOUR BIDIRECTIONNAL MARC LI SI INPUT != des RAI 
+				//alloc_obj.construct(_curr + start, *(first + j)); // TEST PIOUR BIDIRECTIONNAL MARC LI SI INPUT != des RAI
 				alloc_obj.construct(_curr + start, *(first));
 				first++;
 
@@ -688,7 +684,7 @@ namespace ft
 			virtual const char *what() const throw()
 			{
 				std::cout << "Cannot allocate mor than max size" << std::endl;
-				return "cakc";
+				return "";
 			}
 		};
 

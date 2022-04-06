@@ -2,7 +2,7 @@
 
 
 
-// stdless : Function object for performing comparisons. Unless specialized, invokes operator< on type T.  
+// stdless : Function object for performing comparisons. Unless specialized, invokes operator< on type T.
 namespace ft
 {
 	template <typename Key, typename T, typename Compare = std::less<Key>, typename Allocator = std::allocator< ft::pair <const Key, T> > >
@@ -106,9 +106,8 @@ namespace ft
 		size_type	_capacity;
 		size_type	_size;
 
-		typedef rb_tree<key_type, value_type, 
-                    select1st<value_type, key_type>, key_compare> rep_type; 
-    	rep_type t; // une instance du tree 
+		typedef ft::rb_tree<key_type, value_type>, key_compare> rep_type;
+    	rep_type t; // une instance du tree
 	};
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator==(const map<Key, T, Compare, Allocator>& x,

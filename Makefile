@@ -11,8 +11,8 @@ ifeq ($(shell uname -s),Darwin)
 endif
 
 #The Target Binary Program
-TARGET				:= aout
-TARGET_BONUS		:= aout-bonus
+TARGET				:= containers
+TARGET_BONUS		:= containers-bonus
 
 BUILD				:= release
 
@@ -20,9 +20,10 @@ include sources.mk
 
 #The Directories, Source, Includes, Objects, Binary and Resources
 SRCDIR				:= srcs
-INCDIR				:= srcs/vector
+INC					= includes includes/vector includes/map includes/utils
+INCDIR				= $(foreach d, $(INC), -I$d)
 BUILDDIR			:= obj
-TARGETDIR			:= .
+TARGETDIR			:= obj
 SRCEXT				:= cpp
 DEPEXT				:= d
 OBJEXT				:= o
@@ -37,13 +38,13 @@ cflags.debug		:= -Wall -Werror -Wextra -DDEBUG -ggdb -fsanitize=address -fno-omi
 CFLAGS				:= $(cflags.$(BUILD))
 CPPFLAGS			:= $(cflags.$(BUILD)) -std=c++98
 
-lib.release			:= 
+lib.release			:=
 lib.valgrind		:= $(lib.release)
 lib.debug			:= $(lib.release) -fsanitize=address -fno-omit-frame-pointer
 LIB					:= $(lib.$(BUILD))
 
-INC					:= -I$(INCDIR) -I/usr/local/include
-INCDEP				:= -I$(INCDIR)
+INC					:= $(INCDIR) -I/usr/local/include
+INCDEP				:= $(INCDIR)
 
 # Colors
 C_RESET				:= \033[0m
@@ -84,7 +85,7 @@ clean:
 
 # Full Clean, Objects and Binaries
 fclean: clean
-	@$(RM) -rf $(TARGET)
+	@$(RM) -rf $(TARGETDIR)
 
 
 # Pull in dependency info for *existing* .o files

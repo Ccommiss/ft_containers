@@ -22,8 +22,12 @@
 - [Map](#map)
 		- [Definition](#definition)
 	- [Tree](#tree)
-		- [From Binary Search Tree (BST)](#from-binary-search-tree-bst)
-		- [To Self-Balancing Search Trees](#to-self-balancing-search-trees)
+		- [Introduction to trees and definitions](#introduction-to-trees-and-definitions)
+			- [From Binary Search Tree (BST)](#from-binary-search-tree-bst)
+			- [To Self-Balancing Search Trees](#to-self-balancing-search-trees)
+		- [AVL Trees and Red and Black Trees : quick comparisons 🌳](#avl-trees-and-red-and-black-trees--quick-comparisons-)
+		- [Study case 1 : AVL Trees (Adelson Velsky Landis)](#study-case-1--avl-trees-adelson-velsky-landis)
+		- [Study case 2 : Red and Black Trees](#study-case-2--red-and-black-trees)
 
 
 ## Sujet
@@ -259,26 +263,99 @@ __________
 
 ### Tree
 
-#### From Binary Search Tree (BST)
+#### Introduction to trees and definitions
+##### From Binary Search Tree (BST)
 
 ![Tux, the Linux mascot](/doc_src/180px-Binary_search_tree.svg.png)
 
 - Main principle : **the key in each node is greater than any key stored in the left sub-tree, and less than or equal to any key stored in the right sub-tree** (Wikipedia)
--  the BST property is as follow: For every vertex X, all vertices on the left subtree of X are strictly smaller than X and all vertices on the right subtree of X are strictly greater than X. (https://visualgo.net/en/bst?slide=4-2)
-- Conseuqences 
+- **Properties** :
   - Each node has only up to two children
+  - Time complexity : worst is O(n) (ex : cases where all inserted nodes are > to the previous one). This is the same time complexity as a list, for example.
 
 
-Abstract Data Type (ADT).
+##### To Self-Balancing Search Trees
 
-#### To Self-Balancing Search Trees
-
-From Wikipedia definition, 
+From Wikipedia definition,
 
 >Self-balancing binary search trees modify the basic insertion and deletion operations of binary search trees, often using additional information on each node, in order to maintain logarithmic depth. These include two early structures of this type, AVL trees, which maintain an invariant that subtree heights differ by at most one, and red–black trees, which instead color nodes red or black and maintain an invariant on the number of colored nodes on each root-to-leaf path.
 
+- Goal : time complexity of O(n log n).
 
 - Vertex has at least 4 attributes: parent, left, right, key/value/data
 
+#### AVL Trees and Red and Black Trees : quick comparisons 🌳
 
+|  AVL |  Red & Black |
+|---|---|
+| __Strictly__ balanced  | __Not__ balanced at all time  |
+| Cost of additional tree rotations in insert and delete | faster in inserting and deleting|
+|Slower| General purposes tree
+
+- __Principles remains the same as BST__ :
+  - left node < parent
+  - right node > parent
+  - No more than two children
+
+- __Time complexity__ : O (log n) at all time.
+
+
+#### Study case 1 : AVL Trees (Adelson Velsky Landis)
+___
+
+ - Main principle : __The balance factor, defined as the height beween the left and the right subtrees of root, must remain between 1 and -1__
+
+Balance factor is defined as follows :
+ ``` balance(node). = height(leftChild) - height(rightChild)```
+
+
+ |  Problem |  Solution | Balance factor of root node|
+|---|---|---
+| Left-heavy Tree |   Right Rotation | 2 - 0 = 2
+|Right-heavy Tree | Left Rotation | 0 - 2 = - 2
+| Left-right Tree | Left rotation on child, right rotation | 2 - 0 = 2
+| Right-left Tree | Right rotation on child, left rotation | 0 - 2 = -2
+
+
+
+
+__1. Left-heavy Tree visualisation__:
+
+![ezgif-4-1cd5b03b3a](/assets/ezgif-4-1cd5b03b3a.gif)
+
+-> Rotate right
+
+__2. Left-right Tree visualisation__:
+
+
+![left-right](/assets/left-right.gif)
+
+-> Rotate child (6 and nine)
+-> Left-heavy situation : rotate right
+
+<br/>
+<br/>
+
+#### Study case 2 : Red and Black Trees
+___
+
+
+RB trees implementation
+
+
+- Main principles :
+  - Root color is _always black_.
+  -  Null are considered black.
+  -  Parent and children of red should be black.
+  -  When inserted, start as a RED.
+  -  **The path from one node to end of path should have the same amount of black node.**
+
+The 4 cases of rotation are the same as AVL (see above).
+
+
+We can RECOLORE nodes. WAY FASTER than rotating.
+4 rotation case = > same as AVL.
+4 recoloring cases
+	- If sibling of the parent we are adding is red, means we do not need a rotation and we are fine with recovering only
+	- if do not have is black, rotation needed.
 
