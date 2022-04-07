@@ -51,6 +51,7 @@
 		"list": "cpp",
 		"map": "cpp",
 		"iomanip": "cpp",
-		"ctime": "cpp"
+		"ctime": "cpp",
+		"set": "cpp"
 	}
 }

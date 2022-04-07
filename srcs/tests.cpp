@@ -1434,7 +1434,6 @@ void 		leaks_test()
 
 int main()
 {
-
 	void (*functptr[])() = {
 		// basic_construct,
 		// test_insert,
