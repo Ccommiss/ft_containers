@@ -28,6 +28,10 @@
 		- [AVL Trees and Red and Black Trees : quick comparisons 🌳](#avl-trees-and-red-and-black-trees--quick-comparisons-)
 		- [Study case 1 : AVL Trees (Adelson Velsky Landis)](#study-case-1--avl-trees-adelson-velsky-landis)
 		- [Study case 2 : Red and Black Trees](#study-case-2--red-and-black-trees)
+			- [Main principles :](#main-principles-)
+			- [Rotations and recoloring cases : when ?](#rotations-and-recoloring-cases--when-)
+			- [Focus on simple recoloring](#focus-on-simple-recoloring)
+			- [Focus on rotation](#focus-on-rotation)
 
 
 ## Sujet
@@ -343,24 +347,69 @@ ___
 RB trees implementation
 
 
-- Main principles :
-  - Root color is _always black_.
+##### Main principles :
+  -  Root color is _always black_.
   -  Null are considered black.
   -  Parent and children of red should be black.
   -  When inserted, start as a RED.
-  -  **The path from one node to end of path should have the same amount of black node.**
+  -  **All paths from one node to end of path should have the same amount of black node.**
 
 
-**Consequences** : 
-The longest path from the root to a leaf (not counting the root) is at most twice as long as the shortest path from the root to a leaf. 
+**Consequences** :
+The longest path from the root to a leaf (not counting the root) is at most twice as long as the shortest path from the root to a leaf.
 [Source](https://www.happycoders.eu/algorithms/red-black-tree-java/ )
 
-The 4 cases of rotation are the same as AVL (see above).
+Worst case scenario :
+
+![rbtree_worstcase ](/assets/rbtree_worstcase%20.png)
+We can RECOLORE nodes. WAY FASTER than rotating and helps reduces.
+![rb-tree_if_avl](/assets/rb-tree_if_avl.png)
+
+##### Rotations and recoloring cases : when ?
+
+Eight re-balancing cases :
+- The 4 cases of rotation are the same as AVL (see above).
+- New : *we can **RECOLORE** nodes*. WAY FASTER than rotating.
 
 
-We can RECOLORE nodes. WAY FASTER than rotating.
-4 rotation case = > same as AVL.
-4 recoloring cases
-	- If sibling of the parent we are adding is red, means we do not need a rotation and we are fine with recovering only
-	- if do not have is black, rotation needed.
 
+| Recoloring  | Rotation   |
+|---|---|
+| If uncle inserted node is red (meaning not null)  | If sibling of the parent of inserted node (the uncle) is black (so black, or null)  |
+
+Here : uncle = the sibling of parent.
+
+ex. left heavy situation : we need rotation
+```
+        14 (root)
+		/\
+	  10  nul
+	 /
+	8
+
+```
+
+##### Focus on simple recoloring
+
+Reminder : in all situations, **uncle is <span style="color: red;">red**. </span>
+|   | Requirements   | Solution |
+|---|---|---
+| 1 | Inserting a left new red node under a left-child red node  | Flip all color above
+|2|  Inserting a right new red node under a right-child red node
+|3|  Inserting a left new red node under a right-child red node
+|4|  Inserting a right new red node under a left-child red node
+
+
+##### Focus on rotation
+
+
+
+
+
+
+Recolor cases : Most simple case : we just inserted a new node. Reminder : new node are always red. So we flip the collar of above if they were red. Until the root !!
+
+When do we rotate ? When a red node has a black uncle.
+￼
+… and recolour
+￼

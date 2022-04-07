@@ -1,13 +1,16 @@
 
-//class Node; 
+// class Node;
 #include <iostream>
-#include  <iomanip>
+#include <iomanip>
+#include <cstdarg>
 
-# define out(x) std::cout << x << std::endl;
 
-class Node {
+#define out(x) std::cout << x << std::endl;
 
-	public:
+class Node
+{
+
+public:
 	Node(int data)
 	{
 		root = nullptr;
@@ -15,45 +18,44 @@ class Node {
 		rightChild = nullptr;
 		parent = nullptr;
 		_data = data;
-		color = RED; // par default 
+		color = RED; // par default
 	}
-	~Node() {};
+	~Node(){};
 
-	Node* getLeftChild()
+	Node *getLeftChild()
 	{
 		return leftChild;
 	}
-	Node* getRightChild()
+	Node *getRightChild()
 	{
 		return rightChild;
 	}
-	Node* getParent()
+	Node *getParent()
 	{
 		return parent;
 	}
-	int		getColor()
+	int getColor()
 	{
 		return color;
 	}
-	void		setColor(int newColor)
+	void setColor(int newColor)
 	{
 		color = newColor;
 	}
-	void 		flipColor()
+	void flipColor()
 	{
-		//color = RED ? color = BLACK : color = RED;
+		color == RED ? color = BLACK : color = RED;
 	}
 
-
 	/*
-** If addresses are the same, then this is a left child
-*/
+	 ** If addresses are the same, then this is a left child
+	 */
 	bool is_left_child()
-	{	
-		//if (parent == nullptr) // c root
-		//	return false;
-		///if (parent->getLeftChild() == nullptr)
-		//	return false;
+	{
+		if (parent == nullptr) // c root
+			return false;
+		if (parent->getLeftChild() == nullptr)
+			return false;
 		if (this == (parent->getLeftChild()))
 			return true;
 		return false;
@@ -67,48 +69,50 @@ class Node {
 		return false;
 	}
 
-	int		getData()
+	int getData()
 	{
 		return (this->_data);
 	}
 
-	void 		setLeftChild(Node* node)
+	void setLeftChild(Node *node)
 	{
 		this->leftChild = node;
 	}
-	void 		setRightChild(Node* node)
+	void setRightChild(Node *node)
 	{
 		this->rightChild = node;
 	}
-	void 		setParent(Node* parent)
+	void setParent(Node *parent)
 	{
 		this->parent = parent;
 	}
 
-	enum colors {
-		RED,
-		BLACK
+	enum colors
+	{
+		RED = 439,
+		BLACK = 81435
 	};
-	private:
-		int		_data;
-		Node* root;
-		Node* leftChild;
-		Node* rightChild;
-		Node* parent;
-		int 	color;
+
+private:
+	int _data;
+	Node *root;
+	Node *leftChild;
+	Node *rightChild;
+	Node *parent;
+	int color;
 };
 
 class Tree
 {
 
-	friend class Node; // pour acceder aux elem 
-	private:
-	Node* root;
-	Node* _end;
+	friend class Node; // pour acceder aux elem
+private:
+	Node *root;
+	Node *_end;
 
-	public:
-
-	Tree() {
+public:
+	Tree()
+	{
 		std::cout << "tree constructor" << std::endl;
 		root = nullptr;
 		_end = new Node(78);
@@ -119,19 +123,20 @@ class Tree
 	/*
 	** Functions;
 	*/
-	int		getRoot()
+	int getRoot()
 	{
 		return root->getData();
 	}
 
-	Node* getRootPtr()
+	Node *getRootPtr()
 	{
 		return root;
 	}
 
-	Node* insert(Node* node, Node* newNode)
+	Node *insert(Node *node, Node *newNode)
 	{
-		if (root == nullptr) {
+		if (root == nullptr)
+		{
 			newNode->setColor(Node::BLACK);
 			root = newNode;
 			std::cout << "set root" << std::endl;
@@ -141,13 +146,11 @@ class Tree
 			return (newNode);
 		if (newNode->getData() < node->getData())
 		{
-			std::cout << "insert left " << std::endl;
 			node->setLeftChild(insert(node->getLeftChild(), newNode));
 			node->getLeftChild()->setParent(node);
 		}
 		if (newNode->getData() >= node->getData())
 		{
-			std::cout << "insert right " << std::endl;
 			node->setRightChild(insert(node->getRightChild(), newNode));
 			node->getRightChild()->setParent(node);
 		}
@@ -156,144 +159,186 @@ class Tree
 
 	Tree insert(int data)
 	{
-		Node* node = new Node(data);
+		Node *node = new Node(data);
 		root = insert(root, node);
+		out("before");
+		display(root);
 		recolorAndRotate(node);
+		out("after");
+		display(root);
 		return *this;
 	}
 
-
-	void updateChildrenOfParentNode(Node *node, Node *tempNode) 
+	void updateChildrenOfParentNode(Node *node, Node *tempNode)
 	{
-        if (node->getParent() == nullptr) {
-            root = tempNode;
-        } else if (node->is_left_child()) {
-            node->getParent()->setLeftChild(tempNode);
-        } else {
-            node->getParent()->setRightChild(tempNode);
-        }
-    }
+		out("Func is :" << __func__);
 
+		if (node->getParent() == nullptr)
+		{
+			root = tempNode;
+		}
+		else if (node->is_left_child())
+		{
+			node->getParent()->setLeftChild(tempNode);
+		}
+		else
+		{
+			node->getParent()->setRightChild(tempNode);
+		}
+	}
 
-	void rotateLeft(Node *node) {
-        Node *rightNode = node->getRightChild();
-        node->setRightChild(rightNode->getLeftChild());
-        if (node->getRightChild() != nullptr) {
-            node->getRightChild()->setParent(node);
-        }
-        rightNode->setLeftChild(node);
-        rightNode->setParent(node->getParent());
-        updateChildrenOfParentNode(node, rightNode);
-        node->setParent(rightNode);
-    }
-
-	void rotateRight(Node *node) 
+	void rotateLeft(Node *node)
 	{
-        Node *leftNode = node->getLeftChild();
-		out ("Left node " << leftNode->getData())
-        node->setLeftChild(leftNode->getRightChild());
-        if (node->getLeftChild() != nullptr) {
-            node->getLeftChild()->setParent(node);
-        }
-        leftNode->setRightChild(node);
-        leftNode->setParent(node->getParent());
-        updateChildrenOfParentNode(node, leftNode);
-        node->setParent(leftNode);
-		out ("Node " << node->getData() << " and new parent " << node->getParent()->getData());
-    }
+		out("Func is :" << __func__);
+		Node *rightNode = node->getRightChild();
+		node->setRightChild(rightNode->getLeftChild());
+		if (node->getRightChild() != nullptr)
+		{
+			node->getRightChild()->setParent(node);
+		}
+		rightNode->setLeftChild(node);
+		rightNode->setParent(node->getParent());
+		updateChildrenOfParentNode(node, rightNode);
+		node->setParent(rightNode);
+	}
+
+	void rotateRight(Node *node)
+	{
+		out("Func is :" << __func__);
+
+		Node *leftNode = node->getLeftChild();
+		out("Left node " << leftNode->getData())
+			node->setLeftChild(leftNode->getRightChild());
+		if (node->getLeftChild() != nullptr)
+		{
+			node->getLeftChild()->setParent(node);
+		}
+		leftNode->setRightChild(node);
+		leftNode->setParent(node->getParent());
+		updateChildrenOfParentNode(node, leftNode);
+		node->setParent(leftNode);
+		display(root);
+
+		out("Node " << node->getData() << " and new parent " << node->getParent()->getData());
+	}
 
 	void handle_lefts(Node *node, Node *parent, Node *grandParent)
 	{
-		if (node->is_right_child()) {
-			out ("Left-right situation found")
-			rotateLeft(parent);
+		out("Func is :" << __func__);
+		display_data(node, parent, grandParent);
+		if (node->is_right_child())
+		{
+			out("Left-right situation found")
+				rotateLeft(parent);
+			out("DISPLAY NIOW")
+				display(root);
 		}
-		// HERE IS LEFT HEAVY SITUATION 
-		out ("Left-left situation found")
-		
-		parent->flipColor();
-		grandParent->flipColor();
+		// HERE IS LEFT HEAVY SITUATION
+		out("Left-left situation found")
+		/// OULALA GROS TEST ;
+		// explication, on fait ca pour que ca redevienne un left left normal v
+		if (node->getParent() != nullptr)
+			node->getParent()->flipColor();
+		if (node->getParent()->getParent() != nullptr)
+			node->getParent()->getParent()->flipColor();
+		display(root);
 		rotateRight(grandParent);
-	
-		if (node != root) // EST CE NORMAL ? 
-			recolorAndRotate(node->is_left_child() ? parent : grandParent);
+		if (node != root) // EST CE NORMAL ?
+			recolorAndRotate(node->is_left_child() ? node->getParent() : node->getParent()->getParent());
 	}
 
-	 void handle_rights(Node *node, Node *parent, Node *grandParent) 
-	 {
-        if (node->is_left_child()) {
-			out ("Right-left situation found")
-            rotateRight(parent);
-        }
-        parent->flipColor();
-        grandParent->flipColor();
-        rotateLeft(grandParent);
-		if (node != root) // EST CE NORMAL ? 
-    		recolorAndRotate(node->is_left_child() ? grandParent : parent);
-    }
-
-	void handleRecoloring(Node *parent, Node *uncle, Node *grandParent) {
-        uncle->flipColor();
-        parent->flipColor();
-        grandParent->flipColor();
-       // recolorAndRotate(grandParent);
-    }
-
-	void recolorAndRotate(Node* node)
+	void handle_rights(Node *node, Node *parent, Node *grandParent)
 	{
-		Node* parent = node->getParent();
+		out("Func is :" << __func__);
+
+		if (node->is_left_child())
+		{
+			out("Right-left situation found")
+				rotateRight(parent);
+		}
+		// if (parent != nullptr)
+		// 	parent->flipColor();
+		// if (grandParent != nullptr)
+		// 	grandParent->flipColor();
+		// rotateLeft(grandParent);
+		// if (node != root) // EST CE NORMAL ?
+		// 	recolorAndRotate(node->is_left_child() ? grandParent : parent);
+
+			if (node->getParent() != nullptr)
+			node->getParent()->flipColor();
+		if (node->getParent()->getParent() != nullptr)
+			node->getParent()->getParent()->flipColor();
+		display(root);
+		rotateLeft(grandParent);
+		if (node != root) // EST CE NORMAL ?
+			recolorAndRotate(node->is_left_child() ? node->getParent()->getParent() : node->getParent());
+	}
+
+	void handleRecoloring(Node *parent, Node *uncle, Node *grandParent)
+	{
+		uncle->flipColor();
+		parent->flipColor();
+		grandParent->flipColor();
+		recolorAndRotate(grandParent);
+	}
+
+	void recolorAndRotate(Node *node)
+	{
+		out("Func is :" << __func__)
+			out("Node is :" << node->getData())
+				Node *parent = node->getParent();
 		if (node != root && parent->getColor() == Node::RED)
 		{
-			Node* grandParent = node->getParent()->getParent();
-			Node* uncle;
-			// TETS 
+			Node *grandParent = node->getParent()->getParent();
+			//out("GP is :" << grandParent->getData());
+			Node *uncle;
 			if (grandParent == nullptr)
 				uncle = nullptr;
-			else {
-				uncle = parent->is_left_child() ?
-					uncle = grandParent->getRightChild() : uncle = grandParent->getLeftChild();
+			else
+			{
+				uncle = parent->is_left_child() ? uncle = grandParent->getRightChild() : uncle = grandParent->getLeftChild();
 			}
 			if (uncle != nullptr && uncle->getColor() == Node::RED)
-			{ // Recoloring
-				out("Recoloring")
+			{
+				out("Recoloring");
 				handleRecoloring(parent, uncle, grandParent);
 			}
-			else if (parent->is_left_child()) { // Left-Left or Left-Right situation
-				out("handle left")
+			else if (parent && parent->is_left_child())
+			{
+				out("handle left");
 				handle_lefts(node, parent, grandParent);
 			}
-			else if (!parent->is_left_child()) 
-			{ // Right-Right or Right-Left situation
-				out("handle right")
+			else if (parent && !parent->is_left_child())
+			{
+				out("handle right");
 				handle_rights(node, parent, grandParent);
 			}
 		}
-		root->setColor(Node::BLACK); // Color the root node black
+		root->setColor(Node::BLACK);
 	}
 
-
-
-
-
-
-
-
-
-	void display_children(Node* _curr)
+/* ---------------------------------------------------------------------------- */
+/*							DEBUG FUNCS											*/
+/* ---------------------------------------------------------------------------- */
+	void display_children(Node *_curr)
 	{
 		std::string colors;
 		_curr->getColor() == Node::BLACK ? colors = "⚫" : colors = "🔴";
-		std::cout << "---------------------------" << "\n";
+		std::cout << "---------------------------"
+				  << "\n";
 		std::cout << "|";
-		std::cout << std::setw(10) << " NODE " << _curr->getData() << " (" << colors << ")" << "	  |\n";
-		std::cout << "---------------------------" << "\n";
+		std::cout << std::setw(10) << " NODE " << _curr->getData() << " (" << colors << ")"
+				  << "	  |\n";
+		std::cout << "---------------------------"
+				  << "\n";
 		std::cout << "|";
 		if (_curr->getLeftChild() != nullptr)
 		{
 			std::cout << std::setw(10) << _curr->getLeftChild()->getData() << "  ";
 		}
 		else
-			std::cout << std::setw(10) << "(null)" << "  ";
+			std::cout << std::setw(10) << "(null)"
+					  << "  ";
 		std::cout << "|";
 
 		if (_curr->getRightChild() != nullptr)
@@ -301,10 +346,11 @@ class Tree
 			std::cout << std::setw(10) << _curr->getRightChild()->getData() << "  ";
 		}
 		else
-			std::cout << std::setw(10) << "(null)" << "  ";
+			std::cout << std::setw(10) << "(null)"
+					  << "  ";
 		std::cout << "|";
 	}
-	void display(Node* _curr)
+	void display(Node *_curr)
 	{
 		if (_curr == nullptr)
 			return;
@@ -312,8 +358,26 @@ class Tree
 		std::cout << "\n";
 		display(_curr->getLeftChild());
 		display(_curr->getRightChild());
-
 	}
 
-	//void delete(int data);
+	void display_data(Node *a, ...)
+	{
+		va_list args;
+    	va_start(args, a);
+		for (int i = 0; i < 3; i++)
+		{
+			Node *_curr = va_arg(args, Node *);
+			if (_curr != nullptr)
+			{
+				out("Node contains " << _curr->getData() << "has color " << _curr->getColor());
+				//out("Node contains " << _curr->getColor());
+			}
+			else
+			{
+				out("Nullptr");
+			}
+		}
+	}
+
+	// void delete(int data);
 };
