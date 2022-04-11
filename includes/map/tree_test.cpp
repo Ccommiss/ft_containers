@@ -94,33 +94,19 @@ void test_simple_recoloring()
 		end;
 }
 
-void simple_delete()
+
+void red_delete_leaf()
+{
+	Tree myTree;
+	int array[] = {10, 5, 20, 7, 4};
+}
+void red_delete()
 {
 	start;
-
-	head("test 1 : reed leaf")
-	{
-		Tree myTree;
-		int array[] = {10, 5, 2, 9, 30, 25, 40, 38};
-
-		for (int i = 0; i < 8; i++)
-		{
-			myTree.insert(array[i]);
-			wait
-		}
-		showtree;
-		// Check case one, delete red leaf
-		out("start to del :: ");
-		myTree.del(30);
-		showtree;
-		end;
-	}
-	// Check case double black,
-	head("test 2 : DB black nephew");
+	head("Delete a middle placed red leaf");
 	{
 		Tree myTree;
 		int array[] = {10, 5, 20, 7, 4};
-
 		for (int i = 0; i < 5; i++)
 		{
 			myTree.insert(array[i]);
@@ -131,25 +117,54 @@ void simple_delete()
 		myTree.del(5);
 		showtree;
 		end;
-	}
-
-	// head("test 2 : DB");
-	// {
-	// 	Tree myTree;
-	// 	int array[] = {10, 5, 20, 15, 30, 65, 78};
-
-	// 	for (int i = 0; i < 7; i++)
-	// 	{
-	// 		myTree.insert(array[i]);
-	// 		wait
-	// 	}
-	// 	showtree;
-	// 	out("start to del :: ");
-	// 	myTree.del(15);
-	// 	showtree;
-	// 	end;
-	// }
+	}	
 }
+
+void delete_one_child()
+{
+	start;
+	head("Delete a leaf that had one child");
+	{
+		Tree myTree;
+		int array[] = {10, 5, 20, 4};
+		for (int i = 0; i < 4; i++)
+		{
+			myTree.insert(array[i]);
+			wait
+		}
+		showtree;
+		out("start to del :: ");
+		myTree.del(5);
+		showtree;
+		end;
+	}	
+
+}
+
+void aleatory_delete()
+{
+
+	start;
+	head("Random");
+	{
+		Tree myTree;
+		int array[] = {10, 5, 20, 84, 78, 45, 12, 89, 4};
+		for (int i = 0; i < 9; i++)
+		{
+			myTree.insert(array[i]);
+			wait
+		}
+		showtree;
+		out("start to del :: ");
+		myTree.del(20);
+		showtree;
+		myTree.del(12);
+		showtree;
+		end;
+	}	
+
+}
+
 
 void ten_elem_test1()
 {
@@ -211,7 +226,11 @@ int main()
 		// ten_elem_test1,
 		// twenty_elem_test1
 		// twenty_elem_only_bigger
-		simple_delete};
+		//red_delete_leaf,
+		red_delete,
+		delete_one_child,
+		aleatory_delete,
+	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
 	{
