@@ -426,6 +426,9 @@ Double black : when we delete a black node that had no children but null leaves,
 
 |Cases   | Difficulty  | Exp.|
 |---|---|--
-| 1  | Easy   | Single child deleted node or its parent is red : just simple delete and color as black 
+| 1  | Easy   | Single child deleted node or its parent is red : just simple delete and color as black
 |2 | fesf|
 
+
+https://www.geeksforgeeks.org/red-black-tree-set-3-delete-2/
+https://medium.com/analytics-vidhya/deletion-in-red-black-rb-tree-92301e1474ea
