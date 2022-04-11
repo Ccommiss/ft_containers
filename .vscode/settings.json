@@ -53,5 +53,108 @@
 		"iomanip": "cpp",
 		"ctime": "cpp",
 		"set": "cpp"
+	},
+	"editor.tokenColorCustomizations": {
+		"textMateRules": [
+			{
+				"scope": [
+					"comment.block",
+					"punctuation.definition.comment.begin",
+					"punctuation.definition.comment.end"
+				],
+				"settings": {
+					"fontStyle": "bold",
+					"foreground": "#7279b8"
+				}
+			},
+			{
+				"scope": [
+					"comment.line",
+					"punctuation.definition.comment"
+				],
+				"settings": {
+					"foreground": "#afafaf",
+					"fontStyle": "bold"
+				}
+			},
+			{
+				"scope": [
+					"meta.function-call.c"
+				],
+				"settings": {
+					"foreground": "#aaa"
+				}
+			},
+			{
+				"scope": [
+					"meta.function.definition.parameters.c",
+					"entity.name.function"
+				],
+				"settings": {
+					"foreground": "#dfaeae"
+				}
+			},
+			{
+				"scope": [
+					"meta.function.definition.parameters"
+				],
+				"settings": {
+					"fontStyle": "bold"
+				}
+			},
+			{
+				"scope": [
+					"comment.block.c"
+				],
+				"settings": {
+					"foreground": "#7279b8",
+					"fontStyle": "bold"
+				}
+			},
+			{
+				"scope": [
+					"variable.other.local"
+				],
+				"settings": {
+					"foreground": "#FFF4AE"
+				}
+			},
+			{
+				"scope": [
+					"variable.other.enummember"
+				],
+				"settings": {
+					"foreground": "#C3DAC3"
+				}
+			},
+			{
+				"scope": [
+					"variable.parameter"
+				],
+				"settings": {
+					"foreground": "#BDD2A6",
+					"fontStyle": "bold"
+				}
+			},
+			{
+				"scope": [
+					"keyword.control.c",
+					"keyword.operator.logical.c",
+					"keyword.operator.comparison.c"
+				],
+				"settings": {
+					"foreground": "#91A1A7"
+				}
+			},
+			{
+				"scope": [
+					"constant"
+				],
+				"settings": {
+					"foreground": "#f2f3f3"
+				}
+			}
+		],
+		"comments": ""
 	}
 }

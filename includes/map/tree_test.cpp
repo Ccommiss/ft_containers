@@ -4,24 +4,35 @@
 #include "../utils/debug.hpp"
 #include <iostream>
 
-# define showtree myTree.display(myTree.getRootPtr());
-# define start head("Test : " << __func__ << " ");
-# define valid_check 	myTree.validity_check(myTree.getRootPtr());
+#define showtree myTree.display(myTree.getRootPtr());
+#define start head("Test : " << __func__ << " ");
+#define valid_check                                      \
+	if (myTree.validity_check(myTree.getRootPtr()) == 1) \
+	{                                                    \
+		out("🔴 VALIDITY CHECK IS WRONG !!!!")            \
+	}                                                    \
+	else                                                 \
+	{                                                    \
+		out(" ✅ VALIDITY CHECK IS OK !!!!")              \
+	}
 
+#define end     \
+	valid_check \
+		head("End of test : " << __func__ << " ");
 
 void left_heavy()
 {
 	start
-	Tree myTree;
+		Tree myTree;
 
 	int array[4] = {42, 32, 12};
 	for (int i = 0; i < 3; i++)
 	{
 		myTree.insert(array[i]);
 		showtree
-		wait
+			wait
 	}
-	valid_check;
+	end;
 	// Expected result : left-heavy situation found, rotation + flip colors
 }
 
@@ -35,8 +46,9 @@ void left_right()
 	{
 		myTree.insert(array[i]);
 		showtree
-		wait
+			wait
 	}
+	end;
 
 	head("More");
 	int array2[4] = {44, 47, 51};
@@ -44,28 +56,30 @@ void left_right()
 	{
 		myTree.insert(array2[i]);
 		showtree
-		wait
+			wait
 	}
+	end;
 }
 
 void progressive_test()
 {
 	start
-	Tree myTree;
+		Tree myTree;
 	int node_value;
 	while (1)
 	{
 		wscanf(L"%d", &node_value);
 		myTree.insert(node_value);
 		showtree
-		wait
+			wait
 	}
+	end;
 }
 
 void test_simple_recoloring()
 {
 	start
-	Tree myTree;
+		Tree myTree;
 	int array[4] = {30, 15, 45}; // la base : un root noir, deux siblings rouges (il faut un oncle
 	// pour les simples recolor)
 
@@ -73,40 +87,75 @@ void test_simple_recoloring()
 	{
 		myTree.insert(array[i]);
 		showtree
-		wait
+			wait
 	}
 	myTree.insert(10); // test left
-
-
+	showtree
+		end;
 }
 
-void 	simple_delete()
+void simple_delete()
 {
 	start;
-	Tree myTree;
-	int array[4] = {30, 15, 45};
-	for (int i = 0; i < 3; i++)
+
+	head("test 1 : reed leaf")
 	{
-		myTree.insert(array[i]);
-		wait
+		Tree myTree;
+		int array[] = {10, 5, 2, 9, 30, 25, 40, 38};
+
+		for (int i = 0; i < 8; i++)
+		{
+			myTree.insert(array[i]);
+			wait
+		}
+		showtree;
+		// Check case one, delete red leaf
+		out("start to del :: ");
+		myTree.del(30);
+		showtree;
+		end;
 	}
-	out("start to del :: ")
-	for (int i = 0; i < 3; i++)
+	// Check case double black,
+	head("test 2 : DB black nephew");
 	{
-		myTree.del(array[i]);
-		out("deleting " << array[i]);
-		wait
-		showtree
-		out ("end of turn")
+		Tree myTree;
+		int array[] = {10, 5, 20, 7, 4};
+
+		for (int i = 0; i < 5; i++)
+		{
+			myTree.insert(array[i]);
+			wait
+		}
+		showtree;
+		out("start to del :: ");
+		myTree.del(5);
+		showtree;
+		end;
 	}
+
+	// head("test 2 : DB");
+	// {
+	// 	Tree myTree;
+	// 	int array[] = {10, 5, 20, 15, 30, 65, 78};
+
+	// 	for (int i = 0; i < 7; i++)
+	// 	{
+	// 		myTree.insert(array[i]);
+	// 		wait
+	// 	}
+	// 	showtree;
+	// 	out("start to del :: ");
+	// 	myTree.del(15);
+	// 	showtree;
+	// 	end;
+	// }
 }
 
 void ten_elem_test1()
 {
 	start;
-
 	Tree myTree;
-	int array[10] = {30, 15, 45, 78, 56, 100, 450, 459, 12, 1 };
+	int array[10] = {30, 15, 45, 78, 56, 100, 450, 459, 12, 1};
 	for (int i = 0; i < 10; i++)
 	{
 		myTree.insert(array[i]);
@@ -115,43 +164,58 @@ void ten_elem_test1()
 	}
 	out("Definitive tab");
 	showtree;
+	end
+}
+
+void twenty_elem_test1()
+{
+	start;
+	Tree myTree;
+	int array[] = {30, 15, 45, 78, 56, 100, 450, 459, 12, 1, 543, 653, 4523, 432, 425, 5425, 764, 6356, 777, 45};
+	for (int i = 0; i < 19; i++)
+	{
+		myTree.insert(array[i]);
+		out("===> FROM MAIN (just added " << array[i] << ")");
+		showtree;
+		wait
+	}
+	out("Definitive tab");
+	showtree;
+	end
+}
+
+void twenty_elem_only_bigger()
+{
+	start;
+	Tree myTree;
+	int array[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+	for (int i = 0; i < 19; i++)
+	{
+		myTree.insert(array[i]);
+		out("===> FROM MAIN (just added " << array[i] << ")");
+		showtree;
+		wait
+	}
+	out("Definitive tab");
+	showtree;
+	end
 }
 
 int main()
 {
 
 	void (*functptr[])() = {
-		//left_heavy,
-		//left_right,
-		//test_simple_recoloring,
-		ten_elem_test1
-		//simple_delete
-	};
+		// left_heavy,
+		// left_right,
+		// test_simple_recoloring,
+		// ten_elem_test1,
+		// twenty_elem_test1
+		// twenty_elem_only_bigger
+		simple_delete};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
 	{
-	 	(*functptr[i])(); /*  Call first function  */
-	 	head("--- end of tests ---")
-	 		getwchar();
+		(*functptr[i])();
+		getwchar();
 	}
-
-
-	// myTree.insert(53);
-	// getwchar();
-	// myTree.insert(54);
-	// myTree.insert(52);
-	// // la on a trois boules
-	// myTree.insert(42); // la normalement on va tout flip au dessus
-	// // ca fonctionne
-	// myTree.insert(58);
-	// myTree.insert(56);
-
-	// std::cout << myTree.getRoot() << std::endl;
-
-	// myTree.insert(89);
-
-	// myTree.insert(93);
-	// myTree.insert(150);
-	//  myTree.insert(90);
-	//  myTree.insert(13);
 }

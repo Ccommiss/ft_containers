@@ -32,6 +32,7 @@
 			- [Rotations and recoloring cases : when ?](#rotations-and-recoloring-cases--when-)
 			- [Focus on simple recoloring](#focus-on-simple-recoloring)
 			- [Focus on rotation](#focus-on-rotation)
+			- [Deletion : a mess](#deletion--a-mess)
 
 
 ## Sujet
@@ -381,8 +382,8 @@ Here : uncle = the sibling of parent.
 
 ex. left heavy situation : we need rotation
 ```
-        14 (root)
-		/\
+          14 (root)
+	    /\
 	  10  nul
 	 /
 	8
@@ -412,4 +413,19 @@ Recolor cases : Most simple case : we just inserted a new node. Reminder : new n
 When do we rotate ? When a red node has a black uncle.
 ￼
 … and recolour
-￼
+
+
+
+##### Deletion : a mess
+
+https://www.happycoders.eu/algorithms/red-black-tree-java/#Right_Rotation
+
+Some definitions :
+
+Double black : when we delete a black node that had no children but null leaves, the current os now called double black.
+
+|Cases   | Difficulty  | Exp.|
+|---|---|--
+| 1  | Easy   | Single child deleted node or its parent is red : just simple delete and color as black 
+|2 | fesf|
+
