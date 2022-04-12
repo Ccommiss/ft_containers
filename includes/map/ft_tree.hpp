@@ -465,11 +465,13 @@ public:
 
 		if (getSibling(node)->getLeftChild() == nullptr || getSibling(node)->getLeftChild()->getColor() == Node::BLACK)
 			are_black = true; // le neveu gauche
+		else 
+			return (false);
 		out("ARE BLACK " << are_black);
 		if (getSibling(node)->getRightChild() == nullptr || getSibling(node)->getRightChild()->getColor() == Node::BLACK) // le neveu droit
 			are_black = true;
 		else
-			are_black = false;
+			return(false);
 		out("ARE BLACK " << are_black);
 		return are_black;
 	}
@@ -528,14 +530,14 @@ public:
 
 		// Case 5: Black sibling with at least one red child + "outer nephew" is black
 		// --> Recolor sibling and its child, and rotate around sibling
-		if (nodeIsLeftChild && sibling->rightChild->color == Node::BLACK) 
+		if (nodeIsLeftChild && (sibling->rightChild == nullptr || sibling->rightChild->color == Node::BLACK))
 		{
 			sibling->leftChild->color = Node::BLACK;
 			sibling->color = Node::RED;
 			rotateRight(sibling);
 			sibling = node->parent->rightChild;
 		}
-		else if (!nodeIsLeftChild && sibling->leftChild->color == Node::BLACK)
+		else if (!nodeIsLeftChild && (sibling->rightChild == nullptr || sibling->leftChild->color == Node::BLACK))
 		{
 			sibling->rightChild->color = Node::BLACK;
 			sibling->color = Node::RED;
@@ -549,7 +551,8 @@ public:
 		// --> Recolor sibling + parent + sibling's child, and rotate around parent
 		sibling->color = node->parent->color;
 		node->parent->color = Node::BLACK;
-		if (nodeIsLeftChild) {
+		if (nodeIsLeftChild)
+		{
 			sibling->rightChild->color = Node::BLACK;
 			rotateLeft(node->parent);
 		}
@@ -590,12 +593,14 @@ public:
 
 		// Case 2: Red sibling
 		if (sibling->color == Node::RED) {
+			out("CASE 2 : red sibling " << *sibling);
 			handleRedSibling(node, sibling);
-			sibling = getSibling(node); // Get new sibling for fall-through to cases 3-6
+			sibling = getSibling(node);
+			out ("NEW SIBLING " << *sibling) // Get new sibling for fall-through to cases 3-6
 		}
 
 		// Cases 3+4: Black sibling with two black children
-		if (sibling->color == Node::BLACK && black_nephews(node))
+		if (sibling->color == Node::BLACK && black_nephews(node) == true)
 		{
 			sibling->color = Node::RED;
 			out("ICI 3 + 4 ")
@@ -828,5 +833,16 @@ public:
 		}
 	}
 
-	// void del(int data);
+	void light_display(Node *root)
+	{
+		if (root == nullptr)
+			return ; 
+		std::cout << root->_data << " ";
+		if (root->leftChild != nullptr)
+			light_display(root->leftChild);
+		if (root->rightChild != nullptr)
+			light_display(root->rightChild);
+	}
+
+	
 };

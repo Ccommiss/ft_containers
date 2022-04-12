@@ -20,6 +20,8 @@
 	valid_check \
 		head("End of test : " << __func__ << " ");
 
+#define light_display myTree.light_display(myTree.getRootPtr()); 
+
 void left_heavy()
 {
 	start
@@ -156,9 +158,15 @@ void aleatory_delete()
 		}
 		showtree;
 		out("start to del :: ");
+		light_display; 
 		myTree.del(20);
+		light_display; 
 		showtree;
 		myTree.del(12);
+		showtree;
+		light_display;
+		myTree.del(5);
+		light_display;
 		showtree;
 		end;
 	}	
