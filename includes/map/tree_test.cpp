@@ -155,6 +155,7 @@ void aleatory_delete()
 		{
 			myTree.insert(array[i]);
 			wait
+			showtree;
 		}
 		showtree;
 		out("start to del :: ");
@@ -168,6 +169,9 @@ void aleatory_delete()
 		myTree.del(5);
 		light_display;
 		showtree;
+		myTree.insert(5);
+		//light_display;
+		//showtree;
 		end;
 	}	
 
