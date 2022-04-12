@@ -1,0 +1,1404 @@
+[1;96m============================
+[0m[1;96mTest : aleatory_delete [0m[1;96m
+============================[0m
+[1;96m============================
+[0m[1;96mRandom[0m[1;96m
+============================[0m
+tree constructor
+Func is :recolorAndRotate on node Node 14 ⚫
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+PLUS PETIT
+Func is :setLeftChild on this 14 with node 6
+Func is :setParent on this 6 with node 14
+Func is :recolorAndRotate on node Node 6 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |    (null)  |
+---------------------------
+|     NODE 6 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+Func is :setRightChild on this 14 with node 21
+Func is :setParent on this 21 with node 14
+Func is :recolorAndRotate on node Node 21 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        21  |
+---------------------------
+|     NODE 6 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 21 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+Func is :setRightChild on this 21 with node 84
+Func is :setParent on this 84 with node 21
+Func is :setRightChild on this 14 with node 21
+Func is :setParent on this 21 with node 14
+Func is :recolorAndRotate on node Node 84 🔴
+6 goes from 🔴  to ⚫️
+21 goes from 🔴  to ⚫️
+14 goes from ⚫️ to 🔴 
+Func is :recolorAndRotate on node Node 14 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        21  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        84  |
+---------------------------
+|     NODE 84 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+PLUS PETIT
+Func is :setLeftChild on this 84 with node 78
+Func is :setParent on this 78 with node 84
+Func is :setRightChild on this 21 with node 84
+Func is :setParent on this 84 with node 21
+Func is :setRightChild on this 14 with node 21
+Func is :setParent on this 21 with node 14
+Func is :recolorAndRotate on node Node 78 🔴
+Func is :handle_rights on node Node 78 🔴
+ > Node 78 has color 439
+ > Parent 84 has color 439
+ > GP 21 has color 81435
+Right-left situation found
+Func is :rotateRight on node Node 84 🔴
+Left node 78
+Func is :setRightChild on this 78 with node 84
+Func is :setParent on this 78 with node 21
+Func is :updateChildrenOfParentNode on node Node 84 🔴
+Func is :setRightChild on this 21 with node 78
+Func is :setParent on this 84 with node 78
+Node 84 and new parent 78
+Right-right situation found
+78 goes from 🔴  to ⚫️
+21 goes from ⚫️ to 🔴 
+Func is :rotateLeft on node Node 21 🔴
+Func is :setLeftChild on this 78 with node 21
+Func is :setParent on this 78 with node 14
+Func is :updateChildrenOfParentNode on node Node 21 🔴
+Func is :setRightChild on this 14 with node 78
+Func is :setParent on this 21 with node 78
+Node 21 🔴 parent is Node 78 ⚫
+Node 21 🔴 right child 
+Node 78 ⚫ parent is Node 14 ⚫
+Node 78 ⚫ left child is Node 21 🔴
+root is Node 14 ⚫
+Func is :recolorAndRotate on node Node 84 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (⚫)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+PLUS PETIT
+Func is :setRightChild on this 21 with node 46
+Func is :setParent on this 46 with node 21
+Func is :setLeftChild on this 78 with node 21
+Func is :setParent on this 21 with node 78
+Func is :setRightChild on this 14 with node 78
+Func is :setParent on this 78 with node 14
+Func is :recolorAndRotate on node Node 46 🔴
+84 goes from 🔴  to ⚫️
+21 goes from 🔴  to ⚫️
+78 goes from ⚫️ to 🔴 
+Func is :recolorAndRotate on node Node 78 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+PLUS PETIT
+Func is :setRightChild on this 6 with node 12
+Func is :setParent on this 12 with node 6
+Func is :setLeftChild on this 14 with node 6
+Func is :setParent on this 6 with node 14
+Func is :recolorAndRotate on node Node 12 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|    (null)  |        12  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+Func is :setRightChild on this 84 with node 89
+Func is :setParent on this 89 with node 84
+Func is :setRightChild on this 78 with node 84
+Func is :setParent on this 84 with node 78
+Func is :setRightChild on this 14 with node 78
+Func is :setParent on this 78 with node 14
+Func is :recolorAndRotate on node Node 89 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|    (null)  |        12  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+PLUS PETIT
+PLUS PETIT
+Func is :setLeftChild on this 6 with node 4
+Func is :setParent on this 4 with node 6
+Func is :setLeftChild on this 14 with node 6
+Func is :setParent on this 6 with node 14
+Func is :recolorAndRotate on node Node 4 🔴
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|         4  |        12  |
+---------------------------
+|     NODE 4 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|         4  |        12  |
+---------------------------
+|     NODE 4 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+start to del :: 
+14 6 4 12 78 21 46 84 89 14 6 4 12 78 21 46 84 89 ---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|         4  |        12  |
+---------------------------
+|     NODE 4 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|         4  |        12  |
+---------------------------
+|     NODE 4 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+14 6 4 12 78 21 46 84 89 14 6 4 12 78 21 46 84 89 ---------------------------
+|     NODE 14 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|         4  |        12  |
+---------------------------
+|     NODE 4 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+Func is :del on node Node 14 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 12 🔴
+Func is :updateChildrenOfParentNode on node Node 12 🔴
+==========RES DEL
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|         4  |    (null)  |
+---------------------------
+|     NODE 4 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+12 6 4 78 21 46 84 89  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+PLUS PETIT
+PLUS PETIT
+Func is :setLeftChild on this 4 with node 0
+Func is :setParent on this 0 with node 4
+Func is :setLeftChild on this 6 with node 4
+Func is :setParent on this 4 with node 6
+Func is :setLeftChild on this 12 with node 6
+Func is :setParent on this 6 with node 12
+Func is :recolorAndRotate on node Node 0 🔴
+Func is :handle_lefts on node Node 0 🔴
+ > Node 0 has color 439
+ > Parent 4 has color 439
+ > GP 6 has color 81435
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         6  |        78  |
+---------------------------
+|     NODE 6 (⚫)	  |
+---------------------------
+|         4  |    (null)  |
+---------------------------
+|     NODE 4 (🔴)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+Left-left situation found
+4 goes from 🔴  to ⚫️
+6 goes from ⚫️ to 🔴 
+Func is :rotateRight on node Node 6 🔴
+Left node 4
+Func is :setRightChild on this 4 with node 6
+Func is :setParent on this 4 with node 12
+Func is :updateChildrenOfParentNode on node Node 6 🔴
+Func is :setLeftChild on this 12 with node 4
+Func is :setParent on this 6 with node 4
+Node 6 and new parent 4
+Func is :recolorAndRotate on node Node 4 ⚫
+==========RES INSERT
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         4  |        78  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |         6  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 6 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 12 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 6 🔴
+Func is :updateChildrenOfParentNode on node Node 6 🔴
+==========RES DEL
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         4  |        78  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        21  |        84  |
+---------------------------
+|     NODE 21 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+12 4 0 78 21 46 84 89  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+PLUS PETIT
+Func is :setLeftChild on this 46 with node 45
+Func is :setParent on this 45 with node 46
+Func is :setRightChild on this 21 with node 46
+Func is :setParent on this 46 with node 21
+Func is :setLeftChild on this 78 with node 21
+Func is :setParent on this 21 with node 78
+Func is :setRightChild on this 12 with node 78
+Func is :setParent on this 78 with node 12
+Func is :recolorAndRotate on node Node 45 🔴
+Func is :handle_rights on node Node 45 🔴
+ > Node 45 has color 439
+ > Parent 46 has color 439
+ > GP 21 has color 81435
+Right-left situation found
+Func is :rotateRight on node Node 46 🔴
+Left node 45
+Func is :setRightChild on this 45 with node 46
+Func is :setParent on this 45 with node 21
+Func is :updateChildrenOfParentNode on node Node 46 🔴
+Func is :setRightChild on this 21 with node 45
+Func is :setParent on this 46 with node 45
+Node 46 and new parent 45
+Right-right situation found
+45 goes from 🔴  to ⚫️
+21 goes from ⚫️ to 🔴 
+Func is :rotateLeft on node Node 21 🔴
+Func is :setLeftChild on this 45 with node 21
+Func is :setParent on this 45 with node 78
+Func is :updateChildrenOfParentNode on node Node 21 🔴
+Func is :setLeftChild on this 78 with node 45
+Func is :setParent on this 21 with node 45
+Node 21 🔴 parent is Node 45 ⚫
+Node 21 🔴 right child 
+Node 45 ⚫ parent is Node 78 🔴
+Node 45 ⚫ left child is Node 21 🔴
+root is Node 12 ⚫
+Func is :recolorAndRotate on node Node 21 🔴
+==========RES INSERT
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         4  |        78  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        45  |        84  |
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        21  |        46  |
+---------------------------
+|     NODE 21 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 12 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 21 🔴
+Func is :updateChildrenOfParentNode on node Node 21 🔴
+==========RES DEL
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         4  |        78  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        45  |        84  |
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|    (null)  |        46  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+12 4 0 78 45 46 84 89  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+PLUS PETIT
+Func is :setLeftChild on this 45 with node 20
+Func is :setParent on this 20 with node 45
+Func is :setLeftChild on this 78 with node 45
+Func is :setParent on this 45 with node 78
+Func is :setRightChild on this 12 with node 78
+Func is :setParent on this 78 with node 12
+Func is :recolorAndRotate on node Node 20 🔴
+==========RES INSERT
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         4  |        78  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        45  |        84  |
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        46  |
+---------------------------
+|     NODE 20 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 84 (⚫)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 12 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 84 ⚫
+Func is :updateChildrenOfParentNode on node Node 84 ⚫
+Func is :setRightChild on this 78 with node 89
+Func is :setParent on this 89 with node 78
+Func is :fixRedBlackPropertiesAfterDelete on node Node 89 🔴
+Node 45 ⚫
+CASE 5 + 6 
+Func is :rotateRight on node Node 78 ⚫
+Left node 45
+Func is :setLeftChild on this 78 with node 46
+Func is :setParent on this 46 with node 78
+Func is :setRightChild on this 45 with node 78
+Func is :setParent on this 45 with node 12
+Func is :updateChildrenOfParentNode on node Node 78 ⚫
+Func is :setRightChild on this 12 with node 45
+Func is :setParent on this 78 with node 45
+Node 78 and new parent 45
+==========RES DEL
+---------------------------
+|     NODE 12 (⚫)	  |
+---------------------------
+|         4  |        45  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 45 (🔴)	  |
+---------------------------
+|        20  |        78  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (⚫)	  |
+---------------------------
+|        46  |        89  |
+---------------------------
+|     NODE 46 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 89 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+12 4 0 45 20 78 46 89  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+Func is :setRightChild on this 46 with node 65
+Func is :setParent on this 65 with node 46
+Func is :setLeftChild on this 78 with node 46
+Func is :setParent on this 46 with node 78
+Func is :setRightChild on this 45 with node 78
+Func is :setParent on this 78 with node 45
+Func is :setRightChild on this 12 with node 45
+Func is :setParent on this 45 with node 12
+Func is :recolorAndRotate on node Node 65 🔴
+89 goes from 🔴  to ⚫️
+46 goes from 🔴  to ⚫️
+78 goes from ⚫️ to 🔴 
+Func is :recolorAndRotate on node Node 78 🔴
+Func is :handle_rights on node Node 78 🔴
+ > Node 78 has color 439
+ > Parent 45 has color 439
+ > GP 12 has color 81435
+Right-right situation found
+45 goes from 🔴  to ⚫️
+12 goes from ⚫️ to 🔴 
+Func is :rotateLeft on node Node 12 🔴
+Func is :setRightChild on this 12 with node 20
+Func is :setParent on this 20 with node 12
+Func is :setLeftChild on this 45 with node 12
+Func is :updateChildrenOfParentNode on node Node 12 🔴
+Func is :setParent on this 12 with node 45
+Node 12 🔴 parent is Node 45 ⚫
+Node 12 🔴 right child Node 20 ⚫
+Node 45 ⚫ parent is 
+Node 45 ⚫ left child is Node 12 🔴
+root is Node 45 ⚫
+Func is :recolorAndRotate on node Node 45 ⚫
+==========RES INSERT
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        12  |        78  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|         4  |        20  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 78 (🔴)	  |
+---------------------------
+|        46  |        89  |
+---------------------------
+|     NODE 46 (⚫)	  |
+---------------------------
+|    (null)  |        65  |
+---------------------------
+|     NODE 65 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 89 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 45 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 65 🔴
+Func is :updateChildrenOfParentNode on node Node 65 🔴
+==========RES DEL
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        12  |        65  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|         4  |        20  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 65 (🔴)	  |
+---------------------------
+|        46  |        89  |
+---------------------------
+|     NODE 46 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 89 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+45 12 4 0 20 65 46 89  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+Func is :setRightChild on this 20 with node 40
+Func is :setParent on this 40 with node 20
+Func is :setRightChild on this 12 with node 20
+Func is :setParent on this 20 with node 12
+Func is :setLeftChild on this 45 with node 12
+Func is :setParent on this 12 with node 45
+Func is :recolorAndRotate on node Node 40 🔴
+==========RES INSERT
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        12  |        65  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|         4  |        20  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|    (null)  |        40  |
+---------------------------
+|     NODE 40 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 65 (🔴)	  |
+---------------------------
+|        46  |        89  |
+---------------------------
+|     NODE 46 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 89 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 45 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 46 ⚫
+Func is :updateChildrenOfParentNode on node Node 46 ⚫
+Func is :setLeftChild on this 65 with node 40404
+Func is :setParent on this 40404 with node 65
+Func is :updateChildrenOfParentNode on node Node 40404 ⚫
+==========RES DEL
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        12  |        65  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|         4  |        20  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|    (null)  |        40  |
+---------------------------
+|     NODE 40 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 65 (🔴)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+45 12 4 0 20 40 65 89  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+Func is :setLeftChild on this 89 with node 85
+Func is :setParent on this 85 with node 89
+Func is :setRightChild on this 65 with node 89
+Func is :setParent on this 89 with node 65
+Func is :setRightChild on this 45 with node 65
+Func is :setParent on this 65 with node 45
+Func is :recolorAndRotate on node Node 85 🔴
+==========RES INSERT
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        12  |        65  |
+---------------------------
+|     NODE 12 (🔴)	  |
+---------------------------
+|         4  |        20  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|    (null)  |        40  |
+---------------------------
+|     NODE 40 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 65 (🔴)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (⚫)	  |
+---------------------------
+|        85  |    (null)  |
+---------------------------
+|     NODE 85 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 45 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 4 ⚫
+Func is :updateChildrenOfParentNode on node Node 4 ⚫
+Func is :setLeftChild on this 4 with node 0
+UPDATED NODE *NODENode 4 ⚫AND PARENT Node 4 🔴
+Func is :setParent on this 0 with node 4
+Func is :fixRedBlackPropertiesAfterDelete on node Node 0 🔴
+Node 20 ⚫
+CASE 5 + 6 
+Func is :rotateLeft on node Node 4 ⚫
+Func is :setLeftChild on this 20 with node 4
+Func is :setParent on this 20 with node 45
+Func is :updateChildrenOfParentNode on node Node 4 ⚫
+Func is :setLeftChild on this 45 with node 20
+Func is :setParent on this 4 with node 20
+Node 4 ⚫ parent is Node 20 🔴
+Node 4 ⚫ right child 
+Node 20 🔴 parent is Node 45 ⚫
+Node 20 🔴 left child is Node 4 ⚫
+root is Node 45 ⚫
+==========RES DEL
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        65  |
+---------------------------
+|     NODE 20 (🔴)	  |
+---------------------------
+|         4  |        40  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 40 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 65 (🔴)	  |
+---------------------------
+|    (null)  |        89  |
+---------------------------
+|     NODE 89 (⚫)	  |
+---------------------------
+|        85  |    (null)  |
+---------------------------
+|     NODE 85 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+45 20 4 0 40 65 89 85  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+Func is :setLeftChild on this 65 with node 60
+Func is :setParent on this 60 with node 65
+Func is :setRightChild on this 45 with node 65
+Func is :setParent on this 65 with node 45
+Func is :recolorAndRotate on node Node 60 🔴
+20 goes from 🔴  to ⚫️
+65 goes from 🔴  to ⚫️
+45 goes from ⚫️ to 🔴 
+Func is :recolorAndRotate on node Node 45 🔴
+==========RES INSERT
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        65  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|         4  |        40  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 40 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 65 (⚫)	  |
+---------------------------
+|        60  |        89  |
+---------------------------
+|     NODE 60 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 89 (⚫)	  |
+---------------------------
+|        85  |    (null)  |
+---------------------------
+|     NODE 85 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 45 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 89 ⚫
+Func is :updateChildrenOfParentNode on node Node 89 ⚫
+Func is :setRightChild on this 65 with node 85
+UPDATED NODE *NODENode 89 ⚫AND PARENT Node 65 ⚫
+Func is :setParent on this 85 with node 65
+Func is :fixRedBlackPropertiesAfterDelete on node Node 85 🔴
+Node 60 🔴
+CASE 2 : red sibling Node 60 🔴
+Func is :rotateRight on node Node 65 🔴
+Left node 60
+Func is :setRightChild on this 60 with node 65
+Func is :setParent on this 60 with node 45
+Func is :updateChildrenOfParentNode on node Node 65 🔴
+Func is :setRightChild on this 45 with node 60
+Func is :setParent on this 65 with node 60
+Node 65 and new parent 60
+NEW SIBLING 
+==========RES DEL
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        60  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|         4  |        40  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 40 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 60 (⚫)	  |
+---------------------------
+|    (null)  |        65  |
+---------------------------
+|     NODE 65 (🔴)	  |
+---------------------------
+|    (null)  |        85  |
+---------------------------
+|     NODE 85 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+45 20 4 0 40 60 65 85 🔴 ERROR : 65 is red and so is its righ child 85
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :setRightChild on this 85 with node 105
+Func is :setParent on this 105 with node 85
+Func is :setRightChild on this 65 with node 85
+Func is :setParent on this 85 with node 65
+Func is :setRightChild on this 60 with node 65
+Func is :setParent on this 65 with node 60
+Func is :setRightChild on this 45 with node 60
+Func is :setParent on this 60 with node 45
+Func is :recolorAndRotate on node Node 105 🔴
+Func is :handle_rights on node Node 105 🔴
+ > Node 105 has color 439
+ > Parent 85 has color 439
+ > GP 65 has color 439
+Right-right situation found
+85 goes from 🔴  to ⚫️
+65 goes from 🔴  to ⚫️
+Func is :rotateLeft on node Node 65 ⚫
+Func is :setLeftChild on this 85 with node 65
+Func is :setParent on this 85 with node 60
+Func is :updateChildrenOfParentNode on node Node 65 ⚫
+Func is :setRightChild on this 60 with node 85
+Func is :setParent on this 65 with node 85
+Node 65 ⚫ parent is Node 85 ⚫
+Node 65 ⚫ right child 
+Node 85 ⚫ parent is Node 60 ⚫
+Node 85 ⚫ left child is Node 65 ⚫
+root is Node 45 ⚫
+Func is :recolorAndRotate on node Node 85 ⚫
+==========RES INSERT
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        60  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|         4  |        40  |
+---------------------------
+|     NODE 4 (⚫)	  |
+---------------------------
+|         0  |    (null)  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 40 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 60 (⚫)	  |
+---------------------------
+|    (null)  |        85  |
+---------------------------
+|     NODE 85 (⚫)	  |
+---------------------------
+|        65  |       105  |
+---------------------------
+|     NODE 65 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 105 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+Func is :del on node Node 45 ⚫
+Func is :deleteNodeWithZeroOrOneChild on node Node 4 ⚫
+Func is :updateChildrenOfParentNode on node Node 4 ⚫
+Func is :setLeftChild on this 20 with node 0
+UPDATED NODE *NODENode 4 ⚫AND PARENT Node 20 ⚫
+Func is :setParent on this 0 with node 20
+Func is :fixRedBlackPropertiesAfterDelete on node Node 0 🔴
+Node 40 ⚫
+WOWOW TRU
+ICI 3 + 4 
+CASE 4
+Func is :fixRedBlackPropertiesAfterDelete on node Node 20 ⚫
+Node 60 ⚫
+WOWOW TRU
+ICI 3 + 4 
+CASE 4
+Func is :fixRedBlackPropertiesAfterDelete on node Node 45 ⚫
+==========RES DEL
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        60  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|         0  |        40  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 40 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 60 (🔴)	  |
+---------------------------
+|    (null)  |        85  |
+---------------------------
+|     NODE 85 (⚫)	  |
+---------------------------
+|        65  |       105  |
+---------------------------
+|     NODE 65 (⚫)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 105 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+45 20 0 40 60 85 65 105  ✅ VALIDITY CHECK IS OK !!!!
+PLUS PETIT
+Func is :setRightChild on this 65 with node 80
+Func is :setParent on this 80 with node 65
+Func is :setLeftChild on this 85 with node 65
+Func is :setParent on this 65 with node 85
+Func is :setRightChild on this 60 with node 85
+Func is :setParent on this 85 with node 60
+Func is :setRightChild on this 45 with node 60
+Func is :setParent on this 60 with node 45
+Func is :recolorAndRotate on node Node 80 🔴
+==========RES INSERT
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        60  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|         0  |        40  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 40 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 60 (🔴)	  |
+---------------------------
+|    (null)  |        85  |
+---------------------------
+|     NODE 85 (⚫)	  |
+---------------------------
+|        65  |       105  |
+---------------------------
+|     NODE 65 (⚫)	  |
+---------------------------
+|    (null)  |        80  |
+---------------------------
+|     NODE 80 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 105 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+---------------------------
+|     NODE 45 (⚫)	  |
+---------------------------
+|        20  |        60  |
+---------------------------
+|     NODE 20 (⚫)	  |
+---------------------------
+|         0  |        40  |
+---------------------------
+|     NODE 0 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 40 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 60 (🔴)	  |
+---------------------------
+|    (null)  |        85  |
+---------------------------
+|     NODE 85 (⚫)	  |
+---------------------------
+|        65  |       105  |
+---------------------------
+|     NODE 65 (⚫)	  |
+---------------------------
+|    (null)  |        80  |
+---------------------------
+|     NODE 80 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+---------------------------
+|     NODE 105 (🔴)	  |
+---------------------------
+|    (null)  |    (null)  |
+ ✅ VALIDITY CHECK IS OK !!!!
+[1;96m============================
+[0m[1;96mEnd of test : aleatory_delete [0m[1;96m
+============================[0m

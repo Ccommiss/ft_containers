@@ -27,7 +27,7 @@ void left_heavy()
 	start
 		Tree myTree;
 
-	int array[4] = {42, 32, 12};
+	int array[4] = { 42, 32, 12 };
 	for (int i = 0; i < 3; i++)
 	{
 		myTree.insert(array[i]);
@@ -43,7 +43,7 @@ void left_right()
 	start
 
 		Tree myTree;
-	int array[4] = {50, 43, 45};
+	int array[4] = { 50, 43, 45 };
 	for (int i = 0; i < 3; i++)
 	{
 		myTree.insert(array[i]);
@@ -53,7 +53,7 @@ void left_right()
 	end;
 
 	head("More");
-	int array2[4] = {44, 47, 51};
+	int array2[4] = { 44, 47, 51 };
 	for (int i = 0; i < 3; i++)
 	{
 		myTree.insert(array2[i]);
@@ -82,7 +82,7 @@ void test_simple_recoloring()
 {
 	start
 		Tree myTree;
-	int array[4] = {30, 15, 45}; // la base : un root noir, deux siblings rouges (il faut un oncle
+	int array[4] = { 30, 15, 45 }; // la base : un root noir, deux siblings rouges (il faut un oncle
 	// pour les simples recolor)
 
 	for (int i = 0; i < 3; i++)
@@ -100,7 +100,7 @@ void test_simple_recoloring()
 void red_delete_leaf()
 {
 	Tree myTree;
-	int array[] = {10, 5, 20, 7, 4};
+	int array[] = { 10, 5, 20, 7, 4 };
 }
 void red_delete()
 {
@@ -108,7 +108,7 @@ void red_delete()
 	head("Delete a middle placed red leaf");
 	{
 		Tree myTree;
-		int array[] = {10, 5, 20, 7, 4};
+		int array[] = { 10, 5, 20, 7, 4 };
 		for (int i = 0; i < 5; i++)
 		{
 			myTree.insert(array[i]);
@@ -119,7 +119,7 @@ void red_delete()
 		myTree.del(5);
 		showtree;
 		end;
-	}	
+	}
 }
 
 void delete_one_child()
@@ -128,7 +128,7 @@ void delete_one_child()
 	head("Delete a leaf that had one child");
 	{
 		Tree myTree;
-		int array[] = {10, 5, 20, 4};
+		int array[] = { 10, 5, 20, 4 };
 		for (int i = 0; i < 4; i++)
 		{
 			myTree.insert(array[i]);
@@ -139,7 +139,7 @@ void delete_one_child()
 		myTree.del(5);
 		showtree;
 		end;
-	}	
+	}
 
 }
 
@@ -150,7 +150,7 @@ void aleatory_delete()
 	head("Random");
 	{
 		Tree myTree;
-		int array[] = {10, 5, 20, 84, 78, 45, 12, 89, 4};
+		int array[] = { 14, 6, 21, 84, 78, 46, 12, 89, 4 };
 		for (int i = 0; i < 9; i++)
 		{
 			myTree.insert(array[i]);
@@ -159,21 +159,35 @@ void aleatory_delete()
 		}
 		showtree;
 		out("start to del :: ");
-		light_display; 
-		myTree.del(20);
-		light_display; 
-		showtree;
-		myTree.del(12);
-		showtree;
 		light_display;
-		myTree.del(5);
+		//myTree.del(20);
 		light_display;
 		showtree;
-		myTree.insert(5);
-		//light_display;
-		//showtree;
+		//myTree.del(12);
+		showtree;
+		light_display;
+		//myTree.del(5);
+		light_display;
+		showtree;
+		for (int i = 0; i < 9; i++)
+		{
+			myTree.del(array[i]);
+			wait
+				out("==========RES DEL")
+				showtree;
+			light_display;
+			valid_check;
+			if (i % 2 == 0)
+				myTree.insert(i * 10);
+			else
+				myTree.insert((i + 3) * 10 + 5);
+			out("==========RES INSERT")
+			showtree;
+				valid_check;
+		}
+		showtree;
 		end;
-	}	
+	}
 
 }
 
@@ -182,7 +196,7 @@ void ten_elem_test1()
 {
 	start;
 	Tree myTree;
-	int array[10] = {30, 15, 45, 78, 56, 100, 450, 459, 12, 1};
+	int array[10] = { 30, 15, 45, 78, 56, 100, 450, 459, 12, 1 };
 	for (int i = 0; i < 10; i++)
 	{
 		myTree.insert(array[i]);
@@ -198,7 +212,7 @@ void twenty_elem_test1()
 {
 	start;
 	Tree myTree;
-	int array[] = {30, 15, 45, 78, 56, 100, 450, 459, 12, 1, 543, 653, 4523, 432, 425, 5425, 764, 6356, 777, 45};
+	int array[] = { 30, 15, 45, 78, 56, 100, 450, 459, 12, 1, 543, 653, 4523, 432, 425, 5425, 764, 6356, 777, 45 };
 	for (int i = 0; i < 19; i++)
 	{
 		myTree.insert(array[i]);
@@ -215,7 +229,7 @@ void twenty_elem_only_bigger()
 {
 	start;
 	Tree myTree;
-	int array[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+	int array[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 	for (int i = 0; i < 19; i++)
 	{
 		myTree.insert(array[i]);

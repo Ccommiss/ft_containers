@@ -113,12 +113,15 @@ class Node
 
 	private:
 	int _data;
-	Node* root;
-	Node* leftChild;
-	Node* rightChild;
-	Node* parent;
+		Node* root;
+		Node* leftChild;
+		Node* rightChild;
+		Node* parent;
+		
 	int color;
 };
+
+
 
 std::ostream& operator<<(std::ostream& os, Node& node)
 {
@@ -138,6 +141,7 @@ class Tree
 	private:
 	Node* root;
 	Node* _end;
+	Node* nil_node;
 	int blacks;
 	int total;
 	int iterations;
@@ -149,7 +153,8 @@ class Tree
 	{
 		std::cout << "tree constructor" << std::endl;
 		root = nullptr;
-		_end = new Node(78);
+		nil_node = new Node(40404);
+		nil_node->color = Node::BLACK;
 		blacks = 0;
 	}
 	~Tree() {}
@@ -537,18 +542,23 @@ class Tree
 	{
 		out("Func is :" << __func__ << " on node " << *node);
 		// Case 1: Examined node is root, end of recursion
-		if (node == root) {
+		if (node == root || node == nullptr) {
 			// Uncomment the following line if you want to enforce black roots (rule 2):
 			// node.color = BLACK;
 			return;
 		}
 		Node* sibling = getSibling(node);
+		out (*sibling)
+		if (sibling == nullptr)
+			return ;  // TEST 
 		// Case 2: Red sibling
 		if (sibling->color == Node::RED) {
 			out("CASE 2 : red sibling " << *sibling);
 			handleRedSibling(node, sibling);
 			sibling = getSibling(node);
-			//out("NEW SIBLING " << *sibling) // Get new sibling for fall-through to cases 3-6
+			out("NEW SIBLING " << *sibling) // Get new sibling for fall-through to cases 3-6
+			if (sibling == nullptr)
+				return ;  // TEST 
 		}
 		// Cases 3+4: Black sibling with two black children
 		if (sibling->color == Node::BLACK && black_nephews(node) == true)
@@ -598,9 +608,11 @@ class Tree
 		// * node is black --> replace it by a temporary NIL node (needed to fix the R-B rules)
 		else 
 		{
-			Node* newChild = node->getColor() == Node::BLACK ? new Node(404) : nullptr;
-			if (newChild != nullptr && newChild->_data == 404)
-				newChild->setColor(Node::NIL);
+			//Node *newChild = nullptr;
+			Node* newChild = node->getColor() == Node::BLACK ? nil_node : nullptr;
+
+			//if (newChild != nullptr && newChild->_data == 404)
+			//	newChild->setColor(Node::NIL);
 			updateChildrenOfParentNode(node, newChild);
 			if (newChild != nullptr) {
 				newChild->setParent(node->parent);
@@ -614,7 +626,7 @@ class Tree
 		out("Func is :" << __func__ << " on node " << *root);
 
 		Node *node = find(data);
-		if (node == nullptr)
+		if (node == nullptr || node == nil_node) // PAS SURE POUR LA DEUXIEME !!
 			return;
 		// At this point, "node" is the node to be deleted
 		// In this variable, we'll store the node at which we're going to start to fix the R-B
@@ -638,12 +650,14 @@ class Tree
 			deletedNodeColor = inOrderSuccessor->getColor();
 		}
 		if (deletedNodeColor == Node::BLACK) {
+			if (movedUpNode != nil_node) // ON VA VOR
 			fixRedBlackPropertiesAfterDelete(movedUpNode);
 
 			// Remove the temporary NIL node
-			//if (movedUpnode == nullptr) {
-			//	replaceParentsChild(movedUpnode->parent, movedUpNode, nullptr);
-			//}
+			if (movedUpNode == nil_node) {
+				updateChildrenOfParentNode(movedUpNode, nullptr);
+				//replaceParentsChild(movedUpnode->parent, movedUpNode, nullptr);
+			}
 		}
 	}
 
