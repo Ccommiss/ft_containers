@@ -15,7 +15,7 @@
 	}                                                    \
 	else                                                 \
 	{                                                    \
-		out(" ✅ VALIDITY CHECK IS OK !!!!")              \
+		out("Validity check done")              \
 	}
 
 #define end     \
@@ -157,6 +157,8 @@ void aleatory_delete()
 			//wait
 			//showtree;
 		}
+		myTree.insert(14);
+		wait;
 		showtree;
 		valid_check;
 

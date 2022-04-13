@@ -203,6 +203,11 @@ public:
 	Tree insert(int data)
 	{
 		Node *node = new Node(data);
+		if (find(data) != nullptr)
+		{
+			std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
+			return *this;
+		}
 		root = insert(root, node);
 		recolorAndRotate(node);
 		return *this;
@@ -751,14 +756,7 @@ public:
 	void calculate_height(Node *node)
 	{
 		if (node == nullptr)
-		{
-			int j = 0;
-			// height += 8;
-			// while (array[height + 1][j] != 0)
-			// 	j++;
-			// array[height][j] = -1;
 			return;
-		}
 		Node *tmp = node;
 		int i = 0;
 		while (tmp != root)
@@ -798,6 +796,18 @@ public:
 		}
 	}
 
+	int		curr_black_height(int data)
+	{
+		Node *node = find(data);
+		int i = 0;
+		while (node != root)
+		{
+			if (node->color == Node::BLACK)
+				i++;
+			node = node->parent;
+		}
+		return i;
+	}
 	void see_tree()
 	{
 		height = 0;
@@ -816,9 +826,9 @@ public:
 				{
 					color = find(array[i][j])->color == Node::RED ? "🔴 " : "⚫️";
 					if (j % 2 == 0)
-						std::cout << std::setw(80 / (nb + 1) - i) << (array[i][j]) << color << "--|";
+						std::cout << std::setw(80 / (nb + 1) - i) << (array[i][j]) << color << "--|" << "(" << curr_black_height(array[i][j]) << ")";
 					else
-						std::cout << std::setw(80 / (nb + 1) - i) << "|--" << (array[i][j]) << color;
+						std::cout << std::setw(80 / (nb + 1) - i) << "|--" << (array[i][j]) << color << "(" << curr_black_height(array[i][j]) << ")";
 				}
 				else if (array[i][j] == -1)
 				{
