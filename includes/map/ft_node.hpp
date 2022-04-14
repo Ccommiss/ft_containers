@@ -3,13 +3,14 @@
 #include "ft_tree.hpp"
 #define out(x) std::cout << x << std::endl;
 
+
 namespace ft
 {
 
 	template <typename T>
 	class Node
 	{
-		template <typename U>
+		template <typename U, typename V>
 		friend class Tree;
 		friend class ft_tree_vis;
 
@@ -20,10 +21,10 @@ namespace ft
 		}
 		Node(T data)
 		{
-			root = nullptr;
-			leftChild = nullptr;
-			rightChild = nullptr;
-			parent = nullptr;
+			// root = NULL;
+			// leftChild = NULL;
+			// rightChild = NULL;
+			// parent = NULL;
 			_data = data;
 			color = RED; // par default
 		}
@@ -62,9 +63,9 @@ namespace ft
 		 */
 		bool is_left_child()
 		{
-			if (parent == nullptr) // c root
+			if (parent == NULL) // c root
 				return false;
-			if (parent->leftChild == nullptr)
+			if (parent->leftChild == NULL)
 				return false;
 			if (this == parent->leftChild)
 				return true;
@@ -72,9 +73,9 @@ namespace ft
 		}
 		bool is_right_child()
 		{
-			if (parent == nullptr) // c root
+			if (parent == NULL) // c root
 				return false;
-			if (parent->rightChild == nullptr)
+			if (parent->rightChild == NULL)
 				return false;
 			if (this == parent->rightChild)
 				return true;
@@ -92,19 +93,19 @@ namespace ft
 
 		void setLeftChild(Node *node)
 		{
-			if (node != nullptr)
+			if (node != NULL)
 				out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
 			leftChild = node;
 		}
 		void setRightChild(Node *node)
 		{
-			if (node != nullptr)
+			if (node != NULL)
 				out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
 			rightChild = node;
 		}
 		void setParent(Node *newParent)
 		{
-			if (newParent != nullptr)
+			if (newParent != NULL)
 				out("Func is :" << __func__ << " on this " << _data << " with node " << newParent->_data);
 			;
 			parent = newParent;
@@ -123,7 +124,6 @@ namespace ft
 		Node *leftChild;
 		Node *rightChild;
 		Node *parent;
-
 		int color;
 	};
 }
@@ -131,7 +131,7 @@ namespace ft
 template <class T>
 std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 {
-	if (&node != nullptr)
+	if (&node != NULL)
 	{
 		std::string colors;
 		node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
@@ -140,17 +140,5 @@ std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 	return os;
 }
 
-
-
-// // template <>
-// std::ostream &operator<<(std::ostream &os, ft::pair < int, std::string> &node)
-// {
-// 	// ft::pair<int, std::string> lol(4, "bonjour");
-// 	// if (&node!= nullptr)
-// 	// {
-// 		os << node.first;
-// 	// }
-// 	return os;
-// }
 
 #endif

@@ -37,7 +37,7 @@ namespace ft
 		** 4) Initializes first with p.first and second with p.second.
 		*/
 		template <class U1, class U2>
-		pair(const pair<U1, U2>& x) 
+		pair(const pair<U1, U2>& x)
 		{
 			*this = x;
 		}
@@ -52,9 +52,24 @@ namespace ft
 			return *this;
 		}
 	};
-	/*
-	**  NON MEMBER FUNCTIONS
-	*/
+
+
+	/* ****************************************************
+	**	NON MEMBERS FUNCTIONS
+	** ****************************************************
+	**
+	** 	├── Relational Operators - using equal, lexicographical
+	** 	  ├── ==
+	** 	  ├── !=
+	** 	  ├── <, <=
+	** 	  └── >, >=
+	**
+	** operation	equivalent operation
+	**	a!=b	|	!(a==b)
+	**	a>b		|	b<a
+	**	a<=b	|	!(b<a)
+	**	a>=b	|	!(a<b)
+	**/
 
 	/*
 	**	@brief 1-2) Tests if both elements of lhs and rhs are equal,
@@ -67,6 +82,8 @@ namespace ft
 			return (true);
 		return (false);
 	}
+
+	//	**	a!=b	|	!(a==b)
 	template <class T1, class T2>
 	bool operator!=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
@@ -77,19 +94,42 @@ namespace ft
 	** 	Compares lhs and rhs lexicographically by operator<, that is, compares the
 	**	first elements and only if they are equivalent, compares the second elements.
 	*/
-	// UTILISER LEXICOGRAPHICAL ?
 	template <class T1, class T2>
 	bool operator<(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
-		return (lhs.first < rhs.first);
+		if (lhs.first != rhs.first)
+			return (lhs.first < rhs.first);
+		else 
+			return (lhs.second < rhs.second);
 	}
 
 	template <class T1, class T2>
-	bool operator>=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	/**	a>b		*/
+	bool operator>(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
-		return (lhs.first >= rhs.first);
+		return (rhs.first < lhs.first);
 	}
 
+	// 	**	a<=b	|	!(b<a)
+	template <class T1, class T2>
+	bool operator<=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	{
+		return !(rhs < lhs);
+	}
+
+	template <class T1, class T2>
+	// ** a>=b	|	!(a<b)
+	bool operator>=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	{
+		return !(lhs.first < rhs.first);
+	}
+
+	/*
+	** make_pair
+	** @brief Creates a std::pair object, deducing the target type from the types of arguments.
+	** @param  t,u- the values to construct the pair from
+	** @return A std::pair object containing the given values.
+	*/
 	template< class T1, class T2 >
 	ft::pair<T1, T2> make_pair(T1 t, T2 u)
 	{
@@ -102,11 +142,7 @@ namespace ft
 }
 
 
-/*
-** @brief Creates a std::pair object, deducing the target type from the types of arguments.
-** @param  t,u- the values to construct the pair from
-** @return A std::pair object containing the given values.
-*/
+
 
 
 /*
@@ -116,7 +152,7 @@ namespace ft
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, ft::pair<T, U>& pair)
 {
-	if (&pair != nullptr)
+	if (&pair != NULL)
 	{
 		os << "[" << pair.first << "]=\"" << pair.second << "\"";
 	}

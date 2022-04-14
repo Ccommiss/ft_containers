@@ -2,6 +2,13 @@
 
 #include "Map.hpp"
 #include "ft_tree_vis.cpp"
+
+struct cmpByStringLength {
+    bool operator()(const std::string& a, const std::string& b) const {
+        return a.length() < b.length();
+}
+};
+
 int main()
 {
 	ft::Tree<std::string> myTree;
@@ -31,4 +38,11 @@ int main()
 	TreePair.insert(test5);
 	TreePair.display(TreePair.getRootPtr());
 	TreePair.see_tree();
+
+	//ft::Tree<ft::pair <std::string, std::string>, cmpByStringLength > TreePair2;
+	ft::Tree<ft::pair <std::string, std::string>, std::less<std::string> > TreePair2;
+
+	TreePair2.insert(ft::make_pair<std::string, std::string>("Bonjour", "les gueux"));
+	TreePair2.insert(ft::make_pair<std::string, std::string>("Sal", "bonjour"));
+	TreePair2.see_tree();
 }

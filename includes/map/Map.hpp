@@ -46,7 +46,6 @@ namespace ft
 
 		// 23.3.1.1 construct/copy/destroy:
 		explicit map(const Compare &c = Compare(), const Allocator &a = Allocator()) : alloc(a), comp(c) {}
-
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator & = Allocator());
 		map(const map<Key, T, Compare, Allocator>& x);
@@ -64,6 +63,9 @@ namespace ft
 		const_reverse_iterator rbegin() const;
 		reverse_iterator rend();
 		const_reverse_iterator rend() const;
+
+
+
 		// capacity:
 		bool empty() const;
 		size_type size() const;
@@ -111,10 +113,8 @@ namespace ft
 		size_type	_capacity;
 		size_type	_size;
 
-		typedef ft::Tree < key_type > rep_type;
-		// , key_compare> rep_type;
-		// typedef ft::Tree rep_type;
-		rep_type t; // une instance du tree
+		typedef ft::Tree < key_type, key_compare > rep_type;
+		rep_type t; 
 	};
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator==(const map<Key, T, Compare, Allocator>& x,
