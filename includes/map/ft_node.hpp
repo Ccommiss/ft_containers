@@ -81,7 +81,7 @@ namespace ft
 			return false;
 		}
 
-		T getData()
+		T &getData()  
 		{
 			return (_data);
 		}
@@ -128,7 +128,7 @@ namespace ft
 	};
 }
 
-template <typename T>
+template <class T>
 std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 {
 	if (&node != nullptr)
@@ -140,24 +140,17 @@ std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 	return os;
 }
 
-template <typename T, typename U>
-std::ostream &operator<<(std::ostream &os, ft::pair<T, U> > &pair)
-{
-	if (&pair != nullptr)
-	{
-		os << "K" << pair._data.first << "V" << pair._data.second;
-	}
-	return os;
-}
 
-template <>
-std::ostream &operator<<(std::ostream &os, ft::Node< ft::pair<int, std::string> > &pair)
-{
-	if (&pair != nullptr)
-	{
-		os << "K" << pair._data.first << "V" << pair._data.second;
-	}
-	return os;
-}
+
+// // template <>
+// std::ostream &operator<<(std::ostream &os, ft::pair < int, std::string> &node)
+// {
+// 	// ft::pair<int, std::string> lol(4, "bonjour");
+// 	// if (&node!= nullptr)
+// 	// {
+// 		os << node.first;
+// 	// }
+// 	return os;
+// }
 
 #endif

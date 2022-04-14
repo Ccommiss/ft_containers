@@ -9,17 +9,17 @@
 /*							DEBUG FUNCS											*/
 /* ---------------------------------------------------------------------------- */
 template <typename U>
-void ft::Tree<U>::display_children(ft::Node<U> *_curr)
+void ft::Tree<U>::display_children(ft::Node<U>* _curr)
 {
 	std::string colors;
 	_curr->color == ft::Node<U>::BLACK ? colors = "⚫" : colors = "🔴";
 	std::cout << "---------------------------"
-			  << "\n";
+		<< "\n";
 	std::cout << "|";
 	std::cout << std::setw(10) << " NODE " << _curr->_data << " (" << colors << ")"
-			  << "	  |\n";
+		<< "	  |\n";
 	std::cout << "---------------------------"
-			  << "\n";
+		<< "\n";
 	std::cout << "|";
 	if (_curr->leftChild != nullptr)
 	{
@@ -27,7 +27,7 @@ void ft::Tree<U>::display_children(ft::Node<U> *_curr)
 	}
 	else
 		std::cout << std::setw(10) << "(null)"
-				  << "  ";
+		<< "  ";
 	std::cout << "|";
 
 	if (_curr->rightChild != nullptr)
@@ -36,12 +36,12 @@ void ft::Tree<U>::display_children(ft::Node<U> *_curr)
 	}
 	else
 		std::cout << std::setw(10) << "(null)"
-				  << "  ";
+		<< "  ";
 	std::cout << "|";
 }
 
 template <typename U>
-int ft::Tree<U>::validity_check(ft::Node<U> *_curr)
+int ft::Tree<U>::validity_check(ft::Node<U>* _curr)
 {
 	static int i = 0;
 	if (_curr == nullptr)
@@ -62,7 +62,7 @@ int ft::Tree<U>::validity_check(ft::Node<U> *_curr)
 }
 
 template <typename U>
-void ft::Tree<U>::display(ft::Node<U> *_curr)
+void ft::Tree<U>::display(ft::Node<U>* _curr)
 {
 	if (_curr == nullptr)
 		return;
@@ -77,11 +77,11 @@ void ft::Tree<U>::display_data(int a, ...)
 {
 	va_list args;
 	va_start(args, a);
-	std::string family[3] = {" > ft::Node<U> ", " > Parent ", " > GP "};
+	std::string family[3] = { " > ft::Node<U> ", " > Parent ", " > GP " };
 	for (int i = 0; i < 3; i++)
 	{
 
-		ft::Node<U> *_curr = va_arg(args, ft::Node<U> *);
+		ft::Node<U>* _curr = va_arg(args, ft::Node<U> *);
 		if (_curr != nullptr)
 		{
 			out(family[i] << _curr->_data << " has color " << _curr->color);
@@ -94,12 +94,35 @@ void ft::Tree<U>::display_data(int a, ...)
 	}
 }
 
+
+
+template <typename T>
+void ft_null_ptr(T& p) { p = ft::make_pair<int, std::string>(-404, "null"); }
+
+template<>
+void ft_null_ptr(ft::pair<int, std::string>& p) { p = ft::make_pair<int, std::string>(-404, "nullnull"); }
+
+template<>
+void ft_null_ptr(ft::pair<int, int>& p) { p = ft::make_pair<int, int>(-404, -404); }
+
+template<>
+void ft_null_ptr(ft::pair<std::string, int>& p) { p = ft::make_pair<std::string, int>("nullnull", -404); }
+
+template<>
+void ft_null_ptr(std::string& p) { p = "null"; }
+
+template<>
+void ft_null_ptr(int& p) { p = -404; }
+
+
 template <typename U>
-void ft::Tree<U>::calculate_height(ft::Node<U> *node)
+void ft::Tree<U>::calculate_height(ft::Node<U>* node)
 {
+	U to_be_null;
+	ft_null_ptr(to_be_null);
 	if (node == nullptr)
 		return;
-	ft::Node<U> *tmp = node;
+	ft::Node<U>* tmp = node;
 	int i = 0;
 	while (tmp != root)
 	{
@@ -119,9 +142,9 @@ void ft::Tree<U>::calculate_height(ft::Node<U> *node)
 		int j = 0;
 		while (j < 10 && array[i + 1][j] != U())
 			j++;
-		this->array[i + 1][j] = -1;
-		this->array[i + 2][j * 2] = -1;
-		this->array[i + 2][j * 2 + 1] = -1;
+		array[i + 1][j] = to_be_null;
+		array[i + 2][j * 2] = to_be_null;
+		array[i + 2][j * 2 + 1] = to_be_null;
 		calculate_height(node->leftChild);
 	}
 	if (node->rightChild != nullptr)
@@ -131,9 +154,9 @@ void ft::Tree<U>::calculate_height(ft::Node<U> *node)
 		int j = 0;
 		while (j < 10 && array[i + 1][j] != U())
 			j++;
-		array[i + 1][j] = -1;
-		array[i + 2][j * 2] = -1;
-		array[i + 2][j * 2 + 1] = -1;
+		array[i + 1][j] = to_be_null;;
+		array[i + 2][j * 2] = to_be_null;;
+		array[i + 2][j * 2 + 1] = to_be_null;;
 		calculate_height(node->rightChild);
 	}
 }
@@ -141,7 +164,7 @@ void ft::Tree<U>::calculate_height(ft::Node<U> *node)
 template <typename U>
 int ft::Tree<U>::curr_black_height(U data)
 {
-	ft::Node<U> *node = find(data);
+	ft::Node<U>* node = find(data);
 	int i = 0;
 	while (node != root)
 	{
@@ -155,6 +178,9 @@ int ft::Tree<U>::curr_black_height(U data)
 template <typename U>
 void ft::Tree<U>::see_tree()
 {
+	U to_be_null;
+	ft_null_ptr(to_be_null);
+
 	height = 0;
 	calculate_height(root);
 
@@ -172,17 +198,17 @@ void ft::Tree<U>::see_tree()
 				color = find(array[i][j])->color == ft::Node<U>::RED ? "🔴 " : "⚫️";
 				if (j % 2 == 0)
 					std::cout << std::setw(80 / (nb + 1) - i) << (array[i][j]) << color << "--|"
-							  << "(" << curr_black_height(array[i][j]) << ")";
+					<< "(" << curr_black_height(array[i][j]) << ")";
 				else
 					std::cout << std::setw(80 / (nb + 1) - i) << "|--" << (array[i][j]) << color << "(" << curr_black_height(array[i][j]) << ")";
 			}
-			else // if (array[i][j] == - reinterpret_cast<U> (-1))
+			else if (array[i][j] == to_be_null)
 			{
 				if (j % 2 == 0)
 					std::cout << std::setw(80 / (nb + 1) - i + 2) << "N" << color << "--|";
 				else
 					std::cout << std::setw(80 / (nb + 1) - i + 2) << "|--"
-							  << "N" << color;
+					<< "N" << color;
 			}
 		}
 		nb *= 2;
@@ -196,7 +222,7 @@ void ft::Tree<U>::see_tree()
 }
 
 template <typename U>
-void ft::Tree<U>::light_display(ft::Node<U> *root)
+void ft::Tree<U>::light_display(ft::Node<U>* root)
 {
 	if (root == nullptr)
 		return;
