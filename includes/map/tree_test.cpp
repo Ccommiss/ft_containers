@@ -1,9 +1,11 @@
 
 
 #include "ft_tree.hpp"
+#include "ft_tree_vis.cpp" // OULALAL
 #include "../utils/debug.hpp"
 #include <iostream>
 
+using namespace ft;
 //#define showtree myTree.display(myTree.getRootPtr());
 #define showtree myTree.see_tree();
 

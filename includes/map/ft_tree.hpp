@@ -1,159 +1,39 @@
 
 // class Node;
+#ifndef TREE_HPP
+#define TREE_HPP
 #include <iostream>
 #include <iomanip>
 #include <cstdarg>
 
+#include "ft_node.hpp"
+
 #define out(x) std::cout << x << std::endl;
+namespace ft {
 
-class Node
-{
-	friend class Tree;
-
-public:
-	Node(int data)
-	{
-		root = nullptr;
-		leftChild = nullptr;
-		rightChild = nullptr;
-		parent = nullptr;
-		_data = data;
-		color = RED; // par default
-	}
-	~Node(){};
-
-	Node *getLeftChild()
-	{
-		return leftChild;
-	}
-	Node *getRightChild()
-	{
-		return rightChild;
-	}
-	Node *getParent()
-	{
-		return parent;
-	}
-	int getColor()
-	{
-		return color;
-	}
-	void setColor(int newColor)
-	{
-		color = newColor;
-	}
-	void flipColor()
-	{
-		std::string from = color == RED ? "🔴 " : "⚫️";
-		std::string to = color == RED ? "⚫️" : "🔴 ";
-		out(_data << " goes from " << from << " to " << to);
-
-		color == RED ? color = BLACK : color = RED;
-	}
-
-	/*
-	 ** If addresses are the same, then this is a left child
-	 */
-	bool is_left_child()
-	{
-		if (parent == nullptr) // c root
-			return false;
-		if (parent->leftChild == nullptr)
-			return false;
-		if (this == parent->leftChild)
-			return true;
-		return false;
-	}
-	bool is_right_child()
-	{
-		if (parent == nullptr) // c root
-			return false;
-		if (parent->rightChild == nullptr)
-			return false;
-		if (this == parent->rightChild)
-			return true;
-		return false;
-	}
-
-	int getData()
-	{
-		return (_data);
-	}
-	void setData(int data)
-	{
-		_data = data;
-	}
-
-	void setLeftChild(Node *node)
-	{
-		if (node != nullptr)
-			out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
-		leftChild = node;
-	}
-	void setRightChild(Node *node)
-	{
-		if (node != nullptr)
-			out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
-		rightChild = node;
-	}
-	void setParent(Node *newParent)
-	{
-		if (newParent != nullptr)
-			out("Func is :" << __func__ << " on this " << _data << " with node " << newParent->_data);
-		;
-		parent = newParent;
-	}
-
-	enum colors
-	{
-		RED = 439,
-		BLACK = 81435,
-		NIL = 404
-	};
-
-private:
-	int _data;
-	Node *root;
-	Node *leftChild;
-	Node *rightChild;
-	Node *parent;
-
-	int color;
-};
-
-std::ostream &operator<<(std::ostream &os, Node &node)
-{
-	if (&node != nullptr)
-	{
-		std::string colors;
-		node.getColor() == Node::BLACK ? colors = "⚫" : colors = "🔴";
-		os << "Node " << node.getData() << " " << colors;
-	}
-	return os;
-}
-
+template <typename T>
 class Tree
 {
+	template <typename U>
 	friend class Node;
 
 private:
-	Node *root;
-	Node *_end;
-	Node *nil_node;
+	Node<T> *root;
+	Node<T> *_end;
+	Node<T> *nil_node;
 	int blacks;
-	int total;
-	int iterations;
-	int array[100][100];
+	//int iterations;
+	T array[100][100];
 	int height;
-	// pour acceder aux elem
 
 public:
 	Tree()
 	{
 		std::cout << "tree constructor" << std::endl;
 		root = nullptr;
-		nil_node = new Node(40404);
-		nil_node->color = Node::BLACK;
+		nil_node = nullptr;
+		// nil_node = new Node<T>(T());
+		// nil_node->color = Node<T>::BLACK;
 		blacks = 0;
 	}
 	~Tree() {}
@@ -166,7 +46,7 @@ public:
 		return root->_data;
 	}
 
-	Node *getRootPtr()
+	Node<T> *getRootPtr()
 	{
 		return root;
 	}
@@ -175,9 +55,9 @@ public:
 	/**	FIND 										  */
 	/**************************************************/
 
-	Node *find(int key)
+	Node<T> *find(T key)
 	{
-		Node *node = root;
+		Node<T> *node = root;
 		while (node != nullptr)
 		{
 			if (key == node->_data)
@@ -200,9 +80,9 @@ public:
 	**	insert
 	**	@brief first inserr
 	*/
-	Tree insert(int data)
+	Tree insert(T data)
 	{
-		Node *node = new Node(data);
+		Node<T> *node = new Node<T>(data);
 		if (find(data) != nullptr)
 		{
 			std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
@@ -213,11 +93,11 @@ public:
 		return *this;
 	}
 
-	Node *insert(Node *node, Node *newNode)
+	Node<T> *insert(Node<T> *node, Node<T> *newNode)
 	{
 		if (root == nullptr)
 		{
-			newNode->setColor(Node::BLACK);
+			newNode->setColor(Node<T>::BLACK);
 			root = newNode;
 			return newNode;
 		}
@@ -243,27 +123,27 @@ public:
 	**
 	** 	@param node the newly inserted node
 	*/
-	void recolorAndRotate(Node *node)
+	void recolorAndRotate(Node<T> *node)
 	{
 		out("Func is :" << __func__ << " on node " << *node);
-		Node *parent = node->getParent();
-		if (node != root && node->color == Node::RED && parent->color == Node::RED)
+		Node<T> *parent = node->getParent();
+		if (node != root && node->color == Node<T>::RED && parent->color == Node<T>::RED)
 		{
-			Node *grandParent = node->parent->parent;
-			Node *uncle;
+			Node<T> *grandParent = node->parent->parent;
+			Node<T> *uncle;
 			if (grandParent == nullptr)
 				uncle = nullptr;
 			else
 				uncle = parent->is_left_child() ? uncle = grandParent->rightChild : uncle = grandParent->leftChild;
-			if (uncle != nullptr && uncle->getColor() == Node::RED)
+			if (uncle != nullptr && uncle->getColor() == Node<T>::RED)
 				handleRecoloring(parent, uncle, grandParent);
 			else if (parent && parent->is_left_child())
 				handle_lefts(node, parent, grandParent);
 			else if (parent && !parent->is_left_child())
 				handle_rights(node, parent, grandParent);
 		}
-		out ("NODE COLOR IS " << node->color)
-		root->setColor(Node::BLACK);
+		out("NODE COLOR IS " << node->color)
+			root->setColor(Node<T>::BLACK);
 	}
 
 	/*
@@ -272,7 +152,7 @@ public:
 	**	@param node the old child node
 	**	@param tempNode the new child of node->parent
 	*/
-	void updateChildrenOfParentNode(Node *node, Node *tempNode)
+	void updateChildrenOfParentNode(Node<T> *node, Node<T> *tempNode)
 	{
 		out("Func is :" << __func__ << " on node " << *node);
 
@@ -299,11 +179,11 @@ public:
 	**        z   .       .   z
 	**
 	*/
-	void rotateLeft(Node *node)
+	void rotateLeft(Node<T> *node)
 	{
-		// Node is x
+		// Node<T> is x
 		out("Func is :" << __func__ << " on node " << *node);
-		Node *rightNode = node->rightChild;
+		Node<T> *rightNode = node->rightChild;
 		// right node = y
 		node->setRightChild(rightNode->leftChild);
 		// new child of x is z
@@ -341,11 +221,11 @@ public:
 	**     .   z             z   .
 	**
 	*/
-	void rotateRight(Node *node)
+	void rotateRight(Node<T> *node)
 	{
 		out("Func is :" << __func__ << " on node " << *node);
 
-		Node *leftNode = node->leftChild;
+		Node<T> *leftNode = node->leftChild;
 		out("Left node " << leftNode->_data)
 			node->setLeftChild(leftNode->rightChild);
 		if (node->leftChild != nullptr)
@@ -354,7 +234,7 @@ public:
 		leftNode->setParent(node->parent);
 		updateChildrenOfParentNode(node, leftNode);
 		node->setParent(leftNode);
-		out("Node " << node->_data << " and new parent " << node->parent->_data);
+		out("Node<T> " << node->_data << " and new parent " << node->parent->_data);
 	}
 
 	/*
@@ -362,7 +242,7 @@ public:
 	**	@brief handles left-situation : left-heavy or left-right situations
 	**	@param node,parent,grandParent nodes to be shifted
 	*/
-	void handle_lefts(Node *node, Node *parent, Node *grandParent)
+	void handle_lefts(Node<T> *node, Node<T> *parent, Node<T> *grandParent)
 	{
 		out("Func is :" << __func__ << " on node " << *node);
 		display_data(3, node, parent, grandParent);
@@ -392,7 +272,7 @@ public:
 	**	@brief handles right situations : right-heavy or right-left situations
 	**	@param node,parent,grandParent nodes to be shifted
 	*/
-	void handle_rights(Node *node, Node *parent, Node *grandParent)
+	void handle_rights(Node<T> *node, Node<T> *parent, Node<T> *grandParent)
 	{
 		out("Func is :" << __func__ << " on node " << *node);
 		display_data(3, node, parent, grandParent);
@@ -400,7 +280,7 @@ public:
 		if (node->is_left_child())
 		{
 			out("Right-left situation found")
-			rotateRight(parent);
+				rotateRight(parent);
 			RL = 1;
 		}
 		out("Right-right situation found");
@@ -415,7 +295,7 @@ public:
 			recolorAndRotate(node->is_left_child() ? grandParent : parent);
 	}
 
-	void handleRecoloring(Node *parent, Node *uncle, Node *grandParent)
+	void handleRecoloring(Node<T> *parent, Node<T> *uncle, Node<T> *grandParent)
 	{
 		uncle->flipColor();
 		parent->flipColor();
@@ -434,28 +314,28 @@ public:
 		del(data, root);
 	}
 
-	int getMax(Node *node)
+	int getMax(Node<T> *node)
 	{
 		if (node->rightChild != nullptr)
 			return getMax(node->rightChild);
 		return node->_data;
 	}
 
-	Node *getMaxSuccessor(Node *node)
+	Node<T> *getMaxSuccessor(Node<T> *node)
 	{
 		if (node->rightChild != nullptr)
 			return getMaxSuccessor(node->rightChild);
 		return node;
 	}
 
-	int getMin(Node *node)
+	int getMin(Node<T> *node)
 	{
 		if (node->leftChild != nullptr)
 			return getMin(node->leftChild);
 		return node->_data;
 	}
 
-	Node *getSibling(Node *node)
+	Node<T> *getSibling(Node<T> *node)
 	{
 		if (node->is_left_child() && node->parent->rightChild != nullptr)
 			return node->parent->rightChild;
@@ -464,34 +344,34 @@ public:
 		return nullptr;
 	}
 
-	bool black_nephews(Node *node)
+	bool black_nephews(Node<T> *node)
 	{
-		if (!(getSibling(node)->leftChild == nullptr || getSibling(node)->leftChild->getColor() == Node::BLACK))
+		if (!(getSibling(node)->leftChild == nullptr || getSibling(node)->leftChild->getColor() == Node<T>::BLACK))
 			return false;
-		if (!(getSibling(node)->rightChild == nullptr || getSibling(node)->rightChild->getColor() == Node::BLACK)) // le neveu droit
+		if (!(getSibling(node)->rightChild == nullptr || getSibling(node)->rightChild->getColor() == Node<T>::BLACK)) // le neveu droit
 			return false;
 		std::cout << "WOWOW TRU" << std::endl;
 		return true;
 	}
 
-	void handleBlackSiblingWithAtLeastOneRedChild(Node *node, Node *sibling)
+	void handleBlackSiblingWithAtLeastOneRedChild(Node<T> *node, Node<T> *sibling)
 	{
 		bool nodeIsLeftChild = node->is_left_child();
 
 		// Case 5: Black sibling with at least one red child + "outer nephew" is black
 		// --> Recolor sibling and its child, and rotate around sibling
-		if (nodeIsLeftChild && (sibling->rightChild == nullptr || sibling->rightChild->color == Node::BLACK))
+		if (nodeIsLeftChild && (sibling->rightChild == nullptr || sibling->rightChild->color == Node<T>::BLACK))
 		{
-			sibling->leftChild->color = Node::BLACK;
-			sibling->color = Node::RED;
+			sibling->leftChild->color = Node<T>::BLACK;
+			sibling->color = Node<T>::RED;
 			rotateRight(sibling);
 			sibling = getSibling(node);
 			// sibling = node->parent->rightChild;
 		}
-		else if (!nodeIsLeftChild && (sibling->rightChild == nullptr || sibling->leftChild->color == Node::BLACK))
+		else if (!nodeIsLeftChild && (sibling->rightChild == nullptr || sibling->leftChild->color == Node<T>::BLACK))
 		{
-			sibling->rightChild->color = Node::BLACK;
-			sibling->color = Node::RED;
+			sibling->rightChild->color = Node<T>::BLACK;
+			sibling->color = Node<T>::RED;
 			rotateLeft(sibling);
 			sibling = getSibling(node);
 			// sibling = node->parent->leftChild;
@@ -501,24 +381,24 @@ public:
 		// Case 6: Black sibling with at least one red child + "outer nephew" is red
 		// --> Recolor sibling + parent + sibling's child, and rotate around parent
 		sibling->color = node->parent->color;
-		node->parent->color = Node::BLACK;
+		node->parent->color = Node<T>::BLACK;
 		if (nodeIsLeftChild)
 		{
-			sibling->rightChild->color = Node::BLACK;
+			sibling->rightChild->color = Node<T>::BLACK;
 			rotateLeft(node->parent);
 		}
 		else
 		{
-			sibling->leftChild->color = Node::BLACK;
+			sibling->leftChild->color = Node<T>::BLACK;
 			rotateRight(node->parent);
 		}
 	}
 
-	void handleRedSibling(Node *node, Node *sibling)
+	void handleRedSibling(Node<T> *node, Node<T> *sibling)
 	{
 		// Recolor...
-		sibling->setColor(Node::BLACK);
-		node->parent->color = Node::RED;
+		sibling->setColor(Node<T>::BLACK);
+		node->parent->color = Node<T>::RED;
 
 		// ... and rotate
 		if (node == node->parent->leftChild)
@@ -531,7 +411,7 @@ public:
 		}
 	}
 
-	void fixRedBlackPropertiesAfterDelete(Node *node)
+	void fixRedBlackPropertiesAfterDelete(Node<T> *node)
 	{
 		out("Func is :" << __func__ << " on node " << *node);
 		// Case 1: Examined node is root, end of recursion
@@ -541,10 +421,10 @@ public:
 			// node.color = BLACK;
 			return;
 		}
-		Node *sibling = getSibling(node);
+		Node<T> *sibling = getSibling(node);
 		out(*sibling) if (sibling == nullptr) return; // TEST
 		// Case 2: Red sibling
-		if (sibling->color == Node::RED)
+		if (sibling->color == Node<T>::RED)
 		{
 			out("CASE 2 : red sibling " << *sibling);
 			handleRedSibling(node, sibling);
@@ -553,15 +433,15 @@ public:
 				if (sibling == nullptr) return; // TEST
 		}
 		// Cases 3+4: Black sibling with two black children
-		if (sibling->color == Node::BLACK && black_nephews(node) == true)
+		if (sibling->color == Node<T>::BLACK && black_nephews(node) == true)
 		{
-			sibling->color = Node::RED;
+			sibling->color = Node<T>::RED;
 			out("ICI 3 + 4 ")
 				// Case 3: Black sibling with two black children + red parent
-				if (node->parent->color == Node::RED)
+				if (node->parent->color == Node<T>::RED)
 			{
 				out("CASE 3   parent is " << *(node->parent));
-				node->parent->color = Node::BLACK;
+				node->parent->color = Node<T>::BLACK;
 			}
 			// Case 4: Black sibling with two black children + black parent
 			else
@@ -578,11 +458,11 @@ public:
 		}
 	}
 
-	Node *deleteNodeWithZeroOrOneChild(Node *node)
+	Node<T> *deleteNodeWithZeroOrOneChild(Node<T> *node)
 	{
 		out("Func is :" << __func__ << " on node " << *node);
 
-		// Node has ONLY a left child --> replace by its left child
+		// Node<T> has ONLY a left child --> replace by its left child
 		if (node->leftChild != nullptr)
 		{
 			updateChildrenOfParentNode(node, node->leftChild);
@@ -590,23 +470,23 @@ public:
 				node->leftChild->setParent(node->parent);
 			return node->leftChild; // moved-up node
 		}
-		// Node has ONLY a right child --> replace by its right child
+		// Node<T> has ONLY a right child --> replace by its right child
 		else if (node->rightChild != nullptr)
 		{
 			updateChildrenOfParentNode(node, node->rightChild);
 			node->rightChild->setParent(node->parent);
 			return node->rightChild; // moved-up node
 		}
-		// Node has no children -->
+		// Node<T> has no children -->
 		// * node is red --> just remove it
 		// * node is black --> replace it by a temporary NIL node (needed to fix the R-B rules)
 		else
 		{
-			// Node *newChild = nullptr;
-			Node *newChild = node->getColor() == Node::BLACK ? nil_node : nullptr;
+			// Node<T> *newChild = nullptr;
+			Node<T> *newChild = node->getColor() == Node<T>::BLACK ? nil_node : nullptr;
 
 			// if (newChild != nullptr && newChild->_data == 404)
-			//	newChild->setColor(Node::NIL);
+			//	newChild->setColor(Node<T>::NIL);
 			updateChildrenOfParentNode(node, newChild);
 			if (newChild != nullptr)
 			{
@@ -616,249 +496,58 @@ public:
 		}
 	}
 
-	void del(int data, Node *root)
+	void del(int data, Node<T> *root)
 	{
 		out("Func is :" << __func__ << " on node " << *root);
 
-		Node *node = find(data);
+		Node<T> *node = find(data);
 		if (node == nullptr || node == nil_node) // PAS SURE POUR LA DEUXIEME !!
 			return;
 		// At this point, "node" is the node to be deleted
 		// In this variable, we'll store the node at which we're going to start to fix the R-B
 		// properties after deleting a node->
-		Node *movedUpNode;
+		Node<T> *movedUpNode;
 		int deletedNodeColor;
 
-		// Node has zero or one child
+		// Node<T> has zero or one child
 		if (node->leftChild == nullptr || node->rightChild == nullptr)
 		{
 			movedUpNode = deleteNodeWithZeroOrOneChild(node);
 			deletedNodeColor = node->color;
 		}
-		// Node has two children
+		// Node<T> has two children
 		else
 		{
 			// Find minimum node of right subtree ("inorder successor" of current node)
-			Node *inOrderSuccessor = getMaxSuccessor(node->leftChild);
+			Node<T> *inOrderSuccessor = getMaxSuccessor(node->leftChild);
 			// Copy inorder successor's data to current node (keep its color!)
 			node->setData(inOrderSuccessor->_data);
 			// Delete inorder successor just as we would delete a node with 0 or 1 child
 			movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
 			deletedNodeColor = inOrderSuccessor->getColor();
 		}
-		if (deletedNodeColor == Node::BLACK)
+		if (deletedNodeColor == Node<T>::BLACK)
 		{
-			//if (movedUpNode != nil_node) // ON VA VOR
-				fixRedBlackPropertiesAfterDelete(movedUpNode);
+			// if (movedUpNode != nil_node) // ON VA VOR
+			fixRedBlackPropertiesAfterDelete(movedUpNode);
 
 			// Remove the temporary NIL node
 			if (movedUpNode == nil_node)
 			{
 				updateChildrenOfParentNode(movedUpNode, nullptr);
-				//replaceParentsChild(movedUpNode->parent, movedUpNode, nullptr);
+				// replaceParentsChild(movedUpNode->parent, movedUpNode, nullptr);
 			}
 		}
 	}
 
-	/* ---------------------------------------------------------------------------- */
-	/*							DEBUG FUNCS											*/
-	/* ---------------------------------------------------------------------------- */
-	void display_children(Node *_curr)
-	{
-		std::string colors;
-		_curr->getColor() == Node::BLACK ? colors = "⚫" : colors = "🔴";
-		std::cout << "---------------------------"
-				  << "\n";
-		std::cout << "|";
-		std::cout << std::setw(10) << " NODE " << _curr->_data << " (" << colors << ")"
-				  << "	  |\n";
-		std::cout << "---------------------------"
-				  << "\n";
-		std::cout << "|";
-		if (_curr->leftChild != nullptr)
-		{
-			std::cout << std::setw(10) << _curr->leftChild->_data << "  ";
-		}
-		else
-			std::cout << std::setw(10) << "(null)"
-					  << "  ";
-		std::cout << "|";
-
-		if (_curr->rightChild != nullptr)
-		{
-			std::cout << std::setw(10) << _curr->rightChild->_data << "  ";
-		}
-		else
-			std::cout << std::setw(10) << "(null)"
-					  << "  ";
-		std::cout << "|";
-	}
-
-	int validity_check(Node *_curr)
-	{
-		static int i = 0;
-		if (_curr == nullptr || _curr->getColor() == Node::BLACK)
-			blacks++;
-		if (_curr == nullptr)
-		{
-			if (iterations == 0)
-				out("Number of blacks in most-left path :" << blacks);
-			iterations++;
-			return 0;
-		}
-
-		if (_curr->leftChild != nullptr && _curr->getColor() == Node::RED && _curr->leftChild->getColor() == Node::RED)
-		{
-			out("🔴 ERROR : " << _curr->_data << " is red and so is its left child " << _curr->leftChild->_data);
-			return 1;
-		}
-		if (_curr->rightChild != nullptr && _curr->getColor() == Node::RED && _curr->rightChild->getColor() == Node::RED)
-		{
-			out("🔴 ERROR : " << _curr->_data << " is red and so is its righ child " << _curr->rightChild->_data);
-			return 1;
-		}
-		validity_check(_curr->leftChild);
-		validity_check(_curr->rightChild);
-		return 0;
-	}
-
-	void display(Node *_curr)
-	{
-		if (_curr == nullptr)
-			return;
-		display_children(_curr);
-		std::cout << "\n";
-		display(_curr->leftChild);
-		display(_curr->rightChild);
-	}
-
-	void display_data(int a, ...)
-	{
-		va_list args;
-		va_start(args, a);
-		std::string family[3] = {" > Node ", " > Parent ", " > GP "};
-		for (int i = 0; i < 3; i++)
-		{
-
-			Node *_curr = va_arg(args, Node *);
-			if (_curr != nullptr)
-			{
-				out(family[i] << _curr->_data << " has color " << _curr->getColor());
-				// out("Node contains " << _curr->getColor());
-			}
-			else
-			{
-				out("Nullptr");
-			}
-		}
-	}
-
-	void calculate_height(Node *node)
-	{
-		if (node == nullptr)
-			return;
-		Node *tmp = node;
-		int i = 0;
-		while (tmp != root)
-		{
-			tmp = tmp->parent;
-			i++;
-		}
-		int j = 0;
-		while (j < 10 && array[i][j] != 0)
-			j++;
-		array[i][j] = node->_data;
-		if (i > height)
-			height = i; // on va prendre que les remplis
-		if (node->leftChild != nullptr)
-			calculate_height(node->leftChild);
-		else
-		{
-			int j = 0;
-			while (j < 10 && array[i + 1][j] != 0)
-				j++;
-			array[i + 1][j] = -1;
-			array[i + 2][j * 2] = -1;
-			array[i + 2][j * 2 + 1] = -1;
-			calculate_height(node->leftChild);
-		}
-		if (node->rightChild != nullptr)
-			calculate_height(node->rightChild);
-		else
-		{
-			int j = 0;
-			while (j < 10 && array[i + 1][j] != 0)
-				j++;
-			array[i + 1][j] = -1;
-			array[i + 2][j * 2] = -1;
-			array[i + 2][j * 2 + 1] = -1;
-			calculate_height(node->rightChild);
-		}
-	}
-
-	int		curr_black_height(int data)
-	{
-		Node *node = find(data);
-		int i = 0;
-		while (node != root)
-		{
-			if (node->color == Node::BLACK)
-				i++;
-			node = node->parent;
-		}
-		return i;
-	}
-	void see_tree()
-	{
-		height = 0;
-		calculate_height(root);
-
-		std::cout << std::setw(40) << (array[0][0]) << " " << std::endl;
-		;
-		int nb = 2;
-		int black_path = 0;
-		for (int i = 1; i < height + 1; i++)
-		{
-			for (int j = 0; j < nb; j++)
-			{
-				std::string color = "⚫️";
-				if (find(array[i][j]) != nullptr)
-				{
-					color = find(array[i][j])->color == Node::RED ? "🔴 " : "⚫️";
-					if (j % 2 == 0)
-						std::cout << std::setw(80 / (nb + 1) - i) << (array[i][j]) << color << "--|" << "(" << curr_black_height(array[i][j]) << ")";
-					else
-						std::cout << std::setw(80 / (nb + 1) - i) << "|--" << (array[i][j]) << color << "(" << curr_black_height(array[i][j]) << ")";
-				}
-				else if (array[i][j] == -1)
-				{
-					if (j % 2 == 0)
-						std::cout << std::setw(80 / (nb + 1) - i + 2) << "N" << color << "--|";
-					else
-						std::cout << std::setw(80 / (nb + 1) - i + 2) << "|--" << "N" << color;
-				}
-				else if (array[i][j] == 0)
-					std::cout << std::setw(80 / (nb + 1) - i) << " .  ";
-			}
-			nb *= 2;
-			out("\n")
-		}
-		for (int i = 0; i < 100; i++)
-		{
-			for (int j = 0; j < 100; j++)
-				array[i][j] = 0;
-		}
-	}
-
-	void
-	light_display(Node *root)
-	{
-		if (root == nullptr)
-			return;
-		std::cout << root->_data << " ";
-		if (root->leftChild != nullptr)
-			light_display(root->leftChild);
-		if (root->rightChild != nullptr)
-			light_display(root->rightChild);
-	}
+	void display_children(Node<T> *_curr);
+	int validity_check(Node<T> *_curr);
+	void display(Node<T> *_curr);
+	void display_data(int a, ...);
+	void calculate_height(Node<T> *node);
+	int curr_black_height(T data);
+	void see_tree();
+	void light_display(Node<T> *root);
 };
+}
+#endif

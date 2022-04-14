@@ -1,10 +1,10 @@
 
-#include "includes.hpp"
+#include "../includes.hpp"
 
 #ifndef RANDOM_ACCESS_ITERATORS_HPP
 # define RANDOM_ACCESS_ITERATORS_HPP
 
-// https://code.woboq.org/gcc/libstdc++-v3/include/bits/stl_iterator.h.html#__gnu_cxx::random_access_iterator 
+// https://code.woboq.org/gcc/libstdc++-v3/include/bits/stl_iterator.h.html#__gnu_cxx::random_access_iterator
 
 
 template <class T>
@@ -26,7 +26,7 @@ namespace ft
 
 	private:
 
-		pointer _curr; // correspond a  T* 
+		pointer _curr; // correspond a  T*
 
 	public:
 
@@ -75,7 +75,7 @@ namespace ft
 
 		operator random_access_iterator<const T>() const
 		{
-			return (random_access_iterator<const T>(_curr)); // cast en const 
+			return (random_access_iterator<const T>(_curr)); // cast en const
 		}
 
 	};
@@ -157,7 +157,7 @@ namespace ft
 	}
 
 	template<typename _IteratorL, typename _IteratorR >
-	inline typename random_access_iterator<_IteratorL  >::difference_type 
+	inline typename random_access_iterator<_IteratorL  >::difference_type
 	operator-(const random_access_iterator<_IteratorL  >& __lhs,
 			const random_access_iterator<_IteratorR  >& __rhs)
 	{

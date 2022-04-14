@@ -16,7 +16,7 @@ namespace ft
 	struct pair
 	{
 
-	private:
+	//private:
 		T1 first;
 		T2 second;
 
@@ -24,12 +24,12 @@ namespace ft
 		/*
 		** 1) Default constructor. Value-initializes both elements of the pair, first and second.
 		*/
-		pair() : first(0), second(0) {}
+		pair() : first(T1()), second(T2()) { std::cout << "Pair constructor" << std::endl; }
 
 		/*
 		** 2) Initializes first with x and second with y.
 		*/
-		pair(const T1 &x, const T2 &y) : first(x), second(y) {}
+		pair(const T1 &x, const T2 &y) : first(x), second(y) { std::cout << "Pair constructor" << first << second << std::endl;}
 
 		/*
 		** 4) Initializes first with p.first and second with p.second.
@@ -79,5 +79,7 @@ namespace ft
 	}
 
 }
+
+
 
 #endif
