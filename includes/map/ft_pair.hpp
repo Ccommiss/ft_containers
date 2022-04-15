@@ -159,5 +159,14 @@ std::ostream& operator<<(std::ostream& os, ft::pair<T, U>& pair)
 	return os;
 }
 
+template <typename T, typename U>
+std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
+{
+	if (&pair != NULL)
+	{
+		os << "[" << pair.first << "]=\"" << pair.second << "\"";
+	}
+	return os;
+}
 
 #endif

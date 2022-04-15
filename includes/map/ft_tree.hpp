@@ -21,19 +21,17 @@ private:
 	Node<T> *root;
 	Node<T> *_end;
 	Node<T> *nil_node; 
+	// pour debug 
 	int blacks;
-	//int iterations;
 	T array[100][100];
 	int height;
+	Compare    _comp; // objet de comparaison
 
 public:
 	Tree()
 	{
 		std::cout << "tree constructor" << std::endl;
-		//root = nil_node;
-		//nil_node = new Node<T>(T());
 		nil_node = NULL;
-		//nil_node->color = Node<T>::BLACK;
 		root = nil_node;
 		blacks = 0;
 	}
@@ -66,7 +64,7 @@ public:
 		{
 			if (key == node->_data)
 				return node;
-			else if (Compare()(key, node->_data) == true)
+			else if (_comp(key, node->_data) == true)
 				node = node->leftChild;
 			else
 				node = node->rightChild;
@@ -74,28 +72,24 @@ public:
 		return nil_node;
 	}
 
-	template <typename U, typename V>	// pour les paires 
-	Node<ft::pair<U, V> > *find(ft::pair<U, V> key)
-	{
-		Node< ft::pair<U, V> > *node = root;
-		ft::pair <U, V> other; //= node->_data;
+	// template <typename U, typename V>	// pour les paires 
+	// Node<ft::pair<U, V> > *find(ft::pair<U, V> key)
+	// {
+	// 	Node< ft::pair<U, V> > *node = root;
+	// 	ft::pair <U, V> other; //= node->_data;
 
-		//
-		while (node != nil_node)
-		{
-			other = node->_data;
-			out(key.first << other.first);
-			getwchar();
-			if (key.first == node->_data.first)
-				return node;
-			else if (Compare()(key.first, other.first) == true)
-			//else if (key.first < other.first)
-				node = node->leftChild;
-			else
-				node = node->rightChild;
-		}
-		return nil_node;
-	}
+	// 	while (node != nil_node)
+	// 	{
+	// 		//other = node->_data;
+	// 		if (key.first == node->_data.first)
+	// 			return node;
+	// 		else if (_comp(key, node->_data) == true)
+	// 			node = node->leftChild;
+	// 		else
+	// 			node = node->rightChild;
+	// 	}
+	// 	return nil_node;
+	// }
 
 	/***************************************************
 	**
@@ -119,7 +113,7 @@ public:
 	**	insert
 	**	@brief first inserr
 	*/
-	Tree insert(T data)
+	Tree insert(const T data)
 	{
 		Node<T> *node = new Node<T>(data);
 		node->parent = nil_node;

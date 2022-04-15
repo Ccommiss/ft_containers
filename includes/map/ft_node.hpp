@@ -21,10 +21,6 @@ namespace ft
 		}
 		Node(T data)
 		{
-			// root = NULL;
-			// leftChild = NULL;
-			// rightChild = NULL;
-			// parent = NULL;
 			_data = data;
 			color = RED; // par default
 		}
@@ -115,7 +111,6 @@ namespace ft
 		{
 			RED = 439,
 			BLACK = 81435,
-			NIL = 404
 		};
 
 	private:

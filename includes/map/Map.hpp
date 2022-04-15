@@ -11,33 +11,34 @@ namespace ft
 	template <typename Key, typename T, typename Compare = std::less<Key>, typename Allocator = std::allocator< ft::pair <const Key, T> > >
 	class map
 	{
-	public:
+		public:
 		// types:
 		typedef Key														key_type;
 		typedef T														mapped_type;
-		typedef ft::pair<const Key, T> 									value_type; // RECODER STD PAIR
+		typedef ft::pair<const Key, T> 									value_type;
 		typedef Compare													key_compare;
 		typedef Allocator 												allocator_type;
 		typedef typename Allocator::reference 							reference;
 		typedef typename Allocator::const_reference 					const_reference;
 		typedef ft::random_access_iterator<value_type>					iterator;
+		
 		typedef ft::random_access_iterator<const value_type>			const_iterator;
 		typedef ft::reverse_random_access_iterator<iterator>			reverse_iterator;
 		typedef ft::reverse_random_access_iterator<const_iterator>		const_reverse_iterator;
 		typedef typename allocator_type::size_type 						size_type;
 
-		typedef typename Allocator::pointer 		pointer;
-		typedef typename Allocator::const_pointer 	const_pointer;
+		typedef typename Allocator::pointer 							pointer;
+		typedef typename Allocator::const_pointer 						const_pointer;
 
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
 			friend class map;
 
-		protected:
+			protected:
 			Compare comp;
 			value_compare(Compare c) : comp(c) {}
 
-		public:
+			public:
 			bool operator()(const value_type& x, const value_type& y) const
 			{
 				return comp(x.first, y.first);
@@ -45,17 +46,23 @@ namespace ft
 		};
 
 		// 23.3.1.1 construct/copy/destroy:
-		explicit map(const Compare &c = Compare(), const Allocator &a = Allocator()) : alloc(a), comp(c) {}
+		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c) {
+			_curr = new rep_type; // creons l'arbre 
+			//t = alloc.allocate(1);
+		}
+
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator & = Allocator());
 		map(const map<Key, T, Compare, Allocator>& x);
 		~map() {}
 		map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x);
 
-/*
-** 		ITERATORS
-*/
-		iterator begin();
+		/*
+		** 		ITERATORS
+		*/
+		iterator begin() {
+			return _curr;
+		};
 		const_iterator begin() const;
 		iterator end();
 		const_iterator end() const;
@@ -72,13 +79,23 @@ namespace ft
 		size_type max_size() const;
 
 		// 23.3.1.2 element access:
-		T &operator[](const key_type &x);
+		T& operator[](const key_type& x);
 		// {
 		// 	return (T[x]);
 		// }
 
 		// modifiers:
-		pair<iterator, bool> insert(const value_type& x);
+		// vlue type sera une std pair 
+		//pair<iterator, bool> insert(const value_type& x)
+		void	insert(const value_type& x)
+		{
+			_curr->insert(x);
+			//return ft::make_pair<iterator, bool>(_curr, true);
+		}
+
+
+
+
 		iterator insert(iterator position, const value_type& x);
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last);
@@ -104,7 +121,7 @@ namespace ft
 		pair<const_iterator, const_iterator>
 			equal_range(const key_type& x) const;
 
-	private:
+		private:
 		Allocator	alloc;
 		/*
 		**	@brief comparison function object to use for all comparisons of keys
@@ -113,8 +130,8 @@ namespace ft
 		size_type	_capacity;
 		size_type	_size;
 
-		typedef ft::Tree < key_type, key_compare > rep_type;
-		rep_type t; 
+		typedef ft::Tree < value_type, key_compare > rep_type; //allacor a rajouter 
+		rep_type									 *_curr;
 	};
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator==(const map<Key, T, Compare, Allocator>& x,
