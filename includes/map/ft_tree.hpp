@@ -56,14 +56,40 @@ public:
 	/**	FIND 										  */
 	/**************************************************/
 
-	Node<T> *find(T key)
+
+
+	template <typename data_type>	//pour les types normaux 
+	Node<data_type> *find(data_type key)
 	{
-		Node<T> *node = root;
+		Node<data_type> *node = root;
 		while (node != nil_node)
 		{
 			if (key == node->_data)
 				return node;
-			else if (key < node->_data)
+			else if (Compare()(key, node->_data) == true)
+				node = node->leftChild;
+			else
+				node = node->rightChild;
+		}
+		return nil_node;
+	}
+
+	template <typename U, typename V>	// pour les paires 
+	Node<ft::pair<U, V> > *find(ft::pair<U, V> key)
+	{
+		Node< ft::pair<U, V> > *node = root;
+		ft::pair <U, V> other; //= node->_data;
+
+		//
+		while (node != nil_node)
+		{
+			other = node->_data;
+			out(key.first << other.first);
+			getwchar();
+			if (key.first == node->_data.first)
+				return node;
+			else if (Compare()(key.first, other.first) == true)
+			//else if (key.first < other.first)
 				node = node->leftChild;
 			else
 				node = node->rightChild;
@@ -77,6 +103,18 @@ public:
 	**
 	****************************************************/
 
+	template <typename data_type>
+	bool	is_in_tree(data_type data)
+	{
+		return (find(data) != nil_node ? true : false);
+	}
+
+	template <typename X, typename Y>
+	bool	is_in_tree(ft::pair<X, Y> data)
+	{
+		return (find(data) != nil_node ? true : false);
+	}
+
 	/*
 	**	insert
 	**	@brief first inserr
@@ -88,7 +126,8 @@ public:
 		node->leftChild = nil_node;
 		node->rightChild = nil_node;
 		out("To insert : " << data)
-		if (find(data) != nil_node)
+		//if (find(data) != nil_node)
+		if (is_in_tree(data))
 		{
 			std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
 			return *this;
@@ -114,7 +153,7 @@ public:
 			node->setLeftChild(insert(node->leftChild, newNode));
 			node->leftChild->setParent(node);
 		}
-		if (newNode->_data >= node->_data)
+		if (Compare()(newNode->_data, node->_data) == false)
 		{
 			node->setRightChild(insert(node->rightChild, newNode));
 			node->rightChild->setParent(node);
