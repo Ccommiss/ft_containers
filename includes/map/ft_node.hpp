@@ -19,9 +19,9 @@ namespace ft
 		{
 			_data = T();
 		}
-		Node(T data)
+		Node(T data) : _data(data)
 		{
-			_data = data;
+			//_data = data;
 			color = RED; // par default
 		}
 		~Node(){};

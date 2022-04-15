@@ -36,19 +36,19 @@ int main()
 	//ft::map<int, std::string>::iterator it1;
 	//std::cout << "IT 1 = " << *it1 << std::endl; 
 
-	ft::Tree<ft::pair <int, std::string>, cmpByStringLength < ft::pair <int, std::string> > >  	TreePair;
-	ft::pair<int, std::string> 				test1(1, "bonjour");
-	ft::pair<int, std::string> test2(2, "je suis");
-	ft::pair<int, std::string> test3(3, "contente");
-	ft::pair<int, std::string> test4(8, "et toi FDP");
-	ft::pair<int, std::string> test5(90, "lol");
-	TreePair.insert(test1);
-	TreePair.insert(test2);
-	TreePair.insert(test3);
-	TreePair.insert(test4);
-	TreePair.insert(test5);
-	TreePair.display(TreePair.getRootPtr());
-	TreePair.see_tree();
+	// ft::Tree<ft::pair <int, std::string>, cmpByStringLength < ft::pair <int, std::string> > >  	TreePair;
+	// ft::pair<int, std::string> 				test1(1, "bonjour");
+	// ft::pair<int, std::string> test2(2, "je suis");
+	// ft::pair<int, std::string> test3(3, "contente");
+	// ft::pair<int, std::string> test4(8, "et toi FDP");
+	// ft::pair<int, std::string> test5(90, "lol");
+	// TreePair.insert(test1);
+	// TreePair.insert(test2);
+	// TreePair.insert(test3);
+	// TreePair.insert(test4);
+	// TreePair.insert(test5);
+	// TreePair.display(TreePair.getRootPtr());
+	// TreePair.see_tree();
 
 
 	// std::cout << std::less<int>()(2,3) << std::endl; 

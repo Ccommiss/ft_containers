@@ -37,9 +37,9 @@ namespace ft
 		** 4) Initializes first with p.first and second with p.second.
 		*/
 		template <class U1, class U2>
-		pair(const pair<U1, U2>& x)
+		pair(const pair<U1, U2>& x) : first(x.first), second (x.second)
 		{
-			*this = x;
+			//*this = x;
 		}
 
 		/*

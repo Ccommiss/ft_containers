@@ -46,9 +46,9 @@ namespace ft
 		};
 
 		// 23.3.1.1 construct/copy/destroy:
-		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c) {
-			_curr = new rep_type; // creons l'arbre 
-			//t = alloc.allocate(1);
+		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c) 
+		{
+			_curr = new rep_type(comp); // creons l'arbre 
 		}
 
 		template <class InputIterator>
@@ -130,7 +130,7 @@ namespace ft
 		size_type	_capacity;
 		size_type	_size;
 
-		typedef ft::Tree < value_type, key_compare > rep_type; //allacor a rajouter 
+		typedef ft::Tree < value_type, value_compare > rep_type; //allacor a rajouter 
 		rep_type									 *_curr;
 	};
 	template <class Key, class T, class Compare, class Allocator>
