@@ -485,8 +485,10 @@ Come back to tree with an example :
 - Prerequisites : we setted a _comp variable from the Compare ( = value_compare) object received as parameter argument. 
 - In find function where prototype is Node<T>* find(T object) 
  ``` _comp(object, node->_data) ``` 
- where _data = pair and object also. 
+ where _data = pair, and T is of type pair as well.
  
+  
+
 	
 
 

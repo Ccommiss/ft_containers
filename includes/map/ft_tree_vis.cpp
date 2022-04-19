@@ -100,7 +100,7 @@ template <typename T>
 void ft_null_ptr(T& p) { p = ft::make_pair<int, std::string>(-404, "null"); }
 
 template<>
-void ft_null_ptr(ft::pair<int, std::string>& p) { p = ft::make_pair<int, std::string>(-404, "nullnull"); }
+void ft_null_ptr(ft::pair<const int, std::string>& p) { (ft::pair<int, std::string>)(p) = ft::make_pair<int, std::string>(-404, "nullnull"); }
 
 template<>
 void ft_null_ptr(ft::pair<std::string, std::string>& p) { p = ft::make_pair<std::string, std::string>("nullnull", "nullnull"); }
@@ -218,11 +218,11 @@ void ft::Tree<U, V>::see_tree()
 		nb *= 2;
 		out("\n")
 	}
-	for (int i = 0; i < 100; i++)
-	{
-		for (int j = 0; j < 100; j++)
-			array[i][j] = U();
-	}
+	// for (int i = 0; i < 100; i++)
+	// {
+	// 	for (int j = 0; j < 100; j++)
+	// 		array[i][j] = U();
+	// }
 }
 
 template <typename U, typename V>

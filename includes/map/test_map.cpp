@@ -2,6 +2,7 @@
 
 #include "Map.hpp"
 #include "ft_tree_vis.cpp"
+#include <map>
 
 template <typename T>
 struct cmpByStringLength {
@@ -31,13 +32,25 @@ int main()
 	//ft::Tree<ft::pair <int, std::string> > TreePair;
 	ft::map<int, std::string> lol;
 	ft::pair<int, std::string> mypair(1, "uno");
+	ft::pair<int, std::string> mypair2(2, "dos");
+	ft::pair<int, std::string> mypair3(3, "tres");
 	//TreePair.insert(mypair);
 	lol.insert(mypair);
+	lol.insert(mypair2);
+	lol.insert(mypair3);
+
+	lol.debugging();
+	lol.find(1);
+	std::cout << "ICI BIG TEST " << (lol.find(1))->second << std::endl;
 	//ft::map<int, std::string>::iterator it1;
 	//std::cout << "IT 1 = " << *it1 << std::endl; 
 
-	// ft::Tree<ft::pair <int, std::string>, cmpByStringLength < ft::pair <int, std::string> > >  	TreePair;
-	// ft::pair<int, std::string> 				test1(1, "bonjour");
+	//ft::Tree<ft::pair <int, std::string> >   	TreePair;
+	std::map<int, std::string> test;
+	test.insert(std::make_pair<int, std::string>(8, "Salut"));
+	std::cout << (test.find(8))->second << std::endl;
+//	out("TREE PAIR " << TreePair.getRoot());
+	// ft::pair<int, std::string> test1(1, "bonjour");
 	// ft::pair<int, std::string> test2(2, "je suis");
 	// ft::pair<int, std::string> test3(3, "contente");
 	// ft::pair<int, std::string> test4(8, "et toi FDP");
@@ -48,7 +61,7 @@ int main()
 	// TreePair.insert(test4);
 	// TreePair.insert(test5);
 	// TreePair.display(TreePair.getRootPtr());
-	// TreePair.see_tree();
+	//TreePair.see_tree();
 
 
 	// std::cout << std::less<int>()(2,3) << std::endl; 

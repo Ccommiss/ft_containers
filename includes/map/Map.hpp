@@ -11,17 +11,20 @@ namespace ft
 	template <typename Key, typename T, typename Compare = std::less<Key>, typename Allocator = std::allocator< ft::pair <const Key, T> > >
 	class map
 	{
-		public:
+	public:
 		// types:
 		typedef Key														key_type;
 		typedef T														mapped_type;
-		typedef ft::pair<const Key, T> 									value_type;
+		//typedef ft::pair<const Key, T> 									value_type; //
+		// c la mon pb, pour le rendu, decommenter au dessus
+		typedef ft::pair< Key, T> 									value_type; //
+
 		typedef Compare													key_compare;
 		typedef Allocator 												allocator_type;
 		typedef typename Allocator::reference 							reference;
 		typedef typename Allocator::const_reference 					const_reference;
 		typedef ft::random_access_iterator<value_type>					iterator;
-		
+
 		typedef ft::random_access_iterator<const value_type>			const_iterator;
 		typedef ft::reverse_random_access_iterator<iterator>			reverse_iterator;
 		typedef ft::reverse_random_access_iterator<const_iterator>		const_reverse_iterator;
@@ -34,11 +37,11 @@ namespace ft
 		{
 			friend class map;
 
-			protected:
+		protected:
 			Compare comp;
 			value_compare(Compare c) : comp(c) {}
 
-			public:
+		public:
 			bool operator()(const value_type& x, const value_type& y) const
 			{
 				return comp(x.first, y.first);
@@ -46,10 +49,11 @@ namespace ft
 		};
 
 		// 23.3.1.1 construct/copy/destroy:
-		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c) 
+		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c)
 		{
-			_curr = new rep_type(comp); // creons l'arbre 
+			_curr = new rb_tree(comp); // creons l'arbre 
 		}
+
 
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator & = Allocator());
@@ -62,7 +66,7 @@ namespace ft
 		*/
 		iterator begin() {
 			return _curr;
-		};
+		}
 		const_iterator begin() const;
 		iterator end();
 		const_iterator end() const;
@@ -90,11 +94,12 @@ namespace ft
 		void	insert(const value_type& x)
 		{
 			_curr->insert(x);
-			//return ft::make_pair<iterator, bool>(_curr, true);
 		}
 
-
-
+		void debugging()
+		{
+			_curr->see_tree();
+		}
 
 		iterator insert(iterator position, const value_type& x);
 		template <class InputIterator>
@@ -108,7 +113,14 @@ namespace ft
 		key_compare key_comp() const;
 		value_compare value_comp() const;
 		// 23.3.1.3 map operations:
-		iterator find(const key_type& x);
+		iterator find(const key_type& x)
+		{
+			T y = T();
+			value_type mypair(x, y);
+			std::cout <<_curr->find(mypair)->getData() << std::endl;
+			value_type found = _curr->find(mypair)->getData();
+			return iterator(&found); // car mon find cherche des paires et pas des keys simples..
+		}
 		const_iterator find(const key_type& x) const;
 		size_type count(const key_type& x) const;
 		iterator lower_bound(const key_type& x);
@@ -121,7 +133,7 @@ namespace ft
 		pair<const_iterator, const_iterator>
 			equal_range(const key_type& x) const;
 
-		private:
+	private:
 		Allocator	alloc;
 		/*
 		**	@brief comparison function object to use for all comparisons of keys
@@ -130,8 +142,8 @@ namespace ft
 		size_type	_capacity;
 		size_type	_size;
 
-		typedef ft::Tree < value_type, value_compare > 	rbt_tree; //allacor a rajouter 
-		rbt_tree									 	*_curr;
+		typedef ft::Tree < value_type, value_compare > 	rb_tree; //allacor a rajouter 
+		rb_tree* _curr;
 	};
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator==(const map<Key, T, Compare, Allocator>& x,
@@ -155,6 +167,10 @@ namespace ft
 	template <class Key, class T, class Compare, class Allocator>
 	void swap(map<Key, T, Compare, Allocator>& x,
 		map<Key, T, Compare, Allocator>& y);
+
+
+
+
 };
 
 // https://web.archive.org/web/20160731194845/http://www.stepanovpapers.com/butler.hpl.hp/stl/stl/MAP.H

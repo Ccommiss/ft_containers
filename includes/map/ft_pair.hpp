@@ -39,7 +39,7 @@ namespace ft
 		template <class U1, class U2>
 		pair(const pair<U1, U2>& x) : first(x.first), second (x.second)
 		{
-			//*this = x;
+
 		}
 
 		/*
@@ -47,10 +47,11 @@ namespace ft
 		*/
 		pair<T1, T2>& operator=(const pair<T1, T2>& x)
 		{
-			first = x.first;
-			second = x.second;
+			const_cast<T1&>(first) = x.first;
+			second = x.second; // ca c ok mais pas le first ??? 
 			return *this;
 		}
+
 	};
 
 

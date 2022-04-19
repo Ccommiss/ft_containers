@@ -35,6 +35,14 @@ namespace ft {
 			root = nil_node;
 			blacks = 0;
 		}
+		Tree()
+		{
+			_comp = Compare();
+			nil_node = NULL;
+			root = nil_node;
+			blacks = 0;
+
+		}
 		~Tree() {}
 
 		/*
@@ -54,16 +62,13 @@ namespace ft {
 		/**	FIND 										  */
 		/**************************************************/
 
-
-
-		//template <typename data_type>	//pour les types normaux 
 		Node<T>* find(T key)
 		{
 			Node<T>* node = root;
 			while (node != nil_node)
 			{
-				if (key == node->_data)
-					return node;
+				if (!_comp(key, node->_data) && !_comp(node->_data, key))
+					return node; //test test test 
 				else if (_comp(key, node->_data) == true) // value_compare(std::less<int>, )
 					node = node->leftChild;
 				else
@@ -71,25 +76,6 @@ namespace ft {
 			}
 			return nil_node;
 		}
-
-		// template <typename U, typename V>	// pour les paires 
-		// Node<ft::pair<U, V> > *find(ft::pair<U, V> key)
-		// {
-		// 	Node< ft::pair<U, V> > *node = root;
-		// 	ft::pair <U, V> other; //= node->_data;
-
-		// 	while (node != nil_node)
-		// 	{
-		// 		//other = node->_data;
-		// 		if (key.first == node->_data.first)
-		// 			return node;
-		// 		else if (_comp(key, node->_data) == true)
-		// 			node = node->leftChild;
-		// 		else
-		// 			node = node->rightChild;
-		// 	}
-		// 	return nil_node;
-		// }
 
 		/***************************************************
 		**
