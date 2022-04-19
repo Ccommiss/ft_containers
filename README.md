@@ -33,6 +33,7 @@
 			- [Focus on simple recoloring](#focus-on-simple-recoloring)
 			- [Focus on rotation](#focus-on-rotation)
 			- [Deletion : a mess](#deletion--a-mess)
+		- [Value compare in map](#value-compare-in-map)
 
 
 ## Sujet
@@ -432,3 +433,65 @@ Double black : when we delete a black node that had no children but null leaves,
 
 https://www.geeksforgeeks.org/red-black-tree-set-3-delete-2/
 https://medium.com/analytics-vidhya/deletion-in-red-black-rb-tree-92301e1474ea
+
+#### Value compare in map
+
+When constructing a map, prototype is as follows :
+``` template <typename Key, typename T, typename Compare = std::less<Key>, typename Allocator = std::allocator< ft::pair <const Key, T> > > ```
+
+Meaning : ex with map<int, std::string >
+- Key : type of key (here, int)
+- T : value type 
+- Compare : object performing the comparison (std::less by default)
+- Allocator : by default, a pair allocator.
+
+My personnal implementation of RBT tree will be as follow :
+``` template <typename T, typename Compare = std::less<T> > ```
+with T = a pair when called from map. 
+
+In map, my instance of tree is called as follows: 
+
+``` typedef ft::Tree < value_type, value_compare > rb_tree; ```
+where value type = ft::pair<const Key, T> 
+and value_compare = class value_compare.
+
+What does value_compare do ?
+- 
+```
+class value_compare : public std::binary_function<value_type, value_type, bool>
+		{
+			friend class map;
+
+			protected:
+			Compare comp;
+			value_compare(Compare c) : comp(c) {} // constructor
+
+			public:
+			bool operator()(const value_type& x, const value_type& y) const
+			{
+				return comp(x.first, y.first);
+			}
+		};
+
+```
+
+Value compare : constructs its comp object with the compare objects given in protoype. For example, by default, remember : std::less < key >.
+
+So the operator () will perform the comparison on the *first* attribute of value type (here, a pair), so, the key. In RB Tree from map, Compare will always be of type value_compare. 
+
+When called on any element with operator () amnd args (pair& x, pair& y), we will thus perform the comparison of Compare function ONLY on keys, and not values. 
+
+Come back to tree with an example : 
+- Prerequisites : we setted a _comp variable from the Compare ( = value_compare) object received as parameter argument. 
+- In find function where prototype is Node<T>* find(T object) 
+ ``` _comp(object, node->_data) ``` 
+ where _data = pair and object also. 
+ 
+	
+
+
+
+
+
+
+

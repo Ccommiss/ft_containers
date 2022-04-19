@@ -130,8 +130,8 @@ namespace ft
 		size_type	_capacity;
 		size_type	_size;
 
-		typedef ft::Tree < value_type, value_compare > rep_type; //allacor a rajouter 
-		rep_type									 *_curr;
+		typedef ft::Tree < value_type, value_compare > 	rbt_tree; //allacor a rajouter 
+		rbt_tree									 	*_curr;
 	};
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator==(const map<Key, T, Compare, Allocator>& x,
