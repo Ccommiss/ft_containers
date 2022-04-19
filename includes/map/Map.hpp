@@ -5,6 +5,7 @@
 
 #include "ft_tree.hpp"
 #include "ft_pair.hpp"
+#include "rb_tree_iterators.hpp"
 // stdless : Function object for performing comparisons. Unless specialized, invokes operator< on type T.
 namespace ft
 {
@@ -23,8 +24,10 @@ namespace ft
 		typedef Allocator 												allocator_type;
 		typedef typename Allocator::reference 							reference;
 		typedef typename Allocator::const_reference 					const_reference;
-		typedef ft::random_access_iterator<value_type>					iterator;
-
+		//typedef ft::random_access_iterator<value_type>					iterator;
+		typedef ft::_Rb_tree_iterator<value_type> 						iterator;
+	// pbmatique : iterator ne peut pas etre un ptr sur paire, mais un ptr sur noeud pour 
+	// pvoir iterer 
 		typedef ft::random_access_iterator<const value_type>			const_iterator;
 		typedef ft::reverse_random_access_iterator<iterator>			reverse_iterator;
 		typedef ft::reverse_random_access_iterator<const_iterator>		const_reverse_iterator;
@@ -33,6 +36,7 @@ namespace ft
 		typedef typename Allocator::pointer 							pointer;
 		typedef typename Allocator::const_pointer 						const_pointer;
 
+	
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
 			friend class map;
@@ -49,7 +53,7 @@ namespace ft
 		};
 
 		// 23.3.1.1 construct/copy/destroy:
-		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c)
+		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c), _def_value(T())
 		{
 			_curr = new rb_tree(comp); // creons l'arbre 
 		}
@@ -115,13 +119,12 @@ namespace ft
 		// 23.3.1.3 map operations:
 		iterator find(const key_type& x)
 		{
-			T y = T();
-			value_type mypair(x, y);
-			std::cout <<_curr->find(mypair)->getData() << std::endl;
-			value_type found = _curr->find(mypair)->getData();
-			return iterator(&found); // car mon find cherche des paires et pas des keys simples..
+			return iterator(_curr->find(ft::make_pair<key_type, mapped_type>(x, _def_value))); 
 		}
-		const_iterator find(const key_type& x) const;
+		const_iterator find(const key_type& x) const//
+		{
+			return const_iterator(_curr->find(ft::make_pair<key_type, mapped_type>(x, _def_value)));  
+		}
 		size_type count(const key_type& x) const;
 		iterator lower_bound(const key_type& x);
 		const_iterator lower_bound(const key_type& x) const;
@@ -141,6 +144,7 @@ namespace ft
 		Compare 	comp;
 		size_type	_capacity;
 		size_type	_size;
+		T 			_def_value; // default value whenever we need a pair but we have only a key
 
 		typedef ft::Tree < value_type, value_compare > 	rb_tree; //allacor a rajouter 
 		rb_tree* _curr;
@@ -167,9 +171,6 @@ namespace ft
 	template <class Key, class T, class Compare, class Allocator>
 	void swap(map<Key, T, Compare, Allocator>& x,
 		map<Key, T, Compare, Allocator>& y);
-
-
-
 
 };
 

@@ -34,6 +34,7 @@
 			- [Focus on rotation](#focus-on-rotation)
 			- [Deletion : a mess](#deletion--a-mess)
 		- [Value compare in map](#value-compare-in-map)
+		- [Specific map iterators](#specific-map-iterators)
 
 
 ## Sujet
@@ -486,11 +487,14 @@ Come back to tree with an example :
 - In find function where prototype is Node<T>* find(T object) 
  ``` _comp(object, node->_data) ``` 
  where _data = pair, and T is of type pair as well.
- 
-  
+
+
 
 	
+#### Specific map iterators 
 
+Works like quite normal iterators, excepts for ++, -- etc. 
+See https://code.woboq.org/gcc/libstdc++-v3/src/c++98/tree.cc.html for source code of Rb_Tree_increments and Rb_tree_decrements 
 
 
 

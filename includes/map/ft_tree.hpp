@@ -17,6 +17,7 @@ namespace ft {
 		template <typename U>
 		friend class Node;
 
+
 		private:
 		Node<T>* root;
 		Node<T>* _end;
@@ -68,7 +69,7 @@ namespace ft {
 			while (node != nil_node)
 			{
 				if (!_comp(key, node->_data) && !_comp(node->_data, key))
-					return node; //test test test 
+					return node;
 				else if (_comp(key, node->_data) == true) // value_compare(std::less<int>, )
 					node = node->leftChild;
 				else

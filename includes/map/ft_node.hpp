@@ -14,6 +14,18 @@ namespace ft
 		friend class Tree;
 		friend class ft_tree_vis;
 
+		template <typename Key, typename value, typename Compare, typename Allocator>
+		friend class map;
+
+		template<typename it>
+		friend struct _Rb_tree_iterator;
+
+		template<typename type>
+		friend ft::Node<type>* _Rb_tree_increment(ft::Node<type>* __x) throw();
+		template<typename type>
+		friend ft::Node<type>* _Rb_tree_decrement(ft::Node<type>* __x) throw();
+
+
 	public:
 		Node()
 		{
@@ -21,7 +33,6 @@ namespace ft
 		}
 		Node(T data) : _data(data)
 		{
-			//_data = data;
 			color = RED; // par default
 		}
 		~Node(){};

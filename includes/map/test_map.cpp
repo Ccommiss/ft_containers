@@ -40,15 +40,25 @@ int main()
 	lol.insert(mypair3);
 
 	lol.debugging();
-	lol.find(1);
-	std::cout << "ICI BIG TEST " << (lol.find(1))->second << std::endl;
-	//ft::map<int, std::string>::iterator it1;
-	//std::cout << "IT 1 = " << *it1 << std::endl; 
+	ft::map<int, std::string>::iterator it = lol.find(2); // renvoie it sur pair
+	std::cout << "ICI BIG TEST " << (lol.find(2))->second << std::endl;
+	it++;
+	std::cout << "IT 1 = " << (*it).second << std::endl; 
+	it--;
+	std::cout << "IT 1 = " << (*it).second << std::endl; 
 
-	//ft::Tree<ft::pair <int, std::string> >   	TreePair;
+	ft::Tree<ft::pair <int, std::string> >   	TreePair;
 	std::map<int, std::string> test;
+	std::map<int, std::string>::iterator test_it;
 	test.insert(std::make_pair<int, std::string>(8, "Salut"));
-	std::cout << (test.find(8))->second << std::endl;
+	test.insert(std::make_pair<int, std::string>(9, "ici"));
+	test_it = test.find(8); 
+	std::cout << (*test_it).first  << std::endl;
+	test_it++;
+	std::cout << (*test_it).first  << std::endl;
+
+
+
 //	out("TREE PAIR " << TreePair.getRoot());
 	// ft::pair<int, std::string> test1(1, "bonjour");
 	// ft::pair<int, std::string> test2(2, "je suis");
