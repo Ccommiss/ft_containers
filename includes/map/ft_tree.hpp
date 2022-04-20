@@ -396,6 +396,8 @@ namespace ft {
 
 		Node<T>* getMinSuccessor(Node<T>* node)
 		{
+			if (node == nil_node)
+				return nil_node; //ajout 18h
 			if (node->leftChild != nil_node)
 				return getMinSuccessor(node->leftChild);
 			return node;

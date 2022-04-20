@@ -75,7 +75,7 @@ void test_reverse_iterator()
 {
 	ft::map<int, std::string> my_map;
 	std::map<int, std::string> real_map;
-	std::string word_array[] = { "Ce matin", "a Marseille", "nous avons vu", "des poissons", "dans le ciel", "car nous aimons", "la bouillabaise"};
+	std::string word_array[] = { "Ce matin", "a Marseille", "nous avons vu", "des poissons", "dans le ciel", "car nous aimons", "la bouillabaisse"};
 	int int_array[] = { 1, 2, 3, 4, 58, 65, 75, 65, 23};
 	for (int i = 0; i < 7; i++)
 	{
@@ -90,11 +90,10 @@ void test_reverse_iterator()
 	{	
 		std::cout << "DELETING " << word_array[i] << std::endl; 
 		my_map.erase(int_array[i]);
-		my_map.debugging();
-		getwchar();		//real_map.erase(int_array[i]);
+		real_map.erase(int_array[i]);
 	}
 	
-	//display(my_map, real_map);
+	display(my_map, real_map);
 	getwchar();
 	exit(0);
 

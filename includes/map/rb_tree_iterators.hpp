@@ -10,6 +10,7 @@ namespace ft
 	{
 		if (x->rightChild != x->nil_node)
 		{
+			out ("ICI");
 			x = x->rightChild;
 			while (x->leftChild != x->nil_node) // PAS SURE 
 				x = x->leftChild;
@@ -17,6 +18,8 @@ namespace ft
 		else
 		{
 			ft::Node<T>* y = x->parent;
+			if (y == x->nil_node) //mon ajout a 18h
+				return y->nil_node; //en gros on a un seul elem je crois on est sur le root 
 			while (x == y->rightChild)
 			{
 				x = y;
