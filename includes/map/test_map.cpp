@@ -82,16 +82,18 @@ void test_reverse_iterator()
 		my_map.insert(ft::make_pair(int_array[i], word_array[i]));
 		real_map.insert(std::make_pair(int_array[i], word_array[i]));
 	}
-	my_map.debugging();
+	//my_map.debugging();
 	display(my_map, real_map);
 	getwchar();
 	out ("ERASE");
-	//for (int i = 0; i < 3; i++)
-	//{
-		my_map.erase(int_array[1]);
-		//real_map.erase(int_array[i]);
-	//}
-	my_map.debugging();
+	for (int i = 0; i < 7; i++)
+	{	
+		std::cout << "DELETING " << word_array[i] << std::endl; 
+		my_map.erase(int_array[i]);
+		my_map.debugging();
+		getwchar();		//real_map.erase(int_array[i]);
+	}
+	
 	//display(my_map, real_map);
 	getwchar();
 	exit(0);

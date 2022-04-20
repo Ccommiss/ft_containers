@@ -403,6 +403,13 @@ namespace ft {
 
 		Node<T>* getSibling(Node<T>* node)
 		{
+			if (node == nil_node) 
+			{
+				if (node->parent->rightChild != nil_node)
+					return node->parent->rightChild;
+				else if (node->parent->leftChild != nil_node)
+					return node->parent->leftChild;
+			} // GROS PATCH PAS FOU 
 			if (node->is_left_child() && node->parent->rightChild != nil_node)
 				return node->parent->rightChild;
 			else if (node->is_right_child() && node->parent->leftChild != nil_node)
@@ -412,7 +419,14 @@ namespace ft {
 
 		bool black_nephews(Node<T>* node)
 		{
-			if (!(getSibling(node)->leftChild == nil_node || getSibling(node)->leftChild->getColor() == Node<T>::BLACK))
+			out("HERE" << *node); 
+			if (node == nil_node ) // bah oui mais quoi ! 
+			{
+				out(*node->parent);
+				out(*getSibling(node))
+			}
+			if (!(getSibling(node)->leftChild == nil_node || (getSibling(node)->leftChild != nil_node 
+				&& getSibling(node)->leftChild->getColor() == Node<T>::BLACK)))
 				return false;
 			if (!(getSibling(node)->rightChild == nil_node || getSibling(node)->rightChild->getColor() == Node<T>::BLACK)) // le neveu droit
 				return false;
@@ -476,14 +490,16 @@ namespace ft {
 		{
 			out("Func is :" << __func__ << " on node " << *node);
 			// Case 1: Examined node is root, end of recursion
-			if (node == root || node == nil_node)
+			if (node == root)// || node == nil_node)
 			{
 				// Uncomment the following line if you want to enforce black roots (rule 2):
 				// node.color = BLACK;
 				return;
 			}
 			Node<T>* sibling = getSibling(node);
-			out(*sibling) if (sibling == nil_node) return; // TEST
+			out(*sibling);
+			//if (sibling == nil_node) 
+			//	return; // TEST
 			// Case 2: Red sibling
 			if (sibling->color == Node<T>::RED)
 			{
@@ -550,7 +566,7 @@ namespace ft {
 				//if (newChild != NULL)
 				if (color == Node<T>::BLACK)
 				{
-					newChild->setParent(node->parent);
+					newChild->setParent(node->parent); //remplacer par temporary nul node
 				}
 				return newChild;
 			}
@@ -561,7 +577,7 @@ namespace ft {
 			out("Func is :" << __func__ << " on node " << *root);
 
 			Node<T>* node = find(data);
-			out("LA "<< node->_data );
+			out("LA "<< node->_data);
 			if (node == nil_node || node == nil_node) // PAS SURE POUR LA DEUXIEME !!
 				return;
 			// At this point, "node" is the node to be deleted
@@ -591,10 +607,10 @@ namespace ft {
 			{
 				fixRedBlackPropertiesAfterDelete(movedUpNode);
 				// Remove the temporary NIL node
-				if (movedUpNode == nil_node)
-				{
-					updateChildrenOfParentNode(movedUpNode, nil_node);
-				}
+				// if (movedUpNode == nil_node)
+				// {
+				// 	updateChildrenOfParentNode(movedUpNode, );
+				// }
 			}
 		}
 
