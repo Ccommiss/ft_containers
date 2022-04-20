@@ -24,11 +24,10 @@ namespace ft
 		typedef Allocator 												allocator_type;
 		typedef typename Allocator::reference 							reference;
 		typedef typename Allocator::const_reference 					const_reference;
-		//typedef ft::random_access_iterator<value_type>					iterator;
 		typedef ft::_Rb_tree_iterator<value_type> 						iterator;
 	// pbmatique : iterator ne peut pas etre un ptr sur paire, mais un ptr sur noeud pour 
 	// pvoir iterer 
-		typedef ft::random_access_iterator<const value_type>			const_iterator;
+		typedef ft::_Rb_tree_iterator<const value_type> 				const_iterator;
 		typedef ft::reverse_random_access_iterator<iterator>			reverse_iterator;
 		typedef ft::reverse_random_access_iterator<const_iterator>		const_reverse_iterator;
 		typedef typename allocator_type::size_type 						size_type;
@@ -62,28 +61,46 @@ namespace ft
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator & = Allocator());
 		map(const map<Key, T, Compare, Allocator>& x);
-		~map() {}
+	
+		~map() {
+			delete _curr;
+		}
 		map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x);
 
 		/*
 		** 		ITERATORS
 		*/
 		iterator begin() {
-			return _curr;
+			return iterator(_curr->getMinSuccessor(_curr->root));
 		}
-		const_iterator begin() const;
-		iterator end();
-		const_iterator end() const;
-		reverse_iterator rbegin();
+		const_iterator begin() const {
+			return const_iterator(_curr->getMinSuccessor(_curr->root));
+		}
+		iterator end() {
+			return iterator(_curr->nil_node);
+		}
+		const_iterator end() const {
+			return const_iterator(_curr->nil_node);
+		}
+		reverse_iterator rbegin()
+		{
+			return reverse_iterator(end()); // test 
+		}
 		const_reverse_iterator rbegin() const;
-		reverse_iterator rend();
+		reverse_iterator rend()
+		{
+			return reverse_iterator(begin()); // test pas sure
+		}
 		const_reverse_iterator rend() const;
 
 
 
 		// capacity:
 		bool empty() const;
-		size_type size() const;
+		size_type size() const
+		{
+			return (_curr->_size);
+		}
 		size_type max_size() const;
 
 		// 23.3.1.2 element access:
@@ -146,8 +163,8 @@ namespace ft
 		size_type	_size;
 		T 			_def_value; // default value whenever we need a pair but we have only a key
 
-		typedef ft::Tree < value_type, value_compare > 	rb_tree; //allacor a rajouter 
-		rb_tree* _curr;
+		typedef 	ft::Tree < value_type, value_compare, Allocator > 	rb_tree; //allacor a rajouter 
+		rb_tree* 	_curr;
 	};
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator==(const map<Key, T, Compare, Allocator>& x,

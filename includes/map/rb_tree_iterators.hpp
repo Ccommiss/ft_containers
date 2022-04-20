@@ -1,16 +1,17 @@
 
 #include "../includes.hpp"
 #include "ft_node.hpp"
+#include "ft_tree.hpp"
 
 namespace ft
 {
 	template<typename T>
 	ft::Node<T>* _Rb_tree_increment(ft::Node<T>* x) throw()
 	{
-		if (x->rightChild != 0)
+		if (x->rightChild != x->nil_node)
 		{
 			x = x->rightChild;
-			while (x->leftChild != 0)
+			while (x->leftChild != x->nil_node) // PAS SURE 
 				x = x->leftChild;
 		}
 		else
@@ -30,13 +31,12 @@ namespace ft
 	template<typename T>
 	ft::Node<T>* _Rb_tree_decrement(ft::Node<T>* x) throw ()
 	{
-		if (x->color == Node<T>::RED
-			&& x->parent->parent == x)
+		if (x->color == Node<T>::RED && x->parent->parent == x)
 			x = x->rightChild;
-		else if (x->leftChild != 0)
+		else if (x->leftChild != x->nil_node)
 		{
 			ft::Node<T>* y = x->leftChild;
-			while (y->rightChild != 0)
+			while (y->rightChild != x->nil_node)
 				y = y->rightChild;
 			x = y;
 		}
@@ -91,14 +91,22 @@ namespace ft
 
 		_Self& operator--() _GLIBCXX_NOEXCEPT
 		{
-			_curr = _Rb_tree_decrement(_curr);
+			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree; 
+			if (_curr == _curr->nil_node) // c qu'on est sur end
+				_curr = tree->getMaxSuccessor(tree->getRootPtr());
+			else 
+				_curr = _Rb_tree_decrement(_curr);
 			return *this;
 		}
 
 		_Self operator--(int) _GLIBCXX_NOEXCEPT
 		{
 			_Self __tmp = *this;
-			_curr = _Rb_tree_decrement(_curr);
+			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree; 
+			if (_curr == _curr->nil_node)
+				_curr = tree->getMaxSuccessor(tree->getRootPtr());
+			else 
+				_curr = _Rb_tree_decrement(_curr);
 			return __tmp;
 		}
 

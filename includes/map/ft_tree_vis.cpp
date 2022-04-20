@@ -8,8 +8,8 @@
 /* ---------------------------------------------------------------------------- */
 /*							DEBUG FUNCS											*/
 /* ---------------------------------------------------------------------------- */
-template <typename U, typename V>
-void ft::Tree<U, V>::display_children(ft::Node<U>* _curr)
+template <typename U, typename V, typename Alloc>
+void ft::Tree<U, V, Alloc>::display_children(ft::Node<U>* _curr)
 {
 	std::string colors;
 	_curr->color == ft::Node<U>::BLACK ? colors = "⚫" : colors = "🔴";
@@ -40,8 +40,8 @@ void ft::Tree<U, V>::display_children(ft::Node<U>* _curr)
 	std::cout << "|";
 }
 
-template <typename U, typename V>
-int ft::Tree<U, V>::validity_check(ft::Node<U>* _curr)
+template <typename U, typename V, typename Alloc>
+int ft::Tree<U, V, Alloc>::validity_check(ft::Node<U>* _curr)
 {
 	static int i = 0;
 	if (_curr == Tree::nil_node)
@@ -61,8 +61,8 @@ int ft::Tree<U, V>::validity_check(ft::Node<U>* _curr)
 	return 0;
 }
 
-template <typename U, typename V>
-void ft::Tree<U, V>::display(ft::Node<U>* _curr)
+template <typename U, typename V, typename Alloc>
+void ft::Tree<U, V, Alloc>::display(ft::Node<U>* _curr)
 {
 	if (_curr == Tree::nil_node)
 		return;
@@ -72,8 +72,8 @@ void ft::Tree<U, V>::display(ft::Node<U>* _curr)
 	display(_curr->rightChild);
 }
 
-template <typename U, typename V>
-void ft::Tree<U, V>::display_data(int a, ...)
+template <typename U, typename V, typename Alloc>
+void ft::Tree<U, V, Alloc>::display_data(int a, ...)
 {
 	va_list args;
 	va_start(args, a);
@@ -118,8 +118,8 @@ template<>
 void ft_null_ptr(int& p) { p = -404; }
 
 
-template <typename U, typename V>
-void ft::Tree<U, V>::calculate_height(ft::Node<U>* node)
+template <typename U, typename V, typename Alloc>
+void ft::Tree<U, V, Alloc>::calculate_height(ft::Node<U>* node)
 {
 	U to_be_null;
 	ft_null_ptr(to_be_null);
@@ -164,8 +164,8 @@ void ft::Tree<U, V>::calculate_height(ft::Node<U>* node)
 	}
 }
 
-template <typename U, typename V>
-int ft::Tree<U, V>::curr_black_height(U data)
+template <typename U, typename V, typename Alloc>
+int ft::Tree<U, V, Alloc>::curr_black_height(U data)
 {
 	ft::Node<U>* node = find(data);
 	int i = 0;
@@ -178,8 +178,8 @@ int ft::Tree<U, V>::curr_black_height(U data)
 	return i;
 }
 
-template <typename U, typename V>
-void ft::Tree<U, V>::see_tree()
+template <typename U, typename V, typename Alloc>
+void ft::Tree<U, V, Alloc>::see_tree()
 {
 	U to_be_null;
 	out ("WOLA")
@@ -225,8 +225,8 @@ void ft::Tree<U, V>::see_tree()
 	// }
 }
 
-template <typename U, typename V>
-void ft::Tree<U, V>::light_display(ft::Node<U>* root)
+template <typename U, typename V, typename Alloc>
+void ft::Tree<U, V, Alloc>::light_display(ft::Node<U>* root)
 {
 	if (root == Tree::nil_node)
 		return;

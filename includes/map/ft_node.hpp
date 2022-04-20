@@ -6,11 +6,13 @@
 
 namespace ft
 {
+	template <typename U, typename V, typename Alloc>
+	class Tree;
 
 	template <typename T>
 	class Node
 	{
-		template <typename U, typename V>
+		template <typename U, typename V, typename Alloc>
 		friend class Tree;
 		friend class ft_tree_vis;
 
@@ -31,9 +33,9 @@ namespace ft
 		{
 			_data = T();
 		}
-		Node(T data) : _data(data)
+		Node(T data, Node *nil_ptr) : _data(data), nil_node(nil_ptr)
 		{
-			color = RED; // par default
+			color = RED;
 		}
 		~Node(){};
 
@@ -70,9 +72,9 @@ namespace ft
 		 */
 		bool is_left_child()
 		{
-			if (parent == NULL) // c root
+			if (parent == nil_node) // c root
 				return false;
-			if (parent->leftChild == NULL)
+			if (parent->leftChild == nil_node)
 				return false;
 			if (this == parent->leftChild)
 				return true;
@@ -80,9 +82,9 @@ namespace ft
 		}
 		bool is_right_child()
 		{
-			if (parent == NULL) // c root
+			if (parent == nil_node) // c root
 				return false;
-			if (parent->rightChild == NULL)
+			if (parent->rightChild == nil_node)
 				return false;
 			if (this == parent->rightChild)
 				return true;
@@ -100,19 +102,19 @@ namespace ft
 
 		void setLeftChild(Node *node)
 		{
-			if (node != NULL)
+			if (node != nil_node)
 				out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
 			leftChild = node;
 		}
 		void setRightChild(Node *node)
 		{
-			if (node != NULL)
+			if (node != nil_node)
 				out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
 			rightChild = node;
 		}
 		void setParent(Node *newParent)
 		{
-			if (newParent != NULL)
+			if (newParent != nil_node)
 				out("Func is :" << __func__ << " on this " << _data << " with node " << newParent->_data);
 			;
 			parent = newParent;
@@ -125,24 +127,26 @@ namespace ft
 		};
 
 	private:
-		T _data;
-		Node *root;
-		Node *leftChild;
-		Node *rightChild;
-		Node *parent;
-		int color;
+		T 		_data;
+		Node 	*root;
+		Node 	*leftChild;
+		Node 	*rightChild;
+		Node 	*parent;
+		int		color;
+		Node 	*nil_node;
+		void	*tree;
 	};
 }
 
 template <class T>
 std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 {
-	if (&node != NULL)
-	{
-		std::string colors;
-		node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
-		os << "Node " << node.getData() << " " << colors;
-	}
+//	if (node != ft::Node<T>::nil_node)
+	//{
+	//	std::string colors;
+	//	node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
+	//	os << "Node " << node.getData() << " " << colors;
+//	}
 	return os;
 }
 

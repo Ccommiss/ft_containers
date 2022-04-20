@@ -11,40 +11,60 @@
 #define out(x) std::cout << x << std::endl;
 namespace ft {
 
-	template <typename T, typename Compare = std::less<T> >
+	template <typename T, typename Compare = std::less<T>, typename Allocator = std::allocator<T> >
 	class Tree
 	{
 		template <typename U>
 		friend class Node;
+
+		template <typename Key, typename valuetype, typename compfunc, typename alloctype>
+		friend class map;
+
+		typedef typename Allocator::size_type 						size_type;
 
 
 		private:
 		Node<T>* root;
 		Node<T>* _end;
 		Node<T>* nil_node;
+		size_type _size; // size of tree 
+		Compare    _comp; // objet de comparaison
+	
 		// pour debug 
 		int blacks;
 		T array[100][100];
 		int height;
-		Compare    _comp; // objet de comparaison
+		
 
 		public:
 		Tree(Compare c)  : _comp(c) // une instance de std::less<Key> par defaut 
 		{
 			std::cout << "tree constructor" << std::endl;
-			nil_node = NULL;
+			nil_node = new Node<T>(T(), NULL);
+			nil_node->tree = this;
 			root = nil_node;
+			nil_node->nil_node = nil_node;
 			blacks = 0;
+			_size = 0;
 		}
-		Tree()
-		{
-			_comp = Compare();
-			nil_node = NULL;
-			root = nil_node;
-			blacks = 0;
 
+		void 		delete_nodes(Node<T> *node)
+		{
+			if (node != nil_node)
+			{
+				Node<T> *tmp_right = node->rightChild;
+				Node<T> *tmp_left = node->leftChild;
+				delete node;
+				delete_nodes(tmp_left);
+				delete_nodes(tmp_right);
+			}
 		}
-		~Tree() {}
+
+		~Tree() {
+			out("tree destructor")
+			delete_nodes(root);
+			delete nil_node;
+		}
 
 		/*
 		** Functions;
@@ -70,7 +90,7 @@ namespace ft {
 			{
 				if (!_comp(key, node->_data) && !_comp(node->_data, key))
 					return node;
-				else if (_comp(key, node->_data) == true) // value_compare(std::less<int>, )
+				else if (_comp(key, node->_data) == true) 
 					node = node->leftChild;
 				else
 					node = node->rightChild;
@@ -100,22 +120,23 @@ namespace ft {
 		**	insert
 		**	@brief first inserr
 		*/
-		Tree insert(const T data)
+		void insert(const T data)
 		{
-			Node<T>* node = new Node<T>(data);
+			Node<T>* node = new Node<T>(data, nil_node);
 			node->parent = nil_node;
 			node->leftChild = nil_node;
 			node->rightChild = nil_node;
+			node->tree = this;
 			out("To insert : " << data)
-				//if (find(data) != nil_node)
 				if (is_in_tree(data))
 				{
 					std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
-					return *this;
+					return ; //*this;
 				}
 			root = insert(root, node);
 			recolorAndRotate(node);
-			return *this;
+			_size += 1;
+		//	return *this;
 		}
 
 		Node<T>* insert(Node<T>* node, Node<T>* newNode)
@@ -362,13 +383,7 @@ namespace ft {
 		void del(int data)
 		{
 			del(data, root);
-		}
-
-		int getMax(Node<T>* node)
-		{
-			if (node->rightChild != nil_node)
-				return getMax(node->rightChild);
-			return node->_data;
+			_size -= 1; // a modifier si le del a echoue par exemple
 		}
 
 		Node<T>* getMaxSuccessor(Node<T>* node)
@@ -378,11 +393,11 @@ namespace ft {
 			return node;
 		}
 
-		int getMin(Node<T>* node)
+		Node<T>* getMinSuccessor(Node<T>* node)
 		{
 			if (node->leftChild != nil_node)
-				return getMin(node->leftChild);
-			return node->_data;
+				return getMinSuccessor(node->leftChild);
+			return node;
 		}
 
 		Node<T>* getSibling(Node<T>* node)
@@ -424,7 +439,6 @@ namespace ft {
 				sibling->color = Node<T>::RED;
 				rotateLeft(sibling);
 				sibling = getSibling(node);
-				// sibling = node->parent->leftChild;
 			}
 
 			// Fall-through to case 6...
@@ -452,13 +466,9 @@ namespace ft {
 
 			// ... and rotate
 			if (node == node->parent->leftChild)
-			{
 				rotateLeft(node->parent);
-			}
 			else
-			{
 				rotateRight(node->parent);
-			}
 		}
 
 		void fixRedBlackPropertiesAfterDelete(Node<T>* node)
@@ -578,14 +588,11 @@ namespace ft {
 			}
 			if (deletedNodeColor == Node<T>::BLACK)
 			{
-				// if (movedUpNode != nil_node) // ON VA VOR
 				fixRedBlackPropertiesAfterDelete(movedUpNode);
-
 				// Remove the temporary NIL node
 				if (movedUpNode == nil_node)
 				{
 					updateChildrenOfParentNode(movedUpNode, nil_node);
-					// replaceParentsChild(movedUpNode->parent, movedUpNode, nil_node);
 				}
 			}
 		}
