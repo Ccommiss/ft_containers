@@ -126,7 +126,11 @@ namespace ft
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last);
 		void erase(iterator position);
-		size_type erase(const key_type& x);
+		size_type erase(const key_type& x)
+		{
+			_curr->del(ft::make_pair<key_type, mapped_type>(x, _def_value));
+			return 1; //trouver quoi retourner 
+		}
 		void erase(iterator first, iterator last);
 		void swap(map<Key, T, Compare, Allocator>&);
 		void clear();

@@ -5,47 +5,103 @@
 #include <map>
 #include "../includes.hpp"
 
-template <typename T>
-struct cmpByStringLength {
-	bool operator()(const T& a, const T& b) const
+using namespace std;
+
+
+// struct cmpByStringLength {
+// 	bool operator()(const T& a, const T& b) const
+// 	{
+// 		return (a.first != b.first ? a.first > b.first: a.second > b.second);
+
+// 		//return (a.first.length() != b.first.length() ? a.first.length() < b.first.length() : a.second.length() < b.second.length());
+// 	}
+// };
+
+template <typename T, typename U>
+void example(std::map<T, U>& r_map)
+{
+	std::cout << BOLD("-> example with real map only : ") << std::endl;
+	std::cout << FG2("Real :") << std::endl;
+	typename std::map<T, U>::iterator it;
+	for (it = r_map.begin(); it != r_map.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+
+}
+
+template <typename T, typename U>
+void print(ft::map<T, U>& r_map)
+{
+	std::cout << BOLD("-> Mine only : ") << std::endl;
+	std::cout << FG1("Mine :") << std::endl;
+	typename ft::map<T, U>::iterator it;
+	for (it = r_map.begin(); it != r_map.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+
+}
+
+template <typename T, typename U>
+void display(ft::map<T, U>& my_map, std::map<T, U>& r_map)
+{
+	std::cout << BOLD("-> output : ") << std::endl;
+	std::cout << FG1("Mine :") << std::endl;
+	typename ft::map<T, U>::iterator it1;
+	for (it1 = my_map.begin(); it1 != my_map.end(); it1++)
+		std::cout << *it1 << " ";
+	std::cout << std::endl;
+
+	std::cout << FG2("Real :") << std::endl;
+	typename std::map<T, U>::iterator it;
+	for (it = r_map.begin(); it != r_map.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+	cout << DIM("Real size : ") << r_map.size() << DIM(" VS my size : ") << my_map.size() << endl;
+	//cout << DIM("Real capacity : ") << r_map.capacity() << DIM(" VS my capacity : ") << my_map.capacity() << endl << endl;
+	//if (r_map.size() != my_map.size())// || r_map.capacity() != my_map.capacity())
+	//	getwchar();
+}
+
+
+
+void test_basic()
+{
+
+
+}
+
+
+void test_reverse_iterator()
+{
+	ft::map<int, std::string> my_map;
+	std::map<int, std::string> real_map;
+	std::string word_array[] = { "Ce matin", "a Marseille", "nous avons vu", "des poissons", "dans le ciel", "car nous aimons", "la bouillabaise"};
+	int int_array[] = { 1, 2, 3, 4, 58, 65, 75, 65, 23};
+	for (int i = 0; i < 7; i++)
 	{
-		return (a.first != b.first ? a.first > b.first: a.second > b.second);
-
-		//return (a.first.length() != b.first.length() ? a.first.length() < b.first.length() : a.second.length() < b.second.length());
+		my_map.insert(ft::make_pair(int_array[i], word_array[i]));
+		real_map.insert(std::make_pair(int_array[i], word_array[i]));
 	}
-};
+	my_map.debugging();
+	display(my_map, real_map);
+	getwchar();
+	out ("ERASE");
+	//for (int i = 0; i < 3; i++)
+	//{
+		my_map.erase(int_array[1]);
+		//real_map.erase(int_array[i]);
+	//}
+	my_map.debugging();
+	//display(my_map, real_map);
+	getwchar();
+	exit(0);
 
-
-
-
-
-// void test_basic()
-// {
-
-
-// }
-
-
-// void reverse_iterator()
-// {
-// 	f
-// }
+}
 
 
 int main()
 {
-	//ft::Tree<std::string> myTree;
-	//myTree.insert("lol");
-	//myTree.insert("Je");
-	//myTree.insert("m'appelle");
-	// myTree.insert("Claire");
-	// myTree.insert("Commissaire");
-	// myTree.insert("lol2");
-	// myTree.insert("Je2");
-	// myTree.insert("m'appelle2");
-	// myTree.insert("Claire2");
-	// myTree.insert("Commissaire2");
-//	myTree.see_tree();
+	test_reverse_iterator();
 
 	//ft::Tree<ft::pair <int, std::string> > TreePair;
 	ft::map<int, std::string> lol;
@@ -78,8 +134,15 @@ int main()
 	ft::map<int, std::string>::reverse_iterator rev_it1 = lol.rbegin();
 	while (rev_it1 != lol.rend())
 	{
-		std::cout << "REBEGIN" << rev_it1->second << std::endl;
+		std::cout << "REBEGIN=" << rev_it1->second << std::endl;
 		rev_it1++;
+	}
+	rev_it1 = lol.rend();
+	while (rev_it1 != lol.rbegin())
+	{
+		rev_it1--;
+		std::cout << "REND=" << rev_it1->second << std::endl;
+		
 	}
 
 
@@ -87,13 +150,30 @@ int main()
 	//ft::Tree<ft::pair <int, std::string> >   	TreePair;
 	std::map<int, std::string> test;
 	std::map<int, std::string>::reverse_iterator test_it(test.end());
-	test.insert(std::make_pair<int, std::string>(8, "huit"));
-	test.insert(std::make_pair<int, std::string>(9, "neuf"));
+	test.insert(std::make_pair<int, std::string>(1, "uno"));
+	test.insert(std::make_pair<int, std::string>(2, "dos"));
+	test.insert(std::make_pair<int, std::string>(3, "tres"));
+	test.insert(std::make_pair<int, std::string>(0, "zero"));
+	test.insert(std::make_pair<int, std::string>(73, "soixante tres"));
+	test.insert(std::make_pair<int, std::string>(4, "katre"));
 	std::cout << (*test_it).second << std::endl;
 	test_it++;
 	std::cout << (*test_it).first << std::endl;
 	std::cout << (--test.end())->second << std::endl;
-	//	std::cout << 
+	test_it = test.rbegin();
+	
+	while (test_it!= test.rend())
+	{
+		std::cout << "REAL REBEGIN=" << test_it->second << std::endl;
+		test_it++;
+	}
+	test_it = test.rend();
+	while (test_it != test.rbegin())
+	{
+		test_it--;
+		std::cout << "REAL REND=" << test_it->second << std::endl;		
+	}
+	display(lol, test);
 
 
 

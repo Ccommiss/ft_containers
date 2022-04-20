@@ -182,14 +182,11 @@ template <typename U, typename V, typename Alloc>
 void ft::Tree<U, V, Alloc>::see_tree()
 {
 	U to_be_null;
-	out ("WOLA")
 	ft_null_ptr(to_be_null);
-	out ("WOLALAL"); 
 	height = 0;
-	calculate_height(root);
-
+	Node<U> *node = root;
+	calculate_height(node);
 	std::cout << std::setw(40) << (array[0][0]) << " " << std::endl;
-	;
 	int nb = 2;
 	int black_path = 0;
 	for (int i = 1; i < height + 1; i++)
@@ -218,11 +215,11 @@ void ft::Tree<U, V, Alloc>::see_tree()
 		nb *= 2;
 		out("\n")
 	}
-	// for (int i = 0; i < 100; i++)
-	// {
-	// 	for (int j = 0; j < 100; j++)
-	// 		array[i][j] = U();
-	// }
+	for (int i = 0; i < 100; i++)
+	{
+		for (int j = 0; j < 100; j++)
+			array[i][j] = U();
+	}
 }
 
 template <typename U, typename V, typename Alloc>

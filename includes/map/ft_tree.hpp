@@ -86,6 +86,7 @@ namespace ft {
 		Node<T>* find(T key)
 		{
 			Node<T>* node = root;
+			//out ("ROT = " << root->_data);
 			while (node != nil_node)
 			{
 				if (!_comp(key, node->_data) && !_comp(node->_data, key))
@@ -226,7 +227,6 @@ namespace ft {
 		void updateChildrenOfParentNode(Node<T>* node, Node<T>* tempNode)
 		{
 			out("Func is :" << __func__ << " on node " << *node);
-
 			if (node->parent == nil_node)
 				root = tempNode;
 			else if (node->is_left_child())
@@ -380,8 +380,9 @@ namespace ft {
 		**
 		****************************************************/
 
-		void del(int data)
+		void del(T data)
 		{
+			out ("ROOT ICI ="<< root->_data)
 			del(data, root);
 			_size -= 1; // a modifier si le del a echoue par exemple
 		}
@@ -490,7 +491,8 @@ namespace ft {
 				handleRedSibling(node, sibling);
 				sibling = getSibling(node);
 				out("NEW SIBLING " << *sibling)		// Get new sibling for fall-through to cases 3-6
-					if (sibling == nil_node) return; // TEST
+				if (sibling == nil_node) 
+					return; // TEST
 			}
 			// Cases 3+4: Black sibling with two black children
 			if (sibling->color == Node<T>::BLACK && black_nephews(node) == true)
@@ -521,7 +523,7 @@ namespace ft {
 		Node<T>* deleteNodeWithZeroOrOneChild(Node<T>* node)
 		{
 			out("Func is :" << __func__ << " on node " << *node);
-
+			out (node->_data)
 			// Node<T> has ONLY a left child --> replace by its left child
 			if (node->leftChild != nil_node)
 			{
@@ -542,13 +544,11 @@ namespace ft {
 			// * node is black --> replace it by a temporary NIL node (needed to fix the R-B rules)
 			else
 			{
-				// Node<T> *newChild = nil_node;
-				Node<T>* newChild = node->getColor() == Node<T>::BLACK ? nil_node : nil_node;
-
-				// if (newChild != nil_node && newChild->_data == 404)
-				//	newChild->setColor(Node<T>::NIL);
+				int color = node->getColor();
+				Node<T>* newChild = color == Node<T>::BLACK ? nil_node : nil_node; // rajout du nil node ca me pareit chelou
 				updateChildrenOfParentNode(node, newChild);
-				if (newChild != nil_node)
+				//if (newChild != NULL)
+				if (color == Node<T>::BLACK)
 				{
 					newChild->setParent(node->parent);
 				}
@@ -556,11 +556,12 @@ namespace ft {
 			}
 		}
 
-		void del(int data, Node<T>* root)
+		void del(T data, Node<T>* root)
 		{
 			out("Func is :" << __func__ << " on node " << *root);
 
 			Node<T>* node = find(data);
+			out("LA "<< node->_data );
 			if (node == nil_node || node == nil_node) // PAS SURE POUR LA DEUXIEME !!
 				return;
 			// At this point, "node" is the node to be deleted

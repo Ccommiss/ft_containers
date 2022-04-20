@@ -89,7 +89,7 @@ namespace ft
 			return __tmp;
 		}
 
-		_Self& operator--() _GLIBCXX_NOEXCEPT
+		_Self& operator--() 
 		{
 			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree; 
 			if (_curr == _curr->nil_node) // c qu'on est sur end
@@ -99,7 +99,7 @@ namespace ft
 			return *this;
 		}
 
-		_Self operator--(int) _GLIBCXX_NOEXCEPT
+		_Self operator--(int) 
 		{
 			_Self __tmp = *this;
 			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree; 
@@ -110,19 +110,15 @@ namespace ft
 			return __tmp;
 		}
 
-		friend bool operator==(const _Self& x, const _Self& y) _GLIBCXX_NOEXCEPT
+		friend bool operator==(const _Self& x, const _Self& y) 
 		{
 			return x._curr == y._curr;
 		}
 
-#if ! __cpp_lib_three_way_comparison
-		friend bool
-			operator!=(const _Self& x, const _Self& y) _GLIBCXX_NOEXCEPT
+		friend bool operator!=(const _Self& x, const _Self& y) 
 		{
 			return x._curr != y._curr;
 		}
-#endif
-
 		node  _curr; // les it sont des ptr sur noeuds
 	};
 

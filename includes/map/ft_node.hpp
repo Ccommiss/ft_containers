@@ -95,7 +95,7 @@ namespace ft
 		{
 			return (_data);
 		}
-		void setData(int data)
+		void setData(T data)
 		{
 			_data = data;
 		}
@@ -141,12 +141,12 @@ namespace ft
 template <class T>
 std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 {
-//	if (node != ft::Node<T>::nil_node)
-	//{
-	//	std::string colors;
-	//	node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
-	//	os << "Node " << node.getData() << " " << colors;
-//	}
+	if (&node != NULL)
+	{
+		std::string colors;
+		node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
+		os << "Node " << node.getData() << " " << colors;
+	}
 	return os;
 }
 

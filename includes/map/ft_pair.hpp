@@ -170,4 +170,15 @@ std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
 	return os;
 }
 
+// A ENLEVER TEST POUR AFFICHER STD PAREIL 
+template <typename T, typename U>
+std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& pair)
+{
+	if (&pair != NULL)
+	{
+		os << "[" << pair.first << "]=\"" << pair.second << "\"";
+	}
+	return os;
+}
+
 #endif
