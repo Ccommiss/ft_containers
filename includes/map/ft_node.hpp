@@ -91,7 +91,7 @@ namespace ft
 			return false;
 		}
 
-		T &getData()  
+		T &getData()
 		{
 			return (_data);
 		}
@@ -149,6 +149,5 @@ std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 	}
 	return os;
 }
-
 
 #endif

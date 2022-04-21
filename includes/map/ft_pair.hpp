@@ -48,7 +48,7 @@ namespace ft
 		pair<T1, T2>& operator=(const pair<T1, T2>& x)
 		{
 			const_cast<T1&>(first) = x.first;
-			second = x.second; // ca c ok mais pas le first ??? 
+			second = x.second; // ca c ok mais pas le first ???
 			return *this;
 		}
 
@@ -100,7 +100,7 @@ namespace ft
 	{
 		if (lhs.first != rhs.first)
 			return (lhs.first < rhs.first);
-		else 
+		else
 			return (lhs.second < rhs.second);
 	}
 
@@ -170,7 +170,7 @@ std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
 	return os;
 }
 
-// A ENLEVER TEST POUR AFFICHER STD PAREIL 
+// A ENLEVER TEST POUR AFFICHER STD PAREIL
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& pair)
 {

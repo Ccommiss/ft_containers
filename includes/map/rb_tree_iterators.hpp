@@ -10,16 +10,15 @@ namespace ft
 	{
 		if (x->rightChild != x->nil_node)
 		{
-			out ("ICI");
 			x = x->rightChild;
-			while (x->leftChild != x->nil_node) // PAS SURE 
+			while (x->leftChild != x->nil_node) // PAS SURE
 				x = x->leftChild;
 		}
 		else
 		{
 			ft::Node<T>* y = x->parent;
 			if (y == x->nil_node) //mon ajout a 18h
-				return y->nil_node; //en gros on a un seul elem je crois on est sur le root 
+				return y->nil_node; //en gros on a un seul elem je crois on est sur le root
 			while (x == y->rightChild)
 			{
 				x = y;
@@ -55,12 +54,13 @@ namespace ft
 		}
 		return x;
 	}
+
 	template<typename T>
 	struct _Rb_tree_iterator : public ft::iterator<ft::bidirectional_iterator_tag, T>
 	{
-		typedef T  value_type; // la paire 
-		typedef T& reference; // reference sur paire 
-		typedef T* pointer; // ptr sur paire 
+		typedef T  value_type; // la paire
+		typedef T& reference; // reference sur paire
+		typedef T* pointer; // ptr sur paire
 
 		typedef bidirectional_iterator_tag iterator_category;
 		typedef ptrdiff_t			 	   difference_type;
@@ -92,33 +92,33 @@ namespace ft
 			return __tmp;
 		}
 
-		_Self& operator--() 
+		_Self& operator--()
 		{
-			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree; 
-			if (_curr == _curr->nil_node) // c qu'on est sur end
+			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree;
+			if (_curr == _curr->nil_node)
 				_curr = tree->getMaxSuccessor(tree->getRootPtr());
-			else 
+			else
 				_curr = _Rb_tree_decrement(_curr);
 			return *this;
 		}
 
-		_Self operator--(int) 
+		_Self operator--(int)
 		{
 			_Self __tmp = *this;
-			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree; 
+			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree;
 			if (_curr == _curr->nil_node)
 				_curr = tree->getMaxSuccessor(tree->getRootPtr());
-			else 
+			else
 				_curr = _Rb_tree_decrement(_curr);
 			return __tmp;
 		}
 
-		friend bool operator==(const _Self& x, const _Self& y) 
+		friend bool operator==(const _Self& x, const _Self& y)
 		{
 			return x._curr == y._curr;
 		}
 
-		friend bool operator!=(const _Self& x, const _Self& y) 
+		friend bool operator!=(const _Self& x, const _Self& y)
 		{
 			return x._curr != y._curr;
 		}
