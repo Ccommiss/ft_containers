@@ -81,10 +81,9 @@ namespace ft
 		}
 		map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x)
 		{
-			if (*this != x || _size != x.size())
+			if (*this != x)
 			{
-				clear();
-				_curr->insert(x.begin(), x.end());
+				_curr = x._curr;
 			}
 			return (*this);
 		}
@@ -131,30 +130,28 @@ namespace ft
 		size_type max_size() const;
 
 		// 23.3.1.2 element access:
-		// T& operator[](const key_type& x)
-		// {
-		// 	// renvoie une reference sur la pair pointee
-		// 	return (_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value))->_data.second);
-		// }
-
-		mapped_type& operator[](const key_type& __k)
+		mapped_type& operator[](const key_type& x)
 		{
-			// concept requirements
-			iterator __i = lower_bound(__k);
-			// __i->first is greater than or equivalent to __k.
-			if (__i == end() || __i->first == __k ) //key_comp()(__k, (*__i).first))
-			{
-				__i = _curr.insert(__k);
-			}
-			return (*__i).second;
+			if (_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value)) != _curr.nil_node)
+				return (_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value))->_data.second);
+			return (_curr.insert(ft::make_pair<key_type, mapped_type>(x, _def_value))->_data.second);
 		}
+
 
 		// modifiers:
 		// vlue type sera une std pair
 		// pair<iterator, bool> insert(const value_type& x)
-		void insert(const value_type& x)
+
+		/*
+		**
+		**	@return
+		*/
+		ft::pair<iterator, bool>  insert(const value_type& x)
 		{
+			size_type old_size = _curr._size; 
 			_curr.insert(x);
+			bool success = old_size != _curr._size ? true : false;
+			return ft::make_pair(iterator(_curr.find(x)), success);
 		}
 
 		void debugging()
@@ -164,7 +161,7 @@ namespace ft
 		iterator insert(iterator position, const value_type& x)
 		{
 			(void)position;
-			_curr.insert(x);
+			return iterator(_curr.insert(x));
 		}
 
 		template <class InputIterator>
@@ -184,8 +181,13 @@ namespace ft
 		}
 		void erase(iterator first, iterator last)
 		{
-			for (iterator a = first; a != last; a++)
-				_curr.del(ft::make_pair<key_type, mapped_type>(a->first, _def_value));
+			iterator tmp;
+			for (iterator a = first; a != last;)
+			{
+				tmp = a;
+				a++;
+				_curr.del(ft::make_pair<key_type, mapped_type>(tmp->first, _def_value));
+			}
 		}
 		void swap(map<Key, T, Compare, Allocator>&);
 		void clear();
@@ -210,8 +212,6 @@ namespace ft
 		*/
 		size_type count(const key_type& x) const
 		{
-			std::cout << ft::make_pair<key_type, mapped_type>(x, _def_value) << std::endl;
-			std::cout << *(_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value))) << std::cout;
 			if (_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value)) != _curr.nil_node)
 				return 1;
 			return 0;
@@ -222,10 +222,13 @@ namespace ft
 		iterator lower_bound(const key_type& x)
 		{
 			key_type i = x;
-			while (_curr.find(ft::make_pair<key_type, mapped_type>(i, _def_value)) == _curr.nil_node
-				&& i < _curr._size) // limite car jamais plus de size elem
+			size_type a = 0;
+			while (_curr.find(ft::make_pair(i, _def_value)) == _curr.nil_node && a < _curr._size) // limite car jamais plus de size elem
+			{
 				i++;
-			iterator it = _curr.find(ft::make_pair<key_type, mapped_type>(i, _def_value));
+				a++;
+			}
+			iterator it = _curr.find(ft::make_pair(i, _def_value));
 			return (it == _curr.nil_node ? NULL : it);
 		}
 		const_iterator lower_bound(const key_type& x) const;
@@ -236,10 +239,12 @@ namespace ft
 		iterator upper_bound(const key_type& x)
 		{
 			key_type i = x + 1;
-			while (_curr.find(ft::make_pair<key_type, mapped_type>(i, _def_value)) == _curr.nil_node
-				&& i < _curr._size) // limite car jamais plus de size elem
-				i++;
-			iterator it = _curr.find(ft::make_pair<key_type, mapped_type>(i, _def_value));
+			size_type a = 0;
+			while (_curr.find(ft::make_pair(i, _def_value)) == _curr.nil_node && a < _curr._size) // limite car jamais plus de size elem
+			{		i++;
+					a++;
+			}
+			iterator it = _curr.find(ft::make_pair(i, _def_value));
 			return (it == _curr.nil_node ? NULL : it);
 		}
 

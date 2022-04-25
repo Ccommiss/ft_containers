@@ -72,56 +72,59 @@ void ft::Tree<U, V, Alloc>::display(ft::Node<U> *_curr)
 	display(_curr->rightChild);
 }
 
-template <typename U, typename V, typename Alloc>
-void ft::Tree<U, V, Alloc>::display_data(int a, ...)
-{
-	va_list args;
-	va_start(args, a);
-	std::string family[3] = {" > ft::Node<U> ", " > Parent ", " > GP "};
-	for (int i = 0; i < 3; i++)
-	{
+// template <typename U, typename V, typename Alloc>
+// void ft::Tree<U, V, Alloc>::display_data(int a, ...)
+// {
+// 	va_list args;
+// 	va_start(args, a);
+// 	std::string family[3] = {" > ft::Node<U> ", " > Parent ", " > GP "};
+// 	for (int i = 0; i < 3; i++)
+// 	{
 
-		ft::Node<U> *_curr = va_arg(args, ft::Node<U> *);
-		if (_curr != Tree::nil_node)
-		{
-			out(family[i] << _curr->_data << " has color " << _curr->color);
-			// out("ft::Node<U> contains " << _curr->color);
-		}
-		else
-		{
-			out("Tree::nil_node");
-		}
-	}
-}
+// 		ft::Node<U> *_curr = va_arg(args, ft::Node<U> *);
+// 		if (_curr != Tree::nil_node)
+// 		{
+// 			out(family[i] << _curr->_data << " has color " << _curr->color);
+// 			// out("ft::Node<U> contains " << _curr->color);
+// 		}
+// 		else
+// 		{
+// 			out("Tree::nil_node");
+// 		}
+// 	}
+// }
 
 template <typename T>
-void ft_null_ptr(T &p) {
+void ft_null_ptr(T *p) {
 	p = ft::make_pair(404, "null");
 }
 
 template <>
-void ft_null_ptr(ft::pair<const int, std::string> &p) { p = ft::make_pair<const int, std::string>(-404, "nullnull"); }
+void ft_null_ptr(ft::pair<const int, std::string> *p) { ft::pair<const int, std::string> tmp(ft::make_pair<const int, std::string>(-404, "nullnull")); p = &tmp; }
 
 template <>
-void ft_null_ptr(ft::pair<std::string, std::string> &p) { p = ft::make_pair<std::string, std::string>("nullnull", "nullnull"); }
+void ft_null_ptr(ft::pair<const char, int> *p) { ft::pair<const char, int> tmp(ft::make_pair('z', 78785154)); p = &tmp;  }
 
 template <>
-void ft_null_ptr(ft::pair<int, int> &p) { p = ft::make_pair<int, int>(-404, -404); }
+void ft_null_ptr(ft::pair<std::string, std::string> *p) { ft::pair<std::string, std::string> tmp(ft::make_pair("nullnull", "nullnull")); p = &tmp; }
 
 template <>
-void ft_null_ptr(ft::pair<std::string, int> &p) { p = ft::make_pair<std::string, int>("nullnull", -404); }
+void ft_null_ptr(ft::pair<int, int> *p) { ft::pair<int, int>  tmp(ft::make_pair<int, int>(-404, -404)); p = &tmp; }
 
 template <>
-void ft_null_ptr(std::string &p) { p = "null"; }
+void ft_null_ptr(ft::pair<std::string, int> *p) { ft::pair<std::string, int> tmp(ft::make_pair<std::string, int>("nullnull", -404)); p = &tmp; }
 
-template <>
-void ft_null_ptr(int &p) { p = -404; }
+// template <>
+// void ft_null_ptr(std::string *p) { p = "null"; }
+
+// template <>
+// void ft_null_ptr(int *p) { p = -404; }
 
 template <typename U, typename V, typename Alloc>
 void ft::Tree<U, V, Alloc>::calculate_height(ft::Node<U> *node)
 {
 	U to_be_null;
-	ft_null_ptr(to_be_null);
+	ft_null_ptr(&to_be_null);
 	if (node == Tree::nil_node)
 		return;
 	ft::Node<U> *tmp = node;
@@ -195,7 +198,7 @@ void ft::Tree<U, V, Alloc>::see_tree()
 		a++;
 	}
 	U to_be_null;
-	ft_null_ptr(to_be_null);
+	ft_null_ptr(&to_be_null);
 	height = 0;
 	Node<U> *node = root;
 		calculate_height(node);
@@ -226,7 +229,7 @@ void ft::Tree<U, V, Alloc>::see_tree()
 			}
 		}
 		nb *= 2;
-		out("\n")
+		std::cout << "\n\n";
 	}
 	for (int i = 0; i < 100; i++)
 	{

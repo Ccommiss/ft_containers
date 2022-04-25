@@ -34,9 +34,9 @@ namespace ft
 
 
 	public:
-		Node()
+		Node() : _data(T())
 		{
-			_data = T();
+			color = RED;
 		}
 		Node(T data, Node *nil_ptr) : _data(data), nil_node(nil_ptr)
 		{
@@ -65,7 +65,7 @@ namespace ft
 			this->rightChild = x.rightChild;
 			this->nil_node = x.nil_node;
 			this->tree = x.tree;
-			this->_data = x._data; //  ca va pas marcher ca si key est const...
+			//this->_data = x._data; //  ca va pas marcher ca si key est const...
 			//}
 			return (*this);
 		}
@@ -139,10 +139,10 @@ namespace ft
 		{
 			return (_data);
 		}
-		void setData(T data)
-		{
-			_data = data;
-		}
+		// void setData(T data)
+		// {
+		// 	_data = data;
+		// }
 
 		void setLeftChild(Node *node)
 		{

@@ -5,7 +5,6 @@
 #include <iostream>
 #include <iomanip>
 #include <cstdarg>
-
 #include "ft_node.hpp"
 
 namespace ft
@@ -48,6 +47,14 @@ namespace ft
 
 
 			nil_node->tree = this;
+			// ZONE DE TEST POUR UNINITIALISED VAUES
+			//nil_node = nil_node;
+			nil_node->leftChild = nil_node;
+			nil_node->rightChild = nil_node;
+			nil_node->parent = nil_node;
+			
+			// FIN 
+			
 			root = nil_node;
 			nil_node->nil_node = nil_node;
 			blacks = 0;
@@ -96,10 +103,8 @@ namespace ft
 		Node<T> *find(const T key) const
 		{
 			Node<T> *node = root;
-			std::cout << "looking for " << key << "with root" << *node << std::endl;
 			while (node != nil_node)
 			{
-				std::cout << *node << std::endl;
 				if (!_comp(key, node->_data) && !_comp(node->_data, key))
 					return node;
 				else if (_comp(key, node->_data) == true)
@@ -132,7 +137,7 @@ namespace ft
 		**	insert
 		**	@brief first inserr
 		*/
-		void insert(const T data)
+		Node<T>* insert(const T data)
 		{
 			Node<T> tmp(data, nil_node);
 			Node<T> *node = alloc.allocate(1);
@@ -145,26 +150,23 @@ namespace ft
 			out("To insert : " << data);
 			if (is_in_tree(data))
 			{
-				std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
+				//std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
 				alloc.destroy(node);
 				alloc.deallocate(node, 1);
-				return; //*this;
+				return find(data);
 			}
 			root = insert(root, node);
 			recolorAndRotate(node);
 			_size += 1;
-			//	return *this;
+			return node;
 		}
 
 		Node<T> *insert(Node<T> *node, Node<T> *newNode)
 		{
-							std::cout <<"ROOT1" << (*root) << std::endl;
-
 			if (root == nil_node)
 			{
 				newNode->setColor(Node<T>::BLACK);
 				root = newNode;
-				std::cout <<"ROOT" << (*root) << std::endl;
 				return newNode;
 			}
 			if (node == nil_node)
@@ -343,7 +345,7 @@ namespace ft
 		void handle_rights(Node<T> *node, Node<T> *parent, Node<T> *grandParent)
 		{
 			out("Func is :" << __func__ << " on node " << *node);
-			display_data(3, node, parent, grandParent);
+			//display_data(3, node, parent, grandParent);
 			int RL = 0;
 			if (node->is_left_child())
 			{
@@ -539,7 +541,8 @@ namespace ft
 		{
 			out("Func is :" << __func__ << " on node " << *node);
 			out(node->_data)
-				// Node<T> has ONLY a left child --> replace by its left child
+
+			// Node<T> has ONLY a left child --> replace by its left child
 			if (node->leftChild != nil_node)
 			{
 				out("BIZARRE " << *node << *node->leftChild);
@@ -573,12 +576,24 @@ namespace ft
 			}
 		}
 
+
+		void set_family_to_nil(Node<T> *node)
+		{
+			if (node->leftChild->parent == node)
+				node->leftChild->setParent(nil_node);
+			if (node->rightChild->parent == node)
+				node->rightChild->setParent(nil_node);
+			if (node->parent->leftChild == node)
+				node->parent->setLeftChild(nil_node);
+			if (node->parent->rightChild == node)
+				node->parent->setRightChild(nil_node);
+
+		}
 		bool del(T data, Node<T> *root)
 		{
 			(void)root;
 			out("Func is :" << __func__ << " on node " << *root);
 
-			//see_tree();
 			//display(root);
 			Node<T> *node = find(data);
 			out("LA " << node->_data);
@@ -599,7 +614,7 @@ namespace ft
 			{
 				movedUpNode = deleteNodeWithZeroOrOneChild(node);
 				deletedNodeColor = node->color;
-				alloc.deallocate(node, 1);
+				alloc.deallocate(node, 1); // use after free ? a voir 
 			}
 			// Node<T> has two children
 			else
@@ -610,7 +625,7 @@ namespace ft
 				out ("ICI DEBUT " << *inOrderSuccessor->leftChild)
 
 				// Copy inorder successor's data to current node (keep its color!)
-				node->setData(inOrderSuccessor->_data); // GROS PROBLEME CAR ON PEUT PAS SET DATA
+				//node->setData(inOrderSuccessor->_data); // GROS PROBLEME CAR ON PEUT PAS SET DATA
 				out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
 				out("NODE LC PARENT " << *node->leftChild->parent);
 			
@@ -630,6 +645,7 @@ namespace ft
 				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
 				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
 				//out("TMP " << *tmp << " has parent " << *tmp->parent << "RC : " << *tmp->rightChild << " LC : " << *tmp->leftChild);
+				//alloc.deallocate(node, 1); // A regle un leak mais invalid read
 				node = tmp;
 				// out("TMP = " << *tmp);
 				//out("NODE = " << *node);
@@ -638,6 +654,10 @@ namespace ft
 				// Delete inorder successor just as we would delete a node with 0 or 1 child
 				movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
 				deletedNodeColor = inOrderSuccessor->getColor();
+				set_family_to_nil(inOrderSuccessor); // ajout pour eviter invalid read 
+			//	alloc.deallocate(inOrderSuccessor, 1); // a regle un leak mais invalid read 
+			
+				//inOrderSuccessor = nil_node; // RAJOUTE POUR EVITER INVALID READ.... PAS SURE 
 			}
 			if (deletedNodeColor == Node<T>::BLACK)
 			{
@@ -655,7 +675,7 @@ namespace ft
 		void display_children(Node<T> *_curr);
 		int validity_check(Node<T> *_curr);
 		void display(Node<T> *_curr);
-		void display_data(int a, ...);
+		//void display_data(int a, ...);
 		void calculate_height(Node<T> *node);
 		int curr_black_height(T data);
 		void see_tree();

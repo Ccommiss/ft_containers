@@ -47,12 +47,7 @@ namespace ft
 		*/
 		pair<T1, T2>& operator=(const pair<T1, T2>& x)
 		{
-
-			//ft::pair<T1, T2> tmp(this);
-			//tmp.first = 0;
-			//	first = tmp.first;
-			// this->swap(x);
-			//first = x.first;
+			first = x.first;
 			second = x.second; // ca c ok mais pas le first ???
 			return *this;
 		}
