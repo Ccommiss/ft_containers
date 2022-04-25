@@ -1,7 +1,7 @@
 #ifndef NODE_HPP
 #define NODE_HPP
+#include "debug.hpp"
 #include "ft_tree.hpp"
-#define out(x) std::cout << x << std::endl;
 
 
 namespace ft
@@ -42,8 +42,10 @@ namespace ft
 		{
 			color = RED;
 		}
-		Node(const Node<T> &x)
+		Node(const Node<T> &x) : _data(x._data)
 		{
+			out ("Node copy")
+			out (_data);
 			*this = x;
 		}
 
@@ -63,12 +65,12 @@ namespace ft
 			this->rightChild = x.rightChild;
 			this->nil_node = x.nil_node;
 			this->tree = x.tree;
-			// this->_data = x._data; //  ca va pas marcher ca si key est const...
+			this->_data = x._data; //  ca va pas marcher ca si key est const...
 			//}
 			return (*this);
 		}
 
-		~Node(){};
+		~Node(){ out ("Node destructor" << this)};
 
 		Node *getLeftChild()
 		{
@@ -183,12 +185,12 @@ namespace ft
 template <class T>
 std::ostream &operator<<(std::ostream &os,  ft::Node<T> &node)
 {
-	if (&node != NULL)
-	{
+	//if (&node != NULL)
+	//{
 		std::string colors;
 		node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
 		os << "Node " << node.getData() << " " << colors;
-	}
+//	}
 	return os;
 }
 

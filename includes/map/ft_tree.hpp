@@ -8,7 +8,6 @@
 
 #include "ft_node.hpp"
 
-#define out(x) std::cout << x << std::endl;
 namespace ft
 {
 
@@ -23,12 +22,16 @@ namespace ft
 
 		typedef typename Allocator::size_type size_type;
 
+		typedef typename Allocator::template rebind< Node<T> >::other _allocnode;
+
+
 	private:
 		Node<T> *root;
 		Node<T> *_end;
 		Node<T> *nil_node;
 		size_type _size; // size of tree
 		Compare _comp;	 // objet de comparaison
+		_allocnode alloc;
 
 		// pour debug
 		int blacks;
@@ -36,15 +39,22 @@ namespace ft
 		int height;
 
 	public:
-		Tree(Compare c) : _comp(c) // une instance de std::less<Key> par defaut
+		Tree(Compare c) : _comp(c), alloc(_allocnode()) // une instance de std::less<Key> par defaut
 		{
-			std::cout << "tree constructor" << std::endl;
-			nil_node = new Node<T>(T(), NULL);
+			out("tree constructor");
+			Node<T> nullnode;
+			nil_node = alloc.allocate(1);
+			alloc.construct(nil_node, nullnode);
+
+
 			nil_node->tree = this;
 			root = nil_node;
 			nil_node->nil_node = nil_node;
 			blacks = 0;
 			_size = 0;
+			out ("out tree")
+			//out (__addressof(nullnode));
+			out (nil_node)
 		}
 
 		void delete_nodes(Node<T> *node)
@@ -83,11 +93,13 @@ namespace ft
 		/**	FIND 										  */
 		/**************************************************/
 
-		Node<T> *find(const T key)
+		Node<T> *find(const T key) const
 		{
 			Node<T> *node = root;
+			std::cout << "looking for " << key << "with root" << *node << std::endl;
 			while (node != nil_node)
 			{
+				std::cout << *node << std::endl;
 				if (!_comp(key, node->_data) && !_comp(node->_data, key))
 					return node;
 				else if (_comp(key, node->_data) == true)
@@ -122,7 +134,10 @@ namespace ft
 		*/
 		void insert(const T data)
 		{
-			Node<T> *node = new Node<T>(data, nil_node);
+			Node<T> tmp(data, nil_node);
+			Node<T> *node = alloc.allocate(1);
+			alloc.construct(node, tmp);
+	
 			node->parent = nil_node;
 			node->leftChild = nil_node;
 			node->rightChild = nil_node;
@@ -131,6 +146,8 @@ namespace ft
 			if (is_in_tree(data))
 			{
 				std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
+				alloc.destroy(node);
+				alloc.deallocate(node, 1);
 				return; //*this;
 			}
 			root = insert(root, node);
@@ -141,10 +158,13 @@ namespace ft
 
 		Node<T> *insert(Node<T> *node, Node<T> *newNode)
 		{
+							std::cout <<"ROOT1" << (*root) << std::endl;
+
 			if (root == nil_node)
 			{
 				newNode->setColor(Node<T>::BLACK);
 				root = newNode;
+				std::cout <<"ROOT" << (*root) << std::endl;
 				return newNode;
 			}
 			if (node == nil_node)
@@ -162,29 +182,7 @@ namespace ft
 			return node;
 		}
 
-		template <typename U, typename V>
-		Node<T> *insert(Node<T> *node, Node<T> *newNode)
-		{
-			if (root == nil_node)
-			{
-				newNode->setColor(Node<T>::BLACK);
-				root = newNode;
-				return newNode;
-			}
-			if (node == nil_node)
-				return (newNode);
-			if (Compare()(newNode->_data, node->_data) == true)
-			{
-				node->setLeftChild(insert(node->leftChild, newNode));
-				node->leftChild->setParent(node);
-			}
-			if (Compare()(newNode->_data, node->_data) == false)
-			{
-				node->setRightChild(insert(node->rightChild, newNode));
-				node->rightChild->setParent(node);
-			}
-			return node;
-		}
+
 
 		/*
 		**	Recolor and rotate
@@ -315,8 +313,8 @@ namespace ft
 		void handle_lefts(Node<T> *node, Node<T> *parent, Node<T> *grandParent)
 		{
 			out("Func is :" << __func__ << " on node " << *node);
-			display_data(3, node, parent, grandParent);
-			display(root);
+			//display_data(3, node, parent, grandParent);
+			//display(root);
 			int LR = 0;
 			if (node->is_right_child())
 			{
@@ -430,7 +428,6 @@ namespace ft
 				return false;
 			if (!(getSibling(node)->rightChild == nil_node || getSibling(node)->rightChild->getColor() == Node<T>::BLACK)) // le neveu droit
 				return false;
-			std::cout << "WOWOW TRU" << std::endl;
 			return true;
 		}
 
@@ -566,6 +563,7 @@ namespace ft
 				int color = node->getColor();
 				Node<T> *newChild = color == Node<T>::BLACK ? nil_node : nil_node; // rajout du nil node ca me pareit chelou
 				updateChildrenOfParentNode(node, newChild);
+
 				// if (newChild != NULL)
 				if (color == Node<T>::BLACK)
 				{
@@ -577,18 +575,23 @@ namespace ft
 
 		bool del(T data, Node<T> *root)
 		{
+			(void)root;
 			out("Func is :" << __func__ << " on node " << *root);
 
 			//see_tree();
-			display(root);
+			//display(root);
 			Node<T> *node = find(data);
 			out("LA " << node->_data);
 			if (node == nil_node)
-				return false; // aucun noeud delete
+				return false; 
+				
+			// aucun noeud delete
+
 			// At this point, "node" is the node to be deleted
 			// In this variable, we'll store the node at which we're going to start to fix the R-B
 			// properties after deleting a node->
 			Node<T> *movedUpNode;
+		
 			int deletedNodeColor;
 
 			// Node<T> has zero or one child
@@ -596,25 +599,28 @@ namespace ft
 			{
 				movedUpNode = deleteNodeWithZeroOrOneChild(node);
 				deletedNodeColor = node->color;
+				alloc.deallocate(node, 1);
 			}
 			// Node<T> has two children
 			else
 			{
 				// Find minimum node of right subtree ("inorder successor" of current node)
 				Node<T> *inOrderSuccessor = getMaxSuccessor(node->leftChild);
+
 				out ("ICI DEBUT " << *inOrderSuccessor->leftChild)
 
 				// Copy inorder successor's data to current node (keep its color!)
 				node->setData(inOrderSuccessor->_data); // GROS PROBLEME CAR ON PEUT PAS SET DATA
 				out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
 				out("NODE LC PARENT " << *node->leftChild->parent);
-				// node->_data = inOrderSuccessor->_data;
-				//  out("ORDER = " << *inOrderSuccessor);
-				//  getwchar();
-				Node<T> *tmp = new Node<T>(inOrderSuccessor->_data, nil_node); // on va se servir de ca pour copier la data
+			
+				Node<T> copy(inOrderSuccessor->_data, nil_node);
+				Node<T> *tmp = alloc.allocate(1);
+				alloc.construct(tmp, copy);
+				//Node<T> *tmp = new Node<T>(inOrderSuccessor->_data, nil_node); // on va se servir de ca pour copier la data
 				tmp->leftChild = node->leftChild;
 				tmp->rightChild = node->rightChild;
-				tmp->leftChild->parent = tmp; // CA SF SI JE DECOMMENTE MAIS PK
+				tmp->leftChild->parent = tmp;
 				tmp->rightChild->parent = tmp;
 				tmp->nil_node = node->nil_node;
 				tmp->parent = node->parent;
@@ -624,12 +630,10 @@ namespace ft
 				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
 				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
 				//out("TMP " << *tmp << " has parent " << *tmp->parent << "RC : " << *tmp->rightChild << " LC : " << *tmp->leftChild);
-				node = NULL;
 				node = tmp;
 				// out("TMP = " << *tmp);
 				//out("NODE = " << *node);
 				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
-			//	getwchar();
 
 				// Delete inorder successor just as we would delete a node with 0 or 1 child
 				movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
@@ -637,7 +641,8 @@ namespace ft
 			}
 			if (deletedNodeColor == Node<T>::BLACK)
 			{
-				fixRedBlackPropertiesAfterDelete(movedUpNode);
+				fixRedBlackPropertiesAfterDelete(movedUpNode); //la c nil node
+				//alloc.deallocate(node, 1); // OK POUR ESSAI SUR UNE SUPPRESSION
 				// Remove the temporary NIL node
 				// if (movedUpNode == nil_node)
 				// {

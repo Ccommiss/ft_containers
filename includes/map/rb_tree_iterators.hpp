@@ -89,9 +89,9 @@ namespace ft
 
 		_Self operator++(int)
 		{
-			_Self __tmp = *this;
+			_Self tmp = *this;
 			_curr = _Rb_tree_increment(_curr);
-			return __tmp;
+			return tmp;
 		}
 
 		_Self &operator--()
@@ -106,13 +106,13 @@ namespace ft
 
 		_Self operator--(int)
 		{
-			_Self __tmp = *this;
+			_Self tmp = *this;
 			Tree<T, T, std::allocator<T> > *tree = (Tree<T, T, std::allocator<T> > *)_curr->tree;
 			if (_curr == _curr->nil_node)
 				_curr = tree->getMaxSuccessor(tree->getRootPtr());
 			else
 				_curr = _Rb_tree_decrement(_curr);
-			return __tmp;
+			return tmp;
 		}
 
 		friend bool operator==(const _Self &x, const _Self &y)
@@ -130,7 +130,7 @@ namespace ft
 	template <typename T>
 	struct _Rb_tree_const_iterator
 	{
-		typedef T value_type;
+		typedef const T value_type;
 		typedef const T &reference;
 		typedef const T *pointer;
 
@@ -143,23 +143,15 @@ namespace ft
 		typedef const Node<T> *_Base_ptr;
 		typedef const T *_Link_type;
 
-		_Rb_tree_const_iterator()
-			: _curr() {}
+		_Rb_tree_const_iterator(): _curr() {}
 
-		explicit _Rb_tree_const_iterator(_Base_ptr __x)
-			: _curr(__x) {}
+		explicit _Rb_tree_const_iterator(_Base_ptr x): _curr(x) {}
 
-		_Rb_tree_const_iterator(const iterator &__it)
-			: _curr(__it._curr) {}
-
-		iterator _M_const_cast()
-		{
-			return iterator(const_cast<typename iterator::_Base_ptr>(_curr));
-		}
+		_Rb_tree_const_iterator(const iterator &src):  _curr(src._curr) {}
 
 		reference operator*() const
 		{
-			return *static_cast<_Link_type>(&(_curr->_data));
+			return *(&(_curr->_data));
 		}
 
 		pointer operator->() const
@@ -175,9 +167,9 @@ namespace ft
 
 		_Self operator++(int)
 		{
-			_Self __tmp = *this;
+			_Self tmp = *this;
 			_curr = _Rb_tree_increment(const_cast<class Node<T> * >(_curr));
-			return __tmp;
+			return tmp;
 		}
 
 		_Self & operator--()
@@ -188,19 +180,19 @@ namespace ft
 
 		_Self operator--(int)
 		{
-			_Self __tmp = *this;
+			_Self tmp = *this;
 			_curr = _Rb_tree_decrement(const_cast<class Node<T> * >(_curr));
-			return __tmp;
+			return tmp;
 		}
 
-		friend bool operator==(const _Self &__x, const _Self &__y)
+		friend bool operator==(const _Self &x, const _Self &y)
 		{
-			return __x._curr == __y._curr;
+			return x._curr == y._curr;
 		}
 
-		friend bool operator!=(const _Self &__x, const _Self &__y)
+		friend bool operator!=(const _Self &x, const _Self &y)
 		{
-			return __x._curr != __y._curr;
+			return x._curr != y._curr;
 		}
 
 		_Base_ptr _curr;

@@ -1,11 +1,11 @@
 
-
+#include "../utils/debug.hpp"
 #include "Map.hpp"
 #include "ft_tree_vis.cpp"
 #include <map>
 #include "../includes.hpp"
 #include <memory>
-#include "../utils/debug.hpp"
+
 
 #define start head("Test : " << __func__ << " "); 	srand (time(NULL));
 #define finish head("End of test : " << __func__ << " ");
@@ -22,7 +22,7 @@ using namespace std;
 */
 
 template <typename T, typename U>
-void example(std::map<T, U> &r_map)
+void example(std::map<T, U>& r_map)
 {
 	std::cout << BOLD("-> example with real map only : ") << std::endl;
 	std::cout << FG2("Real :") << std::endl;
@@ -33,7 +33,7 @@ void example(std::map<T, U> &r_map)
 }
 
 template <typename T, typename U>
-void print(ft::map<T, U> &r_map)
+void print(ft::map<T, U>& r_map)
 {
 	std::cout << BOLD("-> Mine only : ") << std::endl;
 	std::cout << FG1("Mine :") << std::endl;
@@ -44,7 +44,7 @@ void print(ft::map<T, U> &r_map)
 }
 
 template <typename T, typename U, typename V, typename W>
-void display(ft::map<T, U> &my_map, std::map<V, W> &r_map)
+void display(ft::map<T, U>& my_map, std::map<V, W>& r_map)
 {
 	std::cout << BOLD("-> output : ") << std::endl;
 	std::cout << FG1("Mine :") << std::endl;
@@ -74,7 +74,7 @@ void	reverse_iterators()
 	int a = rand() % 89 + 1;
 	ft::map<int, std::string> my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"C'est", "Une", "Phrase", "A", "L'envers", "Pour Tester","Les reverse" };
+	std::string word_array[] = { "C'est", "Une", "Phrase", "A", "L'envers", "Pour Tester","Les reverse" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map.insert(ft::make_pair(a, word_array[i]));
@@ -93,7 +93,7 @@ void	reverse_iterators()
 	}
 	out("");
 	std::cout << FG2("Real :") << std::endl;
-	while ( std_rev_it  != real_map.rend())
+	while (std_rev_it != real_map.rend())
 	{
 		std::cout << *std_rev_it << " ";
 		std_rev_it++;
@@ -107,7 +107,7 @@ void 	iterators_test()
 	int a = rand() % 89 + 1;
 	ft::map<int, std::string> my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"Maitre Gims", "Orelsan", "Jimmy Hendrix", "Stromae", "Mozart", "Beethoven"};
+	std::string word_array[] = { "Maitre Gims", "Orelsan", "Jimmy Hendrix", "Stromae", "Mozart", "Beethoven" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map.insert(ft::make_pair(a, word_array[i]));
@@ -141,8 +141,8 @@ void basic_tests_insert_erase()
 	start;
 	ft::map<int, std::string>	my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"Ce matin", "a Marseille", "nous avons vu", "des poissons", "dans le ciel", "car nous aimons", "la bouillabaisse"};
-	int int_array[] = {1, 2, 3, 4, 58, 65, 75, 65, 23};
+	std::string word_array[] = { "Ce matin", "a Marseille", "nous avons vu", "des poissons", "dans le ciel", "car nous aimons", "la bouillabaisse" };
+	int int_array[] = { 1, 2, 3, 4, 58, 65, 75, 65, 23 };
 	for (int i = 0; i < 7; i++)
 	{
 		my_map.insert(ft::make_pair(int_array[i], word_array[i]));
@@ -171,7 +171,7 @@ void fifty_insert_test()
 	start;
 	ft::map<int, std::string> my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"fifty", "value", "are", "going", "to" };
+	std::string word_array[] = { "fifty", "value", "are", "going", "to" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map.insert(ft::make_pair(i + 4, word_array[i]));
@@ -190,20 +190,20 @@ void		delete_same_value_test()
 	start;
 	ft::map<int, std::string> my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"Delete", "Same", "Value", "Test"};
+	std::string word_array[] = { "Delete", "Same", "Value", "Test" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map.insert(ft::make_pair(i + 4, word_array[i]));
 		real_map.insert(std::make_pair(i + 4, word_array[i]));
 	}
-	my_map.debugging();
-	wait_see;
+	//my_map.debugging();
+	//wait_see;
 	my_map.erase(4);
 	real_map.erase(4);
-	wait_see;
+	//wait_see;
 	my_map.erase(4);
 	real_map.erase(4);
-	wait_see;
+	//wait_see;
 	finish;
 }
 
@@ -212,7 +212,7 @@ void		insert_same_value_test()
 	start;
 	ft::map<int, std::string> my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"Insert", "Same", "Value", "Test"};
+	std::string word_array[] = { "Insert", "Same", "Value", "Test" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map.insert(ft::make_pair(i + 4, word_array[i]));
@@ -240,22 +240,22 @@ void		tricky_pairs_test()
 	ft::pair<ft::pair<int, int>, std::string> mypairs[10];
 	std::pair<std::pair<int, int>, std::string> realpairs[10];
 
-	std::string word_array[] = {"Very", "Tricky", "Stuff", "Here"};
+	std::string word_array[] = { "Very", "Tricky", "Stuff", "Here" };
 	for (int i = 0; i < 4; i++)
 	{
-		my_map.insert(ft::make_pair(ft::make_pair(i, i+10), word_array[i]));
-		real_map.insert(std::make_pair(std::make_pair(i, i+10), word_array[i]));
+		my_map.insert(ft::make_pair(ft::make_pair(i, i + 10), word_array[i]));
+		real_map.insert(std::make_pair(std::make_pair(i, i + 10), word_array[i]));
 	}
 	std::cout << BOLD("-> output : ") << std::endl;
 	std::cout << FG1("Mine :") << std::endl;
 	for (int i = 0; i < 4; i++)
-		std::cout << my_map[ft::make_pair(i, i+10)] << " ";
+		std::cout << my_map[ft::make_pair(i, i + 10)] << " ";
 	out("");
 	std::cout << FG2("Real :") << std::endl;
 	for (int i = 0; i < 4; i++)
-		std::cout << real_map[std::make_pair(i, i+10)] << " ";
+		std::cout << real_map[std::make_pair(i, i + 10)] << " ";
 	out("")
-	finish;
+		finish;
 }
 
 void access_operator_test()
@@ -264,7 +264,7 @@ void access_operator_test()
 	int a = rand() % 100 + 1;
 	ft::map<int, std::string>	my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"Can", "You", "Access", "Me ?"};
+	std::string word_array[] = { "Can", "You", "Access", "Me ?" };
 	for (int i = 0; i < 4; i++)
 	{
 		a = rand() % 100 + 1;
@@ -275,11 +275,11 @@ void access_operator_test()
 	std::cout << FG1("Mine :") << std::endl;
 	std::cout << my_map[a] << " ";
 	out("");
-	std::cout << FG2("Real : " ) << std::endl;
+	std::cout << FG2("Real : ") << std::endl;
 	std::cout << real_map[a] << " ";
 	out("")
-	test("Impossible index : ")
-	std::cout << BOLD("-> output : ") << std::endl;
+		test("Impossible index : ")
+		std::cout << BOLD("-> output : ") << std::endl;
 	std::cout << FG1("Mine :") << std::endl;
 	std::cout << my_map[709] << " ";
 	out("");
@@ -288,13 +288,13 @@ void access_operator_test()
 	out("")
 }
 
-void count_test()
+void count_test2()
 {
 	start;
 	ft::map<int, std::string>	my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"Ce matin", "a Marseille", "nous avons vu", "des poissons", "dans le ciel", "car nous aimons", "la bouillabaisse"};
-	int int_array[] = {1, 2, 3, 4, 58, 62, 75, 65, 23};
+	std::string word_array[] = { "Ce matin", "a Marseille", "nous avons vu", "des poissons", "dans le ciel", "car nous aimons", "la bouillabaisse" };
+	int int_array[] = { 1, 2, 3, 4, 58, 62, 75, 65, 23 };
 	for (int i = 0; i < 7; i++)
 	{
 		my_map.insert(ft::make_pair(int_array[i], word_array[i]));
@@ -312,10 +312,10 @@ void count_test()
 	std::map<int, std::string>::iterator std_reg_it = real_map.begin();
 
 	std_reg_it->second = "fuck"; // compiler
-//	std_Map1->second = "fuck"; // ne va pas cmpiler
+	//std_Map1->second = "fuck"; // ne va pas cmpiler
 
 	my_reg_it->second = "fuck"; // compiler car non-const
-//	my_map1->second = "fuck"; // ne va pas cmpiler
+	//my_map1->second = "fuck"; // ne va pas cmpiler
 	out(*my_map1);
 	*my_map1++;
 	out(*my_map1);
@@ -340,7 +340,8 @@ void erase_iterator_test()
 	start;
 	ft::map<int, std::string> my_map;
 	std::map<int, std::string>	real_map;
-	std::string word_array[] = {"Erase", "Me", "With", "iterators"};
+	out("APRES CONSTRUCTION")
+		std::string word_array[] = { "Erase", "Me", "With", "iterators" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map.insert(ft::make_pair(i + 9, word_array[i]));
@@ -361,14 +362,14 @@ void insert_iterator_test()
 	ft::map<int, std::string> my_map2;
 	std::map<int, std::string>	real_map2;
 
-	std::string word_array[] = {"Erase", "Me", "With", "iterators"};
+	std::string word_array[] = { "Erase", "Me", "With", "iterators" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map.insert(ft::make_pair(i + 9, word_array[i]));
 		real_map.insert(std::make_pair(i + 9, word_array[i]));
 	}
 
-	std::string word_array2[] = {"second", "try", "of ", "insert"};
+	std::string word_array2[] = { "second", "try", "of ", "insert" };
 	for (int i = 0; i < sizeof(word_array) / sizeof(word_array[0]); i++)
 	{
 		my_map2.insert(ft::make_pair(i + 49, word_array2[i]));
@@ -382,28 +383,68 @@ void insert_iterator_test()
 
 
 	//my_map.erase(my_map.begin(), --my_map.end());
-	out ("Lower bound")
-	out(*my_map.lower_bound(54));
-//	out(*real_map.lower_bound(54)); // le real segfault
+	out("Lower bound")
+		out(*my_map.lower_bound(54));
+	//	out(*real_map.lower_bound(54)); // le real segfault
 
 	wait_see;
 }
 
+
+void leaks_erase()
+{
+	start;
+	ft::map<int, std::string> my_map;
+	std::map<int, std::string>	real_map;
+
+	my_map.insert(ft::make_pair(1, "a supp"));
+	my_map.insert(ft::make_pair(2, "a supp2"));
+	//my_map.debugging();
+	getwchar();
+	my_map.erase(2);
+	//my_map.debugging();
+	wait;
+}
+
+void count_test()
+{
+	std::map<char, int> mymap;
+	char c;
+
+	mymap['a'] = 101;
+	std::cout << "assigned 'a'\n";
+	mymap['c'] = 202;
+	std::cout << "assiged 'c'\n";
+	mymap['f'] = 303;
+	std::cout << "assigned 'f'\n";
+
+	cout << "end of assignations\n";
+	for (c = 'a'; c < 'h'; c++)
+	{
+		std::cout << c;
+		if (mymap.count(c) > 0)
+			std::cout << " is an element of mymap.\n";
+		else
+			std::cout << " is not an element of mymap.\n";
+	}
+}
 int main()
 {
 
 	void (*functptr[])() = {
-		// basic_tests_insert_erase,
+		//leaks_erase,
+		//basic_tests_insert_erase,
+		count_test,
 		// fifty_insert_test,
 		// iterators_test,
 		// reverse_iterators,
-		// delete_same_value_test,
-		// insert_same_value_test,
+		delete_same_value_test,
+		//insert_same_value_test,
 		// tricky_pairs_test,
 		// access_operator_test,
-		erase_iterator_test,
-		insert_iterator_test,
-		// count_test,
+	//	erase_iterator_test,
+		//insert_iterator_test,
+		//count_test2,
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
