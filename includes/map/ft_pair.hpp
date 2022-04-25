@@ -47,11 +47,21 @@ namespace ft
 		*/
 		pair<T1, T2>& operator=(const pair<T1, T2>& x)
 		{
-			const_cast<T1&>(first) = x.first;
+
+			//ft::pair<T1, T2> tmp(this);
+			//tmp.first = 0;
+			//	first = tmp.first;
+			// this->swap(x);
+			//first = x.first;
 			second = x.second; // ca c ok mais pas le first ???
 			return *this;
 		}
 
+		void swap(const pair<T1, T2>& x) throw ()
+		{
+			std::swap(first, x.first);
+			std::swap(second, x.second);
+		}
 	};
 
 
@@ -134,9 +144,9 @@ namespace ft
 	template< class T1, class T2 >
 	ft::pair<T1, T2> make_pair(T1 t, T2 u)
 	{
-		ft::pair<T1, T2> new_pair;
-		new_pair.first = t;
-		new_pair.second = u;
+		ft::pair<T1, T2> new_pair(t, u); // pouyr puvoir faire des const
+	//	new_pair.first = t;
+		//new_pair.second = u;
 		return (new_pair);
 	}
 
@@ -144,7 +154,15 @@ namespace ft
 
 
 
-
+template <typename T, typename U>
+std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
+{
+	if (&pair != NULL)
+	{
+		os << "[" << pair.first << "]=\"" << pair.second << "\"";
+	}
+	return os;
+}
 
 /*
 **  OVERLOAD <<
@@ -160,15 +178,7 @@ std::ostream& operator<<(std::ostream& os, ft::pair<T, U>& pair)
 	return os;
 }
 
-template <typename T, typename U>
-std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
-{
-	if (&pair != NULL)
-	{
-		os << "[" << pair.first << "]=\"" << pair.second << "\"";
-	}
-	return os;
-}
+
 
 // A ENLEVER TEST POUR AFFICHER STD PAREIL
 template <typename T, typename U>

@@ -5,8 +5,8 @@
 
 namespace ft
 {
-	template<typename T>
-	ft::Node<T>* _Rb_tree_increment(ft::Node<T>* x) throw()
+	template <typename T>
+	ft::Node<T> *_Rb_tree_increment(ft::Node<T> *x) throw()
 	{
 		if (x->rightChild != x->nil_node)
 		{
@@ -16,9 +16,9 @@ namespace ft
 		}
 		else
 		{
-			ft::Node<T>* y = x->parent;
-			if (y == x->nil_node) //mon ajout a 18h
-				return y->nil_node; //en gros on a un seul elem je crois on est sur le root
+			ft::Node<T> *y = x->parent;
+			if (y == x->nil_node)	// mon ajout a 18h
+				return y->nil_node; // en gros on a un seul elem je crois on est sur le root
 			while (x == y->rightChild)
 			{
 				x = y;
@@ -30,21 +30,21 @@ namespace ft
 		return x;
 	}
 
-	template<typename T>
-	ft::Node<T>* _Rb_tree_decrement(ft::Node<T>* x) throw ()
+	template <typename T>
+	ft::Node<T> *_Rb_tree_decrement(ft::Node<T> *x) throw()
 	{
 		if (x->color == Node<T>::RED && x->parent->parent == x)
 			x = x->rightChild;
 		else if (x->leftChild != x->nil_node)
 		{
-			ft::Node<T>* y = x->leftChild;
+			ft::Node<T> *y = x->leftChild;
 			while (y->rightChild != x->nil_node)
 				y = y->rightChild;
 			x = y;
 		}
 		else
 		{
-			ft::Node<T>* y = x->parent;
+			ft::Node<T> *y = x->parent;
 			while (x == y->leftChild)
 			{
 				x = y;
@@ -55,22 +55,24 @@ namespace ft
 		return x;
 	}
 
-	template<typename T>
+	template <typename T>
 	struct _Rb_tree_iterator : public ft::iterator<ft::bidirectional_iterator_tag, T>
 	{
-		typedef T  value_type; // la paire
-		typedef T& reference; // reference sur paire
-		typedef T* pointer; // ptr sur paire
+		typedef T value_type; // la paire
+		typedef T &reference; // reference sur paire
+		typedef T *pointer;	  // ptr sur paire
 
 		typedef bidirectional_iterator_tag iterator_category;
-		typedef ptrdiff_t			 	   difference_type;
+		typedef ptrdiff_t					difference_type;
 
-		typedef _Rb_tree_iterator<T>		_Self;
-		typedef Node<T>* node;
-		//typedef _Rb_tree_node<T>* _Link_type;
+		typedef _Rb_tree_iterator<T> _Self;
+		typedef Node<value_type> *node;
+		// typedef _Rb_tree_node<T>* _Link_type;
 
-		_Rb_tree_iterator() : _curr(0) { }
-		_Rb_tree_iterator(node x) : _curr(x) { }
+		_Rb_tree_iterator() : _curr(0) {}
+		_Rb_tree_iterator(node x) : _curr(x) {}
+		_Rb_tree_iterator(const _Rb_tree_iterator &rhs) : _curr(rhs._curr){};
+
 		reference operator*() const
 		{
 			return (_curr->_data);
@@ -79,7 +81,7 @@ namespace ft
 		{
 			return &(operator*());
 		}
-		_Self& operator++()
+		_Self &operator++()
 		{
 			_curr = _Rb_tree_increment(_curr);
 			return *this;
@@ -92,9 +94,9 @@ namespace ft
 			return __tmp;
 		}
 
-		_Self& operator--()
+		_Self &operator--()
 		{
-			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree;
+			Tree<T, T, std::allocator<T> > *tree = (Tree<T, T, std::allocator<T> > *)_curr->tree;
 			if (_curr == _curr->nil_node)
 				_curr = tree->getMaxSuccessor(tree->getRootPtr());
 			else
@@ -105,7 +107,7 @@ namespace ft
 		_Self operator--(int)
 		{
 			_Self __tmp = *this;
-			Tree <T, T, std::allocator<T> > *tree = (Tree <T, T, std::allocator<T> > *)_curr->tree;
+			Tree<T, T, std::allocator<T> > *tree = (Tree<T, T, std::allocator<T> > *)_curr->tree;
 			if (_curr == _curr->nil_node)
 				_curr = tree->getMaxSuccessor(tree->getRootPtr());
 			else
@@ -113,16 +115,95 @@ namespace ft
 			return __tmp;
 		}
 
-		friend bool operator==(const _Self& x, const _Self& y)
+		friend bool operator==(const _Self &x, const _Self &y)
 		{
 			return x._curr == y._curr;
 		}
 
-		friend bool operator!=(const _Self& x, const _Self& y)
+		friend bool operator!=(const _Self &x, const _Self &y)
 		{
 			return x._curr != y._curr;
 		}
-		node  _curr; // les it sont des ptr sur noeuds
+		node _curr; // les it sont des ptr sur noeuds
+	};
+
+	template <typename T>
+	struct _Rb_tree_const_iterator
+	{
+		typedef T value_type;
+		typedef const T &reference;
+		typedef const T *pointer;
+
+		typedef _Rb_tree_iterator<T> iterator;
+
+		typedef bidirectional_iterator_tag iterator_category;
+		typedef ptrdiff_t difference_type;
+
+		typedef _Rb_tree_const_iterator<T> _Self;
+		typedef const Node<T> *_Base_ptr;
+		typedef const T *_Link_type;
+
+		_Rb_tree_const_iterator()
+			: _curr() {}
+
+		explicit _Rb_tree_const_iterator(_Base_ptr __x)
+			: _curr(__x) {}
+
+		_Rb_tree_const_iterator(const iterator &__it)
+			: _curr(__it._curr) {}
+
+		iterator _M_const_cast()
+		{
+			return iterator(const_cast<typename iterator::_Base_ptr>(_curr));
+		}
+
+		reference operator*() const
+		{
+			return *static_cast<_Link_type>(&(_curr->_data));
+		}
+
+		pointer operator->() const
+		{
+			return &(operator*());
+		}
+
+		_Self & operator++()
+		{
+			_curr = _Rb_tree_increment(const_cast<class Node<T> *>(_curr));
+			return *this;
+		}
+
+		_Self operator++(int)
+		{
+			_Self __tmp = *this;
+			_curr = _Rb_tree_increment(const_cast<class Node<T> * >(_curr));
+			return __tmp;
+		}
+
+		_Self & operator--()
+		{
+			_curr = _Rb_tree_decrement(const_cast<class Node<T> * >(_curr));
+			return *this;
+		}
+
+		_Self operator--(int)
+		{
+			_Self __tmp = *this;
+			_curr = _Rb_tree_decrement(const_cast<class Node<T> * >(_curr));
+			return __tmp;
+		}
+
+		friend bool operator==(const _Self &__x, const _Self &__y)
+		{
+			return __x._curr == __y._curr;
+		}
+
+		friend bool operator!=(const _Self &__x, const _Self &__y)
+		{
+			return __x._curr != __y._curr;
+		}
+
+		_Base_ptr _curr;
 	};
 
 }

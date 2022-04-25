@@ -21,11 +21,16 @@ namespace ft
 
 		template<typename it>
 		friend struct _Rb_tree_iterator;
+		template<typename it>
+		friend struct _Rb_tree_const_iterator;
 
 		template<typename type>
 		friend ft::Node<type>* _Rb_tree_increment(ft::Node<type>* __x) throw();
 		template<typename type>
 		friend ft::Node<type>* _Rb_tree_decrement(ft::Node<type>* __x) throw();
+
+		//typedef _Rb_tree_node_base* _Base_ptr;
+    	typedef const Node* _Const_Base_ptr;
 
 
 	public:
@@ -37,6 +42,32 @@ namespace ft
 		{
 			color = RED;
 		}
+		Node(const Node<T> &x)
+		{
+			*this = x;
+		}
+
+		/*
+		**	Operator = overload
+		*/
+		Node<T> &operator=(const Node<T> &x)
+		{
+			//if (*this != x)
+			//{
+			//if (x == NULL)
+
+			out("YIHA" << x._data)
+			this->color = x.color;
+			this->parent = x.parent;
+			this->leftChild = x.leftChild;
+			this->rightChild = x.rightChild;
+			this->nil_node = x.nil_node;
+			this->tree = x.tree;
+			// this->_data = x._data; //  ca va pas marcher ca si key est const...
+			//}
+			return (*this);
+		}
+
 		~Node(){};
 
 		Node *getLeftChild()
@@ -72,6 +103,13 @@ namespace ft
 		 */
 		bool is_left_child()
 		{
+			if (this == nil_node)
+			{
+				out("DEBUG LEFT CHILD");
+				if (parent->rightChild != nil_node)
+					return true; // TEST CAR PB DANS DELETE ; pb comnme nil a pas de parent, check plus loin
+				return false;
+			}
 			if (parent == nil_node) // c root
 				return false;
 			if (parent->leftChild == nil_node)
@@ -95,6 +133,10 @@ namespace ft
 		{
 			return (_data);
 		}
+		T &getData() const
+		{
+			return (_data);
+		}
 		void setData(T data)
 		{
 			_data = data;
@@ -102,8 +144,8 @@ namespace ft
 
 		void setLeftChild(Node *node)
 		{
-			if (node != nil_node)
-				out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
+		//	if (node != nil_node)
+		//		out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
 			leftChild = node;
 		}
 		void setRightChild(Node *node)
@@ -139,7 +181,7 @@ namespace ft
 }
 
 template <class T>
-std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
+std::ostream &operator<<(std::ostream &os,  ft::Node<T> &node)
 {
 	if (&node != NULL)
 	{

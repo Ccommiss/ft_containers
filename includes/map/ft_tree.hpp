@@ -32,7 +32,7 @@ namespace ft
 
 		// pour debug
 		int blacks;
-		T array[100][100];
+		T ***array; //[100][100];
 		int height;
 
 	public:
@@ -43,7 +43,6 @@ namespace ft
 			nil_node->tree = this;
 			root = nil_node;
 			nil_node->nil_node = nil_node;
-			nil_node->_data = T();
 			blacks = 0;
 			_size = 0;
 		}
@@ -84,7 +83,7 @@ namespace ft
 		/**	FIND 										  */
 		/**************************************************/
 
-		Node<T> *find(T key)
+		Node<T> *find(const T key)
 		{
 			Node<T> *node = root;
 			while (node != nil_node)
@@ -383,8 +382,8 @@ namespace ft
 		void del(T data)
 		{
 			out("ROOT ICI =" << root->_data)
-				del(data, root);
-			_size -= 1; // a modifier si le del a echoue par exemple
+			if (del(data, root) == true)
+				_size -= 1;
 		}
 
 		Node<T> *getMaxSuccessor(Node<T> *node)
@@ -398,7 +397,7 @@ namespace ft
 		{
 			if (node == nil_node)
 				return nil_node; // ajout 18h
-			if (node->leftChild != nil_node)
+			if (node->leftChild != nil_node)//  && node->leftChild != node) // TEEST VENDREDI MATIN
 				return getMinSuccessor(node->leftChild);
 			return node;
 		}
@@ -437,6 +436,7 @@ namespace ft
 
 		void handleBlackSiblingWithAtLeastOneRedChild(Node<T> *node, Node<T> *sibling)
 		{
+			out("Func is :" << __func__ << " on node " << *node << "and sib " << *sibling);
 			bool nodeIsLeftChild = node->is_left_child();
 
 			// Case 5: Black sibling with at least one red child + "outer nephew" is black
@@ -464,11 +464,13 @@ namespace ft
 			node->parent->color = Node<T>::BLACK;
 			if (nodeIsLeftChild)
 			{
+				out("Case 6")
 				sibling->rightChild->color = Node<T>::BLACK;
 				rotateLeft(node->parent);
 			}
 			else
 			{
+				out("Case 6 on node = right child")
 				sibling->leftChild->color = Node<T>::BLACK;
 				rotateRight(node->parent);
 			}
@@ -541,8 +543,9 @@ namespace ft
 			out("Func is :" << __func__ << " on node " << *node);
 			out(node->_data)
 				// Node<T> has ONLY a left child --> replace by its left child
-				if (node->leftChild != nil_node)
+			if (node->leftChild != nil_node)
 			{
+				out("BIZARRE " << *node << *node->leftChild);
 				updateChildrenOfParentNode(node, node->leftChild);
 				out("UPDATED NODE *NODE" << *node << "AND PARENT " << *(node->parent))
 					node->leftChild->setParent(node->parent);
@@ -572,14 +575,16 @@ namespace ft
 			}
 		}
 
-		void del(T data, Node<T> *root)
+		bool del(T data, Node<T> *root)
 		{
 			out("Func is :" << __func__ << " on node " << *root);
 
+			//see_tree();
+			display(root);
 			Node<T> *node = find(data);
 			out("LA " << node->_data);
-			if (node == nil_node || node == nil_node) // PAS SURE POUR LA DEUXIEME !!
-				return;
+			if (node == nil_node)
+				return false; // aucun noeud delete
 			// At this point, "node" is the node to be deleted
 			// In this variable, we'll store the node at which we're going to start to fix the R-B
 			// properties after deleting a node->
@@ -597,8 +602,35 @@ namespace ft
 			{
 				// Find minimum node of right subtree ("inorder successor" of current node)
 				Node<T> *inOrderSuccessor = getMaxSuccessor(node->leftChild);
+				out ("ICI DEBUT " << *inOrderSuccessor->leftChild)
+
 				// Copy inorder successor's data to current node (keep its color!)
-				node->setData(inOrderSuccessor->_data);
+				node->setData(inOrderSuccessor->_data); // GROS PROBLEME CAR ON PEUT PAS SET DATA
+				out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
+				out("NODE LC PARENT " << *node->leftChild->parent);
+				// node->_data = inOrderSuccessor->_data;
+				//  out("ORDER = " << *inOrderSuccessor);
+				//  getwchar();
+				Node<T> *tmp = new Node<T>(inOrderSuccessor->_data, nil_node); // on va se servir de ca pour copier la data
+				tmp->leftChild = node->leftChild;
+				tmp->rightChild = node->rightChild;
+				tmp->leftChild->parent = tmp; // CA SF SI JE DECOMMENTE MAIS PK
+				tmp->rightChild->parent = tmp;
+				tmp->nil_node = node->nil_node;
+				tmp->parent = node->parent;
+				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
+				node->is_left_child() ? node->parent->leftChild = tmp : node->parent->rightChild = tmp;
+				tmp->color = node->color;
+				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
+				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
+				//out("TMP " << *tmp << " has parent " << *tmp->parent << "RC : " << *tmp->rightChild << " LC : " << *tmp->leftChild);
+				node = NULL;
+				node = tmp;
+				// out("TMP = " << *tmp);
+				//out("NODE = " << *node);
+				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
+			//	getwchar();
+
 				// Delete inorder successor just as we would delete a node with 0 or 1 child
 				movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
 				deletedNodeColor = inOrderSuccessor->getColor();
@@ -612,6 +644,7 @@ namespace ft
 				// 	updateChildrenOfParentNode(movedUpNode, );
 				// }
 			}
+			return true;
 		}
 
 		void display_children(Node<T> *_curr);
