@@ -5,7 +5,8 @@
 #include "ft_tree.hpp"
 #include "ft_pair.hpp"
 #include "rb_tree_iterators.hpp"
-#include "../utils/reverse_iterators.hpp"
+//#include "../utils/reverse_iterators.hpp"
+#include "reverse_iterators.hpp"
 // stdless : Function object for performing comparisons. Unless specialized, invokes operator< on type T.
 namespace ft
 {
@@ -81,10 +82,13 @@ namespace ft
 
 		map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x)
 		{
-			if (*this != x)
-			{
-				_curr = x._curr;
-			}
+			///if (*this != x) / a implementer pour pair pour que ca cmpile 
+			//{
+				//_curr = *(_tree_alloc.allocate(1));
+				//_tree_alloc.construct(&_curr, x._curr);
+				_curr = x._curr; // faire copie profonde 
+
+			//}
 			return (*this);
 		}
 
@@ -265,6 +269,7 @@ namespace ft
 
 	private:
 		Allocator alloc;
+		_alloctree _tree_alloc; 
 		/*
 		**	@brief comparison function object to use for all comparisons of keys
 		*/

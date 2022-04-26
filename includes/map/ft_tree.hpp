@@ -5,8 +5,8 @@
 #include <cstdarg>
 #include "ft_pair.hpp"
 #include "ft_node.hpp"
-#include "../utils/debug.hpp"
-
+//#include "../utils/debug.hpp"
+#include "debug.hpp"
 
 namespace ft
 {
@@ -67,18 +67,27 @@ namespace ft
 
 		void delete_nodes(Node<T> *node)
 		{
-			std::cout << "DELETING " << *node << " ";
 			if (node != nil_node)
 			{
 				Node<T> *tmp_right = node->rightChild;
 				Node<T> *tmp_left = node->leftChild;
 				delete node;
-				std::cout << "DELETING " << *tmp_right << " AND " << *tmp_left << "\n";
 				delete_nodes(tmp_left);
 				delete_nodes(tmp_right);
 			}
 		}
 
+		Tree<T, Compare, Allocator>& operator=(const Tree<T, Compare, Allocator> &x)
+		{
+
+			Node<T> *copy_root(x.root);
+			Node<T> *copy_nil(x.nil_node);
+			root = copy_root;
+			nil_node = copy_nil;
+			_size = x._size;
+			return (*this);
+
+		}
 		~Tree()
 		{
 			out("tree destructor " <<_size << "elems")
@@ -557,24 +566,32 @@ namespace ft
 		Node<T> *deleteNodeWithZeroOrOneChild(Node<T> *node)
 		{
 			out("Func is :" << __func__ << " on node " << *node);
+			Node <T> *tmp;
 			out ("Node " << node << " VS ROOT " << root << " " << *root) // PK ROOT PAS BONNE ADDRE S??????? 
 			out ("Node parent " << *node->parent << " " << node->parent) // addres sort d'ou ??????
 
 			// Node<T> has ONLY a left child --> replace by its left child
 			if (node->leftChild != nil_node)
 			{
+				tmp = node->leftChild;
 				out("BIZARRE " << *node << *node->leftChild);
 				updateChildrenOfParentNode(node, node->leftChild);
 				out("UPDATED NODE *NODE" << *node << "AND PARENT " << *(node->parent))
 					node->leftChild->setParent(node->parent);
-				return node->leftChild; // moved-up node
+				delete node;
+				//return node->leftChild; // moved-up node
+				return tmp; 
 			}
 			// Node<T> has ONLY a right child --> replace by its right child
 			else if (node->rightChild != nil_node)
 			{
+				tmp = node->rightChild;
 				updateChildrenOfParentNode(node, node->rightChild);
 				node->rightChild->setParent(node->parent);
-				return node->rightChild; // moved-up node
+				delete node;
+				//return node->rightChild; // moved-up node
+				return tmp; // moved-up node
+
 			}
 			// Node<T> has no children -->
 			// * node is red --> just remove it
@@ -638,6 +655,7 @@ namespace ft
 			// Node<T> has zero or one child
 			if (node->leftChild == nil_node || node->rightChild == nil_node)
 			{
+				Node <T> * tmp = node;
 				deletedNodeColor = node->color;
 
 				movedUpNode = deleteNodeWithZeroOrOneChild(node); //soccupe de free dans update
@@ -660,7 +678,7 @@ namespace ft
 
 				
 				Node<T> copy(inOrderSuccessor->_data, nil_node);
-				copy._data.second += 1;
+				//copy._data.second += 1;
 				Node<T> *tmp = alloc.allocate(1);
 				alloc.construct(tmp, copy);
 			

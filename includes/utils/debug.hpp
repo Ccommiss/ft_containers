@@ -34,7 +34,8 @@
 #define HEADER(x)	"\033[1;107;35m" x RST
 
 # undef out // (x)
-#define out(x)      std::cout << x << std::endl;
+//#define out(x)      std::cout << x << std::endl;
+#define out(x)
 #define color(x)	"\033[1;96m" x RST
 #define head(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
 #define wait getwchar();

@@ -1,6 +1,7 @@
 #ifndef NODE_HPP
 #define NODE_HPP
-#include "../utils/debug.hpp"
+//#include "../utils/debug.hpp"
+#include "debug.hpp"
 #include "ft_tree.hpp"
 
 
@@ -63,7 +64,7 @@ namespace ft
 			this->parent = x.parent;
 			this->leftChild = x.leftChild;
 			this->rightChild = x.rightChild;
-			this->nil_node = x.nil_node;
+			this->nil_node = new Node<T>(x.nil_node->_data);
 			this->tree = x.tree;
 			//this->_data = x._data; //  ca va pas marcher ca si key est const...
 			//}

@@ -567,4 +567,7 @@ int main()
 		getwchar();
 
 	}
+
+	ft::map<int, int> lol, boite;
+	lol = boite; 
 }
