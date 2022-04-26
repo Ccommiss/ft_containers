@@ -4,6 +4,7 @@
 #define VECTOR_HPP
 
 #include <algorithm>
+#include "../utils/reverse_iterators.hpp"
 
 namespace ft
 {

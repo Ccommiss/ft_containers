@@ -1,8 +1,7 @@
 
-#include <iostream>
-#include <iomanip>
-#include <cstdarg>
 
+#include <cstdarg>
+//#   include  <iomanip>
 #include "ft_tree.hpp"
 
 /* ---------------------------------------------------------------------------- */
@@ -101,6 +100,7 @@ void ft_null_ptr(T *p) {
 
 template <>
 void ft_null_ptr(ft::pair<const int, std::string> *p) { ft::pair<const int, std::string> tmp(ft::make_pair<const int, std::string>(-404, "nullnull")); p = &tmp; }
+
 
 template <>
 void ft_null_ptr(ft::pair<const char, int> *p) { ft::pair<const char, int> tmp(ft::make_pair('z', 78785154)); p = &tmp;  }

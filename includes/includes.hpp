@@ -48,15 +48,18 @@ void map_basics();
 //void	print(std::string func);
 #	include <vector>
 #	include <memory>
-#   include "enable_if.hpp"
-#	include "iterator.hpp"
-# 	include	"randomaccessiterator.hpp"
-# 	include "iterator_traits.hpp"
-#	include "relationnal_operators_tools.hpp"
-# include "ft_pair.hpp"
-#	include "Map.hpp"
+#   include <iomanip>
+#   include "utils/debug.hpp"
+#   include "utils/enable_if.hpp"
+#	include "utils/iterator.hpp"
+# 	include	"utils/randomaccessiterator.hpp"
+# 	include "utils/iterator_traits.hpp"
+#	include "utils/relationnal_operators_tools.hpp"
+#   include "map/ft_pair.hpp"
+#	include "map/Map.hpp"
 
-#	include "Vector.hpp"
+
+#	include "vector/Vector.hpp"
 
 
 

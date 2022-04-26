@@ -2,10 +2,11 @@
 // class Node;
 #ifndef TREE_HPP
 #define TREE_HPP
-#include <iostream>
-#include <iomanip>
 #include <cstdarg>
+#include "ft_pair.hpp"
 #include "ft_node.hpp"
+#include "../utils/debug.hpp"
+
 
 namespace ft
 {
@@ -66,11 +67,13 @@ namespace ft
 
 		void delete_nodes(Node<T> *node)
 		{
+			std::cout << "DELETING " << *node << " ";
 			if (node != nil_node)
 			{
 				Node<T> *tmp_right = node->rightChild;
 				Node<T> *tmp_left = node->leftChild;
 				delete node;
+				std::cout << "DELETING " << *tmp_right << " AND " << *tmp_left << "\n";
 				delete_nodes(tmp_left);
 				delete_nodes(tmp_right);
 			}
@@ -78,7 +81,7 @@ namespace ft
 
 		~Tree()
 		{
-			out("tree destructor")
+			out("tree destructor " <<_size << "elems")
 				delete_nodes(root);
 			delete nil_node;
 		}
@@ -218,20 +221,30 @@ namespace ft
 		}
 
 		/*
-		** updateChildrenOfParentNode
+		** updateChildrenOfParentNode replace nde by tempnode
 		**	@brief tempNode now replaces node as the left or right child of node->parent
 		**	@param node the old child node
 		**	@param tempNode the new child of node->parent
 		*/
 		void updateChildrenOfParentNode(Node<T> *node, Node<T> *tempNode)
 		{
-			out("Func is :" << __func__ << " on node " << *node);
-			if (node->parent == nil_node)
+			out("Func is :" << __func__ << " on node " << *node << " add " << node);
+			Node<T>* tmp = node;
+			if (node->parent == nil_node)// && tempNode != nil_node) //deuxieme condition mardi 17h
 				root = tempNode;
 			else if (node->is_left_child())
+			{	
 				node->parent->setLeftChild(tempNode);
+			}
 			else
 				node->parent->setRightChild(tempNode);
+
+			out ("TMP NODE befor free" << *tempNode)
+			if (tempNode == nil_node)
+			{
+				out ("====>deleting " << *tmp)
+				delete tmp;
+			}
 		}
 
 		/*
@@ -379,10 +392,10 @@ namespace ft
 		**
 		****************************************************/
 
-		void del(T data)
+		void erase(T data)
 		{
 			out("ROOT ICI =" << root->_data)
-			if (del(data, root) == true)
+			if (erase(data, root) == true)
 				_size -= 1;
 		}
 
@@ -491,8 +504,11 @@ namespace ft
 		void fixRedBlackPropertiesAfterDelete(Node<T> *node)
 		{
 			out("Func is :" << __func__ << " on node " << *node);
+			out (*node << node << "has LC " << *node->leftChild << "RC " << *node->rightChild)
+			out (*root  << root << "is root")
 			// Case 1: Examined node is root, end of recursion
-			if (node == root) // || node == nil_node)
+			// TEST
+			if (node == root)// || node == nil_node) // pas sure du deuxieme ..... tests lowerbounds
 			{
 				// Uncomment the following line if you want to enforce black roots (rule 2):
 				// node.color = BLACK;
@@ -517,7 +533,7 @@ namespace ft
 				sibling->color = Node<T>::RED;
 				out("ICI 3 + 4 ")
 					// Case 3: Black sibling with two black children + red parent
-					if (node->parent->color == Node<T>::RED)
+				if (node->parent->color == Node<T>::RED)
 				{
 					out("CASE 3   parent is " << *(node->parent));
 					node->parent->color = Node<T>::BLACK;
@@ -526,6 +542,7 @@ namespace ft
 				else
 				{
 					out("CASE 4");
+					out (*root << root << "VS" << node->parent << *node->parent)
 					fixRedBlackPropertiesAfterDelete(node->parent);
 				}
 			}
@@ -540,7 +557,8 @@ namespace ft
 		Node<T> *deleteNodeWithZeroOrOneChild(Node<T> *node)
 		{
 			out("Func is :" << __func__ << " on node " << *node);
-			out(node->_data)
+			out ("Node " << node << " VS ROOT " << root << " " << *root) // PK ROOT PAS BONNE ADDRE S??????? 
+			out ("Node parent " << *node->parent << " " << node->parent) // addres sort d'ou ??????
 
 			// Node<T> has ONLY a left child --> replace by its left child
 			if (node->leftChild != nil_node)
@@ -565,13 +583,15 @@ namespace ft
 			{
 				int color = node->getColor();
 				Node<T> *newChild = color == Node<T>::BLACK ? nil_node : nil_node; // rajout du nil node ca me pareit chelou
+				Node<T> *parent_save = node->parent;
 				updateChildrenOfParentNode(node, newChild);
 
 				// if (newChild != NULL)
 				if (color == Node<T>::BLACK)
 				{
-					newChild->setParent(node->parent); // remplacer par temporary nul node
+					newChild->setParent(parent_save); // remplacer par temporary nul node
 				}
+				out ("New child is " << *newChild << "with parent " << *parent_save);
 				return newChild;
 			}
 		}
@@ -589,7 +609,13 @@ namespace ft
 				node->parent->setRightChild(nil_node);
 
 		}
-		bool del(T data, Node<T> *root)
+
+		void update_root(Node<T> *newRoot)
+		{
+			root = newRoot; // CA A REGELE TOUS MES PROBLEMES ??????????? QUOI ????
+		}
+
+		bool erase(T data, Node<T> *root)
 		{
 			(void)root;
 			out("Func is :" << __func__ << " on node " << *root);
@@ -612,9 +638,11 @@ namespace ft
 			// Node<T> has zero or one child
 			if (node->leftChild == nil_node || node->rightChild == nil_node)
 			{
-				movedUpNode = deleteNodeWithZeroOrOneChild(node);
 				deletedNodeColor = node->color;
-				alloc.deallocate(node, 1); // use after free ? a voir 
+
+				movedUpNode = deleteNodeWithZeroOrOneChild(node); //soccupe de free dans update
+				//deletedNodeColor = node->color;
+				//alloc.deallocate(node, 1); // use after free ? a voir 
 			}
 			// Node<T> has two children
 			else
@@ -623,39 +651,72 @@ namespace ft
 				Node<T> *inOrderSuccessor = getMaxSuccessor(node->leftChild);
 
 				out ("ICI DEBUT " << *inOrderSuccessor->leftChild)
-
+				
 				// Copy inorder successor's data to current node (keep its color!)
-				//node->setData(inOrderSuccessor->_data); // GROS PROBLEME CAR ON PEUT PAS SET DATA
+	
 				out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
 				out("NODE LC PARENT " << *node->leftChild->parent);
-			
+				out ("NODE ADD " << node);
+
+				
 				Node<T> copy(inOrderSuccessor->_data, nil_node);
+				copy._data.second += 1;
 				Node<T> *tmp = alloc.allocate(1);
 				alloc.construct(tmp, copy);
-				//Node<T> *tmp = new Node<T>(inOrderSuccessor->_data, nil_node); // on va se servir de ca pour copier la data
-				tmp->leftChild = node->leftChild;
+			
+				tmp->leftChild = node->leftChild; //on reset les bons 
 				tmp->rightChild = node->rightChild;
 				tmp->leftChild->parent = tmp;
 				tmp->rightChild->parent = tmp;
 				tmp->nil_node = node->nil_node;
 				tmp->parent = node->parent;
+				int was_root = 0;
+	
+				if (root == node)
+				{
+					out ("CHANGING ROOT")
+					update_root(tmp);
+				}
 				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
 				node->is_left_child() ? node->parent->leftChild = tmp : node->parent->rightChild = tmp;
+				if (nil_node->rightChild == node) nil_node->rightChild = tmp;
+				if (nil_node->leftChild == node) nil_node->leftChild = tmp;
 				tmp->color = node->color;
 				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
-				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
-				//out("TMP " << *tmp << " has parent " << *tmp->parent << "RC : " << *tmp->rightChild << " LC : " << *tmp->leftChild);
-				//alloc.deallocate(node, 1); // A regle un leak mais invalid read
+				out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
+				out("TMP " << *tmp << " has parent " << *tmp->parent << "RC : " << *tmp->rightChild << " LC : " << *tmp->leftChild);
+				out ("Node left child 1 == "<< node->leftChild << *node->leftChild);
+				alloc.destroy(node); // pete un cable la desus 
+				alloc.deallocate(node, 1); // A regle un leak mais invalid read
+				//node = alloc.allocate(1);
+				//alloc.construct(node, *tmp);
+
+
 				node = tmp;
+				out ("ADDR OF NODE : " << node << " vs tmp " << tmp << " VS ROOT " << root)
+				out ("Node left child 2 == " << node->leftChild << *node->leftChild);
+				
+				
+				//node = tmp;
 				// out("TMP = " << *tmp);
 				//out("NODE = " << *node);
 				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
 
 				// Delete inorder successor just as we would delete a node with 0 or 1 child
-				movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
+				//movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
+				out ("TM PARENT IS  " << tmp->parent << *tmp->parent);
+
 				deletedNodeColor = inOrderSuccessor->getColor();
-				set_family_to_nil(inOrderSuccessor); // ajout pour eviter invalid read 
-			//	alloc.deallocate(inOrderSuccessor, 1); // a regle un leak mais invalid read 
+				movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
+				// out ("Moved up =" << *movedUpNode);
+				// out ("Root is : " << *root << root << "and node " << *node << node);
+				// out ("inOrder " << *inOrderSuccessor << " has add " << inOrderSuccessor)
+				// out ("inOrder parent " << *inOrderSuccessor->parent << " has add " << inOrderSuccessor->parent)
+
+				//deletedNodeColor = inOrderSuccessor->getColor();
+
+				//set_family_to_nil(inOrderSuccessor); // ajout pour eviter invalid read 
+				//alloc.deallocate(inOrderSuccessor, 1); // a regle un leak mais invalid read 
 			
 				//inOrderSuccessor = nil_node; // RAJOUTE POUR EVITER INVALID READ.... PAS SURE 
 			}

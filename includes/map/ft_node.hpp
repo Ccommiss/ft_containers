@@ -1,6 +1,6 @@
 #ifndef NODE_HPP
 #define NODE_HPP
-#include "debug.hpp"
+#include "../utils/debug.hpp"
 #include "ft_tree.hpp"
 
 

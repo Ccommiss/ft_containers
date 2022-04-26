@@ -54,6 +54,16 @@
 		"ctime": "cpp",
 		"set": "cpp"
 	},
+	"editor.semanticTokenColorCustomizations": {
+		"rules": 
+			{
+				"storage.type" : {
+					"foreground": "#FF0000",
+					"fontStyle": "bold"
+				}
+			}
+		
+	},
 	"editor.tokenColorCustomizations": {
 		"textMateRules": [
 			{
@@ -69,6 +79,15 @@
 			},
 			{
 				"scope": [
+					"storage.type.template.cpp",
+				],
+				"settings": {
+					"fontStyle": "bold",
+					"foreground": "#7abfce"
+				}
+			},
+			{
+				"scope": [
 					"comment.line",
 					"punctuation.definition.comment"
 				],
@@ -79,18 +98,23 @@
 			},
 			{
 				"scope": [
-					"meta.function-call.c"
+					"meta.function-call.c",
+					"meta.body.function.definition.cpp",
+
 				],
 				"settings": {
-					"foreground": "#aaa"
+					"foreground": "#aaa",
+					"fontStyle": "bold"
 				}
 			},
 			{
 				"scope": [
 					"meta.function.definition.parameters.c",
+					"entity.name.function.definition.cpp",
 					"entity.name.function"
 				],
 				"settings": {
+					"fontStyle": "bold",
 					"foreground": "#dfaeae"
 				}
 			},
@@ -139,22 +163,31 @@
 			{
 				"scope": [
 					"keyword.control.c",
+					"keyword.control.cpp",
+					"keyword.operator.comparison.cpp",
 					"keyword.operator.logical.c",
 					"keyword.operator.comparison.c"
 				],
 				"settings": {
-					"foreground": "#91A1A7"
+					"fontStyle": "bold",
+					"foreground": "#b1d8e6"
 				}
 			},
 			{
 				"scope": [
-					"constant"
+					"storage.type.built-in.primitive.cpp",
+					"entity.name.type.cpp",
+					"entity.name.scope-resolution.template.call.cpp",
+					"entity.name.scope-resolution.cpp"
 				],
 				"settings": {
-					"foreground": "#f2f3f3"
+					"foreground": "#b8e9cb",
+					"fontStyle": ""
 				}
 			}
+	
 		],
+
 		"comments": ""
 	}
 }

@@ -1,5 +1,6 @@
 
 #include "../utils/debug.hpp"
+//#include "../includes/utils/debug.hpp"
 #include "Map.hpp"
 #include "ft_tree_vis.cpp"
 #include <map>
@@ -81,7 +82,7 @@ void	reverse_iterators()
 		real_map.insert(std::make_pair(a, word_array[i]));
 		a = rand() % 89 + 1;
 	}
-	ft::map<int, std::string>::reverse_iterator ft_rev_it = my_map.rbegin();
+	ft::map<int, std::string >::reverse_iterator ft_rev_it = my_map.rbegin();
 	std::map<int, std::string>::reverse_iterator std_rev_it = real_map.rbegin();
 
 	std::cout << BOLD("-> output : ") << std::endl;
@@ -408,6 +409,7 @@ void leaks_erase()
 
 void count_test()
 {
+	start;
 	ft::map<char, int> mymap;
 	char c;
 
@@ -434,6 +436,7 @@ void count_test()
 
 void simple_erase_it()
 {
+	start;
 	  ft::map<char,int> mymap;
   ft::map<char,int>::iterator it;
 
@@ -452,16 +455,15 @@ void simple_erase_it()
  
   cout << "erase iterator to b\n";
    //  mymap.debugging();
-	//wait;
+	wait;
   mymap.erase ('c');                  // erasing by key
   cout << "erase by key 'c'\n";
-     //mymap.debugging();
-	//wait;
+//      //mymap.debugging();
+// 	wait;
   it=mymap.find ('e');
-  cout << "erase by range 'e' to end\n";
-  mymap.erase ( it, mymap.end() );    // erasing by range
-    // mymap.debugging();
-	//wait;
+  cout << "erase by range 'e' to end\n";   mymap.erase ( it, mymap.end() );    // erasing by range
+//     // mymap.debugging();
+// 	wait;
 
 	 
   cout << " display :\n";
@@ -511,8 +513,9 @@ void 		simple_insert()
 
 void lower_bounds()
 {
+	start;
 	  ft::map<char,int> mymap;
-  ft::map<char,int>::iterator itlow,itup;
+  		ft::map<char,int>::iterator itlow,itup;
 
   mymap['a']=20;
   mymap['b']=40;
@@ -520,40 +523,42 @@ void lower_bounds()
   mymap['d']=80;
   mymap['e']=100;
 
-//mymap.debugging();
+
   itlow=mymap.lower_bound ('b');  // itlow points to b
   itup=mymap.upper_bound ('d');   // itup points to e (not d!)
 
   cout << "low : " << itlow->first << '\n';
   cout << "up : " << itup->first << '\n';
-
+  getwchar();
+ // mymap.debugging();
+ 
   mymap.erase(itlow,itup);        // erases [itlow,itup)
-
+	// mymap.debugging();
   // print content:
   for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
-
+	finish;
 }
 int main()
 {
 
 	void (*functptr[])() = {
 		simple_erase_it,
-		simple_insert,
+		//simple_insert,
 		//leaks_erase,
 		//basic_tests_insert_erase,
-		count_test,
+		//count_test,
 		// fifty_insert_test,
 		// iterators_test,
-		// reverse_iterators,
-		delete_same_value_test,
+		//reverse_iterators,
+		//delete_same_value_test,
 		//insert_same_value_test,
 		// tricky_pairs_test,
 		// access_operator_test,
-	//	erase_iterator_test,
+		//	erase_iterator_test,
 		//insert_iterator_test,
 		//count_test2,
-		lower_bounds
+		//lower_bounds
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)

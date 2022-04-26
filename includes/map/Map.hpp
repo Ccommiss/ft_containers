@@ -1,4 +1,3 @@
-#include "../includes.hpp"
 
 #ifndef MAP_HPP
 #define MAP_HPP
@@ -6,7 +5,7 @@
 #include "ft_tree.hpp"
 #include "ft_pair.hpp"
 #include "rb_tree_iterators.hpp"
-#include "reverse_iterators.hpp"
+#include "../utils/reverse_iterators.hpp"
 // stdless : Function object for performing comparisons. Unless specialized, invokes operator< on type T.
 namespace ft
 {
@@ -36,7 +35,7 @@ namespace ft
 		typedef typename Allocator::pointer pointer;
 		typedef typename Allocator::const_pointer const_pointer;
 
-		struct value_compare;
+		class value_compare;
 
 		typedef typename Allocator::template rebind< ft::Tree<value_type, value_compare, Allocator> >::other _alloctree;
 
@@ -79,6 +78,7 @@ namespace ft
 		{
 			//delete _curr;
 		}
+
 		map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x)
 		{
 			if (*this != x)
@@ -121,7 +121,9 @@ namespace ft
 		// capacity:
 		bool empty() const
 		{
-			_curr._size == 0 ? true : false;
+			if (_curr._size == 0)
+				return true;
+			return (false);
 		}
 		size_type size() const
 		{
@@ -156,7 +158,8 @@ namespace ft
 
 		void debugging()
 		{
-			_curr.see_tree();
+			//_curr.display(_curr.getRootPtr());
+			//_curr.see_tree();
 		}
 		iterator insert(iterator position, const value_type& x)
 		{
@@ -172,21 +175,26 @@ namespace ft
 		}
 		void erase(iterator position)
 		{
-			_curr.del(ft::make_pair<key_type, mapped_type>(position->first, _def_value));
+			_curr.erase(ft::make_pair<key_type, mapped_type>(position->first, _def_value));
 		}
+
 		size_type erase(const key_type& x)
 		{
-			_curr.del(ft::make_pair<key_type, mapped_type>(x, _def_value));
+			_curr.erase(ft::make_pair<key_type, mapped_type>(x, _def_value));
 			return 1; // trouver quoi retourner
 		}
+
 		void erase(iterator first, iterator last)
 		{
+
 			iterator tmp;
 			for (iterator a = first; a != last;)
 			{
 				tmp = a;
 				a++;
-				_curr.del(ft::make_pair<key_type, mapped_type>(tmp->first, _def_value));
+				_curr.erase(ft::make_pair<key_type, mapped_type>(tmp->first, _def_value));
+				//_curr.display(_curr.getRootPtr());
+				//getwchar();
 			}
 		}
 		void swap(map<Key, T, Compare, Allocator>&);

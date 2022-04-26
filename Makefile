@@ -20,7 +20,7 @@ include sources.mk
 
 #The Directories, Source, Includes, Objects, Binary and Resources
 SRCDIR				:= srcs
-INC					= includes includes/vector includes/map includes/utils
+INC					=  ./includes ./includes/utils ./includes/vector/ ./includes/map/  includes
 INCDIR				= $(foreach d, $(INC), -I$d)
 BUILDDIR			:= obj
 TARGETDIR			:= obj

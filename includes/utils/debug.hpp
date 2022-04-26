@@ -2,6 +2,8 @@
 #ifndef DEBUG_HPP
 #define DEBUG_HPP
 
+#include <iostream>
+
 
 /* FOREGROUND */
 #define BBOLD "\x1B[1m"
@@ -31,9 +33,8 @@
 #define FG2(x)		"\033[4;32;40m" x RST
 #define HEADER(x)	"\033[1;107;35m" x RST
 
-
-//#define out(x) std::cout << x << std::endl;
-#define out(x)      
+# undef out // (x)
+#define out(x)      std::cout << x << std::endl;
 #define color(x)	"\033[1;96m" x RST
 #define head(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
 #define wait getwchar();
