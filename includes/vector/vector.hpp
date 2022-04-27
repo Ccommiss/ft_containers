@@ -23,7 +23,7 @@ namespace ft
 	class vector
 	{
 
-	public:
+		public:
 		/*
 		**	TYPEDEFS
 		*/
@@ -37,12 +37,12 @@ namespace ft
 		/* Les iterateurs */
 		typedef ft::random_access_iterator<value_type>					iterator;
 		typedef ft::random_access_iterator<const value_type>			const_iterator;
-		typedef ft::reverse_iterator<iterator>			reverse_iterator;
-		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef ft::reverse_iterator<iterator>							reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
 		/* Diff type & size_type */
-		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type difference_type;
-		typedef typename allocator_type::size_type size_type; // std::allocator, vaut size_t
+		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type 	difference_type;
+		typedef typename allocator_type::size_type											size_type; // std::allocator, vaut size_t
 
 		/* ****************************************************
 		**	🛠 Coplian form
@@ -64,9 +64,8 @@ namespace ft
 		/*
 		**	Fill constructor
 		*/
-		explicit vector(size_type n, const T &value = T(), const Alloc & = Alloc()) : _size(0), _capacity(0) //, typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
+		explicit vector(size_type n, const T& value = T(), const Alloc & = Alloc()) : _size(0), _capacity(0) //, typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
 		{
-			//debug("[Fill constructor]");
 			_curr = 0;
 			assign(n, value);
 		}
@@ -75,9 +74,8 @@ namespace ft
 		**	Range constructor
 		*/
 		template <class InputIterator>
-		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0) : _size(0), _capacity(0)
+		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0) : _size(0), _capacity(0)
 		{
-			//debug("[Range constructor]");
 			_curr = 0;
 			assign(first, last);
 		}
@@ -85,7 +83,7 @@ namespace ft
 		/*
 		** 		Copy constructors
 		*/
-		vector(const vector<T, Alloc> &x) : _curr(0), _size(0), _capacity(0)
+		vector(const vector<T, Alloc>& x) : _curr(0), _size(0), _capacity(0)
 		{
 			*this = x;
 		}
@@ -96,14 +94,13 @@ namespace ft
 		~vector()
 		{
 			clear();
-			//if (_capacity > 0)
 			alloc_obj.deallocate(_curr, _capacity);
 		};
 
 		/*
 		**	Operator = overload
 		*/
-		vector<T, Alloc> &operator=(const vector<T, Alloc> &x) // TEST POUR LE RESERVE
+		vector<T, Alloc>& operator=(const vector<T, Alloc>& x) // TEST POUR LE RESERVE
 		{
 			if (*this != x || _size != x.size())
 			{
@@ -243,7 +240,7 @@ namespace ft
 			else if (sz < size())
 				erase(begin() + sz, end());
 			else
-				return ;
+				return;
 		}
 
 		/*
@@ -270,7 +267,7 @@ namespace ft
 		**	@param &tmp the pointer we want to fill with _curr values
 		**	@return none
 		*/
-		void memcpy(pointer &tmp) const
+		void memcpy(pointer& tmp) const
 		{
 			iterator it;
 			size_t i = 0;
@@ -280,11 +277,12 @@ namespace ft
 				alloc_obj.destroy(&_curr[i]);
 			}
 		}
-		void memcpy(pointer &tmp)
+
+		void memcpy(pointer& tmp)
 		{
 			iterator it;
 			size_t i = 0;
-			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
+			for (it = begin(); it != end(); it++, i++)
 			{
 				alloc_obj.construct(&tmp[i], _curr[i]);
 				alloc_obj.destroy(&_curr[i]);
@@ -308,14 +306,14 @@ namespace ft
 		{
 			iterator it;
 
-			int old_capacity = _capacity;
+			size_type old_capacity = _capacity;
 			if (n > max_size())
 				throw(std::length_error("vector::reserve")); // FAIRE RESIZE AUSSI
 			if (n > _capacity)
 			{
 				pointer tmp = alloc_obj.allocate(n);
 				if (_size > 0)
-					memcpy(tmp);  
+					memcpy(tmp);
 				if (old_capacity > 0)
 					alloc_obj.deallocate(_curr, old_capacity);
 				_curr = tmp;
@@ -420,7 +418,7 @@ namespace ft
 		**	@param n the new size of the container
 		**	@param t the value to initialize elements of the container with
 		*/
-		void assign(size_type n, const T &t)
+		void assign(size_type n, const T& t)
 		{
 			erase(begin(), end());
 			insert(begin(), n, t);
@@ -447,7 +445,7 @@ namespace ft
 		** 	@brief Add element at the end
 		** 	@iterator_validity invalidated if reallocation, no change otherwise
 		*/
-		void push_back(const T &x)
+		void push_back(const T& x)
 		{
 			insert(end(), x);
 		}
@@ -463,10 +461,12 @@ namespace ft
 			erase(end() - 1);
 		}
 
-		///Si la capacite est ok c bon
-		int compute_capacity(size_type n) // n = le nb d'elem en plus a inserer
+		/*
+		**	@param n the number of newly inserted elements
+		*/
+		size_type compute_capacity(size_type n) // n = le nb d'elem en plus a inserer
 		{
-			int new_capacity = 0;
+			size_type new_capacity = 0;
 			if (_capacity >= _size + n)
 			{
 				return (_capacity);
@@ -503,12 +503,12 @@ namespace ft
 		** 	@iterator_validity invalidated if reallocation, no change otherwise
 		**	@return  An iterator that points to the first of the newly inserted elements.
 		*/
-		iterator insert(iterator position, const T &x)
+		iterator insert(iterator position, const T& x)
 		{
-			unsigned long start = ft::distance(begin(), position);
-			int i = size();
+			size_type start = ft::distance(begin(), position);
+			size_type i = size();
 			reserve(compute_capacity(1));
-			while (--i >= (int)start) // on decale le cas echeant
+			while (i > 0 && --i >= start) // on decale le cas echeant
 			{
 				alloc_obj.construct(_curr + i + 1, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
@@ -526,17 +526,17 @@ namespace ft
 		**	@param n Number of elements to insert. Each element is initialized to a copy of val.		**	@return  An iterator that points to the first of the newly inserted elements.
 		** 	@iterator_validity invalidated if reallocation, no change otherwise
 		*/
-		void insert(iterator position, size_type n, const T &x)
+		void insert(iterator position, size_type n, const T& x)
 		{
 			if (n <= 0)
-				return ;
-			unsigned long start = ft::distance(begin(), position);
-			int i = size();
+				return;
+			size_type start = ft::distance(begin(), position);
+			size_type i = size();
 			reserve(compute_capacity(n)); // on dirait pb ici.....
 			//reserve(_size + n);
 			//std::cout << " N IS "  << n << "CAP IS " << _capacity << std::endl;
 			//std::cout << "SIZE + N = " << _size + n << " VS COMPUTE " << compute_capacity(n) << std::endl;
-			while (i && --i >= (int)start) // peut etre petit pb de calcul
+			while (i > 0 && --i >= start) // peut etre petit pb de calcul
 			{
 				//std::cout << "I" << i << std::endl;
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
@@ -560,14 +560,14 @@ namespace ft
 		** 	@iterator_validity invalidated if reallocation, no change otherwise
 		*/
 		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0)
+		void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 		{
-			unsigned long diff = ft::distance(first, last);
-			unsigned long start = ft::distance(begin(), position);
-			int i = size();
+			size_type diff = ft::distance(first, last);
+			size_type start = ft::distance(begin(), position);
+			size_type i = size();
 			reserve(compute_capacity(diff));
 
-			while (--i >= (int)start)
+			while (i > 0 && --i >= start)
 			{
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
@@ -594,7 +594,7 @@ namespace ft
 		{
 			if (_size <= 0)
 				return (position); // ?? on verra
-			int i = ft::distance(begin(), position);
+			size_type i = ft::distance(begin(), position);
 			iterator it = position + 1;
 			while (it != end())
 			{
@@ -621,15 +621,15 @@ namespace ft
 		{
 			if (_size <= 0)
 				return (first); // PROTECTION OK
-			int i = ft::distance(begin(), first);
-			int step = ft::distance(first, last) - 1;
+			size_type i = ft::distance(begin(), first);
+			size_type step = ft::distance(first, last) - 1;
 			if (step <= 0)
 				return (first);
 			iterator it = first + 1;
 			while (it != end())
 			{
 				alloc_obj.destroy(_curr + i);
-				if (last != end() && i + step < (int)_size - 1)
+				if (last != end() && i + step < _size - 1)
 					alloc_obj.construct(_curr + i, *(it + step));
 				it++;
 				i++;
@@ -660,7 +660,7 @@ namespace ft
 		**	where they now iterate.
 		**	Note that the end iterators do not refer to elements and may be invalidated.
 		*/
-		void swap(vector &other)
+		void swap(vector& other)
 		{
 			std::swap(_curr, other._curr);
 			std::swap(_size, other._size);
@@ -682,7 +682,7 @@ namespace ft
 
 		class sz_max : public std::exception
 		{
-			virtual const char *what() const throw()
+			virtual const char* what() const throw()
 			{
 				std::cout << "Cannot allocate mor than max size" << std::endl;
 				return "";
@@ -694,7 +694,7 @@ namespace ft
 		**
 		**
 		**/
-	private:
+		private:
 		pointer _curr;			  // pointeur sur le tableau, premiere addresse
 		size_t _size;			  // le nb d'elemts contenus
 		size_t _capacity;		  // la taille allouee
@@ -719,66 +719,66 @@ namespace ft
 	**	a>=b	|	!(a<b)
 	**/
 	template <class T, class Alloc>
-	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	void swap(vector<T, Alloc>& x, vector<T, Alloc>& y)
 	{
 		x.swap(y);
 	}
 
 
 
-/*
-** a == b
-*/
+	/*
+	** a == b
+	*/
 	template <class T, class Alloc>
-	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return false;
 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
-/*
-** 	a != b
-*/
+	/*
+	** 	a != b
+	*/
 	template <class T, class Alloc>
-	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 
-/*
-**	 a < b
-*/
+	/*
+	**	 a < b
+	*/
 	template <class T, class Alloc>
-	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
 		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
-/*
-**  a <= b ===> !(b < a)
-*/
+	/*
+	**  a <= b ===> !(b < a)
+	*/
 	template <class T, class Alloc>
-	bool operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
 		return (!(rhs < lhs));
 	}
 
-/*
-**  a > b ===> b < a
-*/
+	/*
+	**  a > b ===> b < a
+	*/
 	template <class T, class Alloc>
-	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
 		return (rhs < lhs);
 	}
 
-/*
-**  a>=b	|	!(a<b)
-*/
+	/*
+	**  a>=b	|	!(a<b)
+	*/
 	template <class T, class Alloc>
-	bool operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
 		return (!(lhs < rhs));
 	}
