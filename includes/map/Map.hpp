@@ -61,15 +61,6 @@ namespace ft
 		// 23.3.1.1 construct/copy/destroy:
 		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c), _def_value(T()), _curr(rb_tree(comp))
 		{
-			//_alloctree tree_alloc = _alloctree();
-			//_curr = tree_alloc.allocate(1); // on malloc l'arbre 
-			//rb_tree ptr = rb_tree(comp);
-			//_curr(rb_tree(comp));
-					//	out(":)")
-			//_curr = 0;
-			//tree_alloc.construct(_curr, rb_tree(comp));
-			//out("Hola")
-			//_curr = rb_tree(comp);
 		}
 
 		template <class InputIterator>
@@ -147,12 +138,6 @@ namespace ft
 				return (_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value))->_data.second);
 			return (_curr.insert(ft::make_pair<key_type, mapped_type>(x, _def_value))->_data.second);
 		}
-
-
-		// modifiers:
-		// vlue type sera une std pair
-		// pair<iterator, bool> insert(const value_type& x)
-
 		/*
 		**
 		**	@return
@@ -195,18 +180,26 @@ namespace ft
 
 		void erase(iterator first, iterator last)
 		{
-
 			iterator tmp;
 			for (iterator a = first; a != last;)
 			{
 				tmp = a;
 				a++;
 				_curr.erase(ft::make_pair<key_type, mapped_type>(tmp->first, _def_value));
-				//_curr.display(_curr.getRootPtr());
-				//getwchar();
 			}
 		}
-		void swap(map<Key, T, Compare, Allocator>&);
+
+/*
+**
+**	@brief Exchanges the content of the container by the content of x, which is another map of the same type. Sizes may differ.
+**	@param Another map container of the same type as this 
+**	(i.e., with the same template parameters, Key, T, Compare and Alloc) whose content is swapped with that of this container.
+*/
+		void swap(map<Key, T, Compare, Allocator>& other)
+		{
+			std::swap(_curr, other._curr);
+			std::swap(_size, other._size);
+		}
 		void clear()
 		{
 			erase(begin(), end());
@@ -310,28 +303,46 @@ namespace ft
 		typedef ft::Tree<value_type, value_compare, Allocator> rb_tree;
 		rb_tree _curr;
 	};
+
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator==(const map<Key, T, Compare, Allocator>& x,
-		const map<Key, T, Compare, Allocator>& y);
+	bool operator==(const map<Key, T, Compare, Allocator>& lhs, const map<Key, T, Compare, Allocator>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return (false);
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator<(const map<Key, T, Compare, Allocator>& x,
-		const map<Key, T, Compare, Allocator>& y);
+	bool operator<(const map<Key, T, Compare, Allocator>& lhs,
+		const map<Key, T, Compare, Allocator>& rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator!=(const map<Key, T, Compare, Allocator>& x,
-		const map<Key, T, Compare, Allocator>& y);
+	bool operator!=(const map<Key, T, Compare, Allocator>& lhs,
+		const map<Key, T, Compare, Allocator>& rhs)
+	{
+		return !(lhs == rhs);
+	}
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator>(const map<Key, T, Compare, Allocator>& x,
-		const map<Key, T, Compare, Allocator>& y);
+	bool operator>(const map<Key, T, Compare, Allocator>& lhs, const map<Key, T, Compare, Allocator>& rhs)
+		{
+		return (rhs < lhs);
+	}
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator>=(const map<Key, T, Compare, Allocator>& x,
-		const map<Key, T, Compare, Allocator>& y);
+	bool operator>=(const map<Key, T, Compare, Allocator>& lhs, const map<Key, T, Compare, Allocator>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
+
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator<=(const map<Key, T, Compare, Allocator>& x,
-		const map<Key, T, Compare, Allocator>& y);
+	bool operator<=(const map<Key, T, Compare, Allocator>& lhs,const map<Key, T, Compare, Allocator>& rhs)
+	{
+		return (!(rhs < lhs));
+	}
 	// specialized algorithms:
 	template <class Key, class T, class Compare, class Allocator>
-	void swap(map<Key, T, Compare, Allocator>& x,
-		map<Key, T, Compare, Allocator>& y);
+	void swap(map<Key, T, Compare, Allocator>& lhs,
+		map<Key, T, Compare, Allocator>& rhs);
 
 };
 

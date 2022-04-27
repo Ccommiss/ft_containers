@@ -577,6 +577,30 @@ void lower_bounds()
 		std::cout << it->first << " => " << it->second << '\n';
 	finish;
 }
+
+
+
+void 	swap_test()
+{
+	start; 
+	ft::map<char, int> mymap;
+	ft::map<char, int> mymap2;
+	mymap['a'] = 20;
+	mymap['b'] = 40;
+	mymap['c'] = 60;
+	mymap['d'] = 80;
+	mymap['e'] = 100;
+
+	mymap2['z'] = 20;
+	mymap2['y'] = 40;
+	mymap2['x'] = 60;
+	mymap2['t'] = 80;
+	mymap2['o'] = 100;
+
+	mymap2.swap(mymap);
+
+}
+
 int main()
 {
 
@@ -596,7 +620,8 @@ int main()
 		//	erase_iterator_test,
 		//insert_iterator_test,
 		//count_test2,
-		//lower_bounds
+		//lower_bounds,
+		swap_test,
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
