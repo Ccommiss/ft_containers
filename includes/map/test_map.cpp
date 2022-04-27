@@ -1,7 +1,7 @@
 
 #include "../utils/debug.hpp"
 //#include "../includes/utils/debug.hpp"
-#include "Map.hpp"
+#include "map.hpp"
 #include "ft_tree_vis.cpp"
 #include <map>
 #include "../includes.hpp"
@@ -13,6 +13,8 @@
 #define wait_see               \
 	display(my_map, real_map); \
 	getwchar();
+
+//#define ft::map<T, U>::iterator iterator;
 
 using namespace std;
 
@@ -102,11 +104,11 @@ void	reverse_iterators()
 	}
 	out("");
 	{
-			  ft::map<char,int> my_map;
+		ft::map<char, int> my_map;
 
-  my_map['x'] = 100;
-  my_map['y'] = 200;
-  my_map['z'] = 300;
+		my_map['x'] = 100;
+		my_map['y'] = 200;
+		my_map['z'] = 300;
 
 		ft::map<char, int>::reverse_iterator rit;
 		for (rit = my_map.rbegin(); rit != my_map.rend(); ++rit)
@@ -114,7 +116,7 @@ void	reverse_iterators()
 
 
 		for (ft::map<char, int>::const_reverse_iterator it = my_map.rbegin(); it != my_map.rend(); it++)
-		 	cout << it->first << " => " << it->second << '\n';
+			cout << it->first << " => " << it->second << '\n';
 
 		ft::map<char, int>::const_reverse_iterator it = my_map.rbegin();
 		ft::map<char, int>::const_reverse_iterator ti = my_map.rend();
@@ -582,7 +584,7 @@ void lower_bounds()
 
 void 	swap_test()
 {
-	start; 
+	start;
 	ft::map<char, int> mymap;
 	ft::map<char, int> mymap2;
 	mymap['a'] = 20;
@@ -593,11 +595,64 @@ void 	swap_test()
 
 	mymap2['z'] = 20;
 	mymap2['y'] = 40;
-	mymap2['x'] = 60;
-	mymap2['t'] = 80;
-	mymap2['o'] = 100;
+	// mymap2['x'] = 60;
+	// mymap2['t'] = 80;
+	// mymap2['o'] = 100;
 
 	mymap2.swap(mymap);
+	for (ft::map<char, int>::iterator it = mymap2.begin(); it != mymap2.end(); it++)
+		std::cout << "did it swap ?" << it->first << " " << it->second << std::endl;
+
+	for (ft::map<char, int>::iterator it = mymap.begin(); it != mymap.end(); it++)
+		std::cout << "2did it swap ?" << it->first << " " << it->second << std::endl;
+
+	{
+		ft::map<char, int> foo, bar;
+
+		foo['x'] = 100;
+		foo['y'] = 200;
+
+		bar['a'] = 11;
+		bar['b'] = 22;
+		bar['c'] = 33;
+
+
+		ft::map<char, int>::const_iterator tmp = foo.begin(); //tmp iterates through foo
+		ft::map<char, int>::const_iterator tmp2 = bar.begin(); //tmp2 iterates through bar
+
+		foo.swap(bar); //tmp iterates through bar
+					  //tmp2 iterates through foo
+
+
+		ft::map<char, int>	other;
+
+		other['1'] = 73;
+		other['2'] = 173;
+		other['3'] = 763;
+		other['4'] = 73854;
+		other['5'] = 74683;
+		other['6'] = 753;
+
+		ft::map<char, int>::const_iterator tmp3 = other.begin(); // tmp3 iterates through other
+
+		cout << "foo contains:\n";
+		for (ft::map<char, int>::iterator it = foo.begin(); it != foo.end(); ++it)
+			cout << it->first << " => " << it->second << '\n';
+		cout << "bar contains:\n";
+		for (ft::map<char, int>::iterator it = bar.begin(); it != bar.end(); ++it)
+			cout << it->first << " => " << it->second << '\n';
+
+		while (tmp != bar.end())
+		{
+			cout << tmp->first << " => " << tmp->second << '\n';
+			tmp++;
+		}
+		tmp--;
+
+
+		exit(0);
+	}
+
 
 }
 

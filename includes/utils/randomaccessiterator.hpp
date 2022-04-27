@@ -100,12 +100,12 @@ namespace ft
 		return __lhs.base() != __rhs.base();
 	}
 	template<typename _Iterator   >
-	inline bool
-		operator!=(const random_access_iterator<_Iterator  >& __lhs,
+	inline bool operator!=(const random_access_iterator<_Iterator  >& __lhs,
 			const random_access_iterator<_Iterator  >& __rhs)
 	{
 		return __lhs.base() != __rhs.base();
 	}
+	
 	// Random access iterator requirements
 	template<typename _IteratorL, typename _IteratorR   >
 	inline bool operator<(const random_access_iterator<_IteratorL  >& __lhs,

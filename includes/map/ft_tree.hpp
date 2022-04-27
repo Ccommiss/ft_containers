@@ -27,7 +27,6 @@ namespace ft
 
 	private:
 		Node<T> *root;
-		Node<T> *_end;
 		Node<T> *nil_node;
 		size_type _size; // size of tree
 		Compare _comp;	 // objet de comparaison
@@ -95,6 +94,15 @@ namespace ft
 			delete nil_node;
 		}
 
+
+		void	swap(Tree<T, Compare, Allocator> &x)
+		{
+			std::swap(root, x.root);
+			std::swap(nil_node, x.nil_node);
+			std::swap(_size, x._size);
+			std::swap(root->tree, x.root->tree);
+			std::swap(nil_node->tree, x.nil_node->tree); // oulalal bidouille
+		}
 		/*
 		** Functions;
 		*/
@@ -401,11 +409,15 @@ namespace ft
 		**
 		****************************************************/
 
-		void erase(T data)
+		bool erase(T data)
 		{
 			out("ROOT ICI =" << root->_data)
 			if (erase(data, root) == true)
+			{
 				_size -= 1;
+				return true;
+			}
+			return false;
 		}
 
 		Node<T> *getMaxSuccessor(Node<T> *node)
@@ -655,9 +667,7 @@ namespace ft
 			// Node<T> has zero or one child
 			if (node->leftChild == nil_node || node->rightChild == nil_node)
 			{
-				Node <T> * tmp = node;
 				deletedNodeColor = node->color;
-
 				movedUpNode = deleteNodeWithZeroOrOneChild(node); //soccupe de free dans update
 				//deletedNodeColor = node->color;
 				//alloc.deallocate(node, 1); // use after free ? a voir 
@@ -688,7 +698,7 @@ namespace ft
 				tmp->rightChild->parent = tmp;
 				tmp->nil_node = node->nil_node;
 				tmp->parent = node->parent;
-				int was_root = 0;
+		
 	
 				if (root == node)
 				{

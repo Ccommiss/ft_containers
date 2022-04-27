@@ -5,6 +5,9 @@
 
 namespace ft
 {
+	template <typename T> struct _Rb_tree_const_iterator;
+
+
 	template <typename T>
 	ft::Node<T> *_Rb_tree_increment(ft::Node<T> *x) throw()
 	{
@@ -66,6 +69,7 @@ namespace ft
 		typedef ptrdiff_t					difference_type;
 
 		typedef _Rb_tree_iterator<T> _Self;
+		typedef _Rb_tree_const_iterator<T> const_it; // TEST 
 		typedef Node<value_type> *node;
 		// typedef _Rb_tree_node<T>* _Link_type;
 
@@ -108,7 +112,7 @@ namespace ft
 		{
 			_Self tmp = *this;
 			Tree<T, T, std::allocator<T> > *tree = (Tree<T, T, std::allocator<T> > *)_curr->tree;
-			if (_curr == _curr->nil_node)
+			if (_curr == _curr->nil_node) // changer ca c'est vraiment sale 
 				_curr = tree->getMaxSuccessor(tree->getRootPtr());
 			else
 				_curr = _Rb_tree_decrement(_curr);
@@ -124,7 +128,19 @@ namespace ft
 		{
 			return x._curr != y._curr;
 		}
+
+
+
+		friend bool operator!=(const _Self &x, const const_it &y)
+		{
+			return x._curr != y._curr;
+		}
 		node _curr; // les it sont des ptr sur noeuds
+
+
+
+
+
 	};
 
 	template <typename T>
@@ -205,5 +221,6 @@ namespace ft
 
 		_Base_ptr _curr;
 	};
+
 
 }

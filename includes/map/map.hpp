@@ -64,8 +64,14 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator & = Allocator());
-		map(const map<Key, T, Compare, Allocator>& x);
+		map(InputIterator first, InputIterator last, const Compare& c = Compare(), const Allocator &a = Allocator())  :  alloc(a), comp(c), _curr(rb_tree(comp))
+		{
+			insert(first, last);
+		}
+		map(const map<Key, T, Compare, Allocator>& x) : alloc(x.alloc), comp(x.comp), _def_value(T()), _curr(rb_tree(comp))
+		{
+			*this = x;
+		}
 
 		~map()
 		{
@@ -172,10 +178,12 @@ namespace ft
 			_curr.erase(ft::make_pair<key_type, mapped_type>(position->first, _def_value));
 		}
 
+		// retourne le nb d'elem supp 
 		size_type erase(const key_type& x)
 		{
-			_curr.erase(ft::make_pair<key_type, mapped_type>(x, _def_value));
-			return 1; // trouver quoi retourner
+			if (_curr.erase(ft::make_pair<key_type, mapped_type>(x, _def_value)) == true)
+				return 1; // trouver quoi retourner
+			return 0;
 		}
 
 		void erase(iterator first, iterator last)
@@ -197,8 +205,7 @@ namespace ft
 */
 		void swap(map<Key, T, Compare, Allocator>& other)
 		{
-			std::swap(_curr, other._curr);
-			std::swap(_size, other._size);
+			_curr.swap(other._curr);
 		}
 		void clear()
 		{
@@ -240,20 +247,37 @@ namespace ft
 		*/
 		iterator lower_bound(const key_type& x)
 		{
-			key_type i = x;
-			size_type a = 0;
-			iterator it = _curr.find(ft::make_pair(i, _def_value));
+			iterator it = _curr.find(ft::make_pair(x, _def_value));
 			if (it == _curr.nil_node)
 			{
 				for (iterator new_it = begin(); new_it != end(); new_it++)
 				{
 					if (new_it->first > x)
+					{
 						it = new_it;
+						break;
+					}
 				}
 			}
-			return (it == _curr.nil_node ? NULL : it);
+			return (it);// == _curr.nil_node ? _curr.nil_node : it);
 		}
-		const_iterator lower_bound(const key_type& x) const;
+
+		const_iterator lower_bound(const key_type& x) const
+		{
+			const_iterator it(_curr.find(ft::make_pair(x, _def_value)));
+			if (it == const_iterator(_curr.nil_node))
+			{
+				for (const_iterator new_it = begin(); new_it != end(); new_it++)
+				{
+					if (new_it->first > x)
+					{
+						it = new_it;
+						break;
+					}
+				}
+			}
+			return (it);
+		}
 
 		/*
 		**	1,2) Returns an iterator pointing to the first element that is greater than key.
@@ -266,10 +290,19 @@ namespace ft
 				if (it->first > x)
 					break;
 			}
-			return (it == _curr.nil_node ? NULL : it);
+			return (it); // == _curr.nil_node ? _curr.nil_node : it);
 		}
 
-		const_iterator upper_bound(const key_type& x) const;
+		const_iterator upper_bound(const key_type& x) const
+		{
+			const_iterator it;
+			for (it = begin(); it != end(); it++)
+			{
+				if (it->first > x)
+					break;
+			}
+			return (it); // == _curr.nil_node ? _curr.nil_node : it);
+		}
 		
 
 /*
@@ -286,7 +319,7 @@ namespace ft
 		pair<const_iterator, const_iterator>
 		equal_range(const key_type& x) const
 		{
-			return(ft::make_pair(lower_bound(x), upper_bound(x)));
+			return(ft::make_pair<const_iterator, const_iterator>(lower_bound(x), upper_bound(x)));
 		}
 
 	private:
@@ -341,8 +374,10 @@ namespace ft
 	}
 	// specialized algorithms:
 	template <class Key, class T, class Compare, class Allocator>
-	void swap(map<Key, T, Compare, Allocator>& lhs,
-		map<Key, T, Compare, Allocator>& rhs);
+	void swap(map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs)
+	{
+		lhs.swap(rhs);
+	}
 
 };
 
