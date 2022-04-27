@@ -415,7 +415,7 @@ namespace ft
 			return node;
 		}
 
-		Node<T> *getMinSuccessor(Node<T> *node)
+		Node<T> *getMinSuccessor(Node<T> *node) const
 		{
 			if (node == nil_node)
 				return nil_node; // ajout 18h

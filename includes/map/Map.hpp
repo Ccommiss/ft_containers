@@ -21,6 +21,7 @@ namespace ft
 
 		typedef Compare key_compare;
 		typedef Allocator allocator_type;
+	
 		typedef typename Allocator::reference reference;
 		typedef typename Allocator::const_reference const_reference;
 		typedef ft::_Rb_tree_iterator<value_type> 									iterator;
@@ -82,13 +83,8 @@ namespace ft
 
 		map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x)
 		{
-			///if (*this != x) / a implementer pour pair pour que ca cmpile 
-			//{
-				//_curr = *(_tree_alloc.allocate(1));
-				//_tree_alloc.construct(&_curr, x._curr);
-				_curr = x._curr; // faire copie profonde 
-
-			//}
+			erase(begin(), end());
+			insert(x.begin(), x.end());
 			return (*this);
 		}
 
@@ -115,7 +111,12 @@ namespace ft
 		{
 			return reverse_iterator(end()); // test
 		}
-		const_reverse_iterator rbegin() const;
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(end()); // test
+		}
+
+
 		reverse_iterator rend()
 		{
 			return reverse_iterator(begin()); // test pas sure
@@ -133,7 +134,11 @@ namespace ft
 		{
 			return (_curr._size);
 		}
-		size_type max_size() const;
+
+		size_type max_size() const
+		{
+			return (alloc.max_size()); 
+		}
 
 		// 23.3.1.2 element access:
 		mapped_type& operator[](const key_type& x)
@@ -202,10 +207,19 @@ namespace ft
 			}
 		}
 		void swap(map<Key, T, Compare, Allocator>&);
-		void clear();
+		void clear()
+		{
+			erase(begin(), end());
+		}
 		// observers:
-		key_compare key_comp() const;
-		value_compare value_comp() const;
+		key_compare key_comp() const 
+		{
+			return key_compare();
+		}
+		value_compare value_comp() const
+		{
+			return value_compare(comp);
+		}
 		// 23.3.1.3 map operations:
 		iterator find(const key_type& x)
 		{
@@ -235,12 +249,15 @@ namespace ft
 		{
 			key_type i = x;
 			size_type a = 0;
-			while (_curr.find(ft::make_pair(i, _def_value)) == _curr.nil_node && a < _curr._size) // limite car jamais plus de size elem
-			{
-				i++;
-				a++;
-			}
 			iterator it = _curr.find(ft::make_pair(i, _def_value));
+			if (it == _curr.nil_node)
+			{
+				for (iterator new_it = begin(); new_it != end(); new_it++)
+				{
+					if (new_it->first > x)
+						it = new_it;
+				}
+			}
 			return (it == _curr.nil_node ? NULL : it);
 		}
 		const_iterator lower_bound(const key_type& x) const;
@@ -250,22 +267,34 @@ namespace ft
 		*/
 		iterator upper_bound(const key_type& x)
 		{
-			key_type i = x + 1;
-			size_type a = 0;
-			while (_curr.find(ft::make_pair(i, _def_value)) == _curr.nil_node && a < _curr._size) // limite car jamais plus de size elem
-			{		i++;
-					a++;
+			iterator it;
+			for (it = begin(); it != end(); it++)
+			{
+				if (it->first > x)
+					break;
 			}
-			iterator it = _curr.find(ft::make_pair(i, _def_value));
 			return (it == _curr.nil_node ? NULL : it);
 		}
 
 		const_iterator upper_bound(const key_type& x) const;
+		
+
+/*
+**	equal_range
+** 	@brief  Returns the bounds of a range that includes all the elements in the container which have a key equivalent to k.
+** 	@param k - key to search for
+*/
 		pair<iterator, iterator>
-			equal_range(const key_type& x);
+		equal_range(const key_type& x)
+		{
+			return(ft::make_pair(lower_bound(x), upper_bound(x)));
+		}
 
 		pair<const_iterator, const_iterator>
-			equal_range(const key_type& x) const;
+		equal_range(const key_type& x) const
+		{
+			return(ft::make_pair(lower_bound(x), upper_bound(x)));
+		}
 
 	private:
 		Allocator alloc;

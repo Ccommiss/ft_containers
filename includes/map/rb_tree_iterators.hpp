@@ -174,14 +174,22 @@ namespace ft
 
 		_Self & operator--()
 		{
-			_curr = _Rb_tree_decrement(const_cast<class Node<T> * >(_curr));
+			Tree<T, T, std::allocator<T> > *tree = (Tree<T, T, std::allocator<T> > *)_curr->tree;
+			if (_curr == _curr->nil_node)
+				_curr = tree->getMaxSuccessor(tree->getRootPtr());
+			else
+				_curr = _Rb_tree_decrement(const_cast<class Node<T> * >(_curr));
 			return *this;
 		}
 
 		_Self operator--(int)
 		{
 			_Self tmp = *this;
-			_curr = _Rb_tree_decrement(const_cast<class Node<T> * >(_curr));
+			Tree<T, T, std::allocator<T> > *tree = (Tree<T, T, std::allocator<T> > *)_curr->tree;
+			if (_curr == _curr->nil_node)
+				_curr = tree->getMaxSuccessor(tree->getRootPtr());
+			else
+				_curr = _Rb_tree_decrement(const_cast<class Node<T> * >(_curr));
 			return tmp;
 		}
 
