@@ -30,8 +30,8 @@ namespace ft
 
 		// pbmatique : iterator ne peut pas etre un ptr sur paire, mais un ptr sur noeud pour
 		// pvoir iterer
-		typedef ft::reverse_random_access_iterator<iterator> reverse_iterator;
-		typedef ft::reverse_random_access_iterator<const_iterator> const_reverse_iterator;
+		typedef ft::reverse_iterator<iterator> reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		typedef typename allocator_type::size_type size_type;
 
 		typedef typename Allocator::pointer pointer;
