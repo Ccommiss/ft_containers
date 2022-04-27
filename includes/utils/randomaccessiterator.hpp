@@ -1,8 +1,10 @@
 
-#include "../includes.hpp"
+
 
 #ifndef RANDOM_ACCESS_ITERATORS_HPP
 # define RANDOM_ACCESS_ITERATORS_HPP
+
+# include "iterator.hpp"
 
 // https://code.woboq.org/gcc/libstdc++-v3/include/bits/stl_iterator.h.html#__gnu_cxx::random_access_iterator
 
@@ -105,7 +107,7 @@ namespace ft
 	{
 		return __lhs.base() != __rhs.base();
 	}
-	
+
 	// Random access iterator requirements
 	template<typename _IteratorL, typename _IteratorR   >
 	inline bool operator<(const random_access_iterator<_IteratorL  >& __lhs,

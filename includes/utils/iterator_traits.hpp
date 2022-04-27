@@ -1,6 +1,8 @@
 # ifndef ITERATORS_TRAITS_HPP
 # define ITERATORS_TRAITS_HPP
 
+# include "randomaccessiterator.hpp"
+
 /*
 **     ft_containers : iterator_traits
 **     @file iterator_traits.p
@@ -8,6 +10,7 @@
 */
 
 namespace ft {
+
 
   /*
   ** Generic
@@ -72,9 +75,9 @@ namespace ft {
   }
 
   /*
-  **  Distance - specialized 
+  **  Distance - specialized
   **  @tparam T type of random access iteratr (string, int...)
-  **  @tparam total specialization 
+  **  @tparam total specialization
   */
   template<typename T >
   typename ft::iterator_traits< ft::random_access_iterator <T> >::difference_type distance(ft::random_access_iterator <T> first, ft::random_access_iterator <T> last)

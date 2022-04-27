@@ -1,11 +1,12 @@
-#include "../includes.hpp"
-
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
 #include <algorithm>
-//#include "../utils/reverse_iterators.hpp"
 #include "reverse_iterators.hpp"
+#include "randomaccessiterator.hpp"
+#include "iterator_traits.hpp"
+#include "enable_if.hpp"
+#include "relationnal_operators_tools.hpp"
 
 namespace ft
 {
@@ -65,7 +66,7 @@ namespace ft
 		*/
 		explicit vector(size_type n, const T &value = T(), const Alloc & = Alloc()) : _size(0), _capacity(0) //, typename ft::enable_if< ft::is_integral<T>::value >::type* = 0) : _size(0), _capacity(0)
 		{
-			debug("[Fill constructor]");
+			//debug("[Fill constructor]");
 			_curr = 0;
 			assign(n, value);
 		}
@@ -76,7 +77,7 @@ namespace ft
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const Alloc & = Alloc(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0) : _size(0), _capacity(0)
 		{
-			debug("[Range constructor]");
+			//debug("[Range constructor]");
 			_curr = 0;
 			assign(first, last);
 		}

@@ -1,4 +1,3 @@
-# include "../includes.hpp"
 
 #ifndef RELATIONNAL_TOOLS_HPP
 #define RELATIONNAL_TOOLS_HPP

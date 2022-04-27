@@ -1,7 +1,8 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
-# include "../includes.hpp"
 
+#include "iterator_traits.hpp"
+#include <cstddef>
 
 /**
  *  @brief  Common %iterator class.

@@ -656,6 +656,42 @@ void 	swap_test()
 
 }
 
+void time_test()
+{
+	ft::map<int, int> foo;
+	int a = 0, b = 80000;
+	for (int i = 0; i < 200000; i++)
+	{
+		if (a%2 == 0)
+			foo.insert(ft::make_pair(a, b));
+		else
+			foo.insert(ft::make_pair(b, a));
+		a++;
+		b--;
+	}
+	std::cout << foo.size() << "ok " << foo[78] << "\n";
+	ft::map<int, int>::iterator it = foo.begin();
+	while (it != foo.end())
+	{
+		ft::map<int, int>::iterator tmp = it;
+		it++;
+		foo.erase(tmp);
+	}
+
+	std::cout << foo.size() << "ok\n";
+
+	// std::map<int, int> foo;
+	// int a = 0, b = 920;
+	// for (int i = 0; i < 100000; i++)
+	// {
+	// 	if (a%2 == 0)
+	// 		foo.insert(std::make_pair(a, b));
+	// 	else
+	// 		foo.insert(std::make_pair(b, a));
+	// }
+	// std::cout << "ok\n";
+}
+
 int main()
 {
 
@@ -667,7 +703,7 @@ int main()
 		//count_test,
 		// fifty_insert_test,
 		// iterators_test,
-		reverse_iterators,
+		//reverse_iterators,
 		//delete_same_value_test,
 		//insert_same_value_test,
 		// tricky_pairs_test,
@@ -676,13 +712,14 @@ int main()
 		//insert_iterator_test,
 		//count_test2,
 		//lower_bounds,
-		swap_test,
+		//swap_test,
+		time_test
 	};
 
 	for (unsigned int i = 0; i < sizeof(functptr) / sizeof(functptr[0]); i++)
 	{
 		(*functptr[i])();    /*  Call first function  */
-		getwchar();
+	//	getwchar();
 
 	}
 }
