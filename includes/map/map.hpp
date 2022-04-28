@@ -45,71 +45,144 @@ namespace ft
 			}
 		};
 
-		// 23.3.1.1 construct/copy/destroy:
+		/* ****************************************************
+		**	🛠 Coplian form
+		** ****************************************************
+		** 	├── 👩🏻‍🔧 Contructors
+		** 	│   ├── default
+		** 	|	├── fill
+		** 	|	├── range
+		** 	│   └── copy
+		** 	├── 🔨 Destructor
+		** 	└── ⚖️ Overload operator=
+		*/
+
+		/*
+		**	Default constructor
+		*/
 		explicit map(const Compare& c = Compare(), const Allocator& a = Allocator()) : alloc(a), comp(c), _def_value(T()), _curr(rb_tree(comp)) {}
 
+		/*
+		**	Range constructor
+		*/		
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const Compare& c = Compare(), const Allocator &a = Allocator())  :  alloc(a), comp(c), _curr(rb_tree(comp))
 		{
 			insert(first, last);
 		}
+
+		/*
+		** 	Copy constructor
+		*/
 		map(const map<Key, T, Compare, Allocator>& x) : alloc(x.alloc), comp(x.comp), _def_value(T()), _curr(rb_tree(comp))
 		{
 			*this = x;
 		}
 
+		/*
+		**	Destructor
+		*/
 		~map() {}
 
+		/*
+		**	Operator = overload
+		*/
 		map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x)
 		{
-			erase(begin(), end());
-			insert(x.begin(), x.end());
+			if (*this != x || _size != x.size())
+			{
+				erase(begin(), end());
+				insert(x.begin(), x.end());
+			}
 			return (*this);
 		}
 
+		/* ****************************************************
+		**	🚀 ITERATORS
+		** ****************************************************
+		**
+		** 	├── iterator
+		** 	│ ├── begin
+		** 	│ ├── cbegin
+		** 	│ ├── end
+		**	│ └── cend
+		** 	├── reverse_iterators
+		** 	| ├── rbegin
+		** 	| ├── crbegin
+		** 	│ ├── rend
+		**	│ └── crend
+		**	└──
+		*/
+
 		/*
-		** 		ITERATORS
+		**	Begin
+		**	@brief returns iterator to the first elem
+		**	@return iterator or const_iterator to the first elem
 		*/
 		iterator begin()
 		{
 			return iterator(_curr.getMinSuccessor(_curr.root));
 		}
+
 		const_iterator begin() const
 		{
 			return const_iterator(_curr.getMinSuccessor(_curr.root));
 		}
+
+		/*
+		**	End
+		**	@brief returns iterator on last elem + 1
+		*/
 		iterator end()
 		{
 			return iterator(_curr.nil_node);
 		}
+
 		const_iterator end() const
 		{
 			return const_iterator(_curr.nil_node);
 		}
+
+		/*
+		**	Rbegin
+		**	@brief
+		**	@return Reverse iterator to the first element from the end.
+		*/
 		reverse_iterator rbegin()
 		{
-			return reverse_iterator(end()); // test
+			return reverse_iterator(end()); 
 		}
+	
 		const_reverse_iterator rbegin() const
 		{
-			return const_reverse_iterator(end()); // test
+			return const_reverse_iterator(end()); 
 		}
+
+		/*
+		**	Rend
+		**	@brief
+		**	@return Reverse iterator to the last element from the end.
+		*/
 		reverse_iterator rend()
 		{
-			return reverse_iterator(begin()); // test pas sure
+			return reverse_iterator(begin());
 		}
+
 		const_reverse_iterator rend() const
 		{
 			return const_reverse_iterator(begin());
 		}
 
-		// capacity:
-		bool empty() const
-		{
-			if (_curr._size == 0)
-				return true;
-			return (false);
-		}
+		/* ****************************************************
+		**	📏 SIZE 
+		** ****************************************************
+		**
+		** 	├── 📏 Size
+		** 	│ ├── size
+		** 	│ ├── max_size
+		**	│ └── empty
+		**	└──
+		*/
 		size_type size() const
 		{
 			return (_curr._size);
@@ -120,13 +193,44 @@ namespace ft
 			return (alloc.max_size()); 
 		}
 
-		
+		bool empty() const
+		{
+			if (_curr._size == 0)
+				return true;
+			return (false);
+		}
+	
+
+		/* ****************************************************
+		**	🚪 ELEMENT ACCESS
+		** ****************************************************
+		**
+		** 	├── operator[]
+		*/
+
 		mapped_type& operator[](const key_type& x)
 		{
 			if (_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value)) != _curr.nil_node)
 				return (_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value))->_data.second);
 			return (_curr.insert(ft::make_pair<key_type, mapped_type>(x, _def_value))->_data.second);
 		}
+
+
+		/* ****************************************************
+		**	💄 MODIFIERS
+		** ****************************************************
+		**
+		** 	├── insert
+		** 	│ ├── single : insert (const value_type& val)
+		** 	│ ├── single position : insert (iterator position, const value_type& x)
+		**	│ └── range : insert (InputIterator first, InputIterator last);
+		** 	├── erase
+		** 	│ ├── single : erase(const key_type& x)
+		** 	│ ├── single : erase (iterator position)
+		**	│ └── range : erase (iterator first, iterator last);
+		** 	├── swap
+		**	└── clear
+		*/
 
 		/*
 		**	insert
@@ -164,7 +268,7 @@ namespace ft
 		size_type erase(const key_type& x)
 		{
 			if (_curr.erase(ft::make_pair<key_type, mapped_type>(x, _def_value)) == true)
-				return 1; // trouver quoi retourner
+				return 1; 
 			return 0;
 		}
 	
@@ -204,6 +308,14 @@ namespace ft
 			erase(begin(), end());
 		}
 
+		/* ****************************************************
+		**	👀 OBSERVERS
+		** ****************************************************
+		**
+		** 	├── key_comp
+		**	└── value_comp
+		*/
+
 		/*
 		** 	Keycomp and Value Comp : return object passed as param 
 		** 
@@ -212,10 +324,23 @@ namespace ft
 		{
 			return key_compare();
 		}
+
 		value_compare value_comp() const
 		{
 			return value_compare(comp);
 		}
+
+		/* ****************************************************
+		**	👀 MAP OPERATIONS 
+		** ****************************************************
+		**
+		** 	├── find
+		** 	├── count
+		** 	├── bounds
+		** 	│ ├── lower_bound
+		**	│ └── upper_bound
+		**	└── equal_range
+		*/
 
 		/*
 		**	Find
@@ -226,6 +351,7 @@ namespace ft
 		{
 			return iterator(_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value)));
 		}
+
 		const_iterator find(const key_type& x) const
 		{
 			return const_iterator(_curr.find(ft::make_pair<key_type, mapped_type>(x, _def_value)));
@@ -265,6 +391,7 @@ namespace ft
 			}
 			return (it);
 		}
+	
 		const_iterator lower_bound(const key_type& x) const
 		{
 			const_iterator it = (_curr.find(ft::make_pair(x, _def_value)));
@@ -307,11 +434,11 @@ namespace ft
 			}
 			return (it);
 		}
-		
 
 		/*
 		**	equal_range
-		** 	@brief  Returns the bounds of a range that includes all the elements in the container which have a key equivalent to k.
+		** 	@brief  Returns the bounds of a range that includes all the elements in the container which 
+		**		have a key equivalent to k.
 		** 	@param k - key to search for
 		*/
 		pair<iterator, iterator>

@@ -95,7 +95,7 @@ namespace ft
 		{
 			clear();
 			alloc_obj.deallocate(_curr, _capacity);
-		};
+		}
 
 		/*
 		**	Operator = overload
@@ -112,6 +112,7 @@ namespace ft
 
 		allocator_type get_allocator() const
 		{
+			return Alloc();
 		}
 
 		/* ****************************************************
@@ -140,6 +141,7 @@ namespace ft
 		{
 			return iterator(_curr);
 		}
+
 		const_iterator begin() const
 		{
 			return const_iterator(_curr);
@@ -147,7 +149,7 @@ namespace ft
 
 		/*
 		**	End
-		**	@brief returns iterator on last elem
+		**	@brief returns iterator on last elem + 1
 		*/
 		iterator end()
 		{
@@ -161,24 +163,30 @@ namespace ft
 		/*
 		**	Rbegin
 		**	@brief
-		**	@return Reverse iterator to the first element.
+		**	@return Reverse iterator to the first element from the end.
 		*/
 		reverse_iterator rbegin()
 		{
 			return reverse_iterator(_curr + _size);
 		}
-		const_reverse_iterator rbegin() const;
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(_curr + _size);
+		}
 
 		/*
 		**	Rend
 		**	@brief
-		**	@return Reverse iterator to the last element.
+		**	@return Reverse iterator to the last element from the end.
 		*/
 		reverse_iterator rend()
 		{
-			return reverse_iterator(_curr); // ca devrait etre + 1 pour aller plus a la fin ?? mais utilise pas mon implemde reverse ?????
+			return reverse_iterator(_curr);
 		}
-		const_reverse_iterator rend() const;
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(_curr);
+		}
 
 		/* ****************************************************
 		**	📏 SIZE AND CAPACITY

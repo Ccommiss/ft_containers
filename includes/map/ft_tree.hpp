@@ -32,6 +32,7 @@ namespace ft
 		Compare _comp;	 // objet de comparaison
 		_allocnode alloc;
 
+
 		// pour debug
 		int blacks;
 		T ***array; //[100][100];
@@ -40,13 +41,11 @@ namespace ft
 	public:
 		Tree(Compare c) : _comp(c), alloc(_allocnode()) // une instance de std::less<Key> par defaut
 		{
-			out("tree constructor");
 			Node<T> nullnode;
 			nil_node = alloc.allocate(1);
 			alloc.construct(nil_node, nullnode);
 
 
-			nil_node->tree = this;
 			// ZONE DE TEST POUR UNINITIALISED VAUES
 			//nil_node = nil_node;
 			nil_node->leftChild = nil_node;
@@ -59,9 +58,6 @@ namespace ft
 			nil_node->nil_node = nil_node;
 			blacks = 0;
 			_size = 0;
-			out ("out tree")
-			//out (__addressof(nullnode));
-			out (nil_node)
 		}
 
 		void delete_nodes(Node<T> *node)
@@ -70,7 +66,8 @@ namespace ft
 			{
 				Node<T> *tmp_right = node->rightChild;
 				Node<T> *tmp_left = node->leftChild;
-				delete node;
+				alloc.destroy(node);
+				alloc.deallocate(node, 1);
 				delete_nodes(tmp_left);
 				delete_nodes(tmp_right);
 			}
@@ -78,20 +75,19 @@ namespace ft
 
 		Tree<T, Compare, Allocator>& operator=(const Tree<T, Compare, Allocator> &x)
 		{
-
 			Node<T> *copy_root(x.root);
 			Node<T> *copy_nil(x.nil_node);
 			root = copy_root;
 			nil_node = copy_nil;
 			_size = x._size;
 			return (*this);
-
 		}
+
 		~Tree()
 		{
-			out("tree destructor " <<_size << "elems")
-				delete_nodes(root);
-			delete nil_node;
+			delete_nodes(root);
+			alloc.destroy(nil_node);
+			alloc.deallocate(nil_node, 1);
 		}
 
 
@@ -100,9 +96,8 @@ namespace ft
 			std::swap(root, x.root);
 			std::swap(nil_node, x.nil_node);
 			std::swap(_size, x._size);
-			std::swap(root->tree, x.root->tree);
-			std::swap(nil_node->tree, x.nil_node->tree); // oulalal bidouille
 		}
+
 		/*
 		** Functions;
 		*/
@@ -126,12 +121,16 @@ namespace ft
 			while (node != nil_node)
 			{
 				if (!_comp(key, node->_data) && !_comp(node->_data, key))
+				{
+					nil_node->max = getMaxSuccessor(root);
 					return node;
+				}
 				else if (_comp(key, node->_data) == true)
 					node = node->leftChild;
 				else
 					node = node->rightChild;
 			}
+			nil_node->max = getMaxSuccessor(root);
 			return nil_node;
 		}
 
@@ -162,15 +161,12 @@ namespace ft
 			Node<T> tmp(data, nil_node);
 			Node<T> *node = alloc.allocate(1);
 			alloc.construct(node, tmp);
-	
+			node->max = nil_node;
 			node->parent = nil_node;
 			node->leftChild = nil_node;
 			node->rightChild = nil_node;
-			node->tree = this;
-			out("To insert : " << data);
 			if (is_in_tree(data))
 			{
-				//std::cout << "/!\\ Cannot add twice the same value, " << data << " already present" << std::endl;
 				alloc.destroy(node);
 				alloc.deallocate(node, 1);
 				return find(data);
@@ -178,12 +174,13 @@ namespace ft
 			root = insert(root, node);
 			recolorAndRotate(node);
 			_size += 1;
+			nil_node->max = getMaxSuccessor(root);
 			return node;
 		}
 
 		Node<T> *insert(Node<T> *node, Node<T> *newNode)
 		{
-			if (root == nil_node)
+			if (root == nil_node) // compare les addresses donc pas comp
 			{
 				newNode->setColor(Node<T>::BLACK);
 				root = newNode;
@@ -215,7 +212,6 @@ namespace ft
 		*/
 		void recolorAndRotate(Node<T> *node)
 		{
-			out("Func is :" << __func__ << " on node " << *node);
 			Node<T> *parent = node->getParent();
 			if (node != root && node->color == Node<T>::RED && parent->color == Node<T>::RED)
 			{
@@ -232,9 +228,7 @@ namespace ft
 				else if (parent && !parent->is_left_child())
 					handle_rights(node, parent, grandParent);
 			}
-			out("NODE COLOR IS " << node->color);
 			root->setColor(Node<T>::BLACK);
-			out("root as black")
 		}
 
 		/*
@@ -245,22 +239,17 @@ namespace ft
 		*/
 		void updateChildrenOfParentNode(Node<T> *node, Node<T> *tempNode)
 		{
-			out("Func is :" << __func__ << " on node " << *node << " add " << node);
 			Node<T>* tmp = node;
-			if (node->parent == nil_node)// && tempNode != nil_node) //deuxieme condition mardi 17h
+			if (node->parent == nil_node)
 				root = tempNode;
 			else if (node->is_left_child())
-			{	
 				node->parent->setLeftChild(tempNode);
-			}
 			else
 				node->parent->setRightChild(tempNode);
-
-			out ("TMP NODE befor free" << *tempNode)
 			if (tempNode == nil_node)
 			{
-				out ("====>deleting " << *tmp)
-				delete tmp;
+				alloc.destroy(tmp);
+				alloc.deallocate(tmp, 1);
 			}
 		}
 
@@ -282,7 +271,6 @@ namespace ft
 		void rotateLeft(Node<T> *node)
 		{
 			// Node<T> is x
-			out("Func is :" << __func__ << " on node " << *node);
 			Node<T> *rightNode = node->rightChild;
 			// right node = y
 			node->setRightChild(rightNode->leftChild);
@@ -299,13 +287,6 @@ namespace ft
 			updateChildrenOfParentNode(node, rightNode);
 			// new parent of x is y
 			node->setParent(rightNode);
-
-			// output changes
-			out(*node << " parent is " << *node->parent);
-			out(*node << " right child " << *node->rightChild);
-			out(*rightNode << " parent is " << *rightNode->parent);
-			out(*rightNode << " left child is " << *rightNode->leftChild);
-			out("root is " << *root)
 		}
 
 		/*
@@ -323,18 +304,14 @@ namespace ft
 		*/
 		void rotateRight(Node<T> *node)
 		{
-			out("Func is :" << __func__ << " on node " << *node);
-
 			Node<T> *leftNode = node->leftChild;
-			out("Left node " << leftNode->_data)
-				node->setLeftChild(leftNode->rightChild);
+			node->setLeftChild(leftNode->rightChild);
 			if (node->leftChild != nil_node)
 				node->leftChild->setParent(node);
 			leftNode->setRightChild(node);
 			leftNode->setParent(node->parent);
 			updateChildrenOfParentNode(node, leftNode);
 			node->setParent(leftNode);
-			out("Node<T> " << node->_data << " and new parent " << node->parent->_data);
 		}
 
 		/*
@@ -344,26 +321,20 @@ namespace ft
 		*/
 		void handle_lefts(Node<T> *node, Node<T> *parent, Node<T> *grandParent)
 		{
-			out("Func is :" << __func__ << " on node " << *node);
-			//display_data(3, node, parent, grandParent);
-			//display(root);
 			int LR = 0;
 			if (node->is_right_child())
 			{
-				out("Left-right situation found");
 				rotateLeft(parent);
 				LR = 1;
 			}
-			// HERE IS LEFT HEAVY SITUATION
-			out("Left-left situation found");
 			if (LR == 1)
-				node->flipColor(); // PK LE PARENT DANS LE CODE SOURCE ?
+				node->flipColor();
 			else
 				parent->flipColor();
 			if (grandParent != nil_node)
 				grandParent->flipColor();
 			rotateRight(grandParent);
-			if (node != root) // EST CE NORMAL ?
+			if (node != root)
 				recolorAndRotate(node->is_left_child() ? parent : grandParent);
 		}
 
@@ -374,16 +345,12 @@ namespace ft
 		*/
 		void handle_rights(Node<T> *node, Node<T> *parent, Node<T> *grandParent)
 		{
-			out("Func is :" << __func__ << " on node " << *node);
-			//display_data(3, node, parent, grandParent);
 			int RL = 0;
 			if (node->is_left_child())
 			{
-				out("Right-left situation found")
-					rotateRight(parent);
+				rotateRight(parent);
 				RL = 1;
 			}
-			out("Right-right situation found");
 			if (RL == 1)
 				node->flipColor();
 			else
@@ -403,24 +370,25 @@ namespace ft
 			recolorAndRotate(grandParent);
 		}
 
-		/***************************************************
+		/*	**************************************************
 		**
 		**	DELETE
 		**
-		****************************************************/
+		*/
 
 		bool erase(T data)
 		{
-			out("ROOT ICI =" << root->_data)
-			if (erase(data, root) == true)
+			if (erase_and_balance(data) == true)
 			{
 				_size -= 1;
+				nil_node->max = getMaxSuccessor(root);
 				return true;
 			}
+			nil_node->max = getMaxSuccessor(root);
 			return false;
 		}
 
-		Node<T> *getMaxSuccessor(Node<T> *node)
+		Node<T> *getMaxSuccessor(Node<T> *node) const
 		{
 			if (node->rightChild != nil_node)
 				return getMaxSuccessor(node->rightChild);
@@ -430,8 +398,8 @@ namespace ft
 		Node<T> *getMinSuccessor(Node<T> *node) const
 		{
 			if (node == nil_node)
-				return nil_node; // ajout 18h
-			if (node->leftChild != nil_node)//  && node->leftChild != node) // TEEST VENDREDI MATIN
+				return nil_node;
+			if (node->leftChild != nil_node)
 				return getMinSuccessor(node->leftChild);
 			return node;
 		}
@@ -444,7 +412,7 @@ namespace ft
 					return node->parent->rightChild;
 				else if (node->parent->leftChild != nil_node)
 					return node->parent->leftChild;
-			} // GROS PATCH PAS FOU
+			}
 			if (node->is_left_child() && node->parent->rightChild != nil_node)
 				return node->parent->rightChild;
 			else if (node->is_right_child() && node->parent->leftChild != nil_node)
@@ -454,12 +422,6 @@ namespace ft
 
 		bool black_nephews(Node<T> *node)
 		{
-			out("HERE" << *node);
-			if (node == nil_node) // bah oui mais quoi !
-			{
-				out(*node->parent);
-				out(*getSibling(node))
-			}
 			if (!(getSibling(node)->leftChild == nil_node || (getSibling(node)->leftChild != nil_node && getSibling(node)->leftChild->getColor() == Node<T>::BLACK)))
 				return false;
 			if (!(getSibling(node)->rightChild == nil_node || getSibling(node)->rightChild->getColor() == Node<T>::BLACK)) // le neveu droit
@@ -469,53 +431,46 @@ namespace ft
 
 		void handleBlackSiblingWithAtLeastOneRedChild(Node<T> *node, Node<T> *sibling)
 		{
-			out("Func is :" << __func__ << " on node " << *node << "and sib " << *sibling);
 			bool nodeIsLeftChild = node->is_left_child();
 
-			// Case 5: Black sibling with at least one red child + "outer nephew" is black
-			// --> Recolor sibling and its child, and rotate around sibling
+			/*Case 5: Black sibling with at least one red child + "outer nephew" is black
+			 	--> Recolor sibling and its child, and rotate around sibling */
 			if (nodeIsLeftChild && (sibling->rightChild == nil_node || sibling->rightChild->color == Node<T>::BLACK))
 			{
 				sibling->leftChild->color = Node<T>::BLACK;
 				sibling->color = Node<T>::RED;
 				rotateRight(sibling);
 				sibling = getSibling(node);
-				// sibling = node->parent->rightChild;
 			}
-			else if (!nodeIsLeftChild && (sibling->rightChild == nil_node || sibling->leftChild->color == Node<T>::BLACK))
+			else if (!nodeIsLeftChild && (sibling->rightChild == nil_node 
+				|| sibling->leftChild->color == Node<T>::BLACK))
 			{
 				sibling->rightChild->color = Node<T>::BLACK;
 				sibling->color = Node<T>::RED;
 				rotateLeft(sibling);
 				sibling = getSibling(node);
 			}
-
-			// Fall-through to case 6...
-			// Case 6: Black sibling with at least one red child + "outer nephew" is red
-			// --> Recolor sibling + parent + sibling's child, and rotate around parent
+			/*Case 6: Black sibling with at least one red child + "outer nephew" is red
+			// --> Recolor sibling + parent + sibling's child, and rotate around parent */
 			sibling->color = node->parent->color;
 			node->parent->color = Node<T>::BLACK;
 			if (nodeIsLeftChild)
 			{
-				out("Case 6")
 				sibling->rightChild->color = Node<T>::BLACK;
 				rotateLeft(node->parent);
 			}
 			else
 			{
-				out("Case 6 on node = right child")
 				sibling->leftChild->color = Node<T>::BLACK;
 				rotateRight(node->parent);
 			}
 		}
 
+		/* Recolor and rotate */ 
 		void handleRedSibling(Node<T> *node, Node<T> *sibling)
 		{
-			// Recolor...
 			sibling->setColor(Node<T>::BLACK);
 			node->parent->color = Node<T>::RED;
-
-			// ... and rotate
 			if (node == node->parent->leftChild)
 				rotateLeft(node->parent);
 			else
@@ -524,247 +479,122 @@ namespace ft
 
 		void fixRedBlackPropertiesAfterDelete(Node<T> *node)
 		{
-			out("Func is :" << __func__ << " on node " << *node);
-			out (*node << node << "has LC " << *node->leftChild << "RC " << *node->rightChild)
-			out (*root  << root << "is root")
-			// Case 1: Examined node is root, end of recursion
-			// TEST
-			if (node == root)// || node == nil_node) // pas sure du deuxieme ..... tests lowerbounds
-			{
-				// Uncomment the following line if you want to enforce black roots (rule 2):
-				// node.color = BLACK;
+																							/*Case 1: Examined node is root, end of recursion */
+			if (node == root)
 				return;
-			}
-			Node<T> *sibling = getSibling(node);
-			out(*sibling);
-			// if (sibling == nil_node)
-			//	return; // TEST
-			//  Case 2: Red sibling
-			if (sibling->color == Node<T>::RED)
+			Node<T> *sibling = getSibling(node);	
+			if (sibling->color == Node<T>::RED)												/* Case 2: Red sibling */
 			{
-				out("CASE 2 : red sibling " << *sibling);
 				handleRedSibling(node, sibling);
 				sibling = getSibling(node);
-				out("NEW SIBLING " << *sibling)		 // Get new sibling for fall-through to cases 3-6
-					if (sibling == nil_node) return; // TEST
-			}
-			// Cases 3+4: Black sibling with two black children
-			if (sibling->color == Node<T>::BLACK && black_nephews(node) == true)
+				if (sibling == nil_node) return; 
+			}	
+			if (sibling->color == Node<T>::BLACK && black_nephews(node) == true) 			/*Cases 3+4: Black sibling with two black children */
 			{
-				sibling->color = Node<T>::RED;
-				out("ICI 3 + 4 ")
-					// Case 3: Black sibling with two black children + red parent
-				if (node->parent->color == Node<T>::RED)
-				{
-					out("CASE 3   parent is " << *(node->parent));
+				sibling->color = Node<T>::RED;	
+				if (node->parent->color == Node<T>::RED)									/* Case 3: Black sibling with two black children + red parent */
 					node->parent->color = Node<T>::BLACK;
-				}
-				// Case 4: Black sibling with two black children + black parent
-				else
-				{
-					out("CASE 4");
-					out (*root << root << "VS" << node->parent << *node->parent)
+				else																		/* Case 4: Black sibling with two black children + black parent */
 					fixRedBlackPropertiesAfterDelete(node->parent);
-				}
 			}
-			// Case 5+6: Black sibling with at least one red child
-			else
-			{
-				out("CASE 5 + 6 ");
+			else																			/* Case 5+6: Black sibling with at least one red child */
 				handleBlackSiblingWithAtLeastOneRedChild(node, sibling);
-			}
 		}
 
 		Node<T> *deleteNodeWithZeroOrOneChild(Node<T> *node)
 		{
-			out("Func is :" << __func__ << " on node " << *node);
 			Node <T> *tmp;
-			out ("Node " << node << " VS ROOT " << root << " " << *root) // PK ROOT PAS BONNE ADDRE S??????? 
-			out ("Node parent " << *node->parent << " " << node->parent) // addres sort d'ou ??????
 
-			// Node<T> has ONLY a left child --> replace by its left child
+			/* Node<T> has ONLY a left child --> replace by its left child */
 			if (node->leftChild != nil_node)
 			{
 				tmp = node->leftChild;
-				out("BIZARRE " << *node << *node->leftChild);
 				updateChildrenOfParentNode(node, node->leftChild);
-				out("UPDATED NODE *NODE" << *node << "AND PARENT " << *(node->parent))
-					node->leftChild->setParent(node->parent);
-				delete node;
-				//return node->leftChild; // moved-up node
+				node->leftChild->setParent(node->parent);
+				alloc.destroy(node);
+				alloc.deallocate(node, 1);
 				return tmp; 
 			}
-			// Node<T> has ONLY a right child --> replace by its right child
+			/* Node<T> has ONLY a right child --> replace by its right child */ 
 			else if (node->rightChild != nil_node)
 			{
 				tmp = node->rightChild;
 				updateChildrenOfParentNode(node, node->rightChild);
 				node->rightChild->setParent(node->parent);
-				delete node;
-				//return node->rightChild; // moved-up node
+				alloc.destroy(node);
+				alloc.deallocate(node, 1);
 				return tmp; // moved-up node
 
 			}
-			// Node<T> has no children -->
-			// * node is red --> just remove it
-			// * node is black --> replace it by a temporary NIL node (needed to fix the R-B rules)
+			/* Node<T> has no children -->
+			** * node is red --> just remove it
+			** * node is black --> replace it by a temporary NIL node (needed to fix the R-B rules)
+			*/
 			else
 			{
 				int color = node->getColor();
-				Node<T> *newChild = color == Node<T>::BLACK ? nil_node : nil_node; // rajout du nil node ca me pareit chelou
 				Node<T> *parent_save = node->parent;
-				updateChildrenOfParentNode(node, newChild);
-
-				// if (newChild != NULL)
+				updateChildrenOfParentNode(node, nil_node);
 				if (color == Node<T>::BLACK)
-				{
-					newChild->setParent(parent_save); // remplacer par temporary nul node
-				}
-				out ("New child is " << *newChild << "with parent " << *parent_save);
-				return newChild;
+					nil_node->setParent(parent_save);
+				return nil_node;
 			}
 		}
 
 
-		void set_family_to_nil(Node<T> *node)
+		/*
+		**		Copy_successor copies data from successor to node.
+		**		Had to do this cause you cannot copy pair.first in a regular way
+		**		as key is marked const.
+		*/
+		void copy_successor(Node<T> *node, Node<T> *inOrderSuccessor)
 		{
-			if (node->leftChild->parent == node)
-				node->leftChild->setParent(nil_node);
-			if (node->rightChild->parent == node)
-				node->rightChild->setParent(nil_node);
-			if (node->parent->leftChild == node)
-				node->parent->setLeftChild(nil_node);
-			if (node->parent->rightChild == node)
-				node->parent->setRightChild(nil_node);
-
+			Node<T> copy(inOrderSuccessor->_data, nil_node);
+			Node<T> *tmp = alloc.allocate(1);
+			alloc.construct(tmp, copy);
+			tmp->leftChild = node->leftChild; 
+			tmp->rightChild = node->rightChild;
+			tmp->leftChild->parent = tmp;
+			tmp->rightChild->parent = tmp;
+			tmp->nil_node = node->nil_node;
+			tmp->parent = node->parent;
+			if (root == node) root = tmp;
+			node->is_left_child() ? node->parent->leftChild = tmp : node->parent->rightChild = tmp;
+			if (nil_node->rightChild == node) nil_node->rightChild = tmp;
+			if (nil_node->leftChild == node) nil_node->leftChild = tmp;
+			tmp->color = node->color;
+			alloc.destroy(node);
+			alloc.deallocate(node, 1);
+			node = tmp;
 		}
 
-		void update_root(Node<T> *newRoot)
+		bool erase_and_balance(T data)
 		{
-			root = newRoot; // CA A REGELE TOUS MES PROBLEMES ??????????? QUOI ????
-		}
-
-		bool erase(T data, Node<T> *root)
-		{
-			(void)root;
-			out("Func is :" << __func__ << " on node " << *root);
-
-			//display(root);
-			Node<T> *node = find(data);
-			out("LA " << node->_data);
+			Node<T> 		*movedUpNode;
+			int 			deletedNodeColor;
+			Node<T> *node 	= find(data);
 			if (node == nil_node)
-				return false; 
-				
-			// aucun noeud delete
-
-			// At this point, "node" is the node to be deleted
-			// In this variable, we'll store the node at which we're going to start to fix the R-B
-			// properties after deleting a node->
-			Node<T> *movedUpNode;
-		
-			int deletedNodeColor;
-
-			// Node<T> has zero or one child
-			if (node->leftChild == nil_node || node->rightChild == nil_node)
+				return false;
+			if (node->leftChild == nil_node || node->rightChild == nil_node)						/* Node<T> has zero or one child */
 			{
 				deletedNodeColor = node->color;
-				movedUpNode = deleteNodeWithZeroOrOneChild(node); //soccupe de free dans update
-				//deletedNodeColor = node->color;
-				//alloc.deallocate(node, 1); // use after free ? a voir 
+				movedUpNode = deleteNodeWithZeroOrOneChild(node);
 			}
-			// Node<T> has two children
-			else
+			else																					/* Two children case */
 			{
-				// Find minimum node of right subtree ("inorder successor" of current node)
-				Node<T> *inOrderSuccessor = getMaxSuccessor(node->leftChild);
-
-				out ("ICI DEBUT " << *inOrderSuccessor->leftChild)
-				
-				// Copy inorder successor's data to current node (keep its color!)
-	
-				out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
-				out("NODE LC PARENT " << *node->leftChild->parent);
-				out ("NODE ADD " << node);
-
-				
-				Node<T> copy(inOrderSuccessor->_data, nil_node);
-				//copy._data.second += 1;
-				Node<T> *tmp = alloc.allocate(1);
-				alloc.construct(tmp, copy);
-			
-				tmp->leftChild = node->leftChild; //on reset les bons 
-				tmp->rightChild = node->rightChild;
-				tmp->leftChild->parent = tmp;
-				tmp->rightChild->parent = tmp;
-				tmp->nil_node = node->nil_node;
-				tmp->parent = node->parent;
-		
-	
-				if (root == node)
-				{
-					out ("CHANGING ROOT")
-					update_root(tmp);
-				}
-				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
-				node->is_left_child() ? node->parent->leftChild = tmp : node->parent->rightChild = tmp;
-				if (nil_node->rightChild == node) nil_node->rightChild = tmp;
-				if (nil_node->leftChild == node) nil_node->leftChild = tmp;
-				tmp->color = node->color;
-				//out("TMP PARENT " << *tmp->parent << " VS " << *node->parent);
-				out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
-				out("TMP " << *tmp << " has parent " << *tmp->parent << "RC : " << *tmp->rightChild << " LC : " << *tmp->leftChild);
-				out ("Node left child 1 == "<< node->leftChild << *node->leftChild);
-				alloc.destroy(node); // pete un cable la desus 
-				alloc.deallocate(node, 1); // A regle un leak mais invalid read
-				//node = alloc.allocate(1);
-				//alloc.construct(node, *tmp);
-
-
-				node = tmp;
-				out ("ADDR OF NODE : " << node << " vs tmp " << tmp << " VS ROOT " << root)
-				out ("Node left child 2 == " << node->leftChild << *node->leftChild);
-				
-				
-				//node = tmp;
-				// out("TMP = " << *tmp);
-				//out("NODE = " << *node);
-				//out(*node << " has parent " << *node->parent << "RC : " << *node->rightChild << " LC : " << *node->leftChild);
-
-				// Delete inorder successor just as we would delete a node with 0 or 1 child
-				//movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
-				out ("TM PARENT IS  " << tmp->parent << *tmp->parent);
-
+				Node<T> *inOrderSuccessor = getMaxSuccessor(node->leftChild);						
+				copy_successor(node, inOrderSuccessor);			
 				deletedNodeColor = inOrderSuccessor->getColor();
 				movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
-				// out ("Moved up =" << *movedUpNode);
-				// out ("Root is : " << *root << root << "and node " << *node << node);
-				// out ("inOrder " << *inOrderSuccessor << " has add " << inOrderSuccessor)
-				// out ("inOrder parent " << *inOrderSuccessor->parent << " has add " << inOrderSuccessor->parent)
-
-				//deletedNodeColor = inOrderSuccessor->getColor();
-
-				//set_family_to_nil(inOrderSuccessor); // ajout pour eviter invalid read 
-				//alloc.deallocate(inOrderSuccessor, 1); // a regle un leak mais invalid read 
-			
-				//inOrderSuccessor = nil_node; // RAJOUTE POUR EVITER INVALID READ.... PAS SURE 
 			}
-			if (deletedNodeColor == Node<T>::BLACK)
-			{
-				fixRedBlackPropertiesAfterDelete(movedUpNode); //la c nil node
-				//alloc.deallocate(node, 1); // OK POUR ESSAI SUR UNE SUPPRESSION
-				// Remove the temporary NIL node
-				// if (movedUpNode == nil_node)
-				// {
-				// 	updateChildrenOfParentNode(movedUpNode, );
-				// }
-			}
+			if (deletedNodeColor == Node<T>::BLACK)													/* Have to fix only if black */
+				fixRedBlackPropertiesAfterDelete(movedUpNode); 
 			return true;
 		}
 
 		void display_children(Node<T> *_curr);
 		int validity_check(Node<T> *_curr);
 		void display(Node<T> *_curr);
-		//void display_data(int a, ...);
 		void calculate_height(Node<T> *node);
 		int curr_black_height(T data);
 		void see_tree();

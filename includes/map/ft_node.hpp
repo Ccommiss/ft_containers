@@ -30,7 +30,6 @@ namespace ft
 		template<typename type>
 		friend ft::Node<type>* _Rb_tree_decrement(ft::Node<type>* __x) throw();
 
-		//typedef _Rb_tree_node_base* _Base_ptr;
     	typedef const Node* _Const_Base_ptr;
 
 
@@ -39,14 +38,14 @@ namespace ft
 		{
 			color = RED;
 		}
+
 		Node(T data, Node *nil_ptr) : _data(data), nil_node(nil_ptr)
 		{
 			color = RED;
 		}
+
 		Node(const Node<T> &x) : _data(x._data)
 		{
-			out ("Node copy")
-			out (_data);
 			*this = x;
 		}
 
@@ -55,24 +54,18 @@ namespace ft
 		*/
 		Node<T> &operator=(const Node<T> &x)
 		{
-			//if (*this != x)
-			//{
-			//if (x == NULL)
-
-			out("YIHA" << x._data)
-			this->color = x.color;
-			this->parent = x.parent;
-			this->leftChild = x.leftChild;
-			this->rightChild = x.rightChild;
-			//this->nil_node = new Node<T>(x.nil_node->_data);
-			this->nil_node = x.nil_node;
-			this->tree = x.tree;
-			//this->_data = x._data; //  ca va pas marcher ca si key est const...
-			//}
+			if (this != &x)
+			{
+				this->color = x.color;
+				this->parent = x.parent;
+				this->leftChild = x.leftChild;
+				this->rightChild = x.rightChild;
+				this->nil_node = x.nil_node;
+			}
 			return (*this);
 		}
 
-		~Node(){ out ("Node destructor" << this)};
+		~Node(){ };
 
 		Node *getLeftChild()
 		{
@@ -103,18 +96,17 @@ namespace ft
 		}
 
 		/*
-		 ** If addresses are the same, then this is a left child
+		** If addresses are the same, then this is a left child
 		 */
 		bool is_left_child()
 		{
 			if (this == nil_node)
 			{
-				out("DEBUG LEFT CHILD");
 				if (parent->rightChild != nil_node)
-					return true; // TEST CAR PB DANS DELETE ; pb comnme nil a pas de parent, check plus loin
+					return true; 
 				return false;
 			}
-			if (parent == nil_node) // c root
+			if (parent == nil_node) 
 				return false;
 			if (parent->leftChild == nil_node)
 				return false;
@@ -124,7 +116,7 @@ namespace ft
 		}
 		bool is_right_child()
 		{
-			if (parent == nil_node) // c root
+			if (parent == nil_node) 
 				return false;
 			if (parent->rightChild == nil_node)
 				return false;
@@ -141,28 +133,17 @@ namespace ft
 		{
 			return (_data);
 		}
-		// void setData(T data)
-		// {
-		// 	_data = data;
-		// }
-
+	
 		void setLeftChild(Node *node)
 		{
-		//	if (node != nil_node)
-		//		out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
 			leftChild = node;
 		}
 		void setRightChild(Node *node)
 		{
-			if (node != nil_node)
-				out("Func is :" << __func__ << " on this " << _data << " with node " << node->_data);
 			rightChild = node;
 		}
 		void setParent(Node *newParent)
 		{
-			if (newParent != nil_node)
-				out("Func is :" << __func__ << " on this " << _data << " with node " << newParent->_data);
-			;
 			parent = newParent;
 		}
 
@@ -180,19 +161,17 @@ namespace ft
 		Node 	*parent;
 		int		color;
 		Node 	*nil_node;
-		void	*tree;
+		Node	*max;
 	};
 }
 
 template <class T>
 std::ostream &operator<<(std::ostream &os,  ft::Node<T> &node)
 {
-	//if (&node != NULL)
-	//{
-		std::string colors;
-		node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
-		os << "Node " << node.getData() << " " << colors;
-//	}
+
+	std::string colors;
+	node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
+	os << "Node " << node.getData() << " " << colors;
 	return os;
 }
 
