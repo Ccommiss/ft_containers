@@ -132,40 +132,32 @@ namespace ft
 			return x._curr != y._curr;
 		}
 
-
-
 		friend bool operator!=(const _Self &x, const const_it &y)
 		{
 			return x._curr != y._curr;
 		}
-		node _curr; // les it sont des ptr sur noeuds
-
-
-
-
+		node										_curr; // les it sont des ptr sur noeuds
 
 	};
 
 	template <typename T>
 	struct _Rb_tree_const_iterator
 	{
-		typedef const T value_type;
-		typedef const T &reference;
-		typedef const T *pointer;
+		typedef const T 								value_type;
+		typedef const T 								&reference;
+		typedef const T 								*pointer;
 
-		typedef _Rb_tree_iterator<T> iterator;
+		typedef _Rb_tree_iterator<T> 					iterator;
 
-		typedef bidirectional_iterator_tag iterator_category;
-		typedef ptrdiff_t difference_type;
+		typedef bidirectional_iterator_tag 				iterator_category;
+		typedef ptrdiff_t 								difference_type;
 
-		typedef _Rb_tree_const_iterator<T> _Self;
-		typedef const Node<T> *_Base_ptr;
-		typedef const T *_Link_type;
+		typedef _Rb_tree_const_iterator<T> 				_Self;
+		typedef const Node<T> 							*_Base_ptr;
+		typedef const T 								*_Link_type;
 
 		_Rb_tree_const_iterator(): _curr() {}
-
-		explicit _Rb_tree_const_iterator(_Base_ptr x): _curr(x) {}
-
+		_Rb_tree_const_iterator(_Base_ptr x): _curr(x) {}
 		_Rb_tree_const_iterator(const iterator &src):  _curr(src._curr) {}
 
 		reference operator*() const
