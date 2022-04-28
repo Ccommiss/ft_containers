@@ -1,9 +1,7 @@
 #ifndef NODE_HPP
 #define NODE_HPP
-//#include "../utils/debug.hpp"
 #include "debug.hpp"
 #include "ft_tree.hpp"
-
 
 namespace ft
 {
@@ -20,15 +18,15 @@ namespace ft
 		template <typename Key, typename value, typename Compare, typename Allocator>
 		friend class map;
 
-		template<typename it>
+		template <typename it>
 		friend struct _Rb_tree_iterator;
-		template<typename it>
+		template <typename it>
 		friend struct _Rb_tree_const_iterator;
 
-		template<typename type>
-		friend ft::Node<type>* _Rb_tree_increment(ft::Node<type>* __x) throw();
-		template<typename type>
-		friend ft::Node<type>* _Rb_tree_decrement(ft::Node<type>* __x) throw();
+		template <typename type>
+		friend ft::Node<type> *_Rb_tree_increment(ft::Node<type> *__x) throw();
+		template <typename type>
+		friend ft::Node<type> *_Rb_tree_decrement(ft::Node<type> *__x) throw();
 
 	public:
 		Node() : _data(T())
@@ -66,7 +64,7 @@ namespace ft
 			return (*this);
 		}
 
-		~Node(){ };
+		~Node(){};
 
 		Node *getLeftChild()
 		{
@@ -90,23 +88,21 @@ namespace ft
 		}
 		void flipColor()
 		{
-			std::string from = color == RED ? "🔴 " : "⚫️";
-			std::string to = color == RED ? "⚫️" : "🔴 ";
 			color == RED ? color = BLACK : color = RED;
 		}
 
 		/*
 		** If addresses are the same, then this is a left child
-		 */
+		*/
 		bool is_left_child()
 		{
 			if (this == nil_node)
 			{
 				if (parent->rightChild != nil_node)
-					return true; 
+					return true;
 				return false;
 			}
-			if (parent == nil_node) 
+			if (parent == nil_node)
 				return false;
 			if (parent->leftChild == nil_node)
 				return false;
@@ -120,10 +116,10 @@ namespace ft
 			if (this == nil_node)
 			{
 				if (parent->leftChild != nil_node)
-					return true; 
+					return true;
 				return false;
 			}
-			if (parent == nil_node) 
+			if (parent == nil_node)
 				return false;
 			if (parent->rightChild == nil_node)
 				return false;
@@ -136,7 +132,7 @@ namespace ft
 		{
 			return (_data);
 		}
-	
+
 		void setLeftChild(Node *node)
 		{
 			leftChild = node;
@@ -159,14 +155,14 @@ namespace ft
 		};
 
 	private:
-		T 		_data;
-		Node 	*root;
-		Node 	*leftChild;
-		Node 	*rightChild;
-		Node 	*parent;
-		int		color;
-		Node 	*nil_node;
-		Node	*max;
+		T 				_data;
+		int 			color;
+		Node 			*root;
+		Node 			*leftChild;
+		Node 			*rightChild;
+		Node 			*parent;
+		Node 			*nil_node;
+		Node 			*max;
 	};
 }
 

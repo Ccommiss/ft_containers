@@ -2,6 +2,9 @@
 #define VECTOR_HPP
 
 #include <algorithm>
+#include <memory>
+#include <exception>
+#include <iostream>
 #include "reverse_iterators.hpp"
 #include "randomaccessiterator.hpp"
 #include "iterator_traits.hpp"

@@ -24,26 +24,25 @@ namespace ft
 		/*
 		** 1) Default constructor. Value-initializes both elements of the pair, first and second.
 		*/
-		pair() : first(T1()), second(T2()) { }
+		pair() : first(T1()), second(T2()) {}
 
 		/*
 		** 2) Initializes first with x and second with y.
 		*/
-		pair(const T1& x, const T2& y) : first(x), second(y) {}
+		pair(const T1 &x, const T2 &y) : first(x), second(y) {}
 
 		/*
 		** 4) Initializes first with p.first and second with p.second.
 		*/
 		template <class U1, class U2>
-		pair(const pair<U1, U2>& x) : first(x.first), second (x.second)
+		pair(const pair<U1, U2> &x) : first(x.first), second(x.second)
 		{
-
 		}
 
 		/*
 		** 1) Copy assignment operator. Replaces the contents with a copy of the contents of other.
 		*/
-		pair<T1, T2>& operator=(const pair<T1, T2>& x)
+		pair<T1, T2> &operator=(const pair<T1, T2> &x)
 		{
 			if (*this != x)
 			{
@@ -52,9 +51,7 @@ namespace ft
 			}
 			return *this;
 		}
-
 	};
-
 
 	/* ****************************************************
 	**	NON MEMBERS FUNCTIONS
@@ -78,14 +75,14 @@ namespace ft
 	**	that is, compares lhs.first with rhs.first and lhs.second with rhs.second.
 	*/
 	template <class T1, class T2>
-	bool operator==(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	bool operator==(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 	{
 		if (lhs.first == rhs.first && lhs.second == rhs.second)
 			return (true);
 		return (false);
 	}
 	template <class T1, class T2>
-	bool operator!=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	bool operator!=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 	{
 		return !(lhs == rhs);
 	}
@@ -95,7 +92,7 @@ namespace ft
 	**	first elements and only if they are equivalent, compares the second elements.
 	*/
 	template <class T1, class T2>
-	bool operator<(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	bool operator<(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 	{
 		if (lhs.first != rhs.first)
 			return (lhs.first < rhs.first);
@@ -104,18 +101,18 @@ namespace ft
 	}
 
 	template <class T1, class T2>
-	bool operator>(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	bool operator>(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 	{
 		return (rhs.first < lhs.first);
 	}
 
 	template <class T1, class T2>
-	bool operator<=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	bool operator<=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 	{
 		return !(rhs < lhs);
 	}
 	template <class T1, class T2>
-	bool operator>=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
+	bool operator>=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 	{
 		return !(lhs.first < rhs.first);
 	}
@@ -126,7 +123,7 @@ namespace ft
 	** @param  t,u- the values to construct the pair from
 	** @return A std::pair object containing the given values.
 	*/
-	template< class T1, class T2 >
+	template <class T1, class T2>
 	ft::pair<T1, T2> make_pair(T1 t, T2 u)
 	{
 		ft::pair<T1, T2> new_pair(t, u);
@@ -135,10 +132,8 @@ namespace ft
 
 }
 
-
-
 template <typename T, typename U>
-std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
+std::ostream &operator<<(std::ostream &os, const ft::pair<T, U> &pair)
 {
 	os << "[" << pair.first << "]=\"" << pair.second << "\"";
 	return os;
@@ -149,7 +144,7 @@ std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
 **	@brief overloading pair so it is seen as key/value
 */
 template <typename T, typename U>
-std::ostream& operator<<(std::ostream& os, ft::pair<T, U>& pair)
+std::ostream &operator<<(std::ostream &os, ft::pair<T, U> &pair)
 {
 
 	os << "[" << pair.first << "]=\"" << pair.second << "\"";
@@ -161,7 +156,7 @@ std::ostream& operator<<(std::ostream& os, ft::pair<T, U>& pair)
 **	@brief overloading std::pair so it is seen as key/value
 */
 template <typename T, typename U>
-std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& pair)
+std::ostream &operator<<(std::ostream &os, const std::pair<T, U> &pair)
 {
 
 	os << "[" << pair.first << "]=\"" << pair.second << "\"";

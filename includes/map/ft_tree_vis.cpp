@@ -94,25 +94,45 @@ void ft::Tree<U, V, Alloc>::display(ft::Node<U> *_curr)
 // }
 
 template <typename T>
-void ft_null_ptr(T *p) {
+void ft_null_ptr(T *p)
+{
 	p = ft::make_pair(404, "null");
 }
 
 template <>
-void ft_null_ptr(ft::pair<const int, std::string> *p) { ft::pair<const int, std::string> tmp(ft::make_pair<const int, std::string>(-404, "nullnull")); p = &tmp; }
-
-
-template <>
-void ft_null_ptr(ft::pair<const char, int> *p) { ft::pair<const char, int> tmp(ft::make_pair('z', 78785154)); p = &tmp;  }
-
-template <>
-void ft_null_ptr(ft::pair<std::string, std::string> *p) { ft::pair<std::string, std::string> tmp(ft::make_pair("nullnull", "nullnull")); p = &tmp; }
+void ft_null_ptr(ft::pair<const int, std::string> *p)
+{
+	ft::pair<const int, std::string> tmp(ft::make_pair<const int, std::string>(-404, "nullnull"));
+	p = &tmp;
+}
 
 template <>
-void ft_null_ptr(ft::pair<int, int> *p) { ft::pair<int, int>  tmp(ft::make_pair<int, int>(-404, -404)); p = &tmp; }
+void ft_null_ptr(ft::pair<const char, int> *p)
+{
+	ft::pair<const char, int> tmp(ft::make_pair('z', 78785154));
+	p = &tmp;
+}
 
 template <>
-void ft_null_ptr(ft::pair<std::string, int> *p) { ft::pair<std::string, int> tmp(ft::make_pair<std::string, int>("nullnull", -404)); p = &tmp; }
+void ft_null_ptr(ft::pair<std::string, std::string> *p)
+{
+	ft::pair<std::string, std::string> tmp(ft::make_pair("nullnull", "nullnull"));
+	p = &tmp;
+}
+
+template <>
+void ft_null_ptr(ft::pair<int, int> *p)
+{
+	ft::pair<int, int> tmp(ft::make_pair<int, int>(-404, -404));
+	p = &tmp;
+}
+
+template <>
+void ft_null_ptr(ft::pair<std::string, int> *p)
+{
+	ft::pair<std::string, int> tmp(ft::make_pair<std::string, int>("nullnull", -404));
+	p = &tmp;
+}
 
 // template <>
 // void ft_null_ptr(std::string *p) { p = "null"; }
@@ -201,7 +221,7 @@ void ft::Tree<U, V, Alloc>::see_tree()
 	ft_null_ptr(&to_be_null);
 	height = 0;
 	Node<U> *node = root;
-		calculate_height(node);
+	calculate_height(node);
 	std::cout << std::setw(40) << (*array[0][0]) << " " << std::endl;
 	int nb = 2;
 	int black_path = 0;

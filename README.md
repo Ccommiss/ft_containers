@@ -501,3 +501,9 @@ See https://code.woboq.org/gcc/libstdc++-v3/src/c++98/tree.cc.html for source co
 
 
 
+
+
+For testers :
+
+mli : replace with this this line 
+	compile_cmd="$CC $CFLAGS -o ${3} -I../includes -I../includes/utils -I../includes/vector -I../includes/stack -I../includes/map -D ${macro_name} ${1} "
