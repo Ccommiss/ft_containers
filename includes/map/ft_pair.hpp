@@ -18,11 +18,9 @@ namespace ft
 	struct pair
 	{
 
-		//private:
 		T1 first;
 		T2 second;
 
-		public:
 		/*
 		** 1) Default constructor. Value-initializes both elements of the pair, first and second.
 		*/
@@ -47,16 +45,14 @@ namespace ft
 		*/
 		pair<T1, T2>& operator=(const pair<T1, T2>& x)
 		{
-			first = x.first;
-			second = x.second; // ca c ok mais pas le first ???
+			if (*this != x)
+			{
+				first = x.first;
+				second = x.second;
+			}
 			return *this;
 		}
 
-		void swap(const pair<T1, T2>& x) throw ()
-		{
-			std::swap(first, x.first);
-			std::swap(second, x.second);
-		}
 	};
 
 
@@ -88,8 +84,6 @@ namespace ft
 			return (true);
 		return (false);
 	}
-
-	//	**	a!=b	|	!(a==b)
 	template <class T1, class T2>
 	bool operator!=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
@@ -110,21 +104,17 @@ namespace ft
 	}
 
 	template <class T1, class T2>
-	/**	a>b		*/
 	bool operator>(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
 		return (rhs.first < lhs.first);
 	}
 
-	// 	**	a<=b	|	!(b<a)
 	template <class T1, class T2>
 	bool operator<=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
 		return !(rhs < lhs);
 	}
-
 	template <class T1, class T2>
-	// ** a>=b	|	!(a<b)
 	bool operator>=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
 		return !(lhs.first < rhs.first);
@@ -139,9 +129,7 @@ namespace ft
 	template< class T1, class T2 >
 	ft::pair<T1, T2> make_pair(T1 t, T2 u)
 	{
-		ft::pair<T1, T2> new_pair(t, u); // pouyr puvoir faire des const
-	//	new_pair.first = t;
-		//new_pair.second = u;
+		ft::pair<T1, T2> new_pair(t, u);
 		return (new_pair);
 	}
 
@@ -152,10 +140,7 @@ namespace ft
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
 {
-	//if (&pair != NULL)
-//	{
-		os << "[" << pair.first << "]=\"" << pair.second << "\"";
-//	}
+	os << "[" << pair.first << "]=\"" << pair.second << "\"";
 	return os;
 }
 
@@ -166,23 +151,20 @@ std::ostream& operator<<(std::ostream& os, const ft::pair<T, U>& pair)
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, ft::pair<T, U>& pair)
 {
-	//if (&pair != NULL)
-	//{
-		os << "[" << pair.first << "]=\"" << pair.second << "\"";
-//	}
+
+	os << "[" << pair.first << "]=\"" << pair.second << "\"";
 	return os;
 }
 
-
-
-// A ENLEVER TEST POUR AFFICHER STD PAREIL
+/*
+**  OVERLOAD <<
+**	@brief overloading std::pair so it is seen as key/value
+*/
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& pair)
 {
-	//if (&pair != NULL)
-	//{
-		os << "[" << pair.first << "]=\"" << pair.second << "\"";
-//	}
+
+	os << "[" << pair.first << "]=\"" << pair.second << "\"";
 	return os;
 }
 

@@ -30,9 +30,6 @@ namespace ft
 		template<typename type>
 		friend ft::Node<type>* _Rb_tree_decrement(ft::Node<type>* __x) throw();
 
-    	typedef const Node* _Const_Base_ptr;
-
-
 	public:
 		Node() : _data(T())
 		{
@@ -95,7 +92,6 @@ namespace ft
 		{
 			std::string from = color == RED ? "🔴 " : "⚫️";
 			std::string to = color == RED ? "⚫️" : "🔴 ";
-			out(_data << " goes from " << from << " to " << to);
 			color == RED ? color = BLACK : color = RED;
 		}
 
@@ -118,8 +114,15 @@ namespace ft
 				return true;
 			return false;
 		}
+
 		bool is_right_child()
 		{
+			if (this == nil_node)
+			{
+				if (parent->leftChild != nil_node)
+					return true; 
+				return false;
+			}
 			if (parent == nil_node) 
 				return false;
 			if (parent->rightChild == nil_node)
@@ -129,10 +132,6 @@ namespace ft
 			return false;
 		}
 
-		T &getData()
-		{
-			return (_data);
-		}
 		T &getData() const
 		{
 			return (_data);
@@ -142,10 +141,12 @@ namespace ft
 		{
 			leftChild = node;
 		}
+
 		void setRightChild(Node *node)
 		{
 			rightChild = node;
 		}
+
 		void setParent(Node *newParent)
 		{
 			parent = newParent;
@@ -170,9 +171,8 @@ namespace ft
 }
 
 template <class T>
-std::ostream &operator<<(std::ostream &os,  ft::Node<T> &node)
+std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
 {
-
 	std::string colors;
 	node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
 	os << "Node " << node.getData() << " " << colors;

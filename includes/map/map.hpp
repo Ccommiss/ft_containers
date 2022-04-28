@@ -453,11 +453,10 @@ namespace ft
 			return(ft::make_pair<const_iterator, const_iterator>(lower_bound(x), upper_bound(x)));
 		}
 
-		void debugging()
-		{
-			//_curr.display(_curr.getRootPtr());
-			//_curr.see_tree();
-		}
+	template <class K, class value, class Comp, class Alloc>
+	friend bool operator==(const map<K, value, Comp, Alloc>& lhs, const map<K, value, Comp, Alloc>& rhs);
+	template <class K, class value, class Comp, class Alloc>
+	friend bool operator<(const map<K, value, Comp, Alloc>& lhs, const map<K, value, Comp, Alloc>& rhs);
 
 	private:
 		Allocator 		alloc;
@@ -526,9 +525,6 @@ namespace ft
 	{
 		return (!(rhs < lhs));
 	}
-
-
 };
 
-// https://web.archive.org/web/20160731194845/http://www.stepanovpapers.com/butler.hpl.hp/stl/stl/MAP.H
 #endif

@@ -16,7 +16,7 @@ namespace ft
 		if (x->rightChild != x->nil_node)
 		{
 			x = x->rightChild;
-			while (x->leftChild != x->nil_node) // PAS SURE
+			while (x->leftChild != x->nil_node) 
 				x = x->leftChild;
 		}
 		else

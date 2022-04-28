@@ -28,21 +28,20 @@ namespace ft
 		**	TYPEDEFS
 		*/
 
-		typedef T value_type;											  // alais
-		typedef Alloc allocator_type;									  // alias
-		typedef typename allocator_type::reference reference;			  // &T
-		typedef typename allocator_type::const_reference const_reference; // const &T
-		typedef typename allocator_type::pointer pointer;				  // T*
-		typedef typename allocator_type::const_pointer const_pointer;
-		/* Les iterateurs */
-		typedef ft::random_access_iterator<value_type>					iterator;
-		typedef ft::random_access_iterator<const value_type>			const_iterator;
-		typedef ft::reverse_iterator<iterator>							reverse_iterator;
-		typedef ft::reverse_iterator<const_iterator>					const_reverse_iterator;
-
+		typedef T 																			value_type;
+		typedef Alloc 																		allocator_type;
+		typedef typename allocator_type::reference 											reference;
+		typedef typename allocator_type::const_reference 									const_reference; 
+		typedef typename allocator_type::pointer 											pointer;
+		typedef typename allocator_type::const_pointer 										const_pointer;
+		/* Iterators */
+		typedef ft::random_access_iterator<value_type>										iterator;
+		typedef ft::random_access_iterator<const value_type>								const_iterator;
+		typedef ft::reverse_iterator<iterator>												reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>										const_reverse_iterator;
 		/* Diff type & size_type */
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type 	difference_type;
-		typedef typename allocator_type::size_type											size_type; // std::allocator, vaut size_t
+		typedef typename allocator_type::size_type											size_type;
 
 		/* ****************************************************
 		**	🛠 Coplian form
@@ -268,33 +267,9 @@ namespace ft
 		**	@brief  Return size of allocated storage capacity
 		**	@return size of allocated storage capacity
 		*/
-		size_type capacity() const { return (_capacity); }
-
-		/*
-		** memcpy
-		**	@param &tmp the pointer we want to fill with _curr values
-		**	@return none
-		*/
-		void memcpy(pointer& tmp) const
-		{
-			iterator it;
-			size_t i = 0;
-			for (it = begin(); it != end(); it++, i++) // on fait une copie mais c degueu
-			{
-				alloc_obj.construct(&tmp[i], _curr[i]);
-				alloc_obj.destroy(&_curr[i]);
-			}
-		}
-
-		void memcpy(pointer& tmp)
-		{
-			iterator it;
-			size_t i = 0;
-			for (it = begin(); it != end(); it++, i++)
-			{
-				alloc_obj.construct(&tmp[i], _curr[i]);
-				alloc_obj.destroy(&_curr[i]);
-			}
+		size_type capacity() const 
+		{ 
+			return (_capacity); 
 		}
 
 		/*
@@ -316,7 +291,7 @@ namespace ft
 
 			size_type old_capacity = _capacity;
 			if (n > max_size())
-				throw(std::length_error("vector::reserve")); // FAIRE RESIZE AUSSI
+				throw(std::length_error("vector::reserve"));
 			if (n > _capacity)
 			{
 				pointer tmp = alloc_obj.allocate(n);
@@ -353,6 +328,7 @@ namespace ft
 		{
 			return (_curr[n]);
 		}
+
 		const_reference operator[](size_type n) const
 		{
 			return (_curr[n]);
@@ -373,6 +349,7 @@ namespace ft
 			else
 				throw std::out_of_range("out of range exception because n > size");
 		}
+
 		reference at(size_type n)
 		{
 			if (n <= _size)
@@ -387,8 +364,15 @@ namespace ft
 		**	@brief Returns a reference to the first element in the vector.
 		**	@return a reference to the first element in the vector container.
 		*/
-		reference front() { return (_curr[0]); }
-		const_reference front() const { return (_curr[0]); }
+		reference front() 
+		{ 
+			return (_curr[0]); 
+		}
+
+		const_reference front() const 
+		{ 
+			return (_curr[0]); 
+		}
 
 		/*
 		**	back
@@ -470,23 +454,6 @@ namespace ft
 		}
 
 		/*
-		**	@param n the number of newly inserted elements
-		*/
-		size_type compute_capacity(size_type n) // n = le nb d'elem en plus a inserer
-		{
-			size_type new_capacity = 0;
-			if (_capacity >= _size + n)
-			{
-				return (_capacity);
-			}
-			else if (n + _size >= _size * 2)
-				new_capacity = _size + n;
-			else
-				new_capacity = _size * 2;
-			return new_capacity;
-		}
-
-		/*
 		**	Insert
 		**
 		**	@brief
@@ -516,7 +483,7 @@ namespace ft
 			size_type start = ft::distance(begin(), position);
 			size_type i = size();
 			reserve(compute_capacity(1));
-			while (i > 0 && --i >= start) // on decale le cas echeant
+			while (i > 0 && --i >= start)
 			{
 				alloc_obj.construct(_curr + i + 1, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
@@ -540,22 +507,14 @@ namespace ft
 				return;
 			size_type start = ft::distance(begin(), position);
 			size_type i = size();
-			reserve(compute_capacity(n)); // on dirait pb ici.....
-			//reserve(_size + n);
-			//std::cout << " N IS "  << n << "CAP IS " << _capacity << std::endl;
-			//std::cout << "SIZE + N = " << _size + n << " VS COMPUTE " << compute_capacity(n) << std::endl;
-			while (i > 0 && --i >= start) // peut etre petit pb de calcul
+			reserve(compute_capacity(n)); 
+			while (i > 0 && --i >= start) 
 			{
-				//std::cout << "I" << i << std::endl;
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
 			}
-			for (unsigned long j = 0; j < n; j++, start++) // on a diff elems a copier
-			{
-				//	std::cout << "J" << j << std::endl;
+			for (unsigned long j = 0; j < n; j++, start++) 
 				alloc_obj.construct(_curr + start, x);
-
-			}
 			_size += n;
 		}
 
@@ -574,7 +533,6 @@ namespace ft
 			size_type start = ft::distance(begin(), position);
 			size_type i = size();
 			reserve(compute_capacity(diff));
-
 			while (i > 0 && --i >= start)
 			{
 				alloc_obj.construct(_curr + i + diff, *(_curr + i));
@@ -582,10 +540,8 @@ namespace ft
 			}
 			for (unsigned long j = 0; j < diff; j++, start++) // on a diff elems a copier
 			{
-				//alloc_obj.construct(_curr + start, *(first + j)); // TEST PIOUR BIDIRECTIONNAL MARC LI SI INPUT != des RAI
 				alloc_obj.construct(_curr + start, *(first));
 				first++;
-
 			}
 			_size += diff;
 		}
@@ -611,7 +567,7 @@ namespace ft
 				it++;
 				i++;
 			}
-			alloc_obj.destroy(_curr + i); // RESOUD UN LEAK MAIS ME PARAIT DANGEREUX ??
+			alloc_obj.destroy(_curr + i);
 			_size -= 1;
 			return (position);
 		}
@@ -628,7 +584,7 @@ namespace ft
 		iterator erase(iterator first, iterator last)
 		{
 			if (_size <= 0)
-				return (first); // PROTECTION OK
+				return (first);
 			size_type i = ft::distance(begin(), first);
 			size_type step = ft::distance(first, last) - 1;
 			if (step <= 0)
@@ -642,19 +598,11 @@ namespace ft
 				it++;
 				i++;
 			}
-			alloc_obj.destroy(_curr + i); // RESOUD UN LEAK MAIS ME PARAIT DANGEREUX ??
-
+			alloc_obj.destroy(_curr + i);
 			_size -= step + 1;
-			return (first); // ??
+			return (first);
 		}
 
-		void dealloc()
-		{
-			if (_capacity > 0)
-				alloc_obj.deallocate(_curr, _capacity);
-			_capacity = 0;
-			_size = 0;
-		}
 
 		/*
 		** 	Swap
@@ -702,7 +650,53 @@ namespace ft
 		**
 		**
 		**/
+
+
 		private:
+
+		/*
+		** My custom functions
+		*/
+
+		/* Dealloc the object */
+		void dealloc()
+		{
+			if (_capacity > 0)
+				alloc_obj.deallocate(_curr, _capacity);
+			_capacity = 0;
+			_size = 0;
+		}
+
+		/* Compute capacity with @param n the nb of newly inserted elem */
+		size_type compute_capacity(size_type n) 
+		{
+			size_type new_capacity = 0;
+			if (_capacity >= _size + n)
+				return (_capacity);
+			else if (n + _size >= _size * 2)
+				new_capacity = _size + n;
+			else
+				new_capacity = _size * 2;
+			return new_capacity;
+		}
+
+		/*
+		** 	memcpy - used in reserve 
+		**	@param &tmp the pointer we want to fill with _curr values
+		**	@return none
+		*/
+		void memcpy(pointer& tmp)
+		{
+			iterator it;
+			size_t i = 0;
+			for (it = begin(); it != end(); it++, i++)
+			{
+				alloc_obj.construct(&tmp[i], _curr[i]);
+				alloc_obj.destroy(&_curr[i]);
+			}
+		}
+		
+
 		pointer _curr;			  // pointeur sur le tableau, premiere addresse
 		size_t _size;			  // le nb d'elemts contenus
 		size_t _capacity;		  // la taille allouee
@@ -731,8 +725,6 @@ namespace ft
 	{
 		x.swap(y);
 	}
-
-
 
 	/*
 	** a == b

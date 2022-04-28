@@ -25,7 +25,6 @@ namespace ft {
 		return (first2 != last2);
 	}
 
-
 	/*
 	**	Equal : ==
 	**	@brief Test whether the elements in two ranges are equal

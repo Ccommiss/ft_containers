@@ -1,11 +1,8 @@
-
-// class Node;
 #ifndef TREE_HPP
 #define TREE_HPP
-#include <cstdarg>
+
 #include "ft_pair.hpp"
 #include "ft_node.hpp"
-//#include "../utils/debug.hpp"
 #include "debug.hpp"
 
 namespace ft
@@ -16,21 +13,19 @@ namespace ft
 	{
 		template <typename U>
 		friend class Node;
-
 		template <typename Key, typename valuetype, typename compfunc, typename alloctype>
 		friend class map;
 
-		typedef typename Allocator::size_type size_type;
-
-		typedef typename Allocator::template rebind< Node<T> >::other _allocnode;
+		typedef typename Allocator::size_type 							size_type;
+		typedef typename Allocator::template rebind< Node<T> >::other 	_allocnode;
 
 
 	private:
-		Node<T> *root;
-		Node<T> *nil_node;
-		size_type _size; // size of tree
-		Compare _comp;	 // objet de comparaison
-		_allocnode alloc;
+		Node<T> 							*root;
+		Node<T> 							*nil_node;
+		size_type 							_size; 
+		Compare 							_comp;
+		_allocnode 							alloc;
 
 		// pour debug
 		int blacks;
@@ -43,16 +38,11 @@ namespace ft
 			Node<T> nullnode;
 			nil_node = alloc.allocate(1);
 			alloc.construct(nil_node, nullnode);
-			// ZONE DE TEST POUR UNINITIALISED VAUES
 			nil_node->leftChild = nil_node;
 			nil_node->rightChild = nil_node;
 			nil_node->parent = nil_node;
 			nil_node->nil_node = nil_node;
-			
-			// FIN 
-			
 			root = nil_node;
-			
 			blacks = 0;
 			_size = 0;
 		}
@@ -173,7 +163,7 @@ namespace ft
 
 		Node<T> *insert(Node<T> *node, Node<T> *newNode)
 		{
-			if (root == nil_node) // compare les addresses donc pas comp
+			if (root == nil_node)
 			{
 				newNode->setColor(Node<T>::BLACK);
 				root = newNode;
@@ -193,8 +183,6 @@ namespace ft
 			}
 			return node;
 		}
-
-
 
 		/*
 		**	Recolor and rotate
@@ -351,7 +339,7 @@ namespace ft
 			if (grandParent != nil_node)
 				grandParent->flipColor();
 			rotateLeft(grandParent);
-			if (node != root) // EST CE NORMAL ?
+			if (node != root)
 				recolorAndRotate(node->is_left_child() ? grandParent : parent);
 		}
 
@@ -399,13 +387,6 @@ namespace ft
 
 		Node<T> *getSibling(Node<T> *node)
 		{
-			if (node == nil_node)
-			{
-				if (node->parent->rightChild != nil_node)
-					return node->parent->rightChild;
-				else if (node->parent->leftChild != nil_node)
-					return node->parent->leftChild;
-			}
 			if (node->is_left_child() && node->parent->rightChild != nil_node)
 				return node->parent->rightChild;
 			else if (node->is_right_child() && node->parent->leftChild != nil_node)
@@ -417,7 +398,7 @@ namespace ft
 		{
 			if (!(getSibling(node)->leftChild == nil_node || (getSibling(node)->leftChild != nil_node && getSibling(node)->leftChild->getColor() == Node<T>::BLACK)))
 				return false;
-			if (!(getSibling(node)->rightChild == nil_node || getSibling(node)->rightChild->getColor() == Node<T>::BLACK)) // le neveu droit
+			if (!(getSibling(node)->rightChild == nil_node || getSibling(node)->rightChild->getColor() == Node<T>::BLACK)) 
 				return false;
 			return true;
 		}
@@ -425,7 +406,6 @@ namespace ft
 		void handleBlackSiblingWithAtLeastOneRedChild(Node<T> *node, Node<T> *sibling)
 		{
 			bool nodeIsLeftChild = node->is_left_child();
-
 			/*Case 5: Black sibling with at least one red child + "outer nephew" is black
 			 	--> Recolor sibling and its child, and rotate around sibling */
 			if (nodeIsLeftChild && (sibling->rightChild == nil_node || sibling->rightChild->color == Node<T>::BLACK))
@@ -444,7 +424,7 @@ namespace ft
 				sibling = getSibling(node);
 			}
 			/*Case 6: Black sibling with at least one red child + "outer nephew" is red
-			// --> Recolor sibling + parent + sibling's child, and rotate around parent */
+			 	--> Recolor sibling + parent + sibling's child, and rotate around parent */
 			sibling->color = node->parent->color;
 			node->parent->color = Node<T>::BLACK;
 			if (nodeIsLeftChild)
@@ -516,7 +496,7 @@ namespace ft
 				node->rightChild->setParent(node->parent);
 				alloc.destroy(node);
 				alloc.deallocate(node, 1);
-				return tmp; // moved-up node
+				return tmp; 
 
 			}
 			/* Node<T> has no children -->
@@ -533,7 +513,6 @@ namespace ft
 				return nil_node;
 			}
 		}
-
 
 		/*
 		**		Copy_successor copies data from successor to node.
