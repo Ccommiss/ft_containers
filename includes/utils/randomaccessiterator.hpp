@@ -5,6 +5,7 @@
 # define RANDOM_ACCESS_ITERATORS_HPP
 
 # include "iterator.hpp"
+# include <cstddef>
 
 // https://code.woboq.org/gcc/libstdc++-v3/include/bits/stl_iterator.h.html#__gnu_cxx::random_access_iterator
 
@@ -15,6 +16,8 @@ struct iterator_traits;
 
 namespace ft
 {
+
+
 	template <typename T>
 	class random_access_iterator : public ft::iterator<ft::random_access_iterator_tag, T>
 	{

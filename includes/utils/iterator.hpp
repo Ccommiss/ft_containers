@@ -1,7 +1,7 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
-#include "iterator_traits.hpp"
+//#include "iterator_traits.hpp"
 #include <cstddef>
 
 /**
@@ -16,7 +16,7 @@
  */
 namespace ft {
 
-		//@{
+
 	  /**
 	   *  @defgroup iterator_tags Iterator Tags
 	   *  These are empty types, used to distinguish different iterators.  The
