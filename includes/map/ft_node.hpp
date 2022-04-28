@@ -41,6 +41,10 @@ namespace ft
 
 		Node(T data, Node *nil_ptr) : _data(data), nil_node(nil_ptr)
 		{
+			leftChild = nil_node;
+			rightChild = nil_node;
+			parent = nil_node;
+			max = nil_node;
 			color = RED;
 		}
 

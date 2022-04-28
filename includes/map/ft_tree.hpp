@@ -32,30 +32,27 @@ namespace ft
 		Compare _comp;	 // objet de comparaison
 		_allocnode alloc;
 
-
 		// pour debug
 		int blacks;
-		T ***array; //[100][100];
+		T ***array; 
 		int height;
 
-	public:
-		Tree(Compare c) : _comp(c), alloc(_allocnode()) // une instance de std::less<Key> par defaut
+		public:
+		Tree(Compare c) : _comp(c), alloc(_allocnode()) 
 		{
 			Node<T> nullnode;
 			nil_node = alloc.allocate(1);
 			alloc.construct(nil_node, nullnode);
-
-
 			// ZONE DE TEST POUR UNINITIALISED VAUES
-			//nil_node = nil_node;
 			nil_node->leftChild = nil_node;
 			nil_node->rightChild = nil_node;
 			nil_node->parent = nil_node;
+			nil_node->nil_node = nil_node;
 			
 			// FIN 
 			
 			root = nil_node;
-			nil_node->nil_node = nil_node;
+			
 			blacks = 0;
 			_size = 0;
 		}
@@ -161,10 +158,6 @@ namespace ft
 			Node<T> tmp(data, nil_node);
 			Node<T> *node = alloc.allocate(1);
 			alloc.construct(node, tmp);
-			node->max = nil_node;
-			node->parent = nil_node;
-			node->leftChild = nil_node;
-			node->rightChild = nil_node;
 			if (is_in_tree(data))
 			{
 				alloc.destroy(node);
