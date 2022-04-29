@@ -20,7 +20,7 @@ namespace ft
         Container c;
 
     public:
-        explicit stack(const Container &underlying = Container()): c(underlying) { std::cout << "cooucou" << std::endl;}
+        explicit stack(const Container &underlying = Container()): c(underlying) { }
         bool empty() const { return c.empty(); }
         size_type size() const { return c.size(); }
         value_type &top() { return c.back(); }

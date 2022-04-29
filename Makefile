@@ -2,16 +2,17 @@ NAME = containers.ft
 NAME_STD = containers.std
 
 
-STD_SRCS = main.cpp
-FT_SRCS = main.cpp
+SRCS = main.cpp srcs/map_tests.cpp 
 
-
-FLAGS = -Wall -Werror -Wextra -std=c++98
-STD_OBJS = $(STD_SRCS:.cpp=.o)
-FT_OBJS = $(FT_SRCS:.cpp=.o)
+CPPFLAGS = -Wall -Werror -Wextra -std=c++98
+STD_OBJ  =       $(SRCS:%.cpp=std_out/%.o)
+FT_OBJ  =       $(SRCS:%.cpp=ft_out/%.o)
 CC = c++ -g $(FLAGS)
 INC = -I./includes/vector -I./includes/utils  -I./includes/stack -I./includes/map 
 
+
+$(NAME): CPPFLAGS += -D NM=ft
+$(NAME_STD): CPPFLAGS += -D NM=std
 
 # This is a minimal set of ANSI/VT100 color codes
 _END=$'\e[0m
@@ -43,28 +44,34 @@ WP = `pwd | sed 's!.*/!!'`
 all : message $(NAME) $(NAME_STD)
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_GRASS)$(_BOLD)%s$(_END)\n" [$(WP)] "✅	Your $(NAME) is ready."
 
+
+$(NAME) $(NAME_STD):
+		$(CC) $^ -o $@ $(CPPFLAGS) $(INC)
+
+$(NAME) : $(FT_OBJ)
+$(NAME_STD): $(STD_OBJ)
+
+
 message :
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_WHITE)$(_LIGHT)%s$(_END)\n" [$(WP)] "Your $(NAME) files are compiling..."
 
-$(NAME): $(FT_OBJS)
-	$(CC) $(INC) $(FT_OBJS) -o $(NAME)
+std_out/%.o: %.cpp
+		mkdir -p $(@D)
+		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
-$(NAME_STD): $(STD_OBJS)
-	$(CC) $(INC) $(STD_OBJS) -o $(NAME_STD)
-
-$(STD_OBJS): 
-	$(CC) $(INC) -D NM=std -c $< -o $@
-
-$(FT_OBJS): 
-	$(CC) $(INC) -D NM=ft -c $< -o $@
+ft_out/%.o: %.cpp
+		mkdir -p $(@D)
+		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	@rm -f $(OBJS)
+	@rm -f $(FT_OBJS)
+	@rm -f $(STD_OBJS)
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_LIGHT)%s\n$(_END)" [$(WP)] "Your .o files have been deleted."
 
 fclean: clean
 	@rm -f $(NAME)
-	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_BOLD)%s\n$(_END)" [$(WP)] "🗑️	Your $(NAME) have been deleted. "
+	@rm -f $(NAME_STD)
+	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_BOLD)%s\n$(_END)" [$(WP)] "🗑️	Your $(NAME) snd $(NAME_STD) have been deleted. "
 
 re: fclean all
 

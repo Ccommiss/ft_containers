@@ -1,14 +1,9 @@
-#include "vector.hpp"
-#include "map.hpp"
-#include "stack.hpp"
-#include <map>
-#include<stack>
-#include <vector>
+#include "srcs/tests.hpp"
+
 
 
 using namespace NM;
 int main()
 {
-    stack<int> lol; 
-    std::cout << "ceci est hun test" << std::endl;
+    map_tests();
 }
