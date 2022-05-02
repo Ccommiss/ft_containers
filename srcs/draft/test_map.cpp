@@ -14,8 +14,6 @@
 	display(my_map, real_map); \
 	getwchar();
 
-//#define ft::map<T, U>::iterator iterator;
-
 using namespace std;
 
 /*
@@ -24,45 +22,6 @@ using namespace std;
 **
 */
 
-template <typename T, typename U>
-void example(std::map<T, U>& r_map)
-{
-	std::cout << BOLD("-> example with real map only : ") << std::endl;
-	std::cout << FG2("Real :") << std::endl;
-	typename std::map<T, U>::iterator it;
-	for (it = r_map.begin(); it != r_map.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
-}
-
-template <typename T, typename U>
-void print(ft::map<T, U>& r_map)
-{
-	std::cout << BOLD("-> Mine only : ") << std::endl;
-	std::cout << FG1("Mine :") << std::endl;
-	typename ft::map<T, U>::iterator it;
-	for (it = r_map.begin(); it != r_map.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
-}
-
-template <typename T, typename U, typename V, typename W>
-void display(ft::map<T, U>& my_map, std::map<V, W>& r_map)
-{
-	std::cout << BOLD("-> output : ") << std::endl;
-	std::cout << FG1("Mine :") << std::endl;
-	typename ft::map<T, U>::iterator it1;
-	for (it1 = my_map.begin(); it1 != my_map.end(); it1++)
-		std::cout << *it1 << " ";
-	std::cout << std::endl;
-
-	std::cout << FG2("Real :") << std::endl;
-	typename std::map<T, U>::iterator it;
-	for (it = r_map.begin(); it != r_map.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
-	cout << DIM("Real size : ") << r_map.size() << DIM(" VS my size : ") << my_map.size() << endl;
-}
 
 /*
 **	TEST FUNCTIONS

@@ -3,8 +3,6 @@
 
 using namespace std;
 
-
-
 void example(std::vector<int>& r_vec)
 {
 	std::cout << BOLD("-> example with real vector only : ") << std::endl;

@@ -2,7 +2,7 @@ NAME = containers.ft
 NAME_STD = containers.std
 
 
-SRCS = main.cpp srcs/map_tests.cpp 
+SRCS = main.cpp srcs/map_tests.cpp #srcs/vector_tests.cpp
 
 CPPFLAGS = -Wall -Werror -Wextra -std=c++98
 STD_OBJ  =       $(SRCS:%.cpp=std_out/%.o)
