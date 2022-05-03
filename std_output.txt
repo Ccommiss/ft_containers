@@ -159,7 +159,405 @@ foo is less than or equal to bar
 Me ?
 [4;30;33m-> Impossible index : [0m
  
+[1;107;35m*** TESTS COPY CONSTRUCT *** [0m
+[1;107;35m*** TESTS COPY CONSTRUCT *** [0m
+[1m-> Output : [0m
+3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+[2mSize : [0m15
+[1;107;35m
+**** TESTS INSERT ****[0m
+** TEST0 : construction ** 
+[1m-> Output : [0m
+8 8 8 8 8 8 8 8 8 8 
+[2mSize : [0m10
+** TEST1 : insert(iterator position, const T& x) ** 
+[1m-> Output : [0m
+8 30 8 8 8 8 8 8 8 8 8 
+[2mSize : [0m11
+[2m** Tests de retour ** [0m
+30
+** TEST2 : insert(iterator position, size_type n, const T& x)  ** 
+[1m-> Output : [0m
+8 30 8 8 8 404 404 8 8 8 8 8 8 
+[2mSize : [0m13
+** TEST3 : insert(iterator position, InputIterator first, InputIterator last) ** 
+[1m-> Output : [0m
+6 6 6 6 6 6 6 6 6 6 8 30 8 8 8 404 404 8 8 8 8 8 8 
+[2mSize : [0m23
+** TEST4 : insert avec wnd puis begin**
+** TEST5 : POSITION, VALUE **
+[1m-> Output : [0m
+200 100 100 100 
+[2mSize : [0m4
+[1m-> Output : [0m
+300 300 200 100 100 100 
+[2mSize : [0m6
+** TEST6 : begin() + 2, anothervector.begin(), anothervector.end() ***
+[1m-> Output : [0m
+300 300 400 400 200 100 100 100 
+[2mSize : [0m8
+** TEST7 : begin(), array array + 3 ***
+[1m-> Output : [0m
+501 502 503 300 300 400 400 200 100 100 100 
+[2mSize : [0m11
+[1;107;35m
+**** TESTS ERASE ****[0m
+** TEST1 erase(iterator position) ** 
+[1m-> Output : [0m
+3 8 8 8 8 8 8 8 8 8 8 404 
+[2mSize : [0m12
+[1m-> Output : [0m
+8 8 8 8 8 8 8 8 8 8 404 
+[2mSize : [0m11
+** TESTS erase(iterator first, iterator last)**
+[1m-> Output : [0m
+8 8 8 404 
+[2mSize : [0m4
+[4;30;33mMine[0m8
+[1m-> Output : [0m
+8 8 8 404 1024 
+[2mSize : [0m5
+** TESTS POP BACK USING ERASE ** 
+[1m-> Output : [0m
+8 8 8 404 
+[2mSize : [0m4
+** TESTS RET OF IT** 
+[1m-> Output : [0m
+8 8 8 404 
+[2mSize : [0m4
+[1m-> Output : [0m
+8 8 404 
+[2mSize : [0m3
+[4;30;33mMine[0m404
+** TESTS RET OF IT** 
+[1m-> Output : [0m
+1 2 3 4 5 6 7 8 9 10 
+[2mSize : [0m10
+[1m-> Output : [0m
+1 2 3 4 5 7 8 9 10 
+[2mSize : [0m9
+[1m-> Output : [0m
+4 5 7 8 9 10 
+[2mSize : [0m6
+[1;107;35m
+***TESTS RESERVE****[0m
+[1m-> Output : [0m
+8 8 8 
+[2mSize : [0m3
+[1m-> Output : [0m
+8 8 8 
+[2mSize : [0m3
+[1m-> Output : [0m
+8 8 8 78 
+[2mSize : [0m4
+[1m-> Output : [0m
+8 8 8 78 78 78 
+[2mSize : [0m6
+[1m-> Output : [0m
+8 8 8 78 
+[2mSize : [0m4
+[1m-> Output : [0m
+404 404 404 404 404 404 404 404 404 404 
+[2mSize : [0m10
+[1m-> Output : [0m
+404 404 404 404 404 404 404 404 404 404 20 
+[2mSize : [0m11
+[1m-> Output : [0m
+404 404 404 404 404 404 404 404 404 404 20 20 
+[2mSize : [0m12
+[1m-> Output : [0m
+404 404 404 404 404 404 404 404 404 404 20 20 707 707 707 707 707 707 707 707 707 707 707 707 
+[2mSize : [0m24
+**TEST MAX SIZE EXCEPTION**
+allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size
+[1;107;35m
+***TESTS RESIZE****[0m
+Base
+[1m-> Output : [0m
+5 5 5 5 
+[2mSize : [0m4
+Resize bigger
+[1m-> Output : [0m
+5 5 5 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+[2mSize : [0m40
+Resize smaller
+[1m-> Output : [0m
+5 5 5 
+[2mSize : [0m3
+[1;107;35m
+***TESTS VECTOR OF STRINGS****[0m
+Inserting through input iterator : 
+[1m-> Output : [0m
+Hi hello wassup 
+[2mSize : [0m3
+Erase several time : 
+[1m-> Output : [0m
+hello wassup 
+[2mSize : [0m2
+[1m-> Output : [0m
 
-real	0m0.174s
+[2mSize : [0m0
+[1;107;35m
+***TESTS ACCESS ***[0m
+** Test 1 : subscript [] accessing an existing elem ( n <= size ) **
+I am 3
+** Test 2 : subscript [] accessing an inexistant elem (n > size) **
+
+** Test 3 : at(n) accessing an existant elem (n <= size) **
+I am 3
+** Test 4 : at(n) accessing an inexistant elem (n > size) --> thrown exception **
+[4;30;33mMine :[0m
+vector
+[1;107;35m**TESTS FRONT / BACK[0m
+[1m-> Output : [0m
+45 895 452 7895 45487 78 
+[2mSize : [0m6
+testing front and back
+[4;30;33mMine[0m
+45 78
+[1;107;35m**TESTS SIMPLE IT *** [0m
+[1m-> Output : [0m
+10 20 30 40 50 60 
+[2mSize : [0m6
+*-* Test 1 : begin() et end() *-*
+[4;30;33mMine[0m
+10 60
+** Test 2 : operators a++ **
+[4;30;33mMine with a++[0m
+10 20 30 40 50 60 
+** Test 3 : operators ++a **
+[4;30;33mMine with ++a[0m
+20 30 40 50 60 
+** Test 4 : operators a-- **
+[4;30;33mMine with a--[0m
+60 50 40 30 20 
+** Test 5 : operators --a **
+[4;30;33mMine with --a[0m
+50 40 30 20 10 
+**Comparisons**
+-6
+[1;107;35m**TESTS REVERSE *** [0m
+[1m-> Output : [0m
+45 895 452 7895 45487 78 
+[2mSize : [0m6
+*-* Test 1 : rbegin() et rend() *-*
+[4;30;33mMine[0m
+78 45
+** Test 2 : operators a++ **
+[4;30;33mMine with a++[0m
+my_it + 1 = 45487
+78 45487 7895 452 895 45 
+** Test 3 : operators ++a **
+[4;30;33mMine with ++a[0m
+45487 7895 452 895 45 
+** Test 4 : operators a-- **
+[4;30;33mMine with a--[0m
+45 895 452 7895 45487 
+** Test 5 : operators --a **
+Comparisons :
+0x600003ebd120 0x600003ebd134
+6
+true
+[4;30;33mMine with --a[0m
+895 452 7895 45487 78 
+** Test 6 : operators a + n **
+[4;30;33mMine[0m
+452 
+** Test 7 : operators a - 1 en partant de rbegin + 1 **
+[4;30;33mMine[0m
+78 
+[1;107;35m*** TESTS SWAP *** [0m
+-- Basic test, same initial size --
+NEG ARE NOW POS...
+[1m-> Output : [0m
+45 895 452 7895 45487 78 
+[2mSize : [0m6
+AND VICE VERSA
+[1m-> Output : [0m
+-1 -2 -5 -78 -75 -59 
+[2mSize : [0m6
+-- Basic test, not the same initial size --
+NEG ARE NOW POS...
+[1m-> Output : [0m
+45 895 452 7895 45487 78 789 456 8541 
+[2mSize : [0m9
+AND VICE VERSA
+[1m-> Output : [0m
+-1 -2 -5 -78 -75 -59 
+[2mSize : [0m6
+foo contains: 200 200 200 200 200
+bar contains: 100 100 100
+*** SWAP 2 ***
+*** SWAP 2 DONE ***
+100
+*** OK TMP ***
+foo contains:
+11 22 33 
+bar contains:
+100 200 
+100
+200
+11
+22
+33
+[1m-> Output : [0m
+11 22 33 
+[2mSize : [0m3
+[1m-> Output : [0m
+73 173 763 73854 74683 753 
+[2mSize : [0m6
+[1m-> Output : [0m
+100 200 
+[2mSize : [0m2
+200 100
+33 22 11
+73
+173
+763
+73854
+74683
+753
+[1m-> Output : [0m
+11 22 33 
+[2mSize : [0m3
+[1m-> Output : [0m
+100 200 
+[2mSize : [0m2
+[1m-> Output : [0m
+73 173 763 73854 74683 753 
+[2mSize : [0m6
+100
+200
+11
+22
+33
+753
+74683
+73854
+763
+173
+73
+BOB(5, 8) : 8 8 8 8 8 
+
+CTORS
+Empty is empty ? true
+BOB is empty? false
+Size of JOHN 0
+Size of BOB 5
+Size of MIKE 5
+
+RESIZE
+Size of JOHN 0
+Capacity of JOHN is sufficient
+Size of BOB 2
+Capacity of BOB is sufficient
+Size of MIKE 5
+Capacity of MIKE is sufficient
+BOB is empty now ? true
+Size of JOHN 0
+Capacity of JOHN is sufficient
+Size of BOB 0
+Capacity of BOB is sufficient
+Size of MIKE 9
+Capacity of MIKE is sufficient
+8 8 8 8 8 3 3 3 3 
+
+RESERVE
+Size of JOHN 0
+Capacity of JOHN is sufficient
+Size of BOB 0
+Capacity of BOB is sufficient
+Size of MIKE 9
+Capacity of MIKE is sufficient
+8 8 8 8 8 3 3 3 3 
+
+AT
+8
+OOR error caught
+
+FRONT / BACK
+front() of MIKE : 8
+back() of MIKE : 3
+
+ASSIGN
+
+ASSIGN RANGE
+
+EMPTY
+BOB is empty ? false
+BOB at(41) : 7
+
+PUSH/POP_BACK
+last elem of BOB : 53
+last elem of BOB : 7
+
+INSERT
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 
+0 1 2 3 42 42 42 42 42 42 42 42 4 5 6 7 8 9 10 11 12 13 14 
+Const it : 
+0
+
+INSERT
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 
+0 1 2 3 42 42 42 42 42 42 42 42 4 5 6 7 8 9 10 11 12 13 14 
+
+INSERT RANGE
+0 3 6 9 12 15 18 
+0 3 6 9 12 0 1 2 3 42 42 42 42 42 42 42 42 4 5 6 7 8 9 10 11 12 13 14 15 18 
+
+ERASE
+INT : ERASE 10
+[1m-> Output : [0m
+0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 
+[2mSize : [0m15
+ 0  2  4  6  8 10 12 14 16 18 20 22 24 26 28 
+INT : ERASE begin() + 7
+ 0  2  4  6  8 10 12 16 18 20 22 24 26 28 
+INT : ERASE RANGE
+ 0  2 12 16 18 20 22 24 26 28 
+
+SWAP
+Size of JOHN 0
+Capacity of JOHN is sufficient
+Size of BOB 9
+Capacity of BOB is sufficient
+Size of MIKE 42
+Capacity of MIKE is sufficient
+7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+Size of JOHN 42
+Capacity of JOHN is sufficient
+Size of BOB 9
+Capacity of BOB is sufficient
+Size of MIKE 0
+Capacity of MIKE is sufficient
+
+
+CLEAR
+Size of JOHN 0
+Capacity of JOHN is sufficient
+Size of BOB 9
+Capacity of BOB is sufficient
+Size of MIKE 0
+Capacity of MIKE is sufficient
+
+
+NON MEMBER functions
+Size of JOHN 0
+Capacity of JOHN is sufficient
+Size of BOB 0
+Capacity of BOB is sufficient
+Size of MIKE 9
+Capacity of MIKE is sufficient
+8 8 8 8 8 3 3 3 3 
+
+RELATIONAL OPERATORS
+MIKE and BOB are equal ? false
+MIKE and MIKE_2 are equal ? true
+7 7 7 7 7 
+
+TEST 1 : relationnal operators 
+bonjourtrue
+
+real	0m0.178s
 user	0m0.030s
-sys	0m0.002s
+sys	0m0.003s

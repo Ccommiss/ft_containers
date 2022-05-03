@@ -1448,7 +1448,6 @@ int main()
 		// mazoise_other,
 	//	mazoise_inception
 		//leaks_test
-		map_basics
 	};
 
 

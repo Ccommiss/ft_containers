@@ -79,5 +79,6 @@ void display(U& my_container, V& real_container)
 void    map_tests();
 void 	comparative_tests_map();
 void 	vector_tests();
+void 	comparative_tests_vector();
 
 #endif

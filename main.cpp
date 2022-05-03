@@ -8,4 +8,5 @@ int main()
   //  vector_tests();
   //  map_tests();
 	comparative_tests_map();
+	comparative_tests_vector();
 }

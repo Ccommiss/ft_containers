@@ -34,7 +34,7 @@ namespace ft
 		typedef T 																			value_type;
 		typedef Alloc 																		allocator_type;
 		typedef typename allocator_type::reference 											reference;
-		typedef typename allocator_type::const_reference 									const_reference; 
+		typedef typename allocator_type::const_reference 									const_reference;
 		typedef typename allocator_type::pointer 											pointer;
 		typedef typename allocator_type::const_pointer 										const_pointer;
 		/* Iterators */
@@ -270,9 +270,9 @@ namespace ft
 		**	@brief  Return size of allocated storage capacity
 		**	@return size of allocated storage capacity
 		*/
-		size_type capacity() const 
-		{ 
-			return (_capacity); 
+		size_type capacity() const
+		{
+			return (_capacity);
 		}
 
 		/*
@@ -367,14 +367,14 @@ namespace ft
 		**	@brief Returns a reference to the first element in the vector.
 		**	@return a reference to the first element in the vector container.
 		*/
-		reference front() 
-		{ 
-			return (_curr[0]); 
+		reference front()
+		{
+			return (_curr[0]);
 		}
 
-		const_reference front() const 
-		{ 
-			return (_curr[0]); 
+		const_reference front() const
+		{
+			return (_curr[0]);
 		}
 
 		/*
@@ -510,13 +510,13 @@ namespace ft
 				return;
 			size_type start = ft::distance(begin(), position);
 			size_type i = size();
-			reserve(compute_capacity(n)); 
-			while (i > 0 && --i >= start) 
+			reserve(compute_capacity(n));
+			while (i > 0 && --i >= start)
 			{
 				alloc_obj.construct(_curr + i + n, *(_curr + i));
 				alloc_obj.destroy(_curr + i);
 			}
-			for (unsigned long j = 0; j < n; j++, start++) 
+			for (unsigned long j = 0; j < n; j++, start++)
 				alloc_obj.construct(_curr + start, x);
 			_size += n;
 		}
@@ -671,7 +671,7 @@ namespace ft
 		}
 
 		/* Compute capacity with @param n the nb of newly inserted elem */
-		size_type compute_capacity(size_type n) 
+		size_type compute_capacity(size_type n)
 		{
 			size_type new_capacity = 0;
 			if (_capacity >= _size + n)
@@ -684,7 +684,7 @@ namespace ft
 		}
 
 		/*
-		** 	memcpy - used in reserve 
+		** 	memcpy - used in reserve
 		**	@param &tmp the pointer we want to fill with _curr values
 		**	@return none
 		*/
@@ -698,7 +698,7 @@ namespace ft
 				alloc_obj.destroy(&_curr[i]);
 			}
 		}
-		
+
 
 		pointer _curr;			  // pointeur sur le tableau, premiere addresse
 		size_t _size;			  // le nb d'elemts contenus
