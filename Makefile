@@ -2,13 +2,13 @@ NAME = containers.ft
 NAME_STD = containers.std
 
 
-SRCS = main.cpp srcs/map_tests.cpp #srcs/vector_tests.cpp
+SRCS = main.cpp srcs/map/map_tests.cpp srcs/map/comparative_tests_map.cpp srcs/vector/vector_tests.cpp
 
 CPPFLAGS = -Wall -Werror -Wextra -std=c++98
 STD_OBJ  =       $(SRCS:%.cpp=std_out/%.o)
 FT_OBJ  =       $(SRCS:%.cpp=ft_out/%.o)
 CC = c++ -g $(FLAGS)
-INC = -I./includes/vector -I./includes/utils  -I./includes/stack -I./includes/map 
+INC = -I./includes/vector -I./includes/utils  -I./includes/stack -I./includes/map
 
 
 $(NAME): CPPFLAGS += -D NM=ft
@@ -42,8 +42,10 @@ WP = `pwd | sed 's!.*/!!'`
 
 
 all : message $(NAME) $(NAME_STD)
-	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_GRASS)$(_BOLD)%s$(_END)\n" [$(WP)] "✅	Your $(NAME) is ready."
-
+	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_GRASS)$(_BOLD)%s$(_END)\n" [$(WP)] "✅	Your $(NAME) and $(NAME_STD) are ready."
+	@( time ./$(NAME) ) > my_output.txt 2>&1
+	@( time ./$(NAME_STD) ) > std_output.txt 2>&1
+	@diff my_output.txt std_output.txt > diffs.txt
 
 $(NAME) $(NAME_STD):
 		$(CC) $^ -o $@ $(CPPFLAGS) $(INC)
@@ -53,7 +55,7 @@ $(NAME_STD): $(STD_OBJ)
 
 
 message :
-	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_WHITE)$(_LIGHT)%s$(_END)\n" [$(WP)] "Your $(NAME) files are compiling..."
+	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_WHITE)$(_LIGHT)%s$(_END)\n" [$(WP)] "Your $(NAME) ans $(NAME_STD) files are compiling..."
 
 std_out/%.o: %.cpp
 		mkdir -p $(@D)
@@ -64,13 +66,14 @@ ft_out/%.o: %.cpp
 		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	@rm -f $(FT_OBJS)
-	@rm -f $(STD_OBJS)
+	@rm -rf ft_out
+	@rm -rf std_out
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_LIGHT)%s\n$(_END)" [$(WP)] "Your .o files have been deleted."
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(NAME_STD)
+	@rm my_output.txt std_output.txt diffs.txt
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_BOLD)%s\n$(_END)" [$(WP)] "🗑️	Your $(NAME) snd $(NAME_STD) have been deleted. "
 
 re: fclean all

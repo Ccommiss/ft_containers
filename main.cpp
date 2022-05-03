@@ -5,6 +5,7 @@
 using namespace NM;
 int main()
 {
-    //vector_tests();
-    map_tests();
+  //  vector_tests();
+  //  map_tests();
+	comparative_tests_map();
 }

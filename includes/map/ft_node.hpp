@@ -78,7 +78,7 @@ namespace ft
 		{
 			return parent;
 		}
-		int getColor()
+		int getColor() const
 		{
 			return color;
 		}
@@ -128,7 +128,7 @@ namespace ft
 			return false;
 		}
 
-		T &getData() const
+		const T &getData() const
 		{
 			return (_data);
 		}
@@ -167,7 +167,7 @@ namespace ft
 }
 
 template <class T>
-std::ostream &operator<<(std::ostream &os, ft::Node<T> &node)
+std::ostream &operator<<( std::ostream &os, ft::Node<T> const &node)
 {
 	std::string colors;
 	node.getColor() == ft::Node<T>::BLACK ? colors = "⚫" : colors = "🔴";
