@@ -39,7 +39,7 @@
 #define head(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
 #define wait getwchar();
 
-#define start head("Test : " << __func__ << " "); 	srand (time(NULL));
+#define start head("Test : " << __func__ << " ");
 #define finish head("End of test : " << __func__ << " ");
 #define wait_see               \
 	display(my_map, real_map); \

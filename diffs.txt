@@ -1,6 +1,8 @@
-232,233c232,233
-< real	0m0.178s
-< user	0m0.024s
+163,165c163,165
+< real	0m0.278s
+< user	0m0.043s
+< sys	0m0.003s
 ---
-> real	0m0.172s
-> user	0m0.019s
+> real	0m0.174s
+> user	0m0.030s
+> sys	0m0.002s

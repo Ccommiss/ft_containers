@@ -123,6 +123,10 @@ namespace ft
 		{
 			return x._curr == y._curr;
 		}
+		friend bool operator==(const const_it &x, const _Self &y) // a changer
+		{
+			return x._curr == y._curr;
+		}
 
 		friend bool operator!=(const _Self &x, const _Self &y)
 		{
@@ -204,8 +208,22 @@ namespace ft
 			return x._curr != y._curr;
 		}
 
+
+
 		node _curr;
 	};
+
+
+	template <typename T>
+	inline bool	operator==(const _Rb_tree_iterator<T> &lhs, const _Rb_tree_const_iterator<T> &rhs )
+	{
+		return (lhs._curr == rhs._curr);
+	}
+	template <typename T>
+	inline bool	operator!= (const _Rb_tree_iterator<T> &lhs, const _Rb_tree_const_iterator<T> &rhs )
+	{
+		return (lhs._curr != rhs._curr);
+	}
 
 }
 
