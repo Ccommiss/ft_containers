@@ -4,6 +4,7 @@ using namespace NM;
 
 void insert()
 {
+	start;
 	map<int, int> test_1;
 	int a, b;
 	for (unsigned int i = 0; i < 10000; i++)

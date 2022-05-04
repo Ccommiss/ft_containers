@@ -37,6 +37,11 @@
 //#define out(x)
 #define color(x)	"\033[1;96m" x RST
 #define head(x)		std::cout << color("============================\n") << color(x) << color("\n============================")  << std::endl;
+
+#define color2(x)	FMAG(x)
+#define h1(x)		std::cout << "\x1B[1m" << color2("\n\n======================================================\n*****\n*****") << std::setw(35) << color2(BOLD(x)) << std::setw(35) << color2(BOLD(<< "\n*****\n======================================================\n")) << RST << std::endl;
+
+
 #define wait getwchar();
 
 #define start head("Test : " << __func__ << " ");

@@ -33,6 +33,12 @@ void    capacity_solo(ft::vector<V> &container)
      std::cout << DIM("Capacity : ") << container.capacity() << std::endl << std::endl;
 }
 
+template <typename V>
+void    capacity_solo(std::vector<V> &container)
+{
+     std::cout << DIM("Capacity : ") << container.capacity() << std::endl << std::endl;
+}
+
 template <typename U> // pas de capacite pour les vecteurs
 void    capacity_solo(U &container)
 {

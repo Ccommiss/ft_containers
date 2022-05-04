@@ -4,6 +4,7 @@ using namespace NM;
 
 void test_ints()
 {
+	start;
 	vector<int> JOHN;
 	vector<int> BOB(5, 8);
 	std::cout << "BOB(5, 8) : ";
@@ -112,7 +113,6 @@ void test_ints()
 	std::cout << "\nFRONT / BACK\n";
 	std::cout << "front() of MIKE : " << MIKE.front() << '\n';
 	std::cout << "back() of MIKE : " << MIKE.back() << '\n';
-
 	// ASSIGN
 	std::cout << "\nASSIGN\n";
 	BOB.assign(42, 7);
@@ -342,11 +342,11 @@ void test_ints()
 	std::cout << '\n';
 
 	std::cout << std::endl;
+	finish;
 }
 void test_insert()
 {
-	std::cout << HEADER("\n**** TESTS INSERT ****") << std::endl;
-
+	start;
 	// std::cout << "** TESTING VECTORS OF SAME SIZE ** " << std::endl;
 
 	vector<int> my_vec(10, 8);
@@ -406,11 +406,12 @@ void test_insert()
 		myvector.insert(myvector.begin(), myarray, myarray + 3);
 		print(myvector);
 	}
+	finish;
 }
 
 void test_erase()
 {
-	std::cout << HEADER("\n**** TESTS ERASE ****") << std::endl;
+	start;
 
 	out("** TEST1 erase(iterator position) ** ");
 
@@ -426,7 +427,7 @@ void test_erase()
 
 	vector<int>::iterator my_test1 = my_vec.erase(my_vec.begin() + 1, my_vec.end() - 3);
 	print(my_vec);
-	std::cout << FG1("Mine") << *(my_test1) << std::endl;
+	std::cout << FG1("-> output") << *(my_test1) << std::endl;
 
 	my_vec.push_back(1024);
 	print(my_vec);
@@ -438,7 +439,7 @@ void test_erase()
 	print(my_vec);
 	vector<int>::iterator my_test = my_vec.erase(my_vec.begin() + 2);
 	print(my_vec);
-	std::cout << FG1("Mine") << *(my_test) << std::endl;
+	std::cout << FG1("-> output") << *(my_test) << std::endl;
 
 	out("** TESTS RET OF IT** ");
 
@@ -457,16 +458,12 @@ void test_erase()
 	// erase the first 3 elements:
 	mine.erase(mine.begin(), mine.begin() + 3);
 	print(mine);
-}
-
-void test_construct()
-{
-	std::cout << "** TEST1 : insert nb ** " << std::endl;
+	finish;
 }
 
 void test_reserve()
 {
-	std::cout << HEADER("\n***TESTS RESERVE****") << std::endl;
+	start;
 	{
 		vector<int> my_vec(3, 8);
 		print(my_vec);
@@ -502,11 +499,12 @@ void test_reserve()
 	{
 		std::cout << e.what() << std::endl;
 	}
+	finish;
 }
 
 void test_resize()
 {
-	std::cout << HEADER("\n***TESTS RESIZE****") << std::endl;
+	start;
 
 	std::cout << "Base" << std::endl;
 	vector<int> myvec(4, 5);
@@ -519,31 +517,28 @@ void test_resize()
 	std::cout << "Resize smaller" << std::endl;
 	myvec.resize(3);
 	print(myvec);
+	finish;
 }
 
 void test_strings()
 {
-	std::cout << HEADER("\n***TESTS VECTOR OF STRINGS****") << std::endl;
-
+	start;
 	out("Inserting through input iterator : ");
-
 	vector<std::string> lol;
 	std::string myarray2[] = {"Hi", "hello", "wassup"};
 	lol.insert(lol.begin(), myarray2, myarray2 + 3);
 	print(lol);
-
 	out("Erase several time : ");
 	lol.erase(lol.begin());
 	print(lol);
-
 	lol.erase(lol.begin(), lol.end());
 	print(lol);
+	finish;
 }
 
 void test_access()
 {
-	std::cout << HEADER("\n***TESTS ACCESS ***") << std::endl;
-
+	start;
 	vector<std::string> lol;
 	std::string myarray2[] = {"I am 1", "I am 2", "I am 3"};
 	lol.insert(lol.begin(), myarray2, myarray2 + 3);
@@ -558,7 +553,7 @@ void test_access()
 	std::cout << lol.at(2) << std::endl;
 
 	out("** Test 4 : at(n) accessing an inexistant elem (n > size) --> thrown exception **");
-	std::cout << FG1("Mine :") << std::endl;
+	std::cout << FG1("-> output :") << std::endl;
 	try
 	{
 		std::cout << lol.at(77) << std::endl;
@@ -567,10 +562,12 @@ void test_access()
 	{
 		std::cout << e.what() << std::endl;
 	}
+	finish;
 }
 
 void test_front_back()
 {
+	start;
 	int myarray[] = {45, 895, 452, 7895, 45487, 78};
 
 	std::cout << HEADER("**TESTS FRONT / BACK") << std::endl;
@@ -581,8 +578,9 @@ void test_front_back()
 	print(my_vec);
 
 	out("testing front and back");
-	std::cout << FG1("Mine") << std::endl;
+	std::cout << FG1("-> output") << std::endl;
 	std::cout << my_vec.front() << " " << my_vec.back() << std::endl;
+	finish;
 }
 
 void tests_simple_it()
@@ -597,13 +595,13 @@ void tests_simple_it()
 	print(my_vec);
 
 	out("*-* Test 1 : begin() et end() *-*");
-	std::cout << FG1("Mine") << std::endl;
+	std::cout << FG1("-> output") << std::endl;
 	std::cout << *(my_vec.begin()) << " " << *(my_vec.end() - 1) << std::endl;
 
 	out("** Test 2 : operators a++ **");
 	vector<int>::iterator my_it = my_vec.begin();
 
-	std::cout << FG1("Mine with a++") << std::endl;
+	std::cout << FG1("-> output with a++") << std::endl;
 	while (my_it != my_vec.end())
 		std::cout << *(my_it++) << " ";
 	std::cout << std::endl;
@@ -612,7 +610,7 @@ void tests_simple_it()
 
 	my_it = my_vec.begin();
 
-	std::cout << FG1("Mine with ++a") << std::endl;
+	std::cout << FG1("-> output with ++a") << std::endl;
 	while (my_it < my_vec.end() - 1)
 		std::cout << *(++my_it) << " ";
 	std::cout << std::endl;
@@ -620,7 +618,7 @@ void tests_simple_it()
 	out("** Test 4 : operators a-- **");
 	my_it = my_vec.end() - 1;
 
-	std::cout << FG1("Mine with a--") << std::endl;
+	std::cout << FG1("-> output with a--") << std::endl;
 	while (my_it != my_vec.begin())
 		std::cout << *(my_it--) << " ";
 	std::cout << std::endl;
@@ -628,7 +626,7 @@ void tests_simple_it()
 	out("** Test 5 : operators --a **");
 	my_it = my_vec.end() - 1;
 
-	std::cout << FG1("Mine with --a") << std::endl;
+	std::cout << FG1("-> output with --a") << std::endl;
 	while (my_it > my_vec.begin())
 		std::cout << *(--my_it) << " ";
 	std::cout << std::endl;
@@ -653,13 +651,13 @@ void tests_reverse()
 	// NOTE : REND A AFFICHER = BUFFER OVERFLOW ! VOIR SCHEMA
 
 	out("*-* Test 1 : rbegin() et rend() *-*");
-	std::cout << FG1("Mine") << std::endl;
+	std::cout << FG1("-> output") << std::endl;
 	std::cout << *(my_vec.rbegin()) << " " << *(my_vec.rend().base()) << std::endl;
 
 	out("** Test 2 : operators a++ **");
 	vector<int>::reverse_iterator my_it = my_vec.rbegin();
 
-	std::cout << FG1("Mine with a++") << std::endl;
+	std::cout << FG1("-> output with a++") << std::endl;
 	out("my_it + 1 = " << *(my_it + 1));
 	while (my_it != my_vec.rend())
 		std::cout << *(my_it++) << " ";
@@ -669,7 +667,7 @@ void tests_reverse()
 
 	my_it = my_vec.rbegin();
 
-	std::cout << FG1("Mine with ++a") << std::endl;
+	std::cout << FG1("-> output with ++a") << std::endl;
 	while (my_it < my_vec.rend() - 1)
 		std::cout << *(++my_it) << " ";
 	std::cout << std::endl;
@@ -677,7 +675,7 @@ void tests_reverse()
 	out("** Test 4 : operators a-- **");
 	my_it = my_vec.rend() - 1;
 
-	std::cout << FG1("Mine with a--") << std::endl;
+	std::cout << FG1("-> output with a--") << std::endl;
 	while (my_it != my_vec.rbegin())
 		std::cout << *(my_it--) << " ";
 	std::cout << std::endl;
@@ -686,12 +684,11 @@ void tests_reverse()
 	my_it = my_vec.rend() - 1;
 
 	std::cout << "Comparisons :" << std::endl;
-	std::cout << std::addressof(*my_it) << " " << std::addressof(*my_vec.rbegin()) << std::endl;
 
 	std::cout << distance(my_vec.rbegin(), my_vec.rend()) << std::endl; // PQ CA MARCHE AVEC LES NORMAUX ???
 	std::cout << (my_it > my_vec.rbegin()) << std::endl;					// equivaut a 0 car rend < rbegin
 
-	std::cout << FG1("Mine with --a") << std::endl;
+	std::cout << FG1("-> output with --a") << std::endl;
 	while (my_it > my_vec.rbegin()) // PROBLEME ; my_it !
 		std::cout << *(--my_it) << " ";
 	std::cout << std::endl;
@@ -699,14 +696,14 @@ void tests_reverse()
 	out("** Test 6 : operators a + n **");
 	my_it = my_vec.rbegin();
 
-	std::cout << FG1("Mine") << std::endl;
+	std::cout << FG1("-> output") << std::endl;
 	std::cout << *(my_it + 3) << " ";
 	std::cout << std::endl;
 
 	out("** Test 7 : operators a - 1 en partant de rbegin + 1 **"); // va SF si on part de rbegin
 	my_it = my_vec.rbegin() + 1;
 
-	std::cout << FG1("Mine") << std::endl;
+	std::cout << FG1("-> output") << std::endl;
 	std::cout << *(my_it - 1) << " ";
 	std::cout << std::endl;
 }
@@ -915,8 +912,7 @@ void test_relationnal()
 
 void mazoise_other()
 {
-	std::cout << HEADER("MINE") << std::endl;
-
+	start;
 	{
 		std::cout << "INITIALIZATION" << std::endl;
 		std::cout << "operations..." << std::endl;
@@ -1099,13 +1095,16 @@ void mazoise_other()
 		std::cout << "print..." << std::endl;
 		print(fill);
 	}
+	finish;
 }
 
 void leaks_test()
 {
+	start;
 	vector<int> test1(3, 3);
 	vector<vector<int> > to_be_filled;
 	to_be_filled.assign(4, test1);
+	finish;
 }
 
 void comparative_tests_vector()

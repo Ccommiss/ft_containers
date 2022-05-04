@@ -1,6 +1,9 @@
 NAME = containers.ft
 NAME_STD = containers.std
-
+VECTOR = vector.ft
+VECTOR_STD = vector.std
+MAP = map.ft
+MAP_STD = map.std
 
 SRCS = main.cpp srcs/map/map_tests.cpp srcs/map/comparative_tests_map.cpp srcs/vector/vector_tests.cpp srcs/vector/comparative_tests_vector.cpp
 
@@ -11,8 +14,13 @@ CC = c++ -g $(FLAGS)
 INC = -I./includes/vector -I./includes/utils  -I./includes/stack -I./includes/map
 
 
-$(NAME): CPPFLAGS += -D NM=ft
-$(NAME_STD): CPPFLAGS += -D NM=std
+$(NAME): CPPFLAGS += -D NM=ft -D test=all
+$(NAME_STD): CPPFLAGS += -D NM=std -D test=all
+$(VECTOR): CPPFLAGS += -D vec -D NM=ft
+$(VECTOR_STD): CPPFLAGS += -D vec -D NM=std
+$(MAP): CPPFLAGS += -D map_macro -D NM=ft
+$(MAP_STD): CPPFLAGS += -D map_macro -D NM=std
+
 
 # This is a minimal set of ANSI/VT100 color codes
 _END=$'\e[0m
@@ -43,16 +51,22 @@ WP = `pwd | sed 's!.*/!!'`
 
 all : message $(NAME) $(NAME_STD)
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_GRASS)$(_BOLD)%s$(_END)\n" [$(WP)] "✅	Your $(NAME) and $(NAME_STD) are ready."
-	@( time ./$(NAME) ) > my_output.txt 2>&1
-	@( time ./$(NAME_STD) ) > std_output.txt 2>&1
-	@diff my_output.txt std_output.txt > diffs.txt
 
 $(NAME) $(NAME_STD):
 		$(CC) $^ -o $@ $(CPPFLAGS) $(INC)
 
+$(VECTOR) $(VECTOR_STD):
+		$(CC) $^ -o $@ $(CPPFLAGS) $(INC)
+
+$(MAP) $(MAP_STD):
+		$(CC) $^ -o $@ $(CPPFLAGS) $(INC)
+
 $(NAME) : $(FT_OBJ)
 $(NAME_STD): $(STD_OBJ)
-
+$(VECTOR) : $(FT_OBJ)
+$(VECTOR_STD): $(STD_OBJ)
+$(MAP) : $(FT_OBJ)
+$(MAP_STD): $(STD_OBJ)
 
 message :
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_WHITE)$(_LIGHT)%s$(_END)\n" [$(WP)] "Your $(NAME) ans $(NAME_STD) files are compiling..."
@@ -66,15 +80,36 @@ ft_out/%.o: %.cpp
 		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	@rm -rf ft_out
-	@rm -rf std_out
-	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_LIGHT)%s\n$(_END)" [$(WP)] "Your .o files have been deleted."
+	@rm -rf ft_out std_out
+	@rm -f my_output.txt std_output.txt diffs.txt my_vector.txt std_vector.txt diffs_vector.txt my_map.txt std_map.txt diffs_map.txt
+	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_LIGHT)%s\n$(_END)" [$(WP)] "Your .o and .txt files have been deleted."
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(NAME_STD)
-	@rm my_output.txt std_output.txt diffs.txt
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_BOLD)%s\n$(_END)" [$(WP)] "🗑️	Your $(NAME) snd $(NAME_STD) have been deleted. "
+
+test: all
+	@( time ./$(NAME) ) > my_output.txt 2>&1
+	@( time ./$(NAME_STD) ) > std_output.txt 2>&1
+	@diff my_output.txt std_output.txt > diffs.txt || true
+	cat diffs.txt
+
+vector: fclean $(VECTOR) $(VECTOR_STD)
+	@( time ./$(VECTOR) ) > my_vector.txt 2>&1
+	@( time ./$(VECTOR_STD) ) > std_vector.txt 2>&1
+	@rm -rf ft_out std_out
+	@rm -rf  $(VECTOR) $(VECTOR_STD)
+	@diff my_vector.txt std_vector.txt > diffs_vector.txt || true
+	cat diffs_vector.txt
+
+map: fclean $(MAP) $(MAP_STD)
+	@( time ./$(MAP)) > my_map.txt 2>&1
+	@( time ./$(MAP_STD) ) > std_map.txt 2>&1
+	@rm -rf $(MAP) $(MAP_STD)
+	@rm -rf ft_out std_out
+	@diff my_map.txt std_map.txt  > diffs_map.txt || true
+	cat diffs_map.txt
 
 re: fclean all
 
