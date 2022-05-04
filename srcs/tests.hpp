@@ -6,9 +6,11 @@
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"
+#include "set.hpp"
 #include <map>
 #include <stack>
 #include <vector>
+#include <set>
 #include "debug.hpp"
 #include <typeinfo>
 
@@ -87,5 +89,9 @@ void    map_tests();
 void 	comparative_tests_map();
 void 	vector_tests();
 void 	comparative_tests_vector();
+void 	comparative_tests_set();
+void 	comparative_tests_stack();
+
+
 
 #endif

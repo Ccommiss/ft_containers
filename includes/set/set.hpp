@@ -82,6 +82,11 @@ namespace ft
 			return (*this);
 		}
 
+		allocator_type get_allocator() const
+		{
+			return Allocator();
+		}
+
 		/* ****************************************************
 		**	🚀 ITERATORS
 		** ****************************************************
@@ -184,22 +189,6 @@ namespace ft
 				return true;
 			return (false);
 		}
-	
-
-		/* ****************************************************
-		**	🚪 ELEMENT ACCESS
-		** ****************************************************
-		**
-		** 	├── operator[]
-		*/
-
-		// value_type& operator[](const key_type& x)
-		// {
-		// 	if (_curr.find(ft::make_pair<key_type, value_type>(x, _def_value)) != _curr.nil_node)
-		// 		return (_curr.find(ft::make_pair<key_type, value_type>(x, _def_value))->_data.second);
-		// 	return (_curr.insert(ft::make_pair<key_type, value_type>(x, _def_value))->_data.second);
-		// }
-
 
 		/* ****************************************************
 		**	💄 MODIFIERS

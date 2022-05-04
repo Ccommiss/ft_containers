@@ -5,13 +5,13 @@ VECTOR_STD = vector.std
 MAP = map.ft
 MAP_STD = map.std
 
-SRCS = main.cpp srcs/map/map_tests.cpp srcs/map/comparative_tests_map.cpp srcs/vector/vector_tests.cpp srcs/vector/comparative_tests_vector.cpp
+SRCS = main.cpp srcs/comparative_tests_map.cpp srcs/comparative_tests_vector.cpp srcs/comparative_tests_set.cpp srcs/comparative_tests_stack.cpp
 
 CPPFLAGS = -Wall -Werror -Wextra -std=c++98
-STD_OBJ  =       $(SRCS:%.cpp=std_out/%.o)
-FT_OBJ  =       $(SRCS:%.cpp=ft_out/%.o)
+STD_OBJ  =       $(SRCS:%.cpp=objs/std_out/%.o)
+FT_OBJ  =       $(SRCS:%.cpp=objs/ft_out/%.o)
 CC = c++ -g $(FLAGS)
-INC = -I./includes/vector -I./includes/utils  -I./includes/stack -I./includes/map
+INC = -I./includes/vector -I./includes/utils -I./includes/stack -I./includes/map -I./includes/set
 
 
 $(NAME): CPPFLAGS += -D NM=ft -D test=all
@@ -71,16 +71,16 @@ $(MAP_STD): $(STD_OBJ)
 message :
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_WHITE)$(_LIGHT)%s$(_END)\n" [$(WP)] "Your $(NAME) ans $(NAME_STD) files are compiling..."
 
-std_out/%.o: %.cpp
+objs/std_out/%.o: %.cpp
 		mkdir -p $(@D)
 		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
-ft_out/%.o: %.cpp
+objs/ft_out/%.o: %.cpp
 		mkdir -p $(@D)
 		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	@rm -rf ft_out std_out
+	@rm -rf objs
 	@rm -f my_output.txt std_output.txt diffs.txt my_vector.txt std_vector.txt diffs_vector.txt my_map.txt std_map.txt diffs_map.txt
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_LIGHT)%s\n$(_END)" [$(WP)] "Your .o and .txt files have been deleted."
 
@@ -98,7 +98,7 @@ test: all
 vector: fclean $(VECTOR) $(VECTOR_STD)
 	@( time ./$(VECTOR) ) > my_vector.txt 2>&1
 	@( time ./$(VECTOR_STD) ) > std_vector.txt 2>&1
-	@rm -rf ft_out std_out
+	@rm -rf objs
 	@rm -rf  $(VECTOR) $(VECTOR_STD)
 	@diff my_vector.txt std_vector.txt > diffs_vector.txt || true
 	cat diffs_vector.txt
@@ -107,7 +107,7 @@ map: fclean $(MAP) $(MAP_STD)
 	@( time ./$(MAP)) > my_map.txt 2>&1
 	@( time ./$(MAP_STD) ) > std_map.txt 2>&1
 	@rm -rf $(MAP) $(MAP_STD)
-	@rm -rf ft_out std_out
+	@rm -rf objs
 	@diff my_map.txt std_map.txt  > diffs_map.txt || true
 	cat diffs_map.txt
 

@@ -1,8 +1,8 @@
-#include "../tests.hpp"
+#include "tests.hpp"
 
 using namespace NM;
 
-void insert()
+void static insert()
 {
 	start;
 	map<int, int> test_1;

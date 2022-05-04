@@ -28,7 +28,6 @@ namespace ft
 		Compare 		_comp;
 		_allocnode 		alloc;
 
-		// pour debug
 		int blacks;
 		T ***array;
 		int height;
@@ -121,11 +120,11 @@ namespace ft
 			return nil_node;
 		}
 
-		/***************************************************
+		/* **************************************************
 		**
 		**	Insert
 		**
-		****************************************************/
+		** **************************************************/
 
 		template <typename data_type>
 		bool is_in_tree(data_type data)
@@ -364,7 +363,6 @@ namespace ft
 			{
 				_size -= 1;
 				nil_node->max = getMaxSuccessor(root);
-				//out("POUET >> " << *nil_node->max);
 				nil_node->parent = nil_node;
 				nil_node->rightChild = nil_node;
 				nil_node->leftChild = nil_node;
@@ -410,14 +408,11 @@ namespace ft
 
 		void handleBlackSiblingWithAtLeastOneRedChild(Node<T> *node, Node<T> *sibling)
 		{
-			//out("5");
-			//out ("min now : " << *node << "and" << getMinSuccessor(root))
 			bool nodeIsLeftChild = node->is_left_child();
 			/*Case 5: Black sibling with at least one red child + "outer nephew" is black
 				--> Recolor sibling and its child, and rotate around sibling */
 			if (nodeIsLeftChild && (sibling->rightChild == nil_node || sibling->rightChild->color == Node<T>::BLACK))
 			{
-				//out ("here min now : " << *getMinSuccessor(root))
 				sibling->leftChild->color = Node<T>::BLACK;
 				sibling->color = Node<T>::RED;
 				rotateRight(sibling);
@@ -425,19 +420,12 @@ namespace ft
 			}
 			else if (!nodeIsLeftChild && (sibling->leftChild == nil_node || sibling->leftChild->color == Node<T>::BLACK))
 			{
-				//out("here 2 min now : " << getMinSuccessor(root)->_data)
-				display_data(node);
-				display_data(node->parent);
-				display_data(sibling);
 				sibling->rightChild->color = Node<T>::BLACK;
 				sibling->color = Node<T>::RED;
 				rotateLeft(sibling);
 				sibling = getSibling(node);
 			}
-			//out ("here 2 follow min now : " << getMinSuccessor(root)->_data)
-				display_data(node);
-				display_data(node->parent);
-				display_data(sibling);
+	
 				/*Case 6: Black sibling with at least one red child + "outer nephew" is red
 					--> Recolor sibling + parent + sibling's child, and rotate around parent */
 				sibling->color = node->parent->color;
@@ -452,10 +440,6 @@ namespace ft
 				sibling->leftChild->color = Node<T>::BLACK;
 				rotateRight(node->parent);
 			}
-			//out ("here  follow bis min now : " << getMinSuccessor(root)->_data)
-				display_data(node);
-				display_data(node->parent);
-				display_data(sibling);
 		}
 
 		/* Recolor and rotate */
@@ -472,13 +456,11 @@ namespace ft
 		void fixRedBlackPropertiesAfterDelete(Node<T> *node)
 		{
 			/*Case 1: Examined node is root, end of recursion */
-			display_data(node);
 			if (node == root)
 				return;
 			Node<T> *sibling = getSibling(node);
 			if (sibling->color == Node<T>::RED) /* Case 2: Red sibling */
 			{
-				//out ("case 2")
 				handleRedSibling(node, sibling);
 				sibling = getSibling(node);
 				if (sibling == nil_node)
@@ -486,7 +468,6 @@ namespace ft
 			}
 			if (sibling->color == Node<T>::BLACK && black_nephews(node) == true) /*Cases 3+4: Black sibling with two black children */
 			{
-				//out("case 3");
 				sibling->color = Node<T>::RED;
 				if (node->parent->color == Node<T>::RED) /* Case 3: Black sibling with two black children + red parent */
 					node->parent->color = Node<T>::BLACK;
@@ -563,7 +544,6 @@ namespace ft
 			alloc.destroy(node);
 			alloc.deallocate(node, 1);
 			node = tmp;
-			//out ("NODE COPIEE " << *node)
 		}
 
 		bool erase_and_balance(T data)
@@ -575,22 +555,15 @@ namespace ft
 				return false;
 			if (node->leftChild == nil_node || node->rightChild == nil_node) /* Node<T> has zero or one child */
 			{
-
-
-				// ("0")
 				deletedNodeColor = node->color;
 				movedUpNode = deleteNodeWithZeroOrOneChild(node);
 			}
 			else /* Two children case */
 			{
-				//out("2")
-				display_data(node);
 				Node<T> *inOrderSuccessor = getMaxSuccessor(node->leftChild);
-				//out("PAR ICI " << *inOrderSuccessor);
 				copy_successor(node, inOrderSuccessor);
 				deletedNodeColor = inOrderSuccessor->getColor();
 				movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor);
-				display_data(node);
 			}
 			if (deletedNodeColor == Node<T>::BLACK) /* Have to fix only if black */
 				fixRedBlackPropertiesAfterDelete(movedUpNode);
@@ -604,14 +577,6 @@ namespace ft
 		int curr_black_height(T data);
 		void see_tree();
 		void light_display(Node<T> *root);
-
-
-		void display_data(Node<T> *node)
-		{
-			(void)node;
-
-			// out(*node << " has LC " << *node->leftChild << " RC " << *node->rightChild << " parent " << *node->parent);
-		}
 	};
 }
 #endif

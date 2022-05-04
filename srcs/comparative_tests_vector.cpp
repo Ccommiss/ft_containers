@@ -1,4 +1,4 @@
-#include "../tests.hpp"
+#include "tests.hpp"
 
 using namespace NM;
 
