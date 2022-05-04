@@ -1,9 +1,7 @@
-# ifndef ITERATORS_TRAITS_HPP
+#ifndef ITERATORS_TRAITS_HPP
 # define ITERATORS_TRAITS_HPP
 
 # include "randomaccessiterator.hpp"
-
-
 
 /*
 **     ft_containers : iterator_traits

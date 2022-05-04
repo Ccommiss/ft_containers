@@ -15,14 +15,14 @@ namespace ft
 	{
 	public:
 		typedef Key 																key_type;
-		typedef Key																	value_type;
+		typedef const Key															value_type;
 		typedef Compare 															key_compare;
 		typedef Compare 															value_compare;
 		typedef Allocator 															allocator_type;
 		typedef typename Allocator::reference 										reference;
 		typedef typename Allocator::const_reference 								const_reference;
 		typedef ft::_Rb_tree_iterator<value_type> 									iterator;
-		typedef ft::_Rb_tree_const_iterator<value_type> 							const_iterator;
+		typedef ft::_Rb_tree_iterator<value_type> 									const_iterator;
 		typedef ft::reverse_iterator<iterator> 										reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>								const_reverse_iterator;
 		typedef typename allocator_type::size_type									size_type;
@@ -82,6 +82,7 @@ namespace ft
 			return (*this);
 		}
 
+	
 		allocator_type get_allocator() const
 		{
 			return Allocator();

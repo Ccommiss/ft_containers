@@ -1,6 +1,6 @@
 
 #ifndef ENABLE_IF_HPP
-#define ENABLE_IF_HPP
+# define ENABLE_IF_HPP
 
 namespace ft {
 
@@ -9,8 +9,6 @@ namespace ft {
 		const static bool value = val;
 	};
 
-	//specialisation complte
-	// inspi = https://stackoverflow.com/questions/43571962/how-is-stdis-integral-implemented
 	template<> struct is_integral<unsigned char> : public is_integral<unsigned char, true> {};
 	template<> struct is_integral<unsigned short> : public is_integral<unsigned short, true> {};
 	template<> struct is_integral<unsigned int> : public is_integral<unsigned int, true> {};
@@ -22,10 +20,6 @@ namespace ft {
 	template<> struct is_integral<bool>: public is_integral<bool, true> {};
 	template<> struct is_integral<int>: public is_integral<int, true> {};
 
-	//template<> struct is_integral< std::string >: public is_integral< std::string, false > {};
-
-
-
 	template <bool, typename T = void>
 		struct enable_if {};
 
@@ -33,7 +27,6 @@ namespace ft {
 	struct enable_if<true, T> {
  		 typedef T type;
 	};
-	// si c false on aura pas de type ?
 }
 
 #endif

@@ -250,6 +250,7 @@ https://eli.thegreenplace.net/2014/sfinae-and-enable_if/ parfaite explication ma
 $~~~~~~~~~~~~~$ :warning: &nbsp; Attention, en cpp98, on ne peut pas mettre ca dans le template. Genre ca ```typename = typename std::enable_if<!std::is_integral<InputIterator>::value> ``` qui est ecrit [par ici](https://stackoverflow.com/questions/14035520/choose-which-constructor-in-c)
 -> On le resout comme ca  https://stackoverflow.com/questions/17842478/select-class-constructor-using-enable-if
 
+nspi = https://stackoverflow.com/questions/43571962/how-is-stdis-integral-implemented
 
 
 __________

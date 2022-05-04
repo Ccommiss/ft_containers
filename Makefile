@@ -7,12 +7,13 @@ MAP_STD = map.std
 
 SRCS = main.cpp srcs/comparative_tests_map.cpp srcs/comparative_tests_vector.cpp srcs/comparative_tests_set.cpp srcs/comparative_tests_stack.cpp
 
-CPPFLAGS = -Wall -Werror -Wextra -std=c++98
+CPPFLAGS = -Wall -Werror -Wextra -std=c++98 -g
 STD_OBJ  =       $(SRCS:%.cpp=objs/std_out/%.o)
 FT_OBJ  =       $(SRCS:%.cpp=objs/ft_out/%.o)
-CC = c++ -g $(FLAGS)
-INC = -I./includes/vector -I./includes/utils -I./includes/stack -I./includes/map -I./includes/set
+CC = c++
+INC = -MMD -I./includes/vector -I./includes/utils -I./includes/stack -I./includes/map -I./includes/set
 
+DEP = $(FT_OBJ:%.o=%.d)
 
 $(NAME): CPPFLAGS += -D NM=ft -D test=all
 $(NAME_STD): CPPFLAGS += -D NM=std -D test=all
@@ -21,6 +22,8 @@ $(VECTOR_STD): CPPFLAGS += -D vec -D NM=std
 $(MAP): CPPFLAGS += -D map_macro -D NM=ft
 $(MAP_STD): CPPFLAGS += -D map_macro -D NM=std
 
+
+-include $(DEP)
 
 # This is a minimal set of ANSI/VT100 color codes
 _END=$'\e[0m
@@ -71,11 +74,11 @@ $(MAP_STD): $(STD_OBJ)
 message :
 	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_WHITE)$(_LIGHT)%s$(_END)\n" [$(WP)] "Your $(NAME) ans $(NAME_STD) files are compiling..."
 
-objs/std_out/%.o: %.cpp
+objs/std_out/%.o: %.cpp 
 		mkdir -p $(@D)
 		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
-objs/ft_out/%.o: %.cpp
+objs/ft_out/%.o: %.cpp 
 		mkdir -p $(@D)
 		$(CC) $(CPPFLAGS) $(INC) -c -o $@ $<
 
@@ -87,7 +90,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(NAME_STD)
-	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_BOLD)%s\n$(_END)" [$(WP)] "🗑️	Your $(NAME) snd $(NAME_STD) have been deleted. "
+	@printf "$(_BOLD)$(_PINK)%-30s$(_END) $(_BOLD)%s\n$(_END)" [$(WP)] "🗑️	Your $(NAME) and $(NAME_STD) have been deleted. "
 
 test: all
 	@( time ./$(NAME) ) > my_output.txt 2>&1

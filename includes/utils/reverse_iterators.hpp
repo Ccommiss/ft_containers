@@ -68,7 +68,6 @@ namespace ft
 		/* a - n */  reverse_iterator operator-(const difference_type step) const { return reverse_iterator(_curr + step); }
 		/* a += n */ reverse_iterator& operator+=(const difference_type step) { _curr -= step; return *this; }
 		/* a -= n */ reverse_iterator& operator-=(const difference_type step) { _curr += step; return *this; }
-		//* b = a */  reverse_iterator& operator=(const reverse_iterator& rhs) { _curr = rhs._curr; return *this; } pas utile ?
 
 		/*
 		**	Pointer like operators

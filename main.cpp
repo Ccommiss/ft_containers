@@ -2,14 +2,15 @@
 #include "srcs/tests.hpp"
 
 
+#ifndef NM
+# define NM std
 
+#endif
 
 using namespace NM;
 
 int main()
 {
-
-	std::string STRING;
 	std::ifstream file("srcs/containers.txt");
 	std::cout << file.rdbuf();
 
@@ -32,3 +33,4 @@ int main()
 		comparative_tests_set();
 	#endif
 }
+
