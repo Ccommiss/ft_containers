@@ -2,6 +2,7 @@
 # ifndef TEST_HPP
 # define TEST_HPP
 #include <cstdlib>
+#include <iomanip> 
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"

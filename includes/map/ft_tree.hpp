@@ -15,6 +15,8 @@ namespace ft
 		friend class Node;
 		template <typename Key, typename valuetype, typename compfunc, typename alloctype>
 		friend class map;
+		template <typename key_set, typename cmp, typename alloc_set> 
+		friend class set;
 
 		typedef typename Allocator::size_type 						size_type;
 		typedef typename Allocator::template rebind<Node<T> >::other _allocnode;

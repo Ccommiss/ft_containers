@@ -328,14 +328,14 @@ Balance factor is defined as follows :
 
 __1. Left-heavy Tree visualisation__:
 
-![ezgif-4-1cd5b03b3a](/assets/ezgif-4-1cd5b03b3a.gif)
+![ezgif-4-1cd5b03b3a](doc_src/assets/ezgif-4-1cd5b03b3a.gif)
 
 -> Rotate right
 
 __2. Left-right Tree visualisation__:
 
 
-![left-right](/assets/left-right.gif)
+![left-right](doc_src/assets/left-right.gif)
 
 -> Rotate child (6 and nine)
 -> Left-heavy situation : rotate right
@@ -364,9 +364,9 @@ The longest path from the root to a leaf (not counting the root) is at most twic
 
 Worst case scenario :
 
-![rbtree_worstcase ](/assets/rbtree_worstcase%20.png)
+![rbtree_worstcase ](doc_src/assets/rbtree_worstcase%20.png)
 We can RECOLORE nodes. WAY FASTER than rotating and helps reduces.
-![rb-tree_if_avl](/assets/rb-tree_if_avl.png)
+![rb-tree_if_avl](doc_src/assets/rb-tree_if_avl.png)
 
 ##### Rotations and recoloring cases : when ?
 

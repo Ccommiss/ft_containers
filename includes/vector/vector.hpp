@@ -327,12 +327,12 @@ namespace ft
 		**	@throw nothing if the container size is greater than n, the function never throws exceptions (no-throw guarantee).
 		**	Otherwise, the behavior is undefined.
 		*/
-		reference operator[](size_type n)
+		reference operator[](size_type n) throw()
 		{
 			return (_curr[n]);
 		}
 
-		const_reference operator[](size_type n) const
+		const_reference operator[](size_type n) const throw()
 		{
 			return (_curr[n]);
 		}
@@ -345,12 +345,12 @@ namespace ft
 		**	@return a reference to the element at position n in the vector.
 		** 	@throw out_of_range if n >= a.size()
 		*/
-		const_reference at(size_type n) const
+		const_reference at(size_type n) const 
 		{
 			if (n <= _size)
 				return (_curr[n]);
 			else
-				throw std::out_of_range("out of range exception because n > size");
+				throw std::out_of_range("vector::_M_range_check: n >= this->size()");
 		}
 
 		reference at(size_type n)
@@ -358,7 +358,7 @@ namespace ft
 			if (n <= _size)
 				return (_curr[n]);
 			else
-				throw std::out_of_range("out of range exception because n > size");
+				throw std::out_of_range("vector::_M_range_check: n >= this->size()");
 		}
 
 		/*

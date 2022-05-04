@@ -546,8 +546,8 @@ void test_access()
 	out("** Test 1 : subscript [] accessing an existing elem ( n <= size ) **");
 	std::cout << lol[2] << std::endl;
 
-	out("** Test 2 : subscript [] accessing an inexistant elem (n > size) **");
-	std::cout << lol[77] << std::endl;
+	//out("** Test 2 : subscript [] accessing an inexistant elem (n > size) **"); Undefined behavior cause do not throw error 
+	//std::cout << lol[77] << std::endl;
 
 	out("** Test 3 : at(n) accessing an existant elem (n <= size) **");
 	std::cout << lol.at(2) << std::endl;
